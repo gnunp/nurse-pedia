@@ -41,6 +41,7 @@ DJANGO_APPS = [
 
 MY_APPS = [
     'users.apps.UsersConfig',
+    'nursing_knowledges.apps.NursingKnowledgesConfig',
 ]
 
 THIRD_PARTY_APPS = [

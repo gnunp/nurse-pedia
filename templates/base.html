@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ko">
 	<head>
@@ -8,19 +9,21 @@
 		
 		<!-- CSS -->
 		<link rel="stylesheet" href="{% static 'global/css/reset.css' %}">
+		<link rel="stylesheet" href="{% static 'global/css/global.css' %}">
 		{% block css %}{% endblock css %}
 
 		<!-- LINK -->
 		{% block link %}{% endblock link %}
 
-		<!-- SCRIPTS -->
+		<!-- HEAD SCRIPTS -->
 		{% block head_script %}{% endblock head_script %}
 
 	</head>
 	<body>
 		{% block content %}{% endblock content %}
 
-
+		<!-- SCRIPTS -->
+		<script src="{% static 'global/js/global.js' %}"></script>
 		{% block script %}{% endblock script %}
 	</body>
 </html>

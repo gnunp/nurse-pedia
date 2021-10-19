@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
+{% load static %}
 
 
 {% block css %}
+<link rel="stylesheet" href="{% static 'nursing_knowledges/css/home.css' %}">
 {% endblock css %}
 
 
@@ -23,4 +25,5 @@
 
 
 {% block script %}
+<script src="{% static 'nursing_knowledges/js/home.js' %}"></script>
 {% endblock script %}
