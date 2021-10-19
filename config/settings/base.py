@@ -198,5 +198,9 @@ LOGGING = {
             'level': 'INFO',
             'propagate': False,
         },
+        'np-logger': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+        },
     }
 }
