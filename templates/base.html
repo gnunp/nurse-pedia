@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>널스피디아 | {% block title %}{% endblock title %}</title>
+		
+		<!-- CSS -->
+		<link rel="stylesheet" href="{% static 'global/css/reset.css' %}">
+		{% block css %}{% endblock css %}
+
+		<!-- LINK -->
+		{% block link %}{% endblock link %}
+
+		<!-- SCRIPTS -->
+		{% block head_script %}{% endblock head_script %}
+
+	</head>
+	<body>
+		{% block content %}{% endblock content %}
+
+
+		{% block script %}{% endblock script %}
+	</body>
+</html>
