@@ -6,7 +6,7 @@ class Disease(models.Model):
     """
     간호 질병 Model
     """
-    name = models.CharField(max_length=100)  # 질병명
+    name = models.CharField(max_length=100, unique=True)  # 질병명
     diagnoses = models.ManyToManyField("Diagnosis", blank=True, through="DiseaseConnect")  # 연결된 진단
 
     def __str__(self):
@@ -47,7 +47,7 @@ class Diagnosis(models.Model):
     """
     간호 진단 Model
     """
-    name = models.CharField(max_length=100)  # 진단명
+    name = models.CharField(max_length=100, unique=True)  # 진단명
     diseases = models.ManyToManyField("Disease", blank=True, through="DiagnosisConnect")  # 연결된 질병
 
     class Meta:
@@ -93,7 +93,7 @@ class InterventionContent(models.Model):
     """
     간호 중재 내용 Model
     """
-    content = models.TextField(max_length=500)  # 중재 내용
+    content = models.TextField(max_length=500, unique=True)  # 중재 내용
 
     def __str__(self):
         return self.content[:50]
