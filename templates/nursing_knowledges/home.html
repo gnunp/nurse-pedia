@@ -2,11 +2,12 @@
 {% load static %}
 
 
-{% block title %}Home{% endblock title %}
+{% block title %} HOME {% endblock title %}
 
 
 {% block css %}
 <link rel="stylesheet" href="{% static 'nursing_knowledges/css/home.css' %}">
+
 {% endblock css %}
 
 
@@ -22,7 +23,10 @@
 
 
 {% block content %}
-<h1>home</h1>
+    <div class="wrappage">
+        {% include 'nursing_knowledges/firstpage.html'%}
+        {% include 'nursing_knowledges/secondpage.html' %}
+    </div>
 {% endblock content %}
 
 
