@@ -1,0 +1,56 @@
+.firstpage{
+    position: relative;
+
+    width: 100%;
+    min-height: 360px; height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+}
+.firstpage_main_text{
+    margin-left: 1rem;
+    margin-bottom: 3rem;
+
+    font-family: 'Do Hyeon', sans-serif;
+    font-size: 4rem;
+    text-align: center;
+
+    white-space: nowrap;
+}
+.firstpage_search_bar{
+    position: relative;
+
+    width: 30rem ;
+    height: 2.5rem;
+
+    padding: 18px;
+    box-sizing: border-box;
+
+    border-radius: 2rem;
+    background-color: rgba(201, 201, 201, 0.5);;
+
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+}
+.firstpage_search_icon{
+    display: inline-block;
+
+    cursor: pointer;
+}
+.firstpage_search_text_display{
+    display: inline-block;
+    width: 100%;
+}
+.firstpage_search_submit{
+    position: fixed;
+    left: -9999px;
+}
+.firstpage_search_text{
+    position: fixed;
+    left: -9999px;
+}

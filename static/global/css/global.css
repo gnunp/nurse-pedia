@@ -1,0 +1,67 @@
+html,body{
+    overflow: hidden;
+}
+.header{
+    position: absolute;
+    top: 0; left: 0;
+    
+    width: 100%;
+
+    box-sizing: border-box;
+}
+.logo{
+    position: absolute;
+    left: 30px; top: 30px;
+
+    font-size: 30px;
+    display: flex;
+    flex-direction: row;
+}
+.logo_img{
+    color: var(--pink);
+}
+.logo h1{
+    margin-left: 4px;
+    font-family: 'Lobster', cursive;
+    font-family: 'Signika Negative', sans-serif;
+    color: var(--pink);
+}
+
+.sign{
+    position: absolute;
+    right: 30px; top: 30px;
+
+    display: flex;
+    flex-direction: row;
+
+    font-size: 18px;
+}
+.sign div{
+    --height: 2rem;
+    --width: calc(var(--height) * 2);
+
+    height: var(--height);
+    width: var(--width);
+
+    border-radius: var(--width);
+
+    font-size: 0.8rem;
+    font-weight: 900;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+}
+.sign_in{
+    background-color: var(--pink);
+
+    color: white;
+}
+.sign_up{
+    background-color: rgba(201, 201, 201, 0.5);
+    margin-left: 6px;
+
+    color: rgba(150, 150, 150, 1);
+}
