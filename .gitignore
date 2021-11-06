@@ -92,3 +92,4 @@ venv/
 logs/
 
 /node_modules
+static/assets/
