@@ -3,4 +3,6 @@ from . import views
 
 app_name = 'nursing_knowledges'
 
-urlpatterns = []
+urlpatterns = [
+    path('test', views.test),
+]
