@@ -124,7 +124,7 @@ export class MakeData{
                 "data":{
                     "id": id,
                     "url": url,
-                    "label": label
+                    "label": labelS
                 }
             });
         });
