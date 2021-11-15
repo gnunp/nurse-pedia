@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.db.models import query
 from django.db.models import Q
-from .models import Disease, Diagnosis, InterventionContent, InterventionRelation
+from .models import Disease, Diagnosis
 from .models import DiseaseConnect, DiagnosisConnect
 
 # Register your models here.
@@ -53,17 +53,3 @@ class DiagnosisAdmin(admin.ModelAdmin):
 #             if symmetry_object.exists():
 #                 # 있으면 DiseaseConnect 모델의 관계도 삭제
 #                 symmetry_object.delete()
-
-@admin.register(InterventionContent)
-class InterventionContentAdmin(admin.ModelAdmin):
-    """
-    간호 중재 내용 Model Admin
-    """
-    pass
-
-@admin.register(InterventionRelation)
-class InterventionRelationAdmin(admin.ModelAdmin):
-    """
-    어떤 질병의 -> 어떤 진단의 중재인지 관계를 나타내는 Model Admin
-    """
-    pass

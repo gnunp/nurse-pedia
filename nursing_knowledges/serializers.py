@@ -3,8 +3,6 @@ from .models import (
     Disease,
     DiseaseConnect,
     Diagnosis,
-    InterventionContent,
-    InterventionRelation
 )
 
 
@@ -43,28 +41,4 @@ class DiseaseToDiagnosisSerializer(serializers.ModelSerializer):
             'id',
             'disease',
             'diagnosis',
-        )
-
-class InterventionSerializer(serializers.ModelSerializer):
-    """
-    중재들의 Serializer
-    """
-    class Meta:
-        model = InterventionContent
-        fields = (
-            'id',
-            'content',
-        )
-
-class InterventionToOthersSerializer(serializers.ModelSerializer):
-    """
-    중재 <-> (질병 <-> 진단)의 연결관계 Serializer
-    """
-    intervention = InterventionSerializer()
-    connection = DiseaseToDiagnosisSerializer()
-    class Meta:
-        model = InterventionRelation
-        fields = (
-            'intervention',
-            'connection',
         )

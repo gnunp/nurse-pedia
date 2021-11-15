@@ -88,24 +88,3 @@ class DiagnosisConnect(models.Model):
     
     def __str__(self):
         return f"{self.disease} <-> {self.diagnosis}"
-
-class InterventionContent(models.Model):
-    """
-    간호 중재 내용 Model
-    """
-    content = models.TextField(max_length=500, unique=True)  # 중재 내용
-
-    def __str__(self):
-        return self.content[:50]
-
-
-class InterventionRelation(models.Model):
-    """
-    어떤 질병/진단 관계의 중재인지를 나타내는 Model
-    """
-    intervention = models.ForeignKey("InterventionContent", on_delete=models.CASCADE, related_name="intervention_relations")  # 어떤 중재 내용의 관계를 나타낼지
-    connection = models.ForeignKey("DiseaseConnect", on_delete=models.CASCADE, related_name="connection_relations")  # 어떤 질병/진단 관계의?
-
-    def __str__(self):
-        return f"({self.connection}) : {self.intervention}"
-
