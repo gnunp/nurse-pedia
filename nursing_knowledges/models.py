@@ -7,6 +7,7 @@ class Disease(models.Model):
     간호 질병 Model
     """
     name = models.CharField(max_length=100, unique=True)  # 질병명
+    content = models.TextField(max_length=3000, unique=True)  # 질병의 정의/원인/치료를 설명하는 필드
     diagnoses = models.ManyToManyField("Diagnosis", blank=True, through="DiseaseConnect")  # 연결된 진단
 
     def __str__(self):

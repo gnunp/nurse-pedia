@@ -15,6 +15,7 @@ class DiseaseSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'name',
+            'content',
         )
 
 class DiagnosisSerializer(serializers.ModelSerializer):
