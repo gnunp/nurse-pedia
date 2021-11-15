@@ -53,6 +53,7 @@ html,body{
     align-items: center;
 
     cursor: pointer;
+    z-index: 10;  /* cursor: pointer가 안먹혀서 추가 */
 }
 .sign_in{
     background-color: var(--pink);
