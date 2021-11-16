@@ -3,4 +3,9 @@ from . import views
 
 app_name = 'users'
 
-urlpatterns = []
+urlpatterns = [
+    path('signin', views.signin, name="signin"),
+    path('signin-action', views.signin_action, name="signin_action"),
+    path('signup', views.signup, name="signup"),
+    path('logout', views.log_out, name="logout"),
+]

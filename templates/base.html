@@ -30,6 +30,7 @@
 		<!-- CSS -->
 		<link rel="stylesheet" href="{% static 'global/css/reset.css' %}">
 		<link rel="stylesheet" href="{% static 'global/css/global.css' %}">
+		<link rel="stylesheet" href="{% static 'users/css/user_modal.css' %}">
 		{% block css %}{% endblock css %}
 	
 		<!-- LINK -->
@@ -43,8 +44,19 @@
 		{% include 'base_header.html' %}
 		{% block content %}{% endblock content %}
 
+		<!-- DJANGO TEMPLATE VARIABLES -->
+		<script>
+			const csrfToken = "{{ csrf_token }}";
+		</script>
+
 		<!-- SCRIPTS -->
 		<script src="{% static 'assets/js/global.js' %}"></script>
+		
+		{% if user.is_authenticated %}
+		{% else %}
+			<script src="{% static 'assets/js/userModal.js' %}"></script>
+		{% endif %}
+			
 		{% block script %}{% endblock script %}
 	</body>
 </html>
