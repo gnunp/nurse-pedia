@@ -76,8 +76,6 @@ function getCookie(name) {
 }
 
 const userValidation = async (form, fields) => {
-    console.log(form, fields);
-
     // 기존의 모든 에러 제거
     for (const errorElement of validationErrorNodes) {
         errorElement.remove();
@@ -99,13 +97,10 @@ const userValidation = async (form, fields) => {
         body: formData,
     });
 
-    console.log(userValidationResponse);
-
     // if 유효성 검사에 성공했다면 then 로그인 처리
     if(userValidationResponse.status == 200){
         form.querySelector("input[type=hidden]").value = getCookie('csrftoken'); // csrf 새로 갱신
 
-        console.log(url);
         form.submit();  // 로그인
     // else 유효성 검사에 실패했다면 then 폼 validation error HTML코드로 추가
     }else{
