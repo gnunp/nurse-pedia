@@ -44,6 +44,11 @@
 		{% include 'base_header.html' %}
 		{% block content %}{% endblock content %}
 
+		<!-- DJANGO TEMPLATE VARIABLES -->
+		<script>
+			const csrfToken = "{{ csrf_token }}";
+		</script>
+
 		<!-- SCRIPTS -->
 		<script src="{% static 'assets/js/global.js' %}"></script>
 		<script src="{% static 'assets/js/userModal.js' %}"></script>

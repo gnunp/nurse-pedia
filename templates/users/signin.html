@@ -21,12 +21,21 @@
 
         <!-- 모달 CONTENT -->
         <div class="modal__content">
-            <form action="" method="post" class="modal__content__form">
-                <input type="text" name="email" id="user_email" placeholder="이메일">
-                <input type="current-password" name="password" id="user_password" placeholder="비밀번호">
-                <buttom class="modal__content__form__submit_btn">
+            <form action="{% url 'users:signin' %}" method="post" class="modal__content__form js-user_form">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="input_wrapper">
+                        {{field}}
+                        {% if field.errors %}
+                            {% for error in field.errors %}
+                                <span class="input_error">{{error}}</span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="modal__content__form__submit_btn js-submit_btn">
                     <span>로그인</span>
-                </buttom>
+                </button>
             </form>
             <div class="modal__content__or_line">
                 <hr>
@@ -42,5 +51,9 @@
             </div>
         </div>
     </div>
+
+    <script>
+        const csrfToken = "{{ csrf_token }}";
+    </script>
 </body>
 </html>

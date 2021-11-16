@@ -4,6 +4,6 @@ from . import views
 app_name = 'users'
 
 urlpatterns = [
-    path('signin-modal', views.signin, name="signin"),
-    path('signup-modal', views.signup, name="signup"),
+    path('signin', views.signin, name="signin"),
+    path('signup', views.signup, name="signup"),
 ]

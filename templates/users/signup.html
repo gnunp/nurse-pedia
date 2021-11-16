@@ -21,13 +21,21 @@
 
         <!-- 모달 CONTENT -->
         <div class="modal__content">
-            <form action="" method="post" class="modal__content__form">
-                <input type="text" name="email" id="user_email" placeholder="이메일">
-                <input type="current-password" name="password" id="user_password" placeholder="비밀번호">
-                <input type="confirm-password" name="password_conform" id="user_password_conform" placeholder="비밀번호 확인">
-                <buttom class="modal__content__form__submit_btn">
+            <form action="{% url 'users:signup' %}" method="post" class="modal__content__form">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="input_wrapper">
+                        {{field}}
+                        {% if field.errors %}
+                            {% for error in field.errors %}
+                                <span class="input_error">{{error}}</span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <button class="modal__content__form__submit_btn js-submit_btn">
                     <span>회원가입</span>
-                </buttom>
+                </button>
             </form>
             <div class="modal__content__or_line">
                 <hr>

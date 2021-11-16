@@ -3,6 +3,7 @@
 */
 let signInModal; // 로그인 모달 Element
 let signUpModal; // 회원가입 모달 Element
+const parser = new DOMParser(); // DOM Parser 생성
 
 const deleteModal = () => {
     document.querySelector(".modal_background").remove();
@@ -48,8 +49,50 @@ const showModal = (modalElement) => {
     modalToggleBtn.addEventListener("click", handleClickModalToggleBtn);
 }
 
+const getUserValidation = async () => {
+    const username = document.querySelector("#id_username");
+    const currentPassword = document.querySelector("#id_current_password");
+
+    // 보낼 폼 데이터 생성
+    const formData = new FormData();
+    formData.append('csrfmiddlewaretoken', csrfToken);
+    formData.append('username', username.value);
+    formData.append('current_password', currentPassword.value);
+
+    const userValidationResponse = await fetch('/users/signin', {
+        method: 'POST',
+        body: formData,
+    });
+    console.log(userValidationResponse);
+    if(userValidationResponse.status == 200){
+        alert("status code :200, 유저 Validation 성공");
+        // 로그인으로 이동
+    }else{
+        // form validation error HTML코드로 추가
+        const userValidationJson = await userValidationResponse.json();
+        alert("status code :400, 유저 Validation 실패");
+        console.log(userValidationJson);
+
+        for (const field of userValidationJson) {
+            cdonsole.log(field);
+        }
+    }
+}
+
+const handleUserFormSubmit = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    getUserValidation();
+
+    // form.submit();
+}
+
 const handleClickSignInBtn = (event) => {
     showModal(signInModal);
+
+    // 폼 제출 이벤트 리스너 추가
+    const userForm = document.querySelector(".js-user_form");
+    userForm.addEventListener("submit", handleUserFormSubmit);
 }
 
 const handleClickSignUpBtn = (event) => {
@@ -68,15 +111,11 @@ const userModalInit = async () => {
 
 
     // 모달 HTML text로 가져오기
-    const signInModalResponse = await fetch('/users/signin-modal');
+    const signInModalResponse = await fetch('/users/signin');
     const signInModalHtml = await signInModalResponse.text();
 
-    const signUpModalResponse = await fetch('/users/signup-modal');
+    const signUpModalResponse = await fetch('/users/signup');
     const signUpModalHtml = await signUpModalResponse.text();
-
-
-    // DOM Parser 생성
-    const parser = new DOMParser();
 
     // 모달 DOM으로 변환
     signInDocument = parser.parseFromString(signInModalHtml, "text/html");
