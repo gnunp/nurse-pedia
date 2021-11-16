@@ -10,35 +10,35 @@
     <link rel="stylesheet" href="{% static 'global/css/color.css' %}">
     <link rel="stylesheet" href="{% static 'users/css/user_modal.css' %}">
 </head>
-<body class="user_modal_wrapper">
-    <div class="modal__signin_wrapper">
+<body class="modal_background">
+    <div class="modal_wrapper">
         <!-- 모달 HEADER -->
-        <div class="modal__signin__header">
+        <div class="modal__header">
             <div class=""></div>
-            <span class="modal__signin_header__title">로그인</span>
-            <i class="fas fa-times modal__signin_header__close_btn js-signin_close_btn"></i>
+            <span class="modal_header__title">로그인</span>
+            <i class="fas fa-times modal_header__close_btn js-modal_close_btn"></i>
         </div>
 
         <!-- 모달 CONTENT -->
-        <div class="modal__signin__content">
-            <form action="" method="post" class="modal__signin__content__form">
+        <div class="modal__content">
+            <form action="" method="post" class="modal__content__form">
                 <input type="text" name="email" id="user_email" placeholder="이메일">
-                <input type="password" name="password" id="user_password" placeholder="비밀번호">
-                <buttom class="modal__signin__content__form__submit_btn">
+                <input type="current-password" name="password" id="user_password" placeholder="비밀번호">
+                <buttom class="modal__content__form__submit_btn">
                     <span>로그인</span>
                 </buttom>
             </form>
-            <div class="modal__signin__content__or_line">
+            <div class="modal__content__or_line">
                 <hr>
                 <span>또는</span>
             </div>
-            <button class="modal__signin__content__kakao_login_btn">
+            <button class="modal__content__kakao_login_btn">
                 <i class="fas fa-comment"></i>
                 <span>카카오계정 로그인</span>
             </button>
-            <div class="modal__signin__content__goto_signup">
+            <div class="modal__content__goto_signup">
                 <span>계정이 없으신가요?</span>
-                <a href="">회원가입</a>
+                <span class="modal__content__goto_signup__btn js-goto_signup_btn">회원가입</a>
             </div>
         </div>
     </div>
