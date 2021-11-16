@@ -51,7 +51,12 @@
 
 		<!-- SCRIPTS -->
 		<script src="{% static 'assets/js/global.js' %}"></script>
-		<script src="{% static 'assets/js/userModal.js' %}"></script>
+		
+		{% if user.is_authenticated %}
+		{% else %}
+			<script src="{% static 'assets/js/userModal.js' %}"></script>
+		{% endif %}
+			
 		{% block script %}{% endblock script %}
 	</body>
 </html>

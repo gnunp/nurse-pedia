@@ -5,6 +5,7 @@ let signInModal; // 로그인 모달 Element
 let signUpModal; // 회원가입 모달 Element
 const parser = new DOMParser(); // DOM Parser 생성
 let validationErrorNodes = [];
+let url;
 
 const deleteModal = () => {
     document.querySelector(".modal_background").remove();
@@ -66,25 +67,24 @@ function getCookie(name) {
     return cookieValue;
 }
 
-const userValidation = async (form) => {
+const userValidation = async (form, fields) => {
     // 기존의 모든 에러 제거
     for (const errorElement of validationErrorNodes) {
         errorElement.remove();
     }
     validationErrorNodes = []  // 에러 리스트 초기화
 
-    
-    const username = document.querySelector("#id_username");
-    const currentPassword = document.querySelector("#id_current_password");
 
     // 보낼 폼 데이터 생성
     const formData = new FormData();
     formData.append('csrfmiddlewaretoken', getCookie('csrftoken'));
-    formData.append('username', username.value);
-    formData.append('current_password', currentPassword.value);
+    for (const [field, element] of Object.entries(fields)) {
+        formData.append(field, element.value);
+
+    }
 
     // 유효성 검사 Response 받아오기
-    const userValidationResponse = await fetch('/users/signin', {
+    const userValidationResponse = await fetch(url, {
         method: 'POST',
         body: formData,
     });
@@ -92,7 +92,14 @@ const userValidation = async (form) => {
 
     // if 유효성 검사에 성공했다면 then 로그인 처리
     if(userValidationResponse.status == 200){
-        form.submit();
+        form.querySelector("input[type=hidden]").value = getCookie('csrftoken'); // csrf 새로 갱신
+
+        // // 회원가입때 제대로 로그인 되게 하기 위해 나머지 필드 제거
+        // if(fields.length >= 2){
+        //     fields['email'].remove();
+        //     fields['confirm_password'].remove();
+        // }
+        form.submit();  // 로그인
     // else 유효성 검사에 실패했다면 then 폼 validation error HTML코드로 추가
     }else{
         const userValidationJson = await userValidationResponse.json();
@@ -119,13 +126,32 @@ const userValidation = async (form) => {
 const handleUserFormSubmit = (event) => {
     event.preventDefault();
     const form = event.target;
-    userValidation(form);
+    const fields = {};
 
-    // form.submit();
+    const username = document.querySelector("#id_username");
+    fields['username'] = username;
+
+
+    if(document.querySelector("#id_email")){
+        const email = document.querySelector("#id_email");
+        fields['email'] = email;
+    }
+
+    const currentPassword = document.querySelector("#id_current_password");
+    fields['current_password'] = currentPassword;
+
+    if(document.querySelector("#id_confirm_password")){
+        const confirmPassword = document.querySelector("#id_confirm_password");
+        fields['confirm_password'] = confirmPassword;
+    }
+
+    userValidation(form, fields);
 }
 
 const handleClickSignInBtn = (event) => {
     showModal(signInModal);
+
+    url = "/users/signin";
 
     // 폼 제출 이벤트 리스너 추가
     const userForm = document.querySelector(".js-user_form");
@@ -134,6 +160,12 @@ const handleClickSignInBtn = (event) => {
 
 const handleClickSignUpBtn = (event) => {
     showModal(signUpModal);
+
+    url = "/users/signup";
+
+    // 폼 제출 이벤트 리스너 추가
+    const userForm = document.querySelector(".js-user_form");
+    userForm.addEventListener("submit", handleUserFormSubmit);
 }
 
 
