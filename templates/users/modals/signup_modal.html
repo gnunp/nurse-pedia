@@ -1,1 +1,47 @@
-signup
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="{% static 'global/css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'global/css/color.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/user_modal.css' %}">
+</head>
+<body class="modal_background">
+    <div class="modal_wrapper">
+        <!-- 모달 HEADER -->
+        <div class="modal__header">
+            <div class=""></div>
+            <span class="modal_header__title">회원가입</span>
+            <i class="fas fa-times modal_header__close_btn js-modal_close_btn"></i>
+        </div>
+
+        <!-- 모달 CONTENT -->
+        <div class="modal__content">
+            <form action="" method="post" class="modal__content__form">
+                <input type="text" name="email" id="user_email" placeholder="이메일">
+                <input type="current-password" name="password" id="user_password" placeholder="비밀번호">
+                <input type="confirm-password" name="password_conform" id="user_password_conform" placeholder="비밀번호 확인">
+                <buttom class="modal__content__form__submit_btn">
+                    <span>회원가입</span>
+                </buttom>
+            </form>
+            <div class="modal__content__or_line">
+                <hr>
+                <span>또는</span>
+            </div>
+            <button class="modal__content__kakao_login_btn">
+                <i class="fas fa-comment"></i>
+                <span>카카오계정 로그인</span>
+            </button>
+            <div class="modal__content__toggle">
+                <span>이미 계정을 보유하고 계신가요?</span>
+                <span class="modal__content__toggle__btn js-toggle_btn">로그인</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
