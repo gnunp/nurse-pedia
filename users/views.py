@@ -9,6 +9,7 @@ from .models import User
 def signin_action(request):
     if request.method == 'POST':
         form = SigninForm(request.POST)
+        print(form)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('current_password')
