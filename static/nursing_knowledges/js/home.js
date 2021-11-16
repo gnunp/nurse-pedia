@@ -1,14 +1,11 @@
 import home_css from "../css/home.css";
 import firstpage_css from "../css/firstpage.css";
 
-import {
-    Secondpage
-} from "./secondpage.js";
+import {Secondpage} from "./secondpage.js";
 
 class Home{
     constructor(){
-        this.stageHeight = window.innerHeight;    
-    
+        this.setinitSize(); 
         //secondpage 
         this.secondpage = new Secondpage();
    
@@ -21,6 +18,26 @@ class Home{
         window.addEventListener('resize',this.resize.bind(this));
         window.addEventListener('wheel', this.movePage.bind(this));
     }
+
+    resize(){
+        this.stageWidth = window.innerWidth;
+        this.stageHeight = window.innerHeight;
+
+        this.secondpage.setpageSize();
+    }
+
+    setinitSize(){
+        this.stageWidth = window.innerWidth;
+        this.stageHeight = window.innerHeight;
+
+        const pages = document.querySelectorAll('.page');
+
+        pages.forEach(element => {
+            element.style.width = `${this.stageWidth}px`;
+            element.style.height = `${this.stageHeight}px`;
+        });
+    }
+
     movePage(e){
         if(this.ismove){
             this.ismove = false
@@ -38,18 +55,6 @@ class Home{
             },500);
         }
     }
-    resize(){
-        this.stageWidth = window.innerWidth;
-        this.stageHeight = window.innerHeight;
-        this.pages = document.querySelectorAll('.page');
-        this.pages.forEach(element => {
-            element.style.width = this.stageWidth;
-            element.style.height = this.stageHeight;
-        });
-  
-
-    }
-
     
 }
 

@@ -5,6 +5,8 @@ module.exports = {
         global: "./static/global/js/global.js",
         home: "./static/nursing_knowledges/js/home.js",
         secondpage:"./static/nursing_knowledges/js/secondpage.js",
+        test: "./static/nursing_knowledges/js/test.js",
+        userModal: "./static/users/js/userModal.js",
     },
     mode: "development",
     output: {

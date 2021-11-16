@@ -6,17 +6,59 @@ cytoscape.use(coseBilkent);
 
 export class Secondpage{
     constructor(){
-        this.mindmap();
-        const makedata = new MakeData();
-        this.data = makedata.data;
 
-        const test = document.querySelector('.test')
-        test.textContent = this.data;
+        this.setpageSize();
+
+        this.makepage();
+    }
+
+    setpageSize(){
+        const headerHeight = 80;
+        const bottom_margin = 30;
+
+        const secondpage = document.querySelector('.secondpage');
+        const setHeight = secondpage.clientHeight - headerHeight;
+        
+        secondpage.style.height = `${setHeight - bottom_margin}px`;
+        secondpage.style.top = `${headerHeight}px`;
+    }
+
+    async makepage(){
+        this.makedata = new MakeData();
+        this.data = [];
+        
+        this.diseasedata = await this.makedata.getDisease();
+        this.diagnosesdata = await this.makedata.getDiagnoses();
+        this.interventionsdata = await this.makedata.getInterventions();
+        this.connectdisTodiadata = await this.makedata.getConnectdisTodia();
+        this.connectdiaTointerdata = await this.makedata.getConnectdiaTointer();
+   
+        this.diseasedata.forEach(element => {
+            this.data.push(JSON.parse(element));
+        });
+        this.diagnosesdata.forEach(element => {
+            this.data.push(JSON.parse(element));
+        });
+        this.interventionsdata.forEach(element => {
+            this.data.push(JSON.parse(element));
+        });
+        this.connectdisTodiadata.forEach(element => {
+            this.data.push(JSON.parse(element));
+        });
+        this.connectdiaTointerdata.forEach(element => {
+            this.data.push(JSON.parse(element));
+        });
+        
+
+        console.log("이게 먼저야 ㅜㅜㅜ");
+        console.log(this.data);
+        this.mindmap();
     }
     
     mindmap(){
 // webpack으로 묶어줘야 하니 css파일을 진입점인 index.js 에 import 합니다
-        const data =this.data;
+        console.log("제발 이게 늦게");
+        const data = this.data;
               
         const cy_for_rank = cytoscape({
             elements: data
@@ -89,141 +131,104 @@ export class Secondpage{
 
 export class MakeData{
     constructor(){
-        this.diseasedata = this.getDisease();
-        console.log(this.diseasedata);
-        this.diagnosesdata = this.getDiagnoses();
-        this.interventionsdata = this.getInterventions();
-        this.connectdisNdia = this.getConnectdisTodia();
-        this.connentdiaNinter = this.getConnectdiaTointer();
-    }
-
-    get data(){
-        let dataArr = [];
-        dataArr.push(this.diseasedata);
-        dataArr.push(this.diagnosesdata);
-        dataArr.push(this.interventionsdata);
-        dataArr.push(this.connectdisNdia);
-        dataArr.push(this.connentdiaNinter);
-        return dataArr;
+        
     }
 
     async getDisease(){
-        const disease = await fetch('/api/knowledges/diseases')
-            .then((response) => response.json())
-            .then((data) => JSON.stringify(data))
-            .then((item) => JSON.parse(item));
-
-        let id, url, label;
+        let id, url, label, item;
         let diseaseArr = [];
-        disease.forEach(element => {
-            id = element.name;
+
+        const disease = await fetch('/api/knowledges/diseases');
+        const disease_objects = await disease.json();
+
+        disease_objects.forEach(element => {
+            id = element.id;
             url = '#';
             label = element.name;
 
-            diseaseArr.push({
-                "data":{
-                    "id": id,
-                    "url": url,
-                    "label": labelS
-                }
-            });
+            item = JSON.stringify({"data":{"id": id,"url": url,"label": label}});
+            diseaseArr.push(item);
         });
 
-        return diseaseArr; //Object 형식으로 리스트 형식으로 뽑아 사용하면 됨.
+        return diseaseArr;
     }
 
     async getDiagnoses(){
-        const diagnoses = await fetch('/api/knowledges/diagnoses')
-            .then((response) => response.json())
-            .then((data) => JSON.stringify(data))
-            .then((item) => JSON.parse(item));
-
-        let id, url, label;
+        let id, url, label, item;
         let diagnosesArr = [];
-        diagnoses.forEach(element => {
+
+        const diagnoses = await fetch('/api/knowledges/diagnoses');
+        const diagnoses_objects = await diagnoses.json();
+
+        diagnoses_objects.forEach(element => {
             id = element.id;
             url = '#';
             label = element.name;
 
-            diagnosesArr.push({
-                "data":{
-                    "id": id,
-                    "url": url,
-                    "label": label
-                }
-            });
+            item = JSON.stringify({"data":{"id": id,"url": url,"label": label}});
+            diagnosesArr.push(item);
         });
 
-        return diagnosesArr; //Object 형식으로 리스트 형식으로 뽑아 사용하면 됨.
+        return diagnosesArr;
     }
 
     async getInterventions(){
-        const interventions = await fetch('/api/knowledges/interventions')
-            .then((response) => response.json())
-            .then((data) => JSON.stringify(data))
-            .then((item) => JSON.parse(item));
-
-        let id, url, label;
+        let id, url, label, item;
         let interventionsArr = [];
-        interventions.forEach(element => {
+
+        const interventions = await fetch('/api/knowledges/interventions');
+        const interventions_objects = await interventions.json();
+
+        interventions_objects.forEach(element => {
             id = element.id;
             url = '#';
             label = element.name;
 
-            interventions.push({
-                "data":{
-                    "id": id,
-                    "url": url,
-                    "label": label
-                }
-            });
+            item = JSON.stringify({"data":{"id": id,"url": url,"label": label}});
+            interventionsArr.push(item);
         });
 
-        return interventionsArr; //Object 형식으로 리스트 형식으로 뽑아 사용하면 됨.
+        return interventionsArr;
     }
 
     async getConnectdisTodia(){
-        const connectdistodia = await fetch('/api/knowledges/disease-to-diagnosis')
-            .then((response) => response.json())
-            .then((data) => JSON.stringify(data))
-            .then((item) => JSON.parse(item));
-        
-        let id, source, target;
-        let connectdisNdiaArr =[];
-        connectdistodia.forEach(element => {
-            source = element.disease.name;
-            target = element.diagnosis.name;
-            id = source + "->" + target;
+        let id, source, target, item;
+        let connectdisNdiaArr = [];
 
-            connectdisNdiaArr.push({
-                "data":{
-                    "id": id,"source" : source,"target":target
-                }
-            })
-        });
-        return connectdisNdiaArr; //Object 형식으로 리스트 형식으로 뽑아 사용하면 됨.
-    }
+        const connectdisTodia = await fetch('/api/knowledges/disease-to-diagnosis');
+        const connectdisTodia_objects = await connectdisTodia.json();
 
-    async getConnectdiaTointer(){
-        const connectdiatointer = await fetch('/api/knowledges/intervention-to-others')
-            .then((response) => response.json())
-            .then((data) => JSON.stringify(data))
-            .then((item) => JSON.parse(item));
-
-        let id, source, target;
-        let connectdiaNinterArr =[];
-        connectdiatointer.forEach(element => {
+        connectdisTodia_objects.forEach(element => {
             
-            source = element.connection.diagnosis.name;
-            target = element.intervention.content;
+            source = element.disease.id;
+            target = element.diagnosis.id;
             id = source + "->" + target;
 
-            connectdiaNinterArr.push({
-                "data":{
-                    "id": id,"source" : source,"target":target
-                }
-            })
+            item = JSON.stringify({"data":{"id": id,"source": source,"target": target}});
+            connectdisNdiaArr.push(item);
         });
-        return connectdiaNinterArr; //Object 형식으로 리스트 형식으로 뽑아 사용하면 됨.
+
+        return connectdisNdiaArr;
+    }
+    
+    async getConnectdiaTointer(){
+        let id, source, target, item;
+        let connectdiaNinterArr = [];
+
+        const connectdiaTointer = await fetch('/api/knowledges/intervention-to-others');
+        const connectdiaTointer_objects = await connectdiaTointer.json();
+
+        console.log(connectdiaTointer_objects);
+        connectdiaTointer_objects.forEach(element => {
+            
+            source = element.connection.diagnosis.id;
+            target = element.intervention.id;
+            id = source + "->" + target;
+
+            item = JSON.stringify({"data":{"id": id,"source": source,"target": target}});
+            connectdiaNinterArr.push(item);
+        });
+
+        return connectdiaNinterArr;
     }
 }

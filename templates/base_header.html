@@ -5,11 +5,17 @@
     </div>
     
     <div class="sign">
-        <div class="sign_in">
+        
+        {% if user.is_authenticated %}
+        <a href="{% url 'users:logout' %}" class="log_out js-log_out">로그아웃</a>
+        {% else %}
+        <div class="sign_in js-sign_in">
             <p>로그인</p>
         </div>
-        <div class="sign_up">
+        <div class="sign_up js-sign_up">
             <p>회원가입</p>
         </div>
+        {% endif %}
+            
     </div>
 </div>

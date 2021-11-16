@@ -7,6 +7,7 @@ class Disease(models.Model):
     간호 질병 Model
     """
     name = models.CharField(max_length=100, unique=True)  # 질병명
+    content = models.TextField(max_length=3000, unique=True)  # 질병의 정의/원인/치료를 설명하는 필드
     diagnoses = models.ManyToManyField("Diagnosis", blank=True, through="DiseaseConnect")  # 연결된 진단
 
     def __str__(self):
@@ -48,6 +49,7 @@ class Diagnosis(models.Model):
     간호 진단 Model
     """
     name = models.CharField(max_length=100, unique=True)  # 진단명
+    intervention_content = models.TextField(max_length=3000, default="")  # 진단이 가지는 중재들을 설명하는 필드
     diseases = models.ManyToManyField("Disease", blank=True, through="DiagnosisConnect")  # 연결된 질병
 
     class Meta:
@@ -88,24 +90,3 @@ class DiagnosisConnect(models.Model):
     
     def __str__(self):
         return f"{self.disease} <-> {self.diagnosis}"
-
-class InterventionContent(models.Model):
-    """
-    간호 중재 내용 Model
-    """
-    content = models.TextField(max_length=500, unique=True)  # 중재 내용
-
-    def __str__(self):
-        return self.content[:50]
-
-
-class InterventionRelation(models.Model):
-    """
-    어떤 질병/진단 관계의 중재인지를 나타내는 Model
-    """
-    intervention = models.ForeignKey("InterventionContent", on_delete=models.CASCADE, related_name="intervention_relations")  # 어떤 중재 내용의 관계를 나타낼지
-    connection = models.ForeignKey("DiseaseConnect", on_delete=models.CASCADE, related_name="connection_relations")  # 어떤 질병/진단 관계의?
-
-    def __str__(self):
-        return f"({self.connection}) : {self.intervention}"
-

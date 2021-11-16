@@ -5,15 +5,11 @@ from ..models import (
     Disease,
     DiseaseConnect,
     Diagnosis,
-    InterventionContent,
-    InterventionRelation
 )
 from ..serializers import (
     DiseaseSerializer,
     DiagnosisSerializer,
     DiseaseToDiagnosisSerializer,
-    InterventionSerializer,
-    InterventionToOthersSerializer
 )
 
 class DiseasesView(APIView):
@@ -41,22 +37,4 @@ class DiseaseToDiagnosisView(APIView):
     def get(self, request):
         disease_to_diagnosis = DiseaseConnect.objects.all()
         serializer = DiseaseToDiagnosisSerializer(disease_to_diagnosis, many=True)
-        return Response(serializer.data)
-    
-class InterventionsView(APIView):
-    """
-    중재들의 API View
-    """
-    def get(self, request):
-        interventions = InterventionContent.objects.all()
-        serializer = InterventionSerializer(interventions, many=True)
-        return Response(serializer.data)
-
-class InterventionToOthersView(APIView):
-    """
-    중재 <-> (질병 <-> 진단)의 연결관계 API View
-    """
-    def get(self, request):
-        intervention_to_others = InterventionRelation.objects.all()
-        serializer = InterventionToOthersSerializer(intervention_to_others, many=True)
         return Response(serializer.data)
