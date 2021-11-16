@@ -3,14 +3,14 @@ from django.shortcuts import render
 # Create your views here.
 
 
-def signin_modal(request):
+def signin(request):
     """
     로그인 모달 띄울시 fetch되는 html
     """
-    return render(request, 'users/modals/signin_modal.html')
+    return render(request, 'users/signin.html')
 
-def signup_modal(request):
+def signup(request):
     """
     회원가입 모달 띄울시 fetch되는 html
     """
-    return render(request, 'users/modals/signup_modal.html')
+    return render(request, 'users/signup.html')
