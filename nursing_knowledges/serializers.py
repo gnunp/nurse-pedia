@@ -6,17 +6,6 @@ from .models import (
 )
 
 
-class DiseaseSerializer(serializers.ModelSerializer):
-    """
-    질병들의 Serializer
-    """
-    class Meta:
-        model = Disease
-        fields = (
-            'id',
-            'name',
-            'content',
-        )
 
 class DiagnosisSerializer(serializers.ModelSerializer):
     """
@@ -28,6 +17,19 @@ class DiagnosisSerializer(serializers.ModelSerializer):
             'id',
             'name',
             'intervention_content',
+        )
+
+class DiseaseSerializer(serializers.ModelSerializer):
+    """
+    질병들의 Serializer
+    """
+    class Meta:
+        model = Disease
+        fields = (
+            'id',
+            'name',
+            'content',
+            'diagnoses',
         )
 
 class DiseaseToDiagnosisSerializer(serializers.ModelSerializer):

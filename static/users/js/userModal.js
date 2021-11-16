@@ -4,6 +4,7 @@
 let signInModal; // 로그인 모달 Element
 let signUpModal; // 회원가입 모달 Element
 const parser = new DOMParser(); // DOM Parser 생성
+let validationErrorNodes = [];
 
 const deleteModal = () => {
     document.querySelector(".modal_background").remove();
@@ -49,40 +50,76 @@ const showModal = (modalElement) => {
     modalToggleBtn.addEventListener("click", handleClickModalToggleBtn);
 }
 
-const getUserValidation = async () => {
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+const userValidation = async (form) => {
+    // 기존의 모든 에러 제거
+    for (const errorElement of validationErrorNodes) {
+        errorElement.remove();
+    }
+    validationErrorNodes = []  // 에러 리스트 초기화
+
+    
     const username = document.querySelector("#id_username");
     const currentPassword = document.querySelector("#id_current_password");
 
     // 보낼 폼 데이터 생성
     const formData = new FormData();
-    formData.append('csrfmiddlewaretoken', csrfToken);
+    formData.append('csrfmiddlewaretoken', getCookie('csrftoken'));
     formData.append('username', username.value);
     formData.append('current_password', currentPassword.value);
 
+    // 유효성 검사 Response 받아오기
     const userValidationResponse = await fetch('/users/signin', {
         method: 'POST',
         body: formData,
     });
-    console.log(userValidationResponse);
-    if(userValidationResponse.status == 200){
-        alert("status code :200, 유저 Validation 성공");
-        // 로그인으로 이동
-    }else{
-        // form validation error HTML코드로 추가
-        const userValidationJson = await userValidationResponse.json();
-        alert("status code :400, 유저 Validation 실패");
-        console.log(userValidationJson);
 
-        for (const field of userValidationJson) {
-            cdonsole.log(field);
+
+    // if 유효성 검사에 성공했다면 then 로그인 처리
+    if(userValidationResponse.status == 200){
+        form.submit();
+    // else 유효성 검사에 실패했다면 then 폼 validation error HTML코드로 추가
+    }else{
+        const userValidationJson = await userValidationResponse.json();
+        // alert("status code :400, 유저 Validation 실패");
+        
+        for (const [field, errors] of Object.entries(userValidationJson)) {
+
+            // 에러 HTML에 추가
+            const fieldInput = form.querySelector(`#id_${field}`);
+            for (const error of errors) {
+                const errorElement = document.createElement("span");
+                errorElement.className = "error";
+                errorElement.innerText = error;
+                
+                fieldInput.parentNode.appendChild(errorElement);  // INPUT 밑에 error element 추가
+
+                validationErrorNodes.push(errorElement);  // 에러 리스트에 추가
+            }
         }
+
     }
 }
 
 const handleUserFormSubmit = (event) => {
     event.preventDefault();
     const form = event.target;
-    getUserValidation();
+    userValidation(form);
 
     // form.submit();
 }

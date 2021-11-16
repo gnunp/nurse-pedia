@@ -21,7 +21,7 @@
 
         <!-- 모달 CONTENT -->
         <div class="modal__content">
-            <form action="{% url 'users:signin' %}" method="post" class="modal__content__form js-user_form">
+            <form action="{% url 'users:signin_action' %}" method="post" class="modal__content__form js-user_form">
                 {% csrf_token %}
                 {% for field in form %}
                     <div class="input_wrapper">
@@ -51,9 +51,5 @@
             </div>
         </div>
     </div>
-
-    <script>
-        const csrfToken = "{{ csrf_token }}";
-    </script>
 </body>
 </html>

@@ -22,12 +22,22 @@ def signin(request):
             
             user = authenticate(request, username=username, password=password)
             if user is not None:
-                login(request, user)
                 return HttpResponse(status=200)
         else:
             context = {"form": form}
             # form_errors_json = json.dumps(form.errors, ensure_ascii=False)
             return JsonResponse(form.errors, status=400)
+
+def signin_action(request):
+    if request.method == 'POST':
+        form = SigninForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('current_password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect(reverse("home"))
 
 def signup(request):
     if request.method == 'GET':

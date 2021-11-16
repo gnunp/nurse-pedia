@@ -47,12 +47,24 @@
     flex-direction: column;
 }
 
+.input_wrapper{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.5rem;
+}
+
+.input_wrapper > .error{
+    font-size: 0.7rem;
+    color: red;
+    margin-top: 0.3rem;
+    margin-left: 0.2rem;
+}
+
 .modal__content__form input{
     width: 16rem;
     border: solid 1px #D6D6D6;
     border-radius: 15px;
     padding: 0.8rem;
-    margin-bottom: 0.5rem;
     font-size: 0.8rem;
 }
 
