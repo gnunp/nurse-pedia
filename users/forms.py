@@ -47,7 +47,7 @@ class SignupForm(forms.ModelForm):
         )
         widgets = {
             "username": forms.TextInput(attrs={"placeholder": "아이디", "required": True}),
-            "email": forms.EmailInput(attrs={"placeholder": "이메일", "required": True}),
+            "email": forms.EmailInput(attrs={"placeholder": "이메일(선택)"}),
         }
     
     current_password = forms.CharField(
@@ -73,14 +73,6 @@ class SignupForm(forms.ModelForm):
             raise forms.ValidationError("존재하는 아이디 입니다.", code="existing_username")
         except User.DoesNotExist:
             return username
-
-    def clean_email(self):
-        email = self.cleaned_data.get("email")
-        try:
-            User.objects.get(email=email)
-            raise forms.ValidationError("존재하는 이메일 입니다.", code="existing_email")
-        except User.DoesNotExist:
-            return email
 
     def clean_confirm_password(self):
         current_password = self.cleaned_data.get("current_password")
