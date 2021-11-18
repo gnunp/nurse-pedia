@@ -6,6 +6,7 @@ let signUpModal; // 회원가입 모달 Element
 const parser = new DOMParser(); // DOM Parser 생성
 let validationErrorNodes = [];
 let url;
+let fields;
 
 const deleteModal = () => {
     document.querySelector(".modal_background").remove();
@@ -59,23 +60,7 @@ const showModal = (modalElement) => {
     userForm.addEventListener("submit", handleUserFormSubmit);
 }
 
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
-const userValidation = async (form, fields) => {
+export const userValidation = async (form, fields, url) => {
     // 기존의 모든 에러 제거
     for (const errorElement of validationErrorNodes) {
         errorElement.remove();
@@ -88,7 +73,6 @@ const userValidation = async (form, fields) => {
     formData.append('csrfmiddlewaretoken', getCookie('csrftoken'));
     for (const [field, element] of Object.entries(fields)) {
         formData.append(field, element.value);
-
     }
 
     // 유효성 검사 Response 받아오기
@@ -123,12 +107,28 @@ const userValidation = async (form, fields) => {
         }
 
     }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
 }
 
 const handleUserFormSubmit = (event) => {
     event.preventDefault();
     const form = event.target;
-    const fields = {};
+    fields = {};
 
     const username = document.querySelector("#id_username");
     fields['username'] = username;
@@ -147,7 +147,7 @@ const handleUserFormSubmit = (event) => {
         fields['confirm_password'] = confirmPassword;
     }
 
-    userValidation(form, fields);
+    userValidation(form, fields, url);
 }
 
 const handleClickSignInBtn = (event) => {
@@ -181,8 +181,8 @@ const userModalInit = async () => {
     const signUpModalHtml = await signUpModalResponse.text();
 
     // 모달 DOM으로 변환
-    signInDocument = parser.parseFromString(signInModalHtml, "text/html");
-    signUpDocument = parser.parseFromString(signUpModalHtml, "text/html");
+    const signInDocument = parser.parseFromString(signInModalHtml, "text/html");
+    const signUpDocument = parser.parseFromString(signUpModalHtml, "text/html");
 
     // 모달 Element
     signInModal = signInDocument.querySelector(".modal_wrapper");

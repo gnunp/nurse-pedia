@@ -14,7 +14,8 @@ class CustomUserAdmin(UserAdmin):
             "Custom Profile",
             {
                 "fields": (
-
+                    "is_kakao",
+                    "kakao_id",
                 )
             },
         ),
