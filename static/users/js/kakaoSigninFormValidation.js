@@ -103,5 +103,3 @@ const handleUserFormSubmit = (event) => {
 
 const userForm = document.querySelector(".js-user_form");
 userForm.addEventListener("submit", handleUserFormSubmit);
-
-
