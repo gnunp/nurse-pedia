@@ -108,6 +108,7 @@ def kakao_callback(request):
 
 def kakao_signin_validation(request):
     if request.method == 'POST':
+        print(request.POST)
         form = KakaoSignupForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')

@@ -92,6 +92,10 @@ const handleUserFormSubmit = (event) => {
     if(emailVariable){
         fields['email'] = { value: emailVariable };
     }
+    else{
+        const email = document.querySelector("#id_email");
+        fields['email'] = email;
+    }
 
     userValidation(form, fields, url);
 }

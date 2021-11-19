@@ -103,3 +103,4 @@ class KakaoSignupForm(forms.ModelForm):
             raise forms.ValidationError("존재하는 아이디 입니다.", code="existing_username")
         except User.DoesNotExist:
             return username
+    
