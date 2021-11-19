@@ -6,6 +6,7 @@ module.exports = {
         home: "./static/nursing_knowledges/js/home.js",
         test: "./static/nursing_knowledges/js/test.js",
         userModal: "./static/users/js/userModal.js",
+        kakaoSigninFormValidation: "./static/users/js/kakaoSigninFormValidation.js",
     },
     mode: "development",
     output: {

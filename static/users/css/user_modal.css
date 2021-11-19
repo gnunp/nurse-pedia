@@ -124,15 +124,20 @@
     justify-content: center;
     align-items: center;
     width: 16rem;
+    height: 2.5rem;
     border: none;
     border-radius: 15px;
     background-color: #FEE500;
-    padding: 0.8rem;
     margin-bottom: 1.3rem;
     font-weight: bold;
     color: #1A1A1C;
     font-size: 0.8rem;
     cursor: pointer;
+    text-decoration-line: none;
+}
+
+.modal__content__kakao_login_btn:hover{
+    color: #1A1A1C
 }
 
 .modal__content__kakao_login_btn > span{
@@ -152,4 +157,16 @@
     font-weight: bold;
     margin-left: 6px;
     cursor: pointer;
+}
+
+.kakao_signin_user_form_wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.modal_header__back_arrow{
+    color: black;
 }

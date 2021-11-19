@@ -47,7 +47,7 @@ class SignupForm(forms.ModelForm):
         )
         widgets = {
             "username": forms.TextInput(attrs={"placeholder": "아이디", "required": True}),
-            "email": forms.EmailInput(attrs={"placeholder": "이메일", "required": True}),
+            "email": forms.EmailInput(attrs={"placeholder": "이메일(선택)"}),
         }
     
     current_password = forms.CharField(
@@ -74,14 +74,6 @@ class SignupForm(forms.ModelForm):
         except User.DoesNotExist:
             return username
 
-    def clean_email(self):
-        email = self.cleaned_data.get("email")
-        try:
-            User.objects.get(email=email)
-            raise forms.ValidationError("존재하는 이메일 입니다.", code="existing_email")
-        except User.DoesNotExist:
-            return email
-
     def clean_confirm_password(self):
         current_password = self.cleaned_data.get("current_password")
         confirm_password = self.cleaned_data.get("confirm_password")
@@ -89,3 +81,26 @@ class SignupForm(forms.ModelForm):
             raise forms.ValidationError("비밀번호가 일치하지 않습니다.", code="not_matching_password")
         else:
             return confirm_password
+
+class KakaoSignupForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = (
+            "username",
+            "email",
+            "kakao_id",
+        )
+        widgets = {
+            "username": forms.TextInput(attrs={"placeholder": "아이디", "required": True}),
+            "email": forms.EmailInput(attrs={"placeholder": "이메일(선택)"}),
+            "kakao_id": forms.TextInput(),
+        }
+
+    def clean_username(self):
+        username = self.cleaned_data.get("username")
+        try:
+            User.objects.get(username=username)
+            raise forms.ValidationError("존재하는 아이디 입니다.", code="existing_username")
+        except User.DoesNotExist:
+            return username
+    
