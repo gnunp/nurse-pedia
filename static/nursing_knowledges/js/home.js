@@ -6,6 +6,7 @@ import {Secondpage} from "./secondpage.js";
 class Home{
     constructor(){
         this.setinitSize(); 
+        
         //secondpage 
         this.secondpage = new Secondpage();
    
@@ -14,6 +15,14 @@ class Home{
         this.page = 0;
         this.maxpage = 1;
         this.ismove = true;
+        this.canMove = true;
+
+        document.querySelector('.cy_wrap').addEventListener('mouseover',()=>{
+            this.canMove = false;
+        });
+        document.querySelector('.cy_wrap').addEventListener('mouseleave',()=>{
+            this.canMove = ture;
+        });
 
         window.addEventListener('resize',this.resize.bind(this));
         window.addEventListener('wheel', this.movePage.bind(this));
@@ -39,7 +48,7 @@ class Home{
     }
 
     movePage(e){
-        if(this.ismove){
+        if(this.ismove && this.canMove){
             this.ismove = false
             let wheelvalue = e.wheelDelta;
             if(wheelvalue < 0){
