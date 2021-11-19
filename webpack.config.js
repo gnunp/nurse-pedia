@@ -4,7 +4,7 @@ module.exports = {
     entry: {
         global: "./static/global/js/global.js",
         home: "./static/nursing_knowledges/js/home.js",
-        test: "./static/nursing_knowledges/js/test.js",
+        secondpage:"./static/nursing_knowledges/js/secondpage.js",
         userModal: "./static/users/js/userModal.js",
         kakaoSigninFormValidation: "./static/users/js/kakaoSigninFormValidation.js",
     },
@@ -14,7 +14,14 @@ module.exports = {
         path: path.resolve(__dirname, 'static','assets', 'js'),
         clean: true,
     },
-    watch: true,
+    // mindmap때문에 적음
+    devServer:{
+        contentBase: path.resolve("./static/assets/js"),
+        index: "./nursing_knowledges/secondpage.html",
+        port: 9000
+    },
+
+    watch: true, 
     module: {
         rules:[
             {
@@ -27,6 +34,17 @@ module.exports = {
                     },
                 },
             },
+            {
+                test:/\.css$/,
+                use:[
+                    'style-loader',
+                    'css-loader'
+                ]
+            },
+            {
+                test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                type : 'asset/resource',
+            }
         ]
     },
     experiments: {

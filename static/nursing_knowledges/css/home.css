@@ -1,5 +1,5 @@
 @import url('/static/global/css/color.css');
-@import url('./firstpage.css');
+
 .wrappage{
     position: relative;
 
@@ -7,11 +7,10 @@
 }
 .page{
     position: relative;
-    width: 100vw;
-    height: 100vh;
 
-    border:1px solid red;
     box-sizing: border-box;
+
+    border: red 1px solid;
 }
 .is{
     font-size: 100px;
