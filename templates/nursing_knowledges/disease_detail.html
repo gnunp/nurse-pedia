@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %} {{disease.name}} {% endblock title %}
+
+
+{% block css %}
+{% endblock css %}
+
+
+
+{% block link %}
+{% endblock link %}
+
+
+
+{% block head_script %}
+{% endblock head_script %}
+
+
+
+{% block content %}
+    <ul>
+        <li>{{disease.name}}</li>
+        <li>{{disease.content}}</li>
+    </ul>
+    <h1>관련 진단</h1>
+
+    <ul>
+        {% for diagnosis in diagnoses %}
+            <a href="{% url 'nursing_knowledges:diagnosis_detail' diagnosis.pk %}">{{diagnosis.name}}</li>
+        {% endfor %}
+    </ul>
+        
+{% endblock content %}
+
+
+
+{% block script %}
+{% endblock script %}
