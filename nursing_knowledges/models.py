@@ -16,11 +16,11 @@ class DiseaseMediumCategory(models.Model):
     질병 중분류 Model
     """
     name = models.CharField(max_length=100, unique=True)  # 중분류명
+    content = models.TextField(max_length=3000, default="")  # 질병의 중분류를 설명하는 필드
     disease_large_category = models.ForeignKey(
         "DiseaseLargeCategory",
         on_delete=models.CASCADE,
     )  # 연결된 질병 대분류
-    content = models.TextField(max_length=3000, default="")  # 질병의 중분류를 설명하는 필드
 
     def __str__(self):
         return self.name
