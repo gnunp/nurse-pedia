@@ -1,10 +1,10 @@
 from django.contrib import admin
 from .models import (
-    Disease,
+    DiseaseLargeCategory,
+    DiseaseMediumCategory,
+    DiseaseSmallCategory,
     Diagnosis,
     Connection,
-    DiseaseLargeCategory,
-    DiseaseMediumCategory
 )
 
 @admin.register(DiseaseLargeCategory)
@@ -21,10 +21,10 @@ class DiseaseMediumCategoryAdmin(admin.ModelAdmin):
     """
     pass
 
-@admin.register(Disease)
-class DiseaseAdmin(admin.ModelAdmin):
+@admin.register(DiseaseSmallCategory)
+class DiseaseSmallCategory(admin.ModelAdmin):
     """
-    간호 질병 Model Admin
+    간호 질병 소분류 Model Admin
     """
     pass
 
