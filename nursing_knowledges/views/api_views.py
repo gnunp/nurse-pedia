@@ -38,7 +38,7 @@ class DiseaseMediumCategoryView(APIView):
 
 class DiseaseSmallCategoryView(APIView):
     """
-    질병 List API View
+    질병 소분류 List API View
     """
     def get(self, request):
         disease_small_categories = DiseaseSmallCategory.objects.all()
