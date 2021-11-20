@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %} {{diagnosis.name}} {% endblock title %}
+
+
+{% block css %}
+{% endblock css %}
+
+
+
+{% block link %}
+{% endblock link %}
+
+
+
+{% block head_script %}
+{% endblock head_script %}
+
+
+
+{% block content %}
+    <ul>
+        <li>{{diagnosis.name}}</li>
+        <li>{{diagnosis.intervention_content}}</li>
+    </ul>
+{% endblock content %}
+
+
+
+{% block script %}
+{% endblock script %}
