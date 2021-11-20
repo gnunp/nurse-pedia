@@ -1,7 +1,25 @@
 from django.contrib import admin
-from .models import Disease, Diagnosis
+from .models import (
+    Disease,
+    Diagnosis,
+    Connection,
+    DiseaseLargeCategory,
+    DiseaseMediumCategory
+)
 
-# Register your models here.
+@admin.register(DiseaseLargeCategory)
+class DiseaseLargeCategoryAdmin(admin.ModelAdmin):
+    """
+    간호 질병 대분류 Model Admin
+    """
+    pass
+
+@admin.register(DiseaseMediumCategory)
+class DiseaseMediumCategoryAdmin(admin.ModelAdmin):
+    """
+    간호 질병 중분류 Model Admin
+    """
+    pass
 
 @admin.register(Disease)
 class DiseaseAdmin(admin.ModelAdmin):
@@ -14,5 +32,12 @@ class DiseaseAdmin(admin.ModelAdmin):
 class DiagnosisAdmin(admin.ModelAdmin):
     """
     간호 진단 Model Admin
+    """
+    pass
+
+@admin.register(Connection)
+class ConnectionAdmin(admin.ModelAdmin):
+    """
+    노드의 연결관계를 나타내는 Model Admin
     """
     pass
