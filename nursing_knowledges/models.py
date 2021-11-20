@@ -5,7 +5,7 @@ class DiseaseLargeCategory(models.Model):
     질병 대분류 Model
     """
     name = models.CharField(max_length=100, unique=True)  # 대분류명
-    content = models.TextField(max_length=3000, default="", blank=True)  # 질병의 대분류를 설명하는 필드
+    # content = models.TextField(max_length=3000, default="", blank=True)  # 질병의 대분류를 설명하는 필드
 
 
     def __str__(self):
@@ -17,7 +17,7 @@ class DiseaseMediumCategory(models.Model):
     질병 중분류 Model
     """
     name = models.CharField(max_length=100, unique=True)  # 중분류명
-    content = models.TextField(max_length=3000, default="", blank=True)  # 질병의 중분류를 설명하는 필드
+    # content = models.TextField(max_length=3000, default="", blank=True)  # 질병의 중분류를 설명하는 필드
     disease_large_category = models.ForeignKey(
         "DiseaseLargeCategory",
         on_delete=models.CASCADE,
