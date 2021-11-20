@@ -5,4 +5,4 @@ STATIC_ROOT = BASE_DIR / 'static/'
 STATICFILES_DIRS = []
 DEBUG = False
 
-MY_URL = "http://nurpi.com"
+MY_URL = "http://3.38.119.71"
