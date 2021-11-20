@@ -1,40 +1,82 @@
-from rest_framework.serializers import Serializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from ..models import (
-    Disease,
-    DiseaseConnect,
+    DiseaseLargeCategory,
+    DiseaseMediumCategory,
+    DiseaseSmallCategory,
     Diagnosis,
+    DiagnosisToOther,
 )
 from ..serializers import (
-    DiseaseSerializer,
+    DiseaseLargeCategorySerializer,
+    DiseaseMediumCategorySerializer,
+    DiseaseSmallCategorySerializer,
     DiagnosisSerializer,
-    DiseaseToDiagnosisSerializer,
+    DiseaseLargeToMediumSerializer,
+    DiseaseMediumToSmallSerializer,
+    DiagnosisToOtherSerializer,
 )
 
-class DiseasesView(APIView):
+class DiseaseLargeCategoryView(APIView):
     """
-    질병들의 API View
+    질병 대분류 List API View
     """
     def get(self, request):
-        diseases = Disease.objects.all()
-        serializer = DiseaseSerializer(diseases, many=True)
+        disease_large_categories = DiseaseLargeCategory.objects.all()
+        serializer = DiseaseLargeCategorySerializer(disease_large_categories, many=True)
+        return Response(serializer.data)
+
+
+class DiseaseMediumCategoryView(APIView):
+    """
+    질병 중분류 List API View
+    """
+    def get(self, request):
+        disease_medium_categories = DiseaseMediumCategory.objects.all()
+        serializer = DiseaseMediumCategorySerializer(disease_medium_categories, many=True)
+        return Response(serializer.data)
+
+class DiseaseSmallCategoryView(APIView):
+    """
+    질병 소분류 List API View
+    """
+    def get(self, request):
+        disease_small_categories = DiseaseSmallCategory.objects.all()
+        serializer = DiseaseSmallCategorySerializer(disease_small_categories, many=True)
         return Response(serializer.data)
 
 class DiagnosesView(APIView):
     """
-    진단들의 API View
+    진단 List API View
     """
     def get(self, request):
         diagnoses = Diagnosis.objects.all()
         serializer = DiagnosisSerializer(diagnoses, many=True)
         return Response(serializer.data)
 
-class DiseaseToDiagnosisView(APIView):
+class DiseaseLargeToMediumView(APIView):
     """
-    질병 <-> 진단의 연결관계 API View
+    질병 대분류 <--> 중분류 연결관계 API View
     """
     def get(self, request):
-        disease_to_diagnosis = DiseaseConnect.objects.all()
-        serializer = DiseaseToDiagnosisSerializer(disease_to_diagnosis, many=True)
+        disease_large_categories = DiseaseLargeCategory.objects.all()
+        serializer = DiseaseLargeToMediumSerializer(disease_large_categories, many=True)
+        return Response(serializer.data)
+
+class DiseaseMediumToSmallView(APIView):
+    """
+    질병 중분류 <--> 소분류 연결관계 API View
+    """
+    def get(self, request):
+        disease_medium_categories = DiseaseMediumCategory.objects.all()
+        serializer = DiseaseMediumToSmallSerializer(disease_medium_categories, many=True)
+        return Response(serializer.data)
+
+class DiagnosisToOtherView(APIView):
+    """
+    질병(중분류 or 소분류) <--> 진단 연결관계 API View
+    """
+    def get(self, request):
+        diagnosis_to_others = DiagnosisToOther.objects.all()
+        serializer = DiagnosisToOtherSerializer(diagnosis_to_others, many=True)
         return Response(serializer.data)

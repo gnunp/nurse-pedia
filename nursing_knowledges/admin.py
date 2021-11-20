@@ -1,34 +1,32 @@
 from django.contrib import admin
-from django.db.models import query
-from django.db.models import Q
-from .models import Disease, Diagnosis
-from .models import DiseaseConnect, DiagnosisConnect
+from .models import (
+    DiseaseLargeCategory,
+    DiseaseMediumCategory,
+    DiseaseSmallCategory,
+    Diagnosis,
+    DiagnosisToOther,
+)
 
-# Register your models here.
-
-@admin.register(Disease)
-class DiseaseAdmin(admin.ModelAdmin):
+@admin.register(DiseaseLargeCategory)
+class DiseaseLargeCategoryAdmin(admin.ModelAdmin):
     """
-    간호 질병 Model Admin
+    간호 질병 대분류 Model Admin
     """
     pass
 
-@admin.register(DiseaseConnect)
-class DiseaseDiagnosesAdmin(admin.ModelAdmin):
+@admin.register(DiseaseMediumCategory)
+class DiseaseMediumCategoryAdmin(admin.ModelAdmin):
     """
-    간호 질병의 through Model Admin
+    간호 질병 중분류 Model Admin
     """
-    def delete_queryset(self, request, queryset):
-        for query in queryset:
-            disease =query.disease
-            diagnosis =query.diagnosis
-            query.delete()
-            
-            # DiagnosisConnect 모델에 같은 연결관계가 있는지 확인
-            symmetry_object = DiagnosisConnect.objects.filter(Q(disease=disease) & Q(diagnosis=diagnosis))
-            if symmetry_object.exists():
-                # 있으면 DiagnosisConnect 모델의 관계도 삭제
-                symmetry_object.delete()
+    pass
+
+@admin.register(DiseaseSmallCategory)
+class DiseaseSmallCategory(admin.ModelAdmin):
+    """
+    간호 질병 소분류 Model Admin
+    """
+    pass
 
 @admin.register(Diagnosis)
 class DiagnosisAdmin(admin.ModelAdmin):
@@ -37,19 +35,9 @@ class DiagnosisAdmin(admin.ModelAdmin):
     """
     pass
 
-# @admin.register(DiagnosisConnect)
-# class DiagnosisDiseasesAdmin(admin.ModelAdmin):
-#     """
-#     간호 진단의 through Model Admin
-#     """
-#     def delete_queryset(self, request, queryset):
-#         for query in queryset:
-#             disease =query.disease
-#             diagnosis =query.diagnosis
-#             query.delete()
-
-#             # DiseaseConnect 모델에 같은 연결관계가 있는지 확인
-#             symmetry_object = DiseaseConnect.objects.filter(Q(disease=disease) & Q(diagnosis=diagnosis))
-#             if symmetry_object.exists():
-#                 # 있으면 DiseaseConnect 모델의 관계도 삭제
-#                 symmetry_object.delete()
+@admin.register(DiagnosisToOther)
+class DiagnosisToOtherAdmin(admin.ModelAdmin):
+    """
+    질병(중분류 or 대분류) <--> 진단의 연결관계를 나타내는 Model Admin
+    """
+    pass
