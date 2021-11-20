@@ -56,7 +56,7 @@ class Diagnosis(models.Model):
     def __str__(self):
         return self.name
 
-class Connection(models.Model):
+class DiagnosisToOther(models.Model):
     """
     노드의 연결관계를 나타내는 Model
     질병(중분류 or 소분류) <--> 진단
@@ -67,11 +67,11 @@ class Connection(models.Model):
 
     def __str__(self):
         nodes = []
-        if self.diagnosis:
-            nodes.append(f"[{self.diagnosis.__class__.__name__}]{self.diagnosis}")
         if self.disease_small_category:
             nodes.append(f"[{self.disease_small_category.__class__.__name__}]{self.disease_small_category}")
         if self.disease_medium_category:
             nodes.append(f"[{self.disease_medium_category.__class__.__name__}]{self.disease_medium_category}")
+        if self.diagnosis:
+            nodes.append(f"[{self.diagnosis.__class__.__name__}]{self.diagnosis}")
         
         return f"{nodes.pop()} <--> {nodes.pop()}"

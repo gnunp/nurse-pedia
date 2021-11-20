@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import (
     DiseaseSmallCategory,
     Diagnosis,
-    Connection,
+    DiagnosisToOther,
     DiseaseLargeCategory,
     DiseaseMediumCategory,
 )
@@ -91,7 +91,7 @@ class DiagnosisToOtherSerializer(serializers.ModelSerializer):
     질병(중분류 or 소분류) <--> 진단 연결관계 Serializer
     """
     class Meta:
-        model = Connection
+        model = DiagnosisToOther
         exclude = ("id",)
 
     def to_representation(self, instance):

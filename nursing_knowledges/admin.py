@@ -4,7 +4,7 @@ from .models import (
     DiseaseMediumCategory,
     DiseaseSmallCategory,
     Diagnosis,
-    Connection,
+    DiagnosisToOther,
 )
 
 @admin.register(DiseaseLargeCategory)
@@ -35,9 +35,9 @@ class DiagnosisAdmin(admin.ModelAdmin):
     """
     pass
 
-@admin.register(Connection)
-class ConnectionAdmin(admin.ModelAdmin):
+@admin.register(DiagnosisToOther)
+class DiagnosisToOtherAdmin(admin.ModelAdmin):
     """
-    노드의 연결관계를 나타내는 Model Admin
+    질병(중분류 or 대분류) <--> 진단의 연결관계를 나타내는 Model Admin
     """
     pass

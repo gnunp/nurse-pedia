@@ -5,7 +5,7 @@ from ..models import (
     DiseaseMediumCategory,
     DiseaseSmallCategory,
     Diagnosis,
-    Connection,
+    DiagnosisToOther,
 )
 from ..serializers import (
     DiseaseLargeCategorySerializer,
@@ -77,6 +77,6 @@ class DiagnosisToOtherView(APIView):
     질병(중분류 or 소분류) <--> 진단 연결관계 API View
     """
     def get(self, request):
-        diagnosis_to_others = Connection.objects.all()
+        diagnosis_to_others = DiagnosisToOther.objects.all()
         serializer = DiagnosisToOtherSerializer(diagnosis_to_others, many=True)
         return Response(serializer.data)
