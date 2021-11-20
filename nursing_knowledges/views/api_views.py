@@ -19,7 +19,7 @@ from ..serializers import (
 
 class DiseaseLargeCategoryView(APIView):
     """
-    질병 중분류 List API View
+    질병 대분류 List API View
     """
     def get(self, request):
         disease_large_categories = DiseaseLargeCategory.objects.all()
