@@ -47,6 +47,7 @@ MY_APPS = [
 
 THIRD_PARTY_APPS = [
     'rest_framework',
+    'django_extensions',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + MY_APPS + THIRD_PARTY_APPS
