@@ -43,7 +43,7 @@ class DiseaseSmallCategory(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('knowledges:disease_detail', args=[self.id])
+        return reverse('nursing_knowledges:disease_detail', args=[self.id])
 
 class Diagnosis(models.Model):
     """
@@ -59,7 +59,7 @@ class Diagnosis(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('knowledges:diagnosis_detail', args=[self.id])
+        return reverse('nursing_knowledges:diagnosis_detail', args=[self.id])
 
 class DiagnosisToOther(models.Model):
     """
