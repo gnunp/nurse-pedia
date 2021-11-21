@@ -1,5 +1,5 @@
 from django.conf import settings
-from numpy import NaN, nan
+from numpy import NaN
 import pandas as pd
 from ..models import (
     DiseaseLargeCategory,

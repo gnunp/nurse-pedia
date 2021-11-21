@@ -33,7 +33,7 @@ class DiagnosisAdmin(admin.ModelAdmin):
     """
     간호 진단 Model Admin
     """
-    pass
+    list_display = ('name', 'intervention_content')
 
 @admin.register(DiagnosisToOther)
 class DiagnosisToOtherAdmin(admin.ModelAdmin):
