@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 class DiseaseLargeCategory(models.Model):
     """
@@ -41,6 +42,9 @@ class DiseaseSmallCategory(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('knowledges:disease_detail', args=[self.id])
+
 class Diagnosis(models.Model):
     """
     간호 진단 Model
@@ -53,6 +57,9 @@ class Diagnosis(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('knowledges:diagnosis_detail', args=[self.id])
 
 class DiagnosisToOther(models.Model):
     """

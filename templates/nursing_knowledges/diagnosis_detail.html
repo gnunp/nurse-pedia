@@ -23,7 +23,12 @@
 {% block content %}
     <ul>
         <li>{{diagnosis.name}}</li>
-        <li>{{diagnosis.intervention_content}}</li>
+    </ul>
+    <h1>중재</h1>
+    <ul>
+        {% for intervention in interventions %}
+            <li>{{intervention}}</li>
+        {% endfor %}
     </ul>
 {% endblock content %}
 
