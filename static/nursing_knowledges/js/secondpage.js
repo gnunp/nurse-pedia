@@ -64,34 +64,51 @@ export class Secondpage{
     
     mindmap(){
 
-        const minZoomlevel = 1; // 최소 축소 배율
-        const maxzoomlevel = 5; // 최대 확대 배율
+        const minZoomlevel = 0.1; // 최소 축소 배율
+        let magnification = 2.5; // 마우스 올라갈때 변하는 비율
 
         //초기 노드 스타일
         const initNodeStyle = {
-            bigNodeSize : 40,
-            middleNodeSize : 28,
-            smallNodeSize : 16,
-            diagnosisNodeSize : 10,
+            bigNodeSize : 40 * (magnification - 0.5),
+            middleNodeSize : 28 * (magnification - 0.5),
+            smallNodeSize : 16 * (magnification - 0.5),
+            diagnosisNodeSize : 10 * (magnification - 0.5),
 
-            backgroundColor : this.globalColor.dark_indigo,
+            bigNodeColor : '#B06E9E',
+            middleNodeColor : '#FF9B7E',
+            smallNodeColor :'#FFC66A',
+            diagnosisNodeColor :'#F9F871',
 
-            bigFontSize : 16,
-            middleFontSize : 14,
-            smallFontSize : 12,
-            diagnosisFontSize : 10,
+            bigFontSize : 24 * (magnification - 0.5),
+            middleFontSize : 20 * (magnification - 0.5),
+            smallFontSize : 18 * (magnification - 0.5),
+            diagnosisFontSize : 16 * (magnification - 0.5),
 
             fontColor : this.globalColor.dark_indigo,
+            fontWeight : 900,
         };
         //초기 화살표 스타일
         const initEdgeStyle = {
-            edgeWidth : '1px',
-            arrowScale : 0.5,
+            edgeWidth : `${2 * magnification}px`,
+            arrowScale : 2,
             edgeColor : 'gray',
         };
         //초기 스타일 (초기 노드 스타일 & 초기 화살표 스타일 합친 것)
         const initStyle ={
-            'background-color': initNodeStyle.backgroundColor,
+            'background-color' : function (ele) {
+                if(ele.data("type") == "largedisease"){
+                    return initNodeStyle.bigNodeColor;
+                }
+                else if(ele.data("type") == "middledisease"){
+                    return initNodeStyle.middleNodeColor;
+                }
+                else if(ele.data("type") == "smalldisease"){
+                    return initNodeStyle.smallNodeColor;
+                }
+                else{
+                    return initNodeStyle.diagnosisNodeColor;
+                }
+            },
             'label': 'data(label)',
             
             'width': function (ele) {
@@ -137,30 +154,43 @@ export class Secondpage{
                 }
             },
 
-            'color' : initNodeStyle.fontColor,
+            'fontweight' : initNodeStyle.fontWeight,
         }
 
         //마우스가 노드 위로 올라왔을 때, 스타일
-        const ActiveStyle = {
-            activeNodeColor : this.globalColor.pink,
-            activeNodeSize : '40',
-            activeFontSize : 16,
-            activeFontColor : this.globalColor.pink,
+        let ActiveStyle = {
+            
+            selectNodeSize : initNodeStyle.bigNodeSize * (magnification - 0.5),
+            neighborNodeSize : initNodeStyle.middleNodeSize * (magnification - 0.5),
+            farNodeSize : initNodeStyle.smallNodeSize * (magnification - 0.5),
 
-            subActiveDiaNodeSize :'18',
-            subActiveSmallNodeSize :'24',
-            subActiveMiddleNodeSize : '34',
+            selectFontSize : initNodeStyle.bigFontSize * (magnification - 0.5),
+            neighborFontSize : initNodeStyle.middleFontSize * (magnification - 0.5),
+            farFontSize : initNodeStyle.smallFontSize * (magnification - 0.5),
 
-            closeNodeColor : this.globalColor.purple,
-            closeArrowColor : this.globalColor.dark_purple,
-            closeFontColor : this.globalColor.dark_purple,
+            edgeWidth : `${4 * magnification}px`,
+            arrowScale : 2,
+            edgeColor : 'red',
+            arrowColor : 'red',
+            
+            color : 'black',
 
-            farNodeColor : this.globalColor.indigo,
-            farArrowColor : this.globalColor.dark_indigo,
-            farFontColor :  this.globalColor.dark_indigo,
+            // activeNodeSize : `${40 * magnification}`,
+            // activeFontSize : 16 * (magnification - 0.5),
+            // activeFontColor : this.globalColor.pink,
 
-            arrowActiveScale : 2.0,
-            edgeActiveWidth :'4px',
+            // subActiveDiaNodeSize :`${18 * magnification}`,
+            // subActiveSmallNodeSize :`${24 * magnification}`,
+            // subActiveMiddleNodeSize : `${34 * magnification}`,
+
+            // closeArrowColor : this.globalColor.dark_purple,
+            // closeFontColor : this.globalColor.dark_purple,
+
+            // farArrowColor : this.globalColor.dark_indigo,
+            // farFontColor :  this.globalColor.dark_indigo,
+
+            // arrowActiveScale : 2.0 * (magnification - 0.5),
+            // edgeActiveWidth :`${4 * magnification}px`,
         }
 
         const dimColor = this.globalColor.dark_indigo;//커서 노드위로 올렸을 때 주목받지 못한 노드&화살표 색
@@ -194,22 +224,46 @@ export class Secondpage{
 
             layout: {
                 name: 'cose-bilkent',
+         
+                fit: true,             
+                padding: 30,            
+                randomize: true,     
+                nodeRepulsion: 200000,   
+                idealEdgeLength: 600,    
+                edgeElasticity: 0.9,       
+                nestingFactor: 0.9,        
+                gravity: 0.1,             
+                numIter: 2500,        
+                tile: true,                
+                animate: true,             
+                tilingPaddingVertical: 80,  
+                tilingPaddingHorizontal: 80
+                /*
+                name: 'cose-bilkent',
                 animate: false,
                 graviyRangeCompound: 12,
                 fit: true,
                 tile : true,
                 spacingFactor: 1.5,
                 quality:'default',
-                fit:true,
-            }
+                
+                // BoundingBox:{0, 0, 0, 0},
+                idealEdgeLength: function(edge){
+                     return edge.data().weight * .8
+                },
 
+                // edgeElasticity: function(edge){
+                //     return edge.data().weight * 6
+                // },
+
+               //gravity: 80,
+               */
+            },
+            wheelSensitivity : 0.1,
         });
 
-        //수정 필요: 이렇게 설정하면 두가지 줌 밖에 조정 안됨
         cy.minZoom(minZoomlevel); //최소 줌
-        cy.maxZoom(maxzoomlevel); //최대 줌
-
-
+        // cy.maxZoom(maxzoomlevel); //최대 줌
         cy.autolock(false); // 노드 드래그로 움직이지 못하게 하는 것
 
 
@@ -219,57 +273,125 @@ export class Secondpage{
         }
 
         //마우스가 올라왔을 때 스타일 적용
-        function setFocus(target_element, arrowScale){
-            //마우스-오버된 노드 색 설정
-            target_element.style('background-color', ActiveStyle.activeNodeColor);
-            //마우스-오버된 폰트 색 설정
-            target_element.style('color', ActiveStyle.activeFontColor);
-            //마우스-오버된 화살표 크기
-            target_element.style('arrow-scale', arrowScale);
+        function setFocus(target_element){
+            
+
+            target_element.style('background-color',function(ele){
+                if(ele.data("type") == "largedisease"){
+                    return initNodeStyle.bigNodeColor;
+                }
+                else if(ele.data("type") == "middledisease"){
+                    return initNodeStyle.middleNodeColor;
+                }
+                else if(ele.data("type") == "smalldisease"){
+                    return initNodeStyle.smallNodeColor;
+                }
+                else{
+                    return initNodeStyle.diagnosisNodeColor;
+                }
+            });
+
             //크기 커지게함 ( activeNodeSize보다 큰 노드는 변화 없음)
-            target_element.style('width', Math.max(parseFloat(target_element.style('width')), ActiveStyle.activeNodeSize));
-            target_element.style('height', Math.max(parseFloat(target_element.style('height')), ActiveStyle.activeNodeSize));
-            target_element.style('font-size', Math.max(parseFloat(target_element.style('font-size')), ActiveStyle.activeFontSize));
+            target_element.style('width', ActiveStyle.selectNodeSize);
+            target_element.style('height',ActiveStyle.selectNodeSize);
+            target_element.style('font-size', ActiveStyle.selectFontSize);
+            target_element.style('color', ActiveStyle.color);
+
+            setOpacityElement(target_element, 1);
              
             //마우스-오버된 노드 윗노드 스타일 설정
             target_element.successors().each(function(e){
-                e.style('background-color', ActiveStyle.farNodeColor);//노드색
-                e.style('line-color', ActiveStyle.farArrowColor);//라인색
-                e.style('color', ActiveStyle.farFontColor);//텍스트 색
-                e.style('source-arrow-color', ActiveStyle.farArrowColor); //화살표 색
+
+                e.style('width', ActiveStyle.farNodeSize);
+                e.style('height', ActiveStyle.farNodeSize);
+                e.style('font-size', ActiveStyle.farFontSize);
+                e.style('color', ActiveStyle.color);
+
+                if(e.isEdge()){
+                    e.style('width', ActiveStyle.edgeWidth);
+                    e.style('arrow-scale',ActiveStyle.arrowScale);
+                    e.style('line-color', ActiveStyle.edgeColor);
+                    e.style('source-arrow-color', ActiveStyle.arrowColor);
+                }
+                e.style('background-color',function(ele){
+                    if(ele.data("type") == "largedisease"){
+                        return initNodeStyle.bigNodeColor;
+                    }
+                    else if(ele.data("type") == "middledisease"){
+                        return initNodeStyle.middleNodeColor;
+                    }
+                    else if(ele.data("type") == "smalldisease"){
+                        return initNodeStyle.smallNodeColor;
+                    }
+                    else{
+                        return initNodeStyle.diagnosisNodeColor;
+                    }
+                });
                 setOpacityElement(e, 1); // 투명도
             });
 
             // 마우스-오버된 노드 아랫노드 스타일 지정
             target_element.predecessors().each(function(e){
-                e.style('background-color', ActiveStyle.farNodeColor);//노드색
-                e.style('line-color', ActiveStyle.farArrowColor);//라인색
-                e.style('color', ActiveStyle.farFontColor);//텍스트 색
-                e.style('source-arrow-color', ActiveStyle.farArrowColor); //화살표 색
+                
+                e.style('width', ActiveStyle.farNodeSize);
+                e.style('height', ActiveStyle.farNodeSize);
+                e.style('font-size', ActiveStyle.farFontSize);
+                e.style('color', ActiveStyle.color);
+
+                if(e.isEdge()){
+                    e.style('width', ActiveStyle.edgeWidth);
+                    e.style('arrow-scale',ActiveStyle.arrowScale);
+                    e.style('line-color', ActiveStyle.edgeColor);
+                    e.style('source-arrow-color', ActiveStyle.arrowColor);
+                }
+
+                e.style('background-color',function(ele){
+                    if(ele.data("type") == "largedisease"){
+                        return initNodeStyle.bigNodeColor;
+                    }
+                    else if(ele.data("type") == "middledisease"){
+                        return initNodeStyle.middleNodeColor;
+                    }
+                    else if(ele.data("type") == "smalldisease"){
+                        return initNodeStyle.smallNodeColor;
+                    }
+                    else{
+                        return initNodeStyle.diagnosisNodeColor;
+                    }
+                });
                 setOpacityElement(e, 1); // 투명도
             });
 
             //바로 아래 또는 바로 위는 투명도 없애기 + 크기 조정
             target_element.neighborhood().each(function(e){
-                switch(e.data("type")){
-                    case "middeldisease":
-                        e.style('width',ActiveStyle.subActiveMiddleNodeSize);
-                        e.style('height',ActiveStyle.subActiveMiddleNodeSize);
-                        break;
-                    case "smalldisease":
-                        e.style('width',ActiveStyle.subActiveSmallNodeSize);
-                        e.style('height',ActiveStyle.subActiveSmallNodeSize);
-                        break;
-                    case "diagnosis":
-                        e.style('width',ActiveStyle.subActiveDiaNodeSize);
-                        e.style('height',ActiveStyle.subActiveDiaNodeSize);
-                        break;
+                
+                e.style('width', ActiveStyle.neighborNodeSize);
+                e.style('height', ActiveStyle.neighborNodeSize);
+                e.style('font-size', ActiveStyle.neighborFontSize);
+                e.style('color', ActiveStyle.color);
+
+                if(e.isEdge()){
+                    e.style('width', ActiveStyle.edgeWidth);
+                    e.style('arrow-scale',ActiveStyle.arrowScale);
+                    e.style('line-color', ActiveStyle.edgeColor);
+                    e.style('source-arrow-color', ActiveStyle.arrowColor);
                 }
-                e.style('background-color', ActiveStyle.closeNodeColor);//노드색
-                e.style('line-color', ActiveStyle.closeArrowColor);//라인색
-                e.style('color', ActiveStyle.closeFontColor);//텍스트 색
-                e.style('source-arrow-color', ActiveStyle.closeArrowColor); //화살표 색
-                setOpacityElement(e,1);
+
+                e.style('background-color',function(ele){
+                    if(ele.data("type") == "largedisease"){
+                        return initNodeStyle.bigNodeColor;
+                    }
+                    else if(ele.data("type") == "middledisease"){
+                        return initNodeStyle.middleNodeColor;
+                    }
+                    else if(ele.data("type") == "smalldisease"){
+                        return initNodeStyle.smallNodeColor;
+                    }
+                    else{
+                        return initNodeStyle.diagnosisNodeColor;
+                    }
+                });
+                setOpacityElement(e, 1); // 투명도
             });
         }
         //마우스 올라왔을 때 주목 못받는 노드들 스타일
@@ -289,8 +411,20 @@ export class Secondpage{
             //노드 스타일
             target_cy.nodes().forEach(function(target){
                 setOpacityElement(target,1);
-                target.style('background-color', initNodeStyle.backgroundColor);
-                target.style('color', initNodeStyle.fontColor);
+                target.style('background-color', function(ele){
+                    if(ele.data("type") == "largedisease"){
+                        return initNodeStyle.bigNodeColor;
+                    }
+                    else if(ele.data("type") == "middledisease"){
+                        return initNodeStyle.middleNodeColor;
+                    }
+                    else if(ele.data("type") == "smalldisease"){
+                        return initNodeStyle.smallNodeColor;
+                    }
+                    else{
+                        return initNodeStyle.diagnosisNodeColor;
+                    }
+                });
                 target.style('width',function(ele){
                     if(ele.data("type") == "largedisease"){
                         return initNodeStyle.bigNodeSize;
@@ -305,7 +439,7 @@ export class Secondpage{
                         return initNodeStyle.diagnosisNodeSize;
                     }
                 });
-                target.style('height',function (ele) {
+                target.style('height',function(ele) {
                     if(ele.data("type") == "largedisease"){
                         return initNodeStyle.bigNodeSize;
                     }
@@ -319,7 +453,7 @@ export class Secondpage{
                         return initNodeStyle.diagnosisNodeSize;
                     }
                 });
-                target.style('font-size',function (ele) {
+                target.style('font-size',function(ele) {
                     if(ele.data("type") == "largedisease"){
                         return initNodeStyle.bigFontSize;
                     }
@@ -359,17 +493,18 @@ export class Secondpage{
 
         //노드위에 커서 올렸을 때
         cy.on('tapstart mouseover', 'node', function(e){
-
+            let test = cy.zoom();
+            magnification /= test * 8;
             //선택 제외 나머지 노드&화살표 연하게 처리
             setDimStyle(cy, {
                 'background-color' : dimColor,
                 'line-color':dimColor,
                 'source-arrow-color': dimColor,
-                'color': dimColor
+                'color': dimColor,
             });
 
             //선택 된 노드 스타일
-            setFocus(e.target, ActiveStyle.arrowActiveScale);
+            setFocus(e.target);
         });
 
         // 마우스 내렸을 때
