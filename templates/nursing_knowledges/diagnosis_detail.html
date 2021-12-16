@@ -19,17 +19,18 @@
 {% endblock head_script %}
 
 
-
 {% block content %}
-    <ul>
+    <div class="detail_wrap">
+        <div class="define">
+            <h1 class="title_word">{{diagnosis.name}}</h1>
+            <h2>{{diagnosis.intervention_content}}</h2>
+        </div>
+    </div>
+
+    <!-- <ul>
         <li>{{diagnosis.name}}</li>
-    </ul>
-    <h1>중재</h1>
-    <ul>
-        {% for intervention in interventions %}
-            <li>{{intervention}}</li>
-        {% endfor %}
-    </ul>
+        <li>{{diagnosis.intervention_content}}</li>
+    </ul> -->
 {% endblock content %}
 
 

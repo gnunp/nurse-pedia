@@ -21,7 +21,8 @@ class Home{
             this.canMove = false;
         });
         document.querySelector('.cy_wrap').addEventListener('mouseleave',()=>{
-            this.canMove = ture;
+            console.log("out!");
+            this.canMove = true;
         });
 
         window.addEventListener('resize',this.resize.bind(this));
@@ -31,8 +32,6 @@ class Home{
     resize(){
         this.stageWidth = window.innerWidth;
         this.stageHeight = window.innerHeight;
-
-        this.secondpage.setpageSize();
     }
 
     setinitSize(){
