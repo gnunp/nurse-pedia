@@ -5,7 +5,7 @@ cytoscape.use(coseBilkent);
 
 import secondpage_css from '../css/secondpage.css'
 
-export class Secondpage{
+class Secondpage{
     constructor(){
         
         //노드에 적용할 색깔
@@ -599,3 +599,5 @@ export class MakeData{
         return resultArr;
     }
 }
+
+export default Secondpage;
