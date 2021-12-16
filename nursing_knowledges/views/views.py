@@ -1,4 +1,3 @@
-from django.http.request import HttpHeaders
 from django.http.response import Http404
 from django.shortcuts import render
 from .api_views import *
@@ -41,11 +40,13 @@ def diagnosis_detail(request, pk):
     """
     try:
         diagnosis = Diagnosis.objects.get(pk=pk)  # 해당 질병 객체
+        interventions = diagnosis.intervention_content.split("\n") if True else ""
     except:
         raise Http404()
 
     context = {
         "diagnosis": diagnosis,
+        "interventions": interventions,
     }
     
     return render(request, "nursing_knowledges/diagnosis_detail.html", context)
