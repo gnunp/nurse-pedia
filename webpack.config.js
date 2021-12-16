@@ -1,13 +1,16 @@
 const path = require("path");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
     entry: {
         global: "./static/global/js/global.js",
         home: "./static/nursing_knowledges/js/home.js",
-        secondpage:"./static/nursing_knowledges/js/secondpage.js",
         userModal: "./static/users/js/userModal.js",
         kakaoSigninFormValidation: "./static/users/js/kakaoSigninFormValidation.js",
     },
+    plugins: [
+        // new BundleAnalyzerPlugin()
+    ],
     mode: "development",
     output: {
         filename: "[name].js",
