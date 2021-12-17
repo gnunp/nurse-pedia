@@ -38,7 +38,6 @@ class DiseaseSmallCategory(models.Model):
         related_name="disease_small_categories",
     )  # 연결된 질병 중분류
 
-
     def __str__(self):
         return self.name
 

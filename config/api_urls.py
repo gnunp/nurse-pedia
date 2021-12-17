@@ -1,5 +1,6 @@
 from django.urls import path
 from nursing_knowledges.views import views as knowledges_views
+from nursing_knowledges.views.api_views import DiseaseDocumentView
 
 api_patterns = [
     path(
@@ -29,6 +30,7 @@ api_patterns = [
         knowledges_views.DiagnosisToOtherView.as_view(),
         name='diagnosis_to_other'
     ),
+    path('search/', DiseaseDocumentView.as_view({'get': 'list'})),
 ]
 
 api_setting = (
