@@ -1,54 +1,55 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
 {% block title %} {{disease.name}} {% endblock title %}
-
 
 {% block css %}
 {% endblock css %}
 
-
-
 {% block link %}
 {% endblock link %}
-
-
 
 {% block head_script %}
 {% endblock head_script %}
 
-
-
 {% block content %}
+<style>
+    .header{
+        border-bottom: 1px solid rgba(100, 100, 100, 0.3);
+    }
+    .page{
+        overflow: auto;
+    }
+</style>
 <div class="disease_detail_wrap">
     <div class="define">
         <div class="define_header">
+            <div class="sorting_btn">☆질병</div>
             <h1 class="title_word">{{disease.name}}</h1>
-            <div class="sorting_btn">질병</div>
-            <div class="edit_btn">편집</div>
+            <div class="editbtn">편집</div>
         </div>
+
         <div class="define_content">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium vel nobis architecto repudiandae beatae voluptatibus modi magnam animi illo, cumque eius voluptas repellat exercitationem, nam a deserunt quae sapiente eaque!
+            temp
             {{disease.content}}
         </div>
     </div>
 
-    <div class="cause">
-        <div class="cause_header">
-            <h2 class="cause_title_word">원인</h2>
-            <div class="edit_btn"></div>
+    <div class="content">
+        <div class="content_title">
+            <h2>원인</h2>
         </div>
-        <div class="cause_content">
+        <div class="content_article">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium vel nobis architecto repudiandae beatae voluptatibus modi magnam animi illo, cumque eius voluptas repellat exercitationem, nam a deserunt quae sapiente eaque!
         </div>
     </div>
 
-    <div class="cure">
-        <div class="cure_header">
-            <h2 class="cure_title_word">치료</h2>
-            <div class="edit_btn">편집</div>
+    <div class="content">
+        <div class="content_title">
+            <h2>치료</h2>
         </div>
-        <div class="cure_content">
+        <div class="content_article">
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem saepe iusto explicabo quos, eius quia aperiam dignissimos modi obcaecati autem quam quo ducimus vel. Tempora delectus incidunt ipsa porro vitae!
         </div>
     </div>
@@ -56,7 +57,6 @@
     <div class="relative_diagnosis">
         <div class="relative_diagnosis_header">
             <h2 class="relative_diagnosis_title_word">관련 진단</h2>
-            <div class="edit_btn">편집</div>
         </div>
         <div class="relative_diagnosis_content">
             {% for item in diagnoses%}
@@ -65,6 +65,9 @@
                 </a>
             {% endfor%}
         </div>
+    </div>
+
+    <div class="mindmap">
 
     </div>
 </div>
@@ -86,4 +89,5 @@
 
 
 {% block script %}
+<script src="{% static 'assets/js/diseasedetail.js' %}"></script>
 {% endblock script %}

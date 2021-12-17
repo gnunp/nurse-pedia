@@ -85,13 +85,12 @@ export class Secondpage{
             diagnosisFontSize : 16 * (magnification - 0.5),
 
             fontColor : this.globalColor.dark_indigo,
-            fontWeight : 900,
         };
         //초기 화살표 스타일
         const initEdgeStyle = {
             edgeWidth : `${2 * magnification}px`,
             arrowScale : 2,
-            edgeColor : 'gray',
+            edgeColor : '#e0e0e0',
         };
         //초기 스타일 (초기 노드 스타일 & 초기 화살표 스타일 합친 것)
         const initStyle ={
@@ -493,8 +492,9 @@ export class Secondpage{
 
         //노드위에 커서 올렸을 때
         cy.on('tapstart mouseover', 'node', function(e){
+
             let test = cy.zoom();
-            magnification /= test * 8;
+            console.log(test);
             //선택 제외 나머지 노드&화살표 연하게 처리
             setDimStyle(cy, {
                 'background-color' : dimColor,

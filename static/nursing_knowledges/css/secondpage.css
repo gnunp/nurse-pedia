@@ -6,6 +6,7 @@
     width: 60vw; height: 60vh;
     margin: 10rem auto;
     border: 1px solid black;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2), -5px -5px 5px rgba(0, 0, 0, 0.2);
 
     overflow: hidden;
 }

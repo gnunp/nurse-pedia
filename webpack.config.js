@@ -4,7 +4,10 @@ module.exports = {
     entry: {
         global: "./static/global/js/global.js",
         home: "./static/nursing_knowledges/js/home.js",
+        
         secondpage:"./static/nursing_knowledges/js/secondpage.js",
+        diseasedetail : "./static/nursing_knowledges/js/disease_detail.js",
+
         userModal: "./static/users/js/userModal.js",
         kakaoSigninFormValidation: "./static/users/js/kakaoSigninFormValidation.js",
     },
