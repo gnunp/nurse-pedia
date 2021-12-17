@@ -4,22 +4,18 @@
             <p>함께 만들어가는<br>
             간호 지식 공유 사이트</p>
         </div>
-
-        <!-- <form class="firstpage_search" action="#" method="POST">
-        {% csrf_token %}
-
-            <div class="firstpage_search_bar">
-                <label for="search_submit_btn"><i class="fas fa-search firstpage_search_icon"></i></label>
-                <label for="firstpage_search_text"><div class="firstpage_search_text_display">asd</div></label>    
-            </div>
-
-            <input type="submit" class="firstpage_search_submit" id="search_submit_btn">
-            <input type="text" class="firstpage_search_text" id="firstpage_search_text" name="search_value">
-        </form> -->
+    <div class="firstpage_search_wrapper">
         <form class="firstpage_search_bar">
             <label for="search_submit_btn"><i class="fas fa-search firstpage_search_icon"></i></label>
             <input type="text" class="firstpage_search_text" id="search_text" name="search_text" autocomplete='off'>
             <input type="submit" class="firstpage_search_submit" id="search_submit_btn">
         </form>
+        <div class="firstpage_search_result_wrapper">
+            <div class="firstpage_search_result">
+                <i class="fas fa-plus-circle"></i>
+                <span class="name">비염</span>
+            </div>
+        </div>
+    </div>
     </div>
 </div>
