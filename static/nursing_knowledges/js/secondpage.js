@@ -5,9 +5,10 @@ cytoscape.use(coseBilkent);
 
 import secondpage_css from '../css/secondpage.css'
 
-export class Secondpage{
-    constructor(){
-        
+class Secondpage{
+    constructor(detailpage = false, findele = null){
+        this.isdetailpage = detailpage;
+        this.targetNode = findele;
         //노드에 적용할 색깔
         this.globalColor ={
             pink:'#FF8080',
@@ -25,7 +26,6 @@ export class Secondpage{
         this.makepage();
     }
 
-
     async makepage(){
         this.data = [];
 
@@ -36,17 +36,11 @@ export class Secondpage{
         this.connectLargetoMiddle = await this.makedata.getConnectLargeToMiddle();
         this.connectMiddletoSmall = await this.makedata.getConnectMiddleToSmall();
         this.connectDiagnosis = await this.makedata.getConnectdiagnosis();
-
+        
         await this.largediseasedata.forEach(element => {
             this.data.push(JSON.parse(element));
         });
         await this.middeldiseasedata.forEach(element => {
-            this.data.push(JSON.parse(element));
-        });
-        await this.smalldiseasedata.forEach(element => {
-            this.data.push(JSON.parse(element));
-        });
-        await this.diagnosisdata.forEach(element => {
             this.data.push(JSON.parse(element));
         });
         await this.connectLargetoMiddle.forEach(element => {
@@ -58,7 +52,12 @@ export class Secondpage{
         await this.connectDiagnosis.forEach(element => {
             this.data.push(JSON.parse(element));
         });
-
+        await this.smalldiseasedata.forEach(element => {
+            this.data.push(JSON.parse(element));
+        });
+        await this.diagnosisdata.forEach(element => {
+            this.data.push(JSON.parse(element));
+        });
         this.mindmap();
     }
     
@@ -194,7 +193,6 @@ export class Secondpage{
 
         const dimColor = this.globalColor.dark_indigo;//커서 노드위로 올렸을 때 주목받지 못한 노드&화살표 색
 
-
         //초기 MindMap 생성
         const cy = cytoscape({
 
@@ -262,9 +260,7 @@ export class Secondpage{
         });
 
         cy.minZoom(minZoomlevel); //최소 줌
-        // cy.maxZoom(maxzoomlevel); //최대 줌
         cy.autolock(false); // 노드 드래그로 움직이지 못하게 하는 것
-
 
         //투명도 주는 함수
         function setOpacityElement(target_element, degree){
@@ -273,8 +269,6 @@ export class Secondpage{
 
         //마우스가 올라왔을 때 스타일 적용
         function setFocus(target_element){
-            
-
             target_element.style('background-color',function(ele){
                 if(ele.data("type") == "largedisease"){
                     return initNodeStyle.bigNodeColor;
@@ -480,6 +474,24 @@ export class Secondpage{
                 target.style('opacity', 1);
             });
         }
+        //detailpage 노드 센터 + 커서 효과
+        if(this.isdetailpage){
+            this.isinitset = true;
+            let target_node_name = this.targetNode;
+            cy.filter(function(ele, count, elseelm){
+                if(ele.isNode()){
+                    if(ele.data('label') === target_node_name){
+                        setDimStyle(cy, {
+                            'background-color' : dimColor,
+                            'line-color':dimColor,
+                            'source-arrow-color': dimColor,
+                            'color': dimColor,
+                        });
+                        setFocus(ele);
+                    }
+                }
+            })
+        }
 
         // node 하이퍼 링크
         cy.on('tap', function(e){
@@ -489,12 +501,9 @@ export class Secondpage{
                 // window.location.href = url;
             }
         });
-
+    
         //노드위에 커서 올렸을 때
         cy.on('tapstart mouseover', 'node', function(e){
-
-            let test = cy.zoom();
-            console.log(test);
             //선택 제외 나머지 노드&화살표 연하게 처리
             setDimStyle(cy, {
                 'background-color' : dimColor,
@@ -513,6 +522,7 @@ export class Secondpage{
         });
 
         //resize Event
+   
         let resizeTimer;
         window.addEventListener('resize', function(){
             this.clearTimeout(resizeTimer);
@@ -734,3 +744,5 @@ export class MakeData{
         return resultArr;
     }
 }
+
+export default Secondpage;

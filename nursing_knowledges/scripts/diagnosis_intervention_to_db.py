@@ -23,4 +23,4 @@ def run():
             diagnosis_obj.intervention_content = intervention_data
             diagnosis_obj.save()
         except Diagnosis.DoesNotExist:
-            print(row, "행에서 에러 발생")
+            print("엑셀 기준",row+2, "행에서 에러 발생")

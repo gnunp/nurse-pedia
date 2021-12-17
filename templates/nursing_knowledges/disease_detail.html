@@ -17,8 +17,11 @@
     .header{
         border-bottom: 1px solid rgba(100, 100, 100, 0.3);
     }
-    .page{
+    html,body{
         overflow: auto;
+    }
+    .cy_wrap{
+        margin: 0 auto;
     }
 </style>
 <div class="disease_detail_wrap">
@@ -54,21 +57,25 @@
         </div>
     </div>
 
-    <div class="relative_diagnosis">
-        <div class="relative_diagnosis_header">
+    <div class="relative_diagnosis content">
+        <div class="relative_diagnosis_header content_title">
             <h2 class="relative_diagnosis_title_word">관련 진단</h2>
         </div>
-        <div class="relative_diagnosis_content">
-            {% for item in diagnoses%}
-                <a href="{% url 'nursing_knowledges:diagnosis_detail' item.pk %}">
-                    <div class="diagnosis_btn">{{item.name}}</div>
-                </a>
-            {% endfor%}
+        <div class="relative_diagnosis_content content_article">
+            {% if diagnoses %}
+                {% for item in diagnoses%}
+                    <a class="diagnosis_btn" href="{% url 'nursing_knowledges:diagnosis_detail' item.pk %}">
+                        <div>{{item.name}}</div>
+                    </a>
+                {% endfor%}
+                {% else %}
+                    <div class="relative_diagnosis_notice">없어용~!</div>
+            {% endif %}
         </div>
     </div>
 
-    <div class="mindmap">
-
+    <div class="cy_wrap">
+        <div id="cy" class="secondpage"></div>
     </div>
 </div>
 

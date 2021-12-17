@@ -1,14 +1,9 @@
 import home_css from "../css/home.css";
 import firstpage_css from "../css/firstpage.css";
 
-import {Secondpage} from "./secondpage.js";
-
 class Home{
     constructor(){
         this.setinitSize(); 
-        
-        //secondpage 
-        this.secondpage = new Secondpage();
    
         // setting init wheel event
         this.pagewrap = document.querySelector('.wrappage');
@@ -60,6 +55,10 @@ class Home{
     
 }
 
-window.onload = ()=>{
+window.onload = async () => {
     new Home();
+
+    const { default: Secondpage } = await import('./secondpage.js');
+    //secondpage 
+    const secondpage = new Secondpage();
 }
