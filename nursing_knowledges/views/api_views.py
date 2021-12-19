@@ -2,6 +2,7 @@ from django_elasticsearch_dsl_drf.viewsets import DocumentViewSet
 from django_elasticsearch_dsl_drf.filter_backends import (
     FilteringFilterBackend,
     CompoundSearchFilterBackend,
+    MultiMatchSearchFilterBackend,
 )
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -99,10 +100,14 @@ class DiseaseDocumentView(DocumentViewSet):
     filter_backends = [
         FilteringFilterBackend,
         CompoundSearchFilterBackend,
+        MultiMatchSearchFilterBackend,
     ]
 
     search_fields = ("name",)
     multi_match_search_fields = ("name",)
+    multi_match_options = {
+        'type': 'phrase_prefix'
+    }
     filter_fields = {
         "name": {
             "field": "name",

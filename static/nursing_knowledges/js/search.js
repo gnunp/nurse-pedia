@@ -6,6 +6,8 @@ const search = () => {
     
     let searchHistory = {};
 
+    let beforeKeyword = "";
+
     keyword.addEventListener("input", handleChangeKeyword);
 
 
@@ -23,12 +25,16 @@ const search = () => {
             if(searchHistory[keyword]){
                 // 검색결과가 없었으면 pass
                 if (searchHistory[keyword].count === 0){
-                    resetSearchResultHTML();
+                    if(beforeKeyword.length !== keyword.length){
+                        resetSearchResultHTML();
+                    }
+                    beforeKeyword = keyword;
                     return
                 }
 
                 resetSearchResultHTML();
                 setSearchResultHTML(searchHistory[keyword].results);
+                beforeKeyword = keyword;
                 return
             }
 
@@ -37,12 +43,16 @@ const search = () => {
 
             // 검색 결과가 없는 경우
             if(searchResultJSON.count < 1){
-                resetSearchResultHTML();
+                if(beforeKeyword.length !== keyword.length){
+                    resetSearchResultHTML();
+                }
+                beforeKeyword = keyword;
                 return
             }
             // 있는 경우
             resetSearchResultHTML();
             setSearchResultHTML(searchResultJSON.results);
+            beforeKeyword = keyword;
         }
 
         if(keyword === ""){
@@ -57,7 +67,14 @@ const search = () => {
     }
 
     async function searchResultJSONFor(keyword){
-        const response = await fetch(`/api/search/?name__contains=${keyword}`);
+        let searchQuery;
+        if(keyword.split(" ").length > 1){
+            searchQuery = "search_multi_match";
+        }
+        else{
+            searchQuery = "name__contains";
+        }
+        const response = await fetch(`/api/search/?${searchQuery}=${keyword}`);
         const json = await response.json();
         return json;
     }
