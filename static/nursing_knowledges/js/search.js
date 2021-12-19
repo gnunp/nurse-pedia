@@ -68,8 +68,8 @@ const search = () => {
 
     function setSearchResultHTML(json){
         const jsonToSortedArray = sortSearchResult(json);
-        console.log(jsonToSortedArray);
-        jsonToSortedArray.forEach(data => {
+        const sliced5ElementArray = jsonToSortedArray.slice(0,5);
+        sliced5ElementArray.forEach(data => {
             resultWrapper.insertAdjacentHTML(
                 "beforeend",
                 `
@@ -86,7 +86,6 @@ const search = () => {
         const result = []
         const copiedJSON = cloneDeep(json);
         for (const [key, data] of Object.entries(copiedJSON)) {
-            console.log(data);
             if(data.name.charAt(0) === keyword.value.charAt(0)){
                 result.push(data);
                 delete copiedJSON[key];
@@ -99,6 +98,6 @@ const search = () => {
         }
         return result;
     }
-    }
+}
 
 search();
