@@ -9,8 +9,6 @@
     position: relative;
 
     box-sizing: border-box;
-
-    border: red 1px solid;
 }
 .is{
     font-size: 100px;

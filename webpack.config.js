@@ -5,18 +5,15 @@ module.exports = {
     entry: {
         global: "./static/global/js/global.js",
         home: "./static/nursing_knowledges/js/home.js",
-<<<<<<< HEAD
-        
-        secondpage:"./static/nursing_knowledges/js/secondpage.js",
-        diseasedetail : "./static/nursing_knowledges/js/disease_detail.js",
 
-=======
->>>>>>> 8b5e9d1d6740f1171a4ce957f1b4552a45e5f45d
+        diseasedetail : "./static/nursing_knowledges/js/disease_detail.js",
+        diagnosisdetail :"./static/nursing_knowledges/js/diagnosis_detail.js",
+        
         userModal: "./static/users/js/userModal.js",
         kakaoSigninFormValidation: "./static/users/js/kakaoSigninFormValidation.js",
     },
     plugins: [
-        // new BundleAnalyzerPlugin()
+       // new BundleAnalyzerPlugin()
     ],
     mode: "development",
     output: {

@@ -20,20 +20,36 @@
 
 
 {% block content %}
-    <div class="detail_wrap">
-        <div class="define">
-            <h1 class="title_word">{{diagnosis.name}}</h1>
-            <h2>{{diagnosis.intervention_content}}</h2>
-        </div>
-    </div>
+    <style>
+        .header{
+            border-bottom: 1px solid rgba(100, 100, 100, 0.3);
+        }
+        html,body{
+            overflow: auto;
+        }
+        .cy_wrap{
+            margin: 0 auto;
+        }
+    </style>
 
-    <!-- <ul>
-        <li>{{diagnosis.name}}</li>
-        <li>{{diagnosis.intervention_content}}</li>
-    </ul> -->
+    <div class="diagnosis_detail_wrap">
+        <div class="define">
+            <div class="define_header">
+                <div class="sorting_btn">☆진단</div>
+                <h1 class="title_word">{{diagnosis.name}}</h1>
+                <div class="editbtn">편집</div>
+            </div>
+
+            <div class="define_content">
+                {{diagnosis.intervention_content}}
+            </div>
+        </div>
+        {% include 'nursing_knowledges/mindmap.html' %}
+    </div>
 {% endblock content %}
 
 
 
 {% block script %}
+    <script src="{% static 'assets/js/diagnosisdetail.js' %}"></script>
 {% endblock script %}

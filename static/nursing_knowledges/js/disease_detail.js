@@ -1,5 +1,5 @@
 import css from "../css/disease_detail.css";
-import Secondpage from "./secondpage";
+import Secondpage from "./secondpage.js";
 
 class DiseaseDetail{
     constructor(){
@@ -29,5 +29,5 @@ class DiseaseDetail{
 }
 
 window.onload = ()=>{
-    new DiseaseDetail;
+    new DiseaseDetail();
 }

@@ -14,8 +14,15 @@ html,body{
     left: 30px; top: 30px;
 
     font-size: 30px;
+}
+.logo_achor{
+    width: fit-content;
+    white-space: nowrap;
+
     display: flex;
     flex-direction: row;
+
+    cursor: pointer;
 }
 .logo_img{
     color: var(--pink);
@@ -36,7 +43,26 @@ html,body{
 
     font-size: 18px;
 }
-.sign div,a{
+.sign a{
+    --height: 2rem;
+    --width: calc(var(--height) * 2);
+
+    height: var(--height);
+    width: var(--width);
+
+    border-radius: var(--width);
+
+    font-size: 0.8rem;
+    font-weight: 900;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+    z-index: 10;  /* cursor: pointer가 안먹혀서 추가 */
+}
+.sign div{
     --height: 2rem;
     --width: calc(var(--height) * 2);
 
