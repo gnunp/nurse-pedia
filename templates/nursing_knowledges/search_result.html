@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %} 검색 결과 {% endblock title %}
+
+
+{% block css %}
+<style>
+    .search_result{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        height: 100vh;
+    }
+</style>
+{% endblock css %}
+
+
+
+{% block link %}
+{% endblock link %}
+
+
+
+{% block head_script %}
+{% endblock head_script %}
+
+
+
+{% block content %}
+<div class="search_result">
+    <span>검색 결과가 없습니다.</span>
+</div>
+{% endblock content %}
+
+
+
+{% block script %}
+{% endblock script %}

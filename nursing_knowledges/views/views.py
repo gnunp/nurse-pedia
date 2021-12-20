@@ -1,5 +1,6 @@
 from django.http.response import Http404
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.urls import reverse
 from .api_views import *
 from ..models import DiseaseSmallCategory, DiagnosisToOther, Diagnosis
 
@@ -50,3 +51,14 @@ def diagnosis_detail(request, pk):
     }
     
     return render(request, "nursing_knowledges/diagnosis_detail.html", context)
+
+def search(request):
+    """
+    간호지식 검색 View
+    """
+    keyword = request.GET.get("keyword")
+    try:
+        disease = DiseaseSmallCategory.objects.get(name=keyword)
+        return redirect(reverse("nursing_knowledges:disease_detail", kwargs={'pk':disease.pk}))
+    except DiseaseSmallCategory.DoesNotExist:
+        return render(request, "nursing_knowledges/search_result.html")

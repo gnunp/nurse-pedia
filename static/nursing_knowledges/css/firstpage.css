@@ -30,7 +30,7 @@
     border-radius: 0.5rem;
     background-color: rgba(201, 201, 201, 0.5);
 }
-.firstpage_search_bar{
+.firstpage_search_form{
     position: relative;
     width: 30rem;
     padding: 0.6rem 1rem;
@@ -72,10 +72,6 @@
     cursor: pointer;
 }
 
-.firstpage_search_result:hover{
-    background-color: rgb(196, 196, 196);
-}
-
 .firstpage_search_result > i{
     color: var(--pink);
     margin-right: 0.5rem;
@@ -83,4 +79,12 @@
 
 .firstpage_search_result > .name{
     font-weight: bold;
+}
+
+.js-result_selected{
+    background-color: rgb(196, 196, 196) !important;
+}
+
+.js-display_none{
+    display: none !important;
 }
