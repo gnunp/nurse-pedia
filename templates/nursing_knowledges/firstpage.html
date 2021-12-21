@@ -4,22 +4,14 @@
             <p>함께 만들어가는<br>
             간호 지식 공유 사이트</p>
         </div>
-
-        <!-- <form class="firstpage_search" action="#" method="POST">
-        {% csrf_token %}
-
-            <div class="firstpage_search_bar">
-                <label for="search_submit_btn"><i class="fas fa-search firstpage_search_icon"></i></label>
-                <label for="firstpage_search_text"><div class="firstpage_search_text_display">asd</div></label>    
-            </div>
-
-            <input type="submit" class="firstpage_search_submit" id="search_submit_btn">
-            <input type="text" class="firstpage_search_text" id="firstpage_search_text" name="search_value">
-        </form> -->
-        <form class="firstpage_search_bar">
+    <div class="firstpage_search_wrapper js-search_wrapper">
+        <form action="{% url 'nursing_knowledges:search' %}" class="firstpage_search_form js-search_form">
             <label for="search_submit_btn"><i class="fas fa-search firstpage_search_icon"></i></label>
-            <input type="text" class="firstpage_search_text" id="search_text" name="search_text" autocomplete='off'>
+            <input type="text" class="firstpage_search_text js-search_keyword" name="keyword" autocomplete='off'>
             <input type="submit" class="firstpage_search_submit" id="search_submit_btn">
         </form>
+        <div class="firstpage_search_result_wrapper js-search_result_wrapper">
+        </div>
+    </div>
     </div>
 </div>

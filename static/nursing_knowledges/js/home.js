@@ -1,5 +1,6 @@
 import home_css from "../css/home.css";
 import firstpage_css from "../css/firstpage.css";
+import "./search.js";
 
 class Home{
     constructor(){
