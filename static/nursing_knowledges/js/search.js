@@ -25,7 +25,9 @@ const search = () => {
     async function handleChangeKeyword(event){
         const keyword = event.target.value;
         const lastLetter = keyword.charAt(keyword.length-1);
-
+        console.log("이전 검색어", beforeKeyword);
+        console.log("현재 검색어", keyword);
+        
         if(beforeKeyword === keyword){
             return
         }
@@ -68,6 +70,7 @@ const search = () => {
         }
 
         if(keyword === ""){
+            beforeKeyword = keyword;
             resetSearchResultHTML();
         }
     }
