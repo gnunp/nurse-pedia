@@ -21,13 +21,7 @@ class Home{
             this.canMove = true;
         });
 
-        window.addEventListener('resize',this.resize.bind(this));
         window.addEventListener('wheel', this.movePage.bind(this));
-    }
-
-    resize(){
-        this.stageWidth = window.innerWidth;
-        this.stageHeight = window.innerHeight;
     }
 
     setinitSize(){

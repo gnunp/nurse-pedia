@@ -1,0 +1,101 @@
+.editbtn{
+    position: absolute;
+    right: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 4rem; height: 1.5rem;
+    border-radius: 5px;
+
+    font-size: 0.8rem; font-weight: 600;
+    color: white; 
+    background-color: rgba(100, 100, 100, 0.5);
+
+    cursor: pointer;
+}
+.disease_detail_wrap{
+
+    width: 80%; 
+    margin: 6rem auto 0 auto;
+    min-height: calc(100vh - 80px);
+
+    padding: 4rem 7rem;
+    box-sizing: border-box;
+
+    border-right: 1px solid rgba(0, 0, 0, 0.3);
+    border-left: 1px solid rgba(0, 0, 0, 0.3);
+
+}
+
+.define{
+    min-height:240px;
+}
+.define_header{
+    position: relative;
+    display: flex;
+
+    align-items: center;
+
+    padding: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);;
+}
+.title_word{
+    font-size: 2rem;
+    font-weight: 900;
+}
+.sorting_btn{
+    display: flex;
+    align-items: center; justify-content: center;
+
+    padding: 5px; margin:0 10px;
+
+    width: 3.5rem; height: 1.5rem;
+    border-radius: 5px;
+
+    font-size: 0.8rem;
+    color: white;
+
+    background-color: #FFC66A;
+}
+
+.define_content{
+    margin-top: 1rem;
+    padding: 0 0.3rem;
+
+    font-size: 1rem;
+}
+.content{
+    min-height:240px;
+    margin-top:2rem;
+
+}
+.content_title{
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);;
+
+    font-weight: 600;
+    font-size: 2rem;
+}
+.content_article{
+    padding: 10px 0;
+    font-size: 1rem;
+}
+
+.relative_diagnosis_content{
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+}
+
+.diagnosis_btn{
+    width:fit-content; height: 2.5rem;
+    margin-right: 1rem; margin-bottom: 0.5rem; padding: 1rem;
+    
+    border-radius: 2.5rem;
+    white-space: nowrap;
+}
