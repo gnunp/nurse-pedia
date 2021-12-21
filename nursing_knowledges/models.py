@@ -51,6 +51,7 @@ class Diagnosis(models.Model):
     name = models.CharField(max_length=100, unique=True)  # 진단명
     intervention_content = models.TextField(max_length=3000, default="", blank=True)  # 진단이 가지는 중재들을 설명하는 필드
 
+
     class Meta:
         verbose_name = "Diagnose"
 
@@ -59,6 +60,18 @@ class Diagnosis(models.Model):
 
     def get_absolute_url(self):
         return reverse('nursing_knowledges:diagnosis_detail', args=[self.id])
+
+class DiagnosisInterventionAlpha(models.Model):
+    """
+    간호 진단의 중재 내용에,
+    어떤 질병인지에 따라 추가로 들어가는 중재 내용 Model
+    """
+    diagnosis = models.ForeignKey("Diagnosis", on_delete=models.CASCADE, related_name="alphas")
+    disease_medium_category = models.ForeignKey("DiseaseMediumCategory", on_delete=models.CASCADE, null=True, blank=True)  # 질병 중분류
+    disease_small_category = models.ForeignKey("DiseaseSmallCategory", on_delete=models.CASCADE, null=True, blank=True)  # 질병 소분류
+    content = models.TextField(max_length=3000)
+
+
 
 class DiagnosisToOther(models.Model):
     """

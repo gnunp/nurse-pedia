@@ -42,6 +42,19 @@
 
             <div class="define_content">
                 {{diagnosis.intervention_content}}
+                
+                {% for alpha in alphas %}
+                    <div>
+                        {% if alpha.disease_small_category %}
+                            <span>{{alpha.disease_small_category}}</span>
+                        {% endif %}
+                        {% if alpha.disease_medium_category %}
+                            <span>{{alpha.disease_medium_category}}</span>
+                        {% endif %}
+                        <span>- {{alpha.content}}</span>
+                    </div>
+                {% endfor %}
+                    
             </div>
         </div>
         {% include 'nursing_knowledges/mindmap.html' %}
