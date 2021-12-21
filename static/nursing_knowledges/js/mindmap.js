@@ -1,19 +1,13 @@
+/*
 import cytoscape from 'cytoscape';
 import coseBilkent from 'cytoscape-cose-bilkent';
 
 cytoscape.use(coseBilkent);
 
-import secondpage_css from '../css/secondpage.css'
-
-class Secondpage{
+export class Mindmap{
     constructor(detailpage = false, findele = null){
-        //진단,질병 페이지 들어가면 해당 노드 표시
         this.isdetailpage = detailpage;
         this.targetNode = findele;
-
-        //검색창에 글자 적을 경우 노드 표시
-        this.searchbar = document.querySelector('#mindmap_search_text');
-
         //노드에 적용할 색깔
         this.globalColor ={
             pink:'#FF8080',
@@ -259,7 +253,7 @@ class Secondpage{
                 // },
 
                //gravity: 80,
-               */
+               
             },
             wheelSensitivity : 0.1,
         });
@@ -272,29 +266,6 @@ class Secondpage{
             target_element.style('opacity', degree);
         }
 
-        function setSearchFocus(target_element){
-            target_element.style('background-color',function(ele){
-                if(ele.data("type") == "largedisease"){
-                    return initNodeStyle.bigNodeColor;
-                }
-                else if(ele.data("type") == "middledisease"){
-                    return initNodeStyle.middleNodeColor;
-                }
-                else if(ele.data("type") == "smalldisease"){
-                    return initNodeStyle.smallNodeColor;
-                }
-                else{
-                    return initNodeStyle.diagnosisNodeColor;
-                }
-            });
-
-            target_element.style('width', ActiveStyle.selectNodeSize);
-            target_element.style('height',ActiveStyle.selectNodeSize);
-            target_element.style('font-size', ActiveStyle.selectFontSize);
-            target_element.style('color', ActiveStyle.color);
-
-            setOpacityElement(target_element, 1);
-        }
         //마우스가 올라왔을 때 스타일 적용
         function setFocus(target_element){
             target_element.style('background-color',function(ele){
@@ -502,57 +473,23 @@ class Secondpage{
                 target.style('opacity', 1);
             });
         }
-
-        //mindmap 검색창에 검색시 노드 반짝
-        function searchNode(target, searching = false){
-            let target_label = target.replaceAll(' ','');
-            let targetNodeArr =[];
-            
-            cy.filter(function(ele, count){
-                if(ele.isNode()){
-                    let node_label = ele.data('label').replaceAll(' ','');
-
-                    //몇 글자만 적어도 관련 노드 번쩍 거릴 수 있게
-                    if(searching){
-                        let textlength = target_label.length;
-                        
-                        let lastchar = target_label.charAt(textlength-1);
-                        if(lastchar < "가" || lastchar>"힣"){
-                            textlength -= 1;
-                        }
-
-                        node_label = node_label.substr(0,textlength);
-                    }
-
-                    if(node_label === target_label){
-                        targetNodeArr.push(ele);
-                    }
-                }
-            });
-    
-            setDimStyle(cy, {
-                'background-color' : dimColor,
-                'line-color':dimColor,
-                'source-arrow-color': dimColor,
-                'color': dimColor,
-            });
-   
-            targetNodeArr.forEach(element => {
-                console.log(element);
-                if(searching){
-                    setSearchFocus(element);
-                }
-                else{
-                    setFocus(element);
-                }
-            });
-            
-        }
-
-        //디테일 페이지 들어갔을 때 해당 페이지 노드 표시
+        //detailpage 노드 센터 + 커서 효과
         if(this.isdetailpage){
             this.isinitset = true;
-            searchNode(this.targetNode);
+            let target_node_name = this.targetNode;
+            cy.filter(function(ele, count, elseelm){
+                if(ele.isNode()){
+                    if(ele.data('label') === target_node_name){
+                        setDimStyle(cy, {
+                            'background-color' : dimColor,
+                            'line-color':dimColor,
+                            'source-arrow-color': dimColor,
+                            'color': dimColor,
+                        });
+                        setFocus(ele);
+                    }
+                }
+            })
         }
 
         // node 하이퍼 링크
@@ -583,16 +520,8 @@ class Secondpage{
             setRestFocus(e.cy);
         });
 
-        //Search Event
-        this.searchbar.addEventListener("keyup",(e)=>{
-            let user_search_value = e.target.value;
-            if(user_search_value.length == 0){
-                //아무것도 안적으면 처음 으로 리셋
-            }
-            searchNode(user_search_value, true);
-        })
-
         //resize Event
+   
         let resizeTimer;
         window.addEventListener('resize', function(){
             this.clearTimeout(resizeTimer);
@@ -604,22 +533,6 @@ class Secondpage{
 }
 
 export class MakeData{ 
-    /*
-    APIView에서 데이터 가져옴
-    -> cy에서 원하는 형태의 data로 가공 
-    -> 배열에 넣어서 전달
-    */
-
-    //type = ['largedisease','middledisease','smalldease','diagnosis']
-    /*
-    id ={
-        Large_Disease : largedisease<int:pk>,
-        middle_disease : middledisease<int:pk>,
-        small_disease : samlldisease<ink:pk>,
-        diagnosis : diagnosis<int:pk>
-    }
-    */
-
     async getLargeDisease(){
         let id, url, label, item;
         let resultArr = [];
@@ -815,4 +728,7 @@ export class MakeData{
     }
 }
 
-export default Secondpage;
+window.onload = ()=>{
+    const mindmap = new Mindmap();
+}
+*/
