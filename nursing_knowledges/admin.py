@@ -5,6 +5,7 @@ from .models import (
     DiseaseSmallCategory,
     Diagnosis,
     DiagnosisToOther,
+    DiagnosisInterventionAlpha,
 )
 
 @admin.register(DiseaseLargeCategory)
@@ -28,11 +29,17 @@ class DiseaseSmallCategory(admin.ModelAdmin):
     """
     pass
 
+class DiagnosisInterventionAlphaInline(admin.TabularInline):
+    model = DiagnosisInterventionAlpha
+
 @admin.register(Diagnosis)
 class DiagnosisAdmin(admin.ModelAdmin):
     """
     간호 진단 Model Admin
     """
+    inlines = [
+        DiagnosisInterventionAlphaInline,
+    ]
     list_display = ('name', 'intervention_content')
 
 @admin.register(DiagnosisToOther)

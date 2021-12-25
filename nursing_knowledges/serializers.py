@@ -118,3 +118,19 @@ class DiseaseDocumentSerializer(DocumentSerializer):
                 return obj.location.to_dict()
             except:
                 return {}
+
+class DiagnosisDocumentSerializer(DocumentSerializer):
+    class Meta:
+        model = Diagnosis
+        document = DiagnosisDocument
+
+        fields = (
+            "id",
+            "name",
+        )
+
+        def get_location(self, obj):
+            try:
+                return obj.location.to_dict()
+            except:
+                return {}

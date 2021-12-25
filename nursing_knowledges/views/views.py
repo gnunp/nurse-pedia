@@ -2,7 +2,12 @@ from django.http.response import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from .api_views import *
-from ..models import DiseaseSmallCategory, DiagnosisToOther, Diagnosis
+from ..models import (
+    DiseaseSmallCategory,
+    DiagnosisToOther,
+    Diagnosis,
+    DiagnosisInterventionAlpha
+)
 
 def home(request):
     """
@@ -42,12 +47,14 @@ def diagnosis_detail(request, pk):
     try:
         diagnosis = Diagnosis.objects.get(pk=pk)  # 해당 질병 객체
         interventions = diagnosis.intervention_content.split("\n") if True else ""
+        alphas = DiagnosisInterventionAlpha.objects.filter(diagnosis=pk)
     except:
         raise Http404()
 
     context = {
         "diagnosis": diagnosis,
         "interventions": interventions,
+        "alphas": alphas,
     }
     
     return render(request, "nursing_knowledges/diagnosis_detail.html", context)
