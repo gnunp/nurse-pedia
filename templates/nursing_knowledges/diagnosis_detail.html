@@ -41,19 +41,27 @@
             </div>
 
             <div class="define_content">
-                {{diagnosis.intervention_content}}
+                <ol class="interventions">
+                    <!-- 진단의 중재 내용 -->
+                    {% for intervention in interventions %}
+                        <li>{{ intervention }}</li>
+                    {% endfor %}
+                    
+                    <!-- 추가 중재 내용 -->
+                    {% for alpha in alphas %}
+                        <li>
+                            {% if alpha.disease_small_category %}
+                                <span>{{alpha.disease_small_category}}</span>
+                            {% endif %}
+                            {% if alpha.disease_medium_category %}
+                                <span>{{alpha.disease_medium_category}}</span>
+                            {% endif %}
+                            <span>- {{alpha.content}}</span>
+                        </li>
+                    {% endfor %}
+                </ol>
+                    
                 
-                {% for alpha in alphas %}
-                    <div>
-                        {% if alpha.disease_small_category %}
-                            <span>{{alpha.disease_small_category}}</span>
-                        {% endif %}
-                        {% if alpha.disease_medium_category %}
-                            <span>{{alpha.disease_medium_category}}</span>
-                        {% endif %}
-                        <span>- {{alpha.content}}</span>
-                    </div>
-                {% endfor %}
                     
             </div>
         </div>
