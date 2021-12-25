@@ -12,6 +12,7 @@ def run():
     """
     df = pd.read_excel(
         settings.BASE_DIR / 'nursing_knowledges/scripts/diagnosis_intervention_data.xlsx',
+        engine='openpyxl'
     )
 
     for row in range(df.shape[0]): 
