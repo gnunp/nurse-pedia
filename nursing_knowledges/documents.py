@@ -10,7 +10,7 @@ my_analyzer = analyzer(
 
 @registry.register_document
 class DiseaseDocument(Document):
-    name = fields.TextField(analyzer=my_analyzer)
+    # name = fields.TextField(analyzer=my_analyzer)
     class Index:
         # Name of the Elasticsearch index
         name = 'diseases'
@@ -24,7 +24,7 @@ class DiseaseDocument(Document):
         # The fields of the model you want to be indexed in Elasticsearch
         fields = [
             'id',
-            # 'name',
+            'name',
         ]
 
         # Ignore auto updating of Elasticsearch when a model is saved
