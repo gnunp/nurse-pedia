@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from nursing_knowledges.views import views as knowledges_views
+from nursing_knowledges.views.api_views import DiseaseDocumentView, DiagnosisDocumentView
 from .api_urls import api_setting
 
 
@@ -25,4 +26,6 @@ urlpatterns = [
     path('users/', include('users.urls', namespace="users")),
     path('knowledges/', include('nursing_knowledges.urls', namespace="nursing_knowledges")),
     path('api/', include(api_setting, namespace="api")),
+    path('diseases/search/', DiseaseDocumentView.as_view({'get': 'list'})),
+    path('diagnoses/search/', DiagnosisDocumentView.as_view({'get': 'list'})),
 ]

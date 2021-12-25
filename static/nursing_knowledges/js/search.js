@@ -25,8 +25,6 @@ const search = () => {
     async function handleChangeKeyword(event){
         const keyword = event.target.value;
         const lastLetter = keyword.charAt(keyword.length-1);
-        console.log("이전 검색어", beforeKeyword);
-        console.log("현재 검색어", keyword);
         
         if(beforeKeyword === keyword){
             return
@@ -52,11 +50,19 @@ const search = () => {
                 return
             }
 
-            const searchResultJSON = await searchResultJSONFor(keyword);
-            searchHistory[keyword] = searchResultJSON;
+            let diseasesSearchResultJSON;
+            let diagnosesSearchResultJSON;
+            [diseasesSearchResultJSON, diagnosesSearchResultJSON] = await Promise.all([
+                searchResultJSONFor(keyword, "/diseases/search"),
+                searchResultJSONFor(keyword, "/diagnoses/search"),
+            ]);
+
+            const searchResultJSON__count = diseasesSearchResultJSON.count + diagnosesSearchResultJSON.count;
+            const searchResultJSON__results = [...diseasesSearchResultJSON.results, ...diagnosesSearchResultJSON.results];
+            searchHistory[keyword] = {count: searchResultJSON__count, results: searchResultJSON__results};
 
             // 검색 결과가 없는 경우
-            if(searchResultJSON.count < 1){
+            if(searchResultJSON__count < 1){
                 if(beforeKeyword.length !== keyword.length){
                     resetSearchResultHTML();
                 }
@@ -65,7 +71,7 @@ const search = () => {
             }
             // 있는 경우
             resetSearchResultHTML();
-            setSearchResultHTML(searchResultJSON.results);
+            setSearchResultHTML(searchResultJSON__results);
             beforeKeyword = keyword;
         }
 
@@ -81,7 +87,7 @@ const search = () => {
         return KoreanRegex.test(string);
     }
 
-    async function searchResultJSONFor(keyword){
+    async function searchResultJSONFor(keyword, url){
         let searchQuery;
         if(keyword.split(" ").length > 1){
             searchQuery = "search_multi_match";
@@ -89,7 +95,7 @@ const search = () => {
         else{
             searchQuery = "name__contains";
         }
-        const response = await fetch(`/api/search/?${searchQuery}=${keyword}`);
+        const response = await fetch(`${url}/?${searchQuery}=${keyword}`);
         const json = await response.json();
         return json;
     }

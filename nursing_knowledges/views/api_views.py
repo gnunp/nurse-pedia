@@ -6,7 +6,7 @@ from django_elasticsearch_dsl_drf.filter_backends import (
 )
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from nursing_knowledges.documents import DiseaseDocument
+from nursing_knowledges.documents import DiagnosisDocument, DiseaseDocument
 from ..models import (
     DiseaseLargeCategory,
     DiseaseMediumCategory,
@@ -15,7 +15,6 @@ from ..models import (
     DiagnosisToOther,
 )
 from ..serializers import (
-    DiseaseDocumentSerializer,
     DiseaseLargeCategorySerializer,
     DiseaseMediumCategorySerializer,
     DiseaseSmallCategorySerializer,
@@ -23,6 +22,8 @@ from ..serializers import (
     DiseaseLargeToMediumSerializer,
     DiseaseMediumToSmallSerializer,
     DiagnosisToOtherSerializer,
+    DiseaseDocumentSerializer,
+    DiagnosisDocumentSerializer,
 )
 
 class DiseaseLargeCategoryView(APIView):
@@ -114,3 +115,26 @@ class DiseaseDocumentView(DocumentViewSet):
         }
     }
 
+class DiagnosisDocumentView(DocumentViewSet):
+    """
+    진단 Elastic Search API View
+    """
+    document = DiagnosisDocument
+    serializer_class = DiagnosisDocumentSerializer
+
+    filter_backends = [
+        FilteringFilterBackend,
+        CompoundSearchFilterBackend,
+        MultiMatchSearchFilterBackend,
+    ]
+
+    search_fields = ("name",)
+    multi_match_search_fields = ("name",)
+    multi_match_options = {
+        'type': 'phrase_prefix'
+    }
+    filter_fields = {
+        "name": {
+            "field": "name",
+        }
+    }
