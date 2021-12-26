@@ -57,6 +57,14 @@ const search = () => {
                 searchResultJSONFor(keyword, "/diagnoses/search"),
             ]);
 
+            // 질병인지 진단인지 type 추가
+            for (const elem of diseasesSearchResultJSON.results) {
+                elem["type"] = "disease";
+            }
+            for (const elem of diagnosesSearchResultJSON.results) {
+                elem["type"] = "diagnosis";
+            }
+
             const searchResultJSON__count = diseasesSearchResultJSON.count + diagnosesSearchResultJSON.count;
             const searchResultJSON__results = [...diseasesSearchResultJSON.results, ...diagnosesSearchResultJSON.results];
             searchHistory[keyword] = {count: searchResultJSON__count, results: searchResultJSON__results};
@@ -114,7 +122,7 @@ const search = () => {
             resultWrapper.insertAdjacentHTML(
                 "beforeend",
                 `
-                <div class="firstpage_search_result" data-id="${data.id}" data-index="${index++}">
+                <div class="firstpage_search_result" data-id="${data.id}" data-type="${data.type}" data-index="${index++}">
                     <i class="fas fa-plus-circle"></i>
                     <span class="name">${data.name}</span>
                 </div>
@@ -192,7 +200,13 @@ const search = () => {
 
     function handleClickResult(event){
         const id = event.target.dataset.id;
-        location.href = `/knowledges/disease/${id}`;
+        const type = event.target.dataset.type;
+        if(type === "disease"){
+            location.href = `/knowledges/disease/${id}`;
+        }
+        else{
+            location.href = `/knowledges/diagnosis/${id}`;
+        }
     }
 
     function handleMouseoverResult(event){
