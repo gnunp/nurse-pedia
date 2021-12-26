@@ -22,8 +22,8 @@ from ..serializers import (
     DiseaseLargeToMediumSerializer,
     DiseaseMediumToSmallSerializer,
     DiagnosisToOtherSerializer,
-    DiseaseDocumentSerializer,
-    DiagnosisDocumentSerializer,
+    # DiseaseDocumentSerializer,
+    # DiagnosisDocumentSerializer,
 )
 
 class DiseaseLargeCategoryView(APIView):
@@ -91,50 +91,50 @@ class DiagnosisToOtherView(APIView):
         return Response(serializer.data)
 
 # ------------------------ Elastic Search API --------------------------
-class DiseaseDocumentView(DocumentViewSet):
-    """
-    질병(소분류) Elastic Search API View
-    """
-    document = DiseaseDocument
-    serializer_class = DiseaseDocumentSerializer
+# class DiseaseDocumentView(DocumentViewSet):
+#     """
+#     질병(소분류) Elastic Search API View
+#     """
+#     document = DiseaseDocument
+#     serializer_class = DiseaseDocumentSerializer
 
-    filter_backends = [
-        FilteringFilterBackend,
-        CompoundSearchFilterBackend,
-        MultiMatchSearchFilterBackend,
-    ]
+#     filter_backends = [
+#         FilteringFilterBackend,
+#         CompoundSearchFilterBackend,
+#         MultiMatchSearchFilterBackend,
+#     ]
 
-    search_fields = ("name",)
-    multi_match_search_fields = ("name",)
-    multi_match_options = {
-        'type': 'phrase_prefix'
-    }
-    filter_fields = {
-        "name": {
-            "field": "name",
-        }
-    }
+#     search_fields = ("name",)
+#     multi_match_search_fields = ("name",)
+#     multi_match_options = {
+#         'type': 'phrase_prefix'
+#     }
+#     filter_fields = {
+#         "name": {
+#             "field": "name",
+#         }
+#     }
 
-class DiagnosisDocumentView(DocumentViewSet):
-    """
-    진단 Elastic Search API View
-    """
-    document = DiagnosisDocument
-    serializer_class = DiagnosisDocumentSerializer
+# class DiagnosisDocumentView(DocumentViewSet):
+#     """
+#     진단 Elastic Search API View
+#     """
+#     document = DiagnosisDocument
+#     serializer_class = DiagnosisDocumentSerializer
 
-    filter_backends = [
-        FilteringFilterBackend,
-        CompoundSearchFilterBackend,
-        MultiMatchSearchFilterBackend,
-    ]
+#     filter_backends = [
+#         FilteringFilterBackend,
+#         CompoundSearchFilterBackend,
+#         MultiMatchSearchFilterBackend,
+#     ]
 
-    search_fields = ("name",)
-    multi_match_search_fields = ("name",)
-    multi_match_options = {
-        'type': 'phrase_prefix'
-    }
-    filter_fields = {
-        "name": {
-            "field": "name",
-        }
-    }
+#     search_fields = ("name",)
+#     multi_match_search_fields = ("name",)
+#     multi_match_options = {
+#         'type': 'phrase_prefix'
+#     }
+#     filter_fields = {
+#         "name": {
+#             "field": "name",
+#         }
+#     }

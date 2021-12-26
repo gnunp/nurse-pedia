@@ -1,6 +1,6 @@
 import { cloneDeep } from "lodash";
 
-const search = () => {
+const search = async () => {
     const keyword = document.querySelector(".js-search_keyword");
     const resultWrapper = document.querySelector(".js-search_result_wrapper");
     const searchForm = document.querySelector(".js-search_form");
@@ -11,6 +11,13 @@ const search = () => {
 
     let arrowFirstCount = 0;
     let resultIndex = -1;
+
+    let diseaseList;
+    let diagnosisList;
+    [diseaseList, diagnosisList] = await Promise.all([
+        fetchAPIData("/api/knowledges/disease-small-categories/"),
+        fetchAPIData("/api/knowledges/diagnoses/"),
+    ]);
 
     keyword.addEventListener("input", handleChangeKeyword);
     document.body.addEventListener("click", handleClickBody);
@@ -50,27 +57,24 @@ const search = () => {
                 return
             }
 
-            let diseasesSearchResultJSON;
-            let diagnosesSearchResultJSON;
-            [diseasesSearchResultJSON, diagnosesSearchResultJSON] = await Promise.all([
-                searchResultJSONFor(keyword, "/diseases/search"),
-                searchResultJSONFor(keyword, "/diagnoses/search"),
-            ]);
+
+            const filteredDiseases = diseaseList.filter(elem => elem["name"].includes(keyword) === true);
+            const filteredDiagnosis = diagnosisList.filter(elem => elem["name"].includes(keyword) === true);
 
             // 질병인지 진단인지 type 추가
-            for (const elem of diseasesSearchResultJSON.results) {
+            for (const elem of filteredDiseases) {
                 elem["type"] = "disease";
             }
-            for (const elem of diagnosesSearchResultJSON.results) {
+            for (const elem of filteredDiagnosis) {
                 elem["type"] = "diagnosis";
             }
 
-            const searchResultJSON__count = diseasesSearchResultJSON.count + diagnosesSearchResultJSON.count;
-            const searchResultJSON__results = [...diseasesSearchResultJSON.results, ...diagnosesSearchResultJSON.results];
-            searchHistory[keyword] = {count: searchResultJSON__count, results: searchResultJSON__results};
+            const searchResult__count = filteredDiseases.length + filteredDiagnosis.length;
+            const searchResult__results = [...filteredDiseases, ...filteredDiagnosis];
+            searchHistory[keyword] = {count: searchResult__count, results: searchResult__results};
 
             // 검색 결과가 없는 경우
-            if(searchResultJSON__count < 1){
+            if(searchResult__count < 1){
                 if(beforeKeyword.length !== keyword.length){
                     resetSearchResultHTML();
                 }
@@ -79,7 +83,7 @@ const search = () => {
             }
             // 있는 경우
             resetSearchResultHTML();
-            setSearchResultHTML(searchResultJSON__results);
+            setSearchResultHTML(searchResult__results);
             beforeKeyword = keyword;
         }
 
@@ -95,17 +99,23 @@ const search = () => {
         return KoreanRegex.test(string);
     }
 
-    async function searchResultJSONFor(keyword, url){
-        let searchQuery;
-        if(keyword.split(" ").length > 1){
-            searchQuery = "search_multi_match";
-        }
-        else{
-            searchQuery = "name__contains";
-        }
-        const response = await fetch(`${url}/?${searchQuery}=${keyword}`);
-        const json = await response.json();
-        return json;
+    // async function searchResultJSONFor(keyword, url){
+        //let searchQuery;
+        // if(keyword.split(" ").length > 1){
+        //     searchQuery = "search_multi_match";
+        // }
+        // else{
+        //     searchQuery = "name__contains";
+        // }
+        // const response = await fetch(`${url}/?${searchQuery}=${keyword}`);
+        // const json = await response.json();
+        // return json
+    // }
+    
+    async function fetchAPIData(url){
+        const response = await fetch(url);
+        const result = await response.json();
+        return result
     }
 
     function resetSearchResultHTML(){
