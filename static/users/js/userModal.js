@@ -16,9 +16,9 @@ const handleClickModalCloseBtn = (event) => {
 }
 
 const modalToggle = () => {
-    const currentModal = document.querySelector(".modal_wrapper");
+    const modalTitle = document.querySelector(".modal_header__title");
     // if 현재 띄워져있는 모달이 로그인 모달일 경우
-    if(Object.is(currentModal, signInModal)){
+    if(modalTitle.innerText === "로그인"){
         deleteModal();
         showModal(signUpModal);
         url = "/users/signup";
