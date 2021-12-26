@@ -31,7 +31,12 @@ class DiseaseSmallCategory(models.Model):
     질병 소분류 Model
     """
     name = models.CharField(max_length=100, unique=True)  # 질병명
-    content = models.TextField(max_length=3000, default="", blank=True)  # 질병의 정의/원인/치료를 설명하는 필드
+    definition = models.TextField(max_length=3000, default="", blank=True)  # 정의 필드
+    cause = models.TextField(max_length=3000, default="", blank=True)  # 원인 필드
+    symptom = models.TextField(max_length=3000, default="", blank=True)  # 증상 필드
+    diagnosis_and_checkup = models.TextField(max_length=3000, default="", blank=True)  # 진단/검사 필드
+    treatment = models.TextField(max_length=3000, default="", blank=True)  # 치료 필드
+    nursing = models.TextField(max_length=3000, default="", blank=True)  # 간호 필드
     disease_medium_category = models.ForeignKey(
         "DiseaseMediumCategory",
         on_delete=models.CASCADE,
