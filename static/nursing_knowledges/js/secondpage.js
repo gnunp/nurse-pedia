@@ -34,13 +34,31 @@ class Secondpage{
     async makepage(){
         this.data = [];
 
-        this.largediseasedata = await this.makedata.getLargeDisease();
-        this.middeldiseasedata = await this.makedata.getMiddleDisease();
-        this.smalldiseasedata = await this.makedata.getSmallDisease();
-        this.diagnosisdata = await this.makedata.getDiagnosis();
-        this.connectLargetoMiddle = await this.makedata.getConnectLargeToMiddle();
-        this.connectMiddletoSmall = await this.makedata.getConnectMiddleToSmall();
-        this.connectDiagnosis = await this.makedata.getConnectdiagnosis();
+        // 직렬 처리되던 api 호출을 한번에 병렬처리 하여 로딩속도 개선
+        [
+            this.largediseasedata,
+            this.middeldiseasedata,
+            this.smalldiseasedata,
+            this.diagnosisdata,
+            this.connectLargetoMiddle,
+            this.connectMiddletoSmall,
+            this.connectDiagnosis,
+        ] = await Promise.all([
+            this.makedata.getLargeDisease(),
+            this.makedata.getMiddleDisease(),
+            this.makedata.getSmallDisease(),
+            this.makedata.getDiagnosis(),
+            this.makedata.getConnectLargeToMiddle(),
+            this.makedata.getConnectMiddleToSmall(),
+            this.makedata.getConnectdiagnosis(),
+        ]);
+        
+        
+        
+        
+        
+        
+        
         
         await this.largediseasedata.forEach(element => {
             this.data.push(JSON.parse(element));
