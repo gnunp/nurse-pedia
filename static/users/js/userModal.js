@@ -1,9 +1,8 @@
+import signInModal from "./component/signIn";
+import signUpModal from "./component/signUp";
 /*
 전역 변수
 */
-let signInModal; // 로그인 모달 Element
-let signUpModal; // 회원가입 모달 Element
-const parser = new DOMParser(); // DOM Parser 생성
 let validationErrorNodes = [];
 let url;
 let fields;
@@ -17,9 +16,9 @@ const handleClickModalCloseBtn = (event) => {
 }
 
 const modalToggle = () => {
-    const currentModal = document.querySelector(".modal_wrapper");
+    const modalTitle = document.querySelector(".modal_header__title");
     // if 현재 띄워져있는 모달이 로그인 모달일 경우
-    if(Object.is(currentModal, signInModal)){
+    if(modalTitle.innerText === "로그인"){
         deleteModal();
         showModal(signUpModal);
         url = "/users/signup";
@@ -38,14 +37,14 @@ const handleClickModalToggleBtn = (event) => {
     modalToggle();
 }
 
-const showModal = (modalElement) => {
+const showModal = (modalHTML) => {
     // 모달 wrapper 생성
     const modalBackground = document.createElement('div');
     modalBackground.className = "modal_background";
     document.body.appendChild(modalBackground);
 
     // 가져온 모달 HTML 현재 화면에 넣기
-    modalBackground.appendChild(modalElement);
+    modalBackground.innerHTML = modalHTML;
 
     // 모달 닫기 이벤트 리스너 추가
     const modalCloseBtn = document.querySelector(".js-modal_close_btn");
@@ -83,8 +82,12 @@ export const userValidation = async (form, fields, url) => {
 
     // if 유효성 검사에 성공했다면 then 로그인 처리
     if(userValidationResponse.status == 200){
-        form.querySelector("input[type=hidden]").value = getCookie('csrftoken'); // csrf 새로 갱신
-
+        form.insertAdjacentHTML(
+            "beforeend",
+            `
+            <input type="hidden" name="csrfmiddlewaretoken" value="${getCookie('csrftoken')}">
+            `
+        )
         form.submit();  // 로그인
     // else 유효성 검사에 실패했다면 then 폼 validation error HTML코드로 추가
     }else{
@@ -171,23 +174,6 @@ const userModalInit = async () => {
     // 이벤트 리스너 등록
     signInBtn.addEventListener("click", handleClickSignInBtn);
     signUpBtn.addEventListener("click", handleClickSignUpBtn);
-
-
-    // 모달 HTML text로 가져오기
-    const signInModalResponse = await fetch('/users/signin');
-    const signInModalHtml = await signInModalResponse.text();
-
-    const signUpModalResponse = await fetch('/users/signup');
-    const signUpModalHtml = await signUpModalResponse.text();
-
-    // 모달 DOM으로 변환
-    const signInDocument = parser.parseFromString(signInModalHtml, "text/html");
-    const signUpDocument = parser.parseFromString(signUpModalHtml, "text/html");
-
-    // 모달 Element
-    signInModal = signInDocument.querySelector(".modal_wrapper");
-    signUpModal = signUpDocument.querySelector(".modal_wrapper");
-
 }
 
 userModalInit();
