@@ -1,10 +1,16 @@
-from django_elasticsearch_dsl import Document
+from django_elasticsearch_dsl import Document, fields
 from django_elasticsearch_dsl.registries import registry
+from elasticsearch_dsl import tokenizer, analyzer
 from .models import Diagnosis, DiseaseSmallCategory
 
+my_analyzer = analyzer(
+    'my_analyzer',
+    tokenizer=tokenizer('nori_tokenizer')
+)
 
 @registry.register_document
 class DiseaseDocument(Document):
+    # name = fields.TextField(analyzer=my_analyzer)
     class Index:
         # Name of the Elasticsearch index
         name = 'diseases'

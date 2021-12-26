@@ -21,7 +21,7 @@ from .api_urls import api_setting
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('fJgBku6zujvsGry4XavJ/', admin.site.urls),
     path('', knowledges_views.home, name='home'),
     path('users/', include('users.urls', namespace="users")),
     path('knowledges/', include('nursing_knowledges.urls', namespace="nursing_knowledges")),
