@@ -65,7 +65,14 @@
     font-size: 1rem;
 }
 
+.interventions{
+    display: flex;
+    flex-direction: column;
+    padding-left: 2rem;
+    margin-bottom: 1rem;
+}
+
 .interventions > li{
-    line-height: 1.4rem;
-    /* list-style-type: decimal; */
+    line-height: 1.6rem;
+    list-style-type: decimal;
 }
