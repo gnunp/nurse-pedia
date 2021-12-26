@@ -64,8 +64,15 @@ def search(request):
     간호지식 검색 View
     """
     keyword = request.GET.get("keyword")
+
     try:
         disease = DiseaseSmallCategory.objects.get(name=keyword)
         return redirect(reverse("nursing_knowledges:disease_detail", kwargs={'pk':disease.pk}))
     except DiseaseSmallCategory.DoesNotExist:
+        pass
+
+    try:
+        diagnosis = Diagnosis.objects.get(name=keyword)
+        return redirect(reverse("nursing_knowledges:diagnosis_detail", kwargs={'pk':diagnosis.pk}))
+    except Diagnosis.DoesNotExist:
         return render(request, "nursing_knowledges/search_result.html")

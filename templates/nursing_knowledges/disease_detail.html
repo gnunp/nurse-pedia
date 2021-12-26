@@ -31,44 +31,86 @@
             <h1 class="title_word">{{disease.name}}</h1>
             <div class="editbtn">편집</div>
         </div>
-
-        <div class="define_content">
-            {{disease.content}}
-        </div>
+        
+        {% if disease.definition %}
+            <div class="define_content">
+                {{disease.definition}}
+            </div>
+        {% endif %}
     </div>
 
-    <div class="content">
-        <div class="content_title">
-            <h2>원인</h2>
+    
+    {% if disease.cause %}
+        <div class="content">
+            <div class="content_title">
+                <h2>원인</h2>
+            </div>
+            <div class="content_article">
+                {{disease.cause}}
+            </div>
         </div>
-        <div class="content_article">
-        </div>
-    </div>
+    {% endif %}
+        
 
-    <div class="content">
-        <div class="content_title">
-            <h2>치료</h2>
+    {% if disease.symptom %}
+        <div class="content">
+            <div class="content_title">
+                <h2>증상</h2>
+            </div>
+            <div class="content_article">
+                {{disease.symptom}}
+            </div>
         </div>
-        <div class="content_article">
-        </div>
-    </div>
+    {% endif %}
 
+    {% if disease.diagnosis_and_checkup %}
+        <div class="content">
+            <div class="content_title">
+                <h2>진단/검사</h2>
+            </div>
+            <div class="content_article">
+                {{disease.diagnosis_and_checkup}}
+            </div>
+        </div>
+    {% endif %}
+
+    {% if disease.treatment %}
+        <div class="content">
+            <div class="content_title">
+                <h2>치료</h2>
+            </div>
+            <div class="content_article">
+                {{disease.treatment}}
+            </div>
+        </div>
+    {% endif %}
+
+    {% if disease.nursing %}
+        <div class="content">
+            <div class="content_title">
+                <h2>간호</h2>
+            </div>
+            <div class="content_article">
+                {{disease.nursing}}
+            </div>
+        </div>
+    {% endif %}
+
+
+    {% if diagnoses %}
     <div class="relative_diagnosis content">
         <div class="relative_diagnosis_header content_title">
             <h2 class="relative_diagnosis_title_word">관련 진단</h2>
         </div>
         <div class="relative_diagnosis_content content_article">
-            {% if diagnoses %}
-                {% for item in diagnoses%}
-                    <a class="diagnosis_btn" href="{% url 'nursing_knowledges:diagnosis_detail' item.pk %}">
-                        <div>{{item.name}}</div>
-                    </a>
-                {% endfor%}
-                {% else %}
-                    <div class="relative_diagnosis_notice">없어용~!</div>
-            {% endif %}
+            {% for item in diagnoses%}
+                <a class="diagnosis_btn" href="{% url 'nursing_knowledges:diagnosis_detail' item.pk %}">
+                    <div>{{item.name}}</div>
+                </a>
+            {% endfor%}
         </div>
     </div>
+    {% endif %}
 
     {% include 'nursing_knowledges/mindmap.html' %}
 </div>

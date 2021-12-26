@@ -103,34 +103,34 @@ class DiagnosisToOtherSerializer(serializers.ModelSerializer):
 
 
 # ---------------- Elastic Search Serializer -------------------
-class DiseaseDocumentSerializer(DocumentSerializer):
-    class Meta:
-        model = DiseaseSmallCategory
-        document = DiseaseDocument
+# class DiseaseDocumentSerializer(DocumentSerializer):
+#     class Meta:
+#         model = DiseaseSmallCategory
+#         document = DiseaseDocument
 
-        fields = (
-            "id",
-            "name",
-        )
+#         fields = (
+#             "id",
+#             "name",
+#         )
 
-        def get_location(self, obj):
-            try:
-                return obj.location.to_dict()
-            except:
-                return {}
+#         def get_location(self, obj):
+#             try:
+#                 return obj.location.to_dict()
+#             except:
+#                 return {}
 
-class DiagnosisDocumentSerializer(DocumentSerializer):
-    class Meta:
-        model = Diagnosis
-        document = DiagnosisDocument
+# class DiagnosisDocumentSerializer(DocumentSerializer):
+#     class Meta:
+#         model = Diagnosis
+#         document = DiagnosisDocument
 
-        fields = (
-            "id",
-            "name",
-        )
+#         fields = (
+#             "id",
+#             "name",
+#         )
 
-        def get_location(self, obj):
-            try:
-                return obj.location.to_dict()
-            except:
-                return {}
+#         def get_location(self, obj):
+#             try:
+#                 return obj.location.to_dict()
+#             except:
+#                 return {}
