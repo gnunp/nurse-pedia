@@ -53,13 +53,6 @@ class Secondpage{
             this.makedata.getConnectdiagnosis(),
         ]);
         
-        
-        
-        
-        
-        
-        
-        
         await this.largediseasedata.forEach(element => {
             this.data.push(JSON.parse(element));
         });

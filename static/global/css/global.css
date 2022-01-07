@@ -1,109 +1,220 @@
 html,body{
     overflow: hidden;
 }
-.header{
-    position: absolute;
-    top: 0; left: 0;
+/* --------mobile버전-------- */
+@media (hover: none) and (pointer:coarse){
+    .header{
+        position: fixed;
+        top: 0; left: 0;
+        
+        width: 100%; height: 6rem; min-height: 100px;
     
-    width: 100%; height: 6rem;
+        box-sizing: border-box;
 
-    box-sizing: border-box;
-}
-.logo{
-    position: absolute;
-    left: 30px; top: 30px;
-
-    font-size: 30px;
-}
-.logo_achor{
-    width: fit-content;
-    white-space: nowrap;
-
-    display: flex;
-    flex-direction: row;
-
-    cursor: pointer;
-}
-.logo_img{
-    color: var(--pink);
-}
-.logo h1{
-    margin-left: 4px;
-    font-family: 'Lobster', cursive;
-    font-family: 'Signika Negative', sans-serif;
-    color: var(--pink);
-}
-
-.sign{
-    position: absolute;
-    right: 30px; top: 30px;
-
-    display: flex;
-    flex-direction: row;
-
-    font-size: 18px;
-}
-.sign a{
-    --height: 2rem;
-    --width: calc(var(--height) * 2);
-
-    height: var(--height);
-    width: var(--width);
-
-    border-radius: var(--width);
-
-    font-size: 0.8rem;
-    font-weight: 900;
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem;
+    }
+    .logo{
+        font-size: 2rem;
+    }
+    .logo_achor{
+        width: fit-content;
+        white-space: nowrap;
     
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    cursor: pointer;
-    z-index: 10;  /* cursor: pointer가 안먹혀서 추가 */
-}
-.sign div{
-    --height: 2rem;
-    --width: calc(var(--height) * 2);
-
-    height: var(--height);
-    width: var(--width);
-
-    border-radius: var(--width);
-
-    font-size: 0.8rem;
-    font-weight: 900;
+        display: flex;
+        flex-direction: row;
     
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    cursor: pointer;
-    z-index: 10;  /* cursor: pointer가 안먹혀서 추가 */
+        cursor: pointer;
+    }
+    .logo_img{
+        color: var(--pink);
+    }
+    .logo h1{
+        margin-left: 4px;
+        font-family: 'Lobster', cursive;
+        font-family: 'Signika Negative', sans-serif;
+        color: var(--pink);
+    }
+    
+    .sign{
+        display: flex;
+        flex-direction: row;
+    
+        font-size: 18px;
+    }
+    .sign a{
+        --height: 3rem;
+        --width: calc(var(--height) * 2);
+    
+        height: var(--height);
+        width: var(--width);
+    
+        border-radius: var(--width);
+    
+        font-size: 0.8rem;
+        font-weight: 900;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    
+        cursor: pointer;
+        z-index: 10;  /* cursor: pointer가 안먹혀서 추가 */
+    }
+    .sign div{
+        --height: 2rem;
+        --width: calc(var(--height) * 2);
+    
+        height: var(--height);
+        width: var(--width);
+    
+        border-radius: var(--width);
+    
+        font-size: 0.8rem;
+        font-weight: 900;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    
+        cursor: pointer;
+        z-index: 10;  /* cursor: pointer가 안먹혀서 추가 */
+    }
+    
+    .log_out{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        background-color: var(--pink);
+    
+        color: white;
+    }
+    
+    .log_out:hover{
+        color: white;
+    }
+    
+    .sign_in{
+        background-color: var(--pink);
+    
+        color: white;
+    }
+    .sign_up{
+        background-color: rgba(201, 201, 201, 0.5);
+        margin-left: 6px;
+    
+        color: rgba(150, 150, 150, 1);
+    }
 }
+/* --------PC버전-------- */
+@media (hover: hover) and (pointer: fine){ 
 
-.log_out{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    background-color: var(--pink);
+    .header{
+        position: fixed;
+        top: 0; left: 0;
 
-    color: white;
-}
+        width: 100%;  min-width: 720px;
+        height: 20vh; min-height: 80px;
+        padding: 0 3%;
 
-.log_out:hover{
-    color: white;
-}
+        box-sizing: border-box;
 
-.sign_in{
-    background-color: var(--pink);
-
-    color: white;
-}
-.sign_up{
-    background-color: rgba(201, 201, 201, 0.5);
-    margin-left: 6px;
-
-    color: rgba(150, 150, 150, 1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .logo{
+        font-size: 150%;
+    }
+    .logo_achor{
+        width: fit-content;
+        white-space: nowrap;
+    
+        display: flex;
+        flex-direction: row;
+    
+        cursor: pointer;
+    }
+    .logo_img{
+        color: var(--pink);
+    }
+    .logo h1{
+        margin-left: 4px;
+        font-family: 'Lobster', cursive;
+        font-family: 'Signika Negative', sans-serif;
+        color: var(--pink);
+    }
+    
+    .sign{
+    
+        display: flex;
+        flex-direction: row;
+    }
+    .sign a{
+        --height: 2rem;
+        --width: calc(var(--height) * 2);
+    
+        height: var(--height);
+        width: var(--width);
+    
+        border-radius: var(--width);
+    
+        font-size: 0.8rem;
+        font-weight: 900;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    
+        cursor: pointer;
+        z-index: 10;  /* cursor: pointer가 안먹혀서 추가 */
+    }
+    .sign div{
+        --height: 2rem;
+        --width: calc(var(--height) * 2);
+    
+        height: var(--height);
+        width: var(--width);
+    
+        border-radius: var(--width);
+    
+        font-size: 0.8rem;
+        font-weight: 900;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    
+        cursor: pointer;
+        z-index: 10;  /* cursor: pointer가 안먹혀서 추가 */
+    }
+    
+    .log_out{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        background-color: var(--pink);
+    
+        color: white;
+    }
+    
+    .log_out:hover{
+        color: white;
+    }
+    
+    .sign_in{
+        background-color: var(--pink);
+    
+        color: white;
+    }
+    .sign_up{
+        background-color: rgba(201, 201, 201, 0.5);
+        margin-left: 6px;
+    
+        color: rgba(150, 150, 150, 1);
+    }
+    
 }
