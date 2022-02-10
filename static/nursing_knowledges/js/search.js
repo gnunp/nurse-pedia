@@ -23,11 +23,11 @@ const search = async () => {
     //--------------------------------------- 함수 모음 -------------------------------------------
 
     async function handleChangeKeyword(event){
-        const keyword = event.target.value;
-        const lastLetter = keyword.charAt(keyword.length-1);
+        const keywordString = event.target.value;
+        const lastLetter = keywordString.charAt(keywordString.length-1);
         
         // 검색어가 공백일때 검색결과를 reset시키고 함수 종료
-        if(keyword === ""){
+        if(keywordString === ""){
             resetSearchResultHTML();
             return
         }
@@ -37,19 +37,8 @@ const search = async () => {
             return
         }
 
-        // 검색어를 포함시키는 질병,진단들만 리스트에 포함
-        const filteredDiseases = diseaseList.filter(elem => elem["name"].includes(keyword) === true);
-        const filteredDiagnosis = diagnosisList.filter(elem => elem["name"].includes(keyword) === true);
-
-        // 질병인지 진단인지 type 추가
-        for (const elem of filteredDiseases) {
-            elem["type"] = "disease";
-        }
-        for (const elem of filteredDiagnosis) {
-            elem["type"] = "diagnosis";
-        }
-
-        const searchResult = [...filteredDiseases, ...filteredDiagnosis];
+        // 키워드가 들어가는 질병,진단 데이터만 Array로 검색결과 반환
+        const searchResult = filterSearchDatas(diseaseList, diagnosisList, keywordString);
 
         // 검색 결과가 없으면 함수 종료
         if(searchResult.length < 1){
@@ -57,7 +46,7 @@ const search = async () => {
         }
 
         resetSearchResultHTML();
-        setSearchResultHTML(sortSearchResultArray(searchResult));
+        setSearchResultHTML(sortSearchResultArray(searchResult, keywordString));
     }
     
     // 한글 글자(자음은 x)이면 true를 반환하는 함수
@@ -102,26 +91,10 @@ const search = async () => {
 
     }
 
-    function sortSearchResultArray(array){
-        const result = []
-        const copiedArray = cloneDeep(array);
-        for (const [key, data] of Object.entries(copiedArray)) {
-            if(data.name.charAt(0) === keyword.value.charAt(0)){
-                result.push(data);
-                delete copiedArray[key];
-            }
-        }
-        for (const data of copiedArray) {
-            if(data){
-                result.push(data);
-            }
-        }
-        return result;
-    }
+
 
     let resultIndex = -1;
     function handleKeydownInput(event){
-        console.log(event);
         const results = resultWrapper.querySelectorAll(".firstpage_search_result");
         if(event.key === "ArrowDown"){
 
@@ -223,4 +196,43 @@ const search = async () => {
     }
 }
 
+/*
+------------------------다른 페이지에서도 사용하는 함수 따로 추출---------------------------------
+*/
+function filterSearchDatas(diseaseList, diagnosisList, keyword){
+    // 검색어를 포함시키는 질병,진단들만 리스트에 포함
+    const filteredDiseases = diseaseList.filter(elem => elem["name"].includes(keyword) === true);
+    const filteredDiagnosis = diagnosisList.filter(elem => elem["name"].includes(keyword) === true);
+
+    // 질병인지 진단인지 type 추가
+    for (const elem of filteredDiseases) {
+        elem["type"] = "disease";
+    }
+    for (const elem of filteredDiagnosis) {
+        elem["type"] = "diagnosis";
+    }
+
+    return [...filteredDiseases, ...filteredDiagnosis];
+}
+
+function sortSearchResultArray(array, keyword){
+    const result = []
+    const copiedArray = cloneDeep(array);
+    for (const [key, data] of Object.entries(copiedArray)) {
+        if(data.name.charAt(0) === keyword.charAt(0)){
+            result.push(data);
+            delete copiedArray[key];
+        }
+    }
+    for (const data of copiedArray) {
+        if(data){
+            result.push(data);
+        }
+    }
+    return result;
+}
+/*
+-------------------------------------------------------------------------------------------
+*/
 search();
+
