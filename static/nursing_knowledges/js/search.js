@@ -4,13 +4,7 @@ const search = async () => {
     const keyword = document.querySelector(".js-search_keyword");
     const resultWrapper = document.querySelector(".js-search_result_wrapper");
     const searchForm = document.querySelector(".js-search_form");
-    
-    let searchHistory = {};
 
-    let beforeKeyword = "";
-
-    let arrowFirstCount = 0;
-    let resultIndex = -1;
 
     let diseaseList;
     let diagnosisList;
@@ -28,69 +22,42 @@ const search = async () => {
 
     //--------------------------------------- 함수 모음 -------------------------------------------
 
-    // 검색어를 통해 Elastic Search API를 호출하여 결과를 HTML에 반환하는 함수
     async function handleChangeKeyword(event){
         const keyword = event.target.value;
         const lastLetter = keyword.charAt(keyword.length-1);
         
-        if(beforeKeyword === keyword){
+        // 검색어가 공백일때 검색결과를 reset시키고 함수 종료
+        if(keyword === ""){
+            resetSearchResultHTML();
             return
         }
 
-        // 검색어의 마지막이 글자이면(자음x)
-        if(isKoreanLetter(lastLetter)){
-
-            // searchHistory 조회해서 있다면 그대로 출력
-            if(searchHistory[keyword]){
-                // 검색결과가 없었으면 pass
-                if (searchHistory[keyword].count === 0){
-                    if(beforeKeyword.length !== keyword.length){
-                        resetSearchResultHTML();
-                    }
-                    beforeKeyword = keyword;
-                    return
-                }
-
-                resetSearchResultHTML();
-                setSearchResultHTML(searchHistory[keyword].results);
-                beforeKeyword = keyword;
-                return
-            }
-
-
-            const filteredDiseases = diseaseList.filter(elem => elem["name"].includes(keyword) === true);
-            const filteredDiagnosis = diagnosisList.filter(elem => elem["name"].includes(keyword) === true);
-
-            // 질병인지 진단인지 type 추가
-            for (const elem of filteredDiseases) {
-                elem["type"] = "disease";
-            }
-            for (const elem of filteredDiagnosis) {
-                elem["type"] = "diagnosis";
-            }
-
-            const searchResult__count = filteredDiseases.length + filteredDiagnosis.length;
-            const searchResult__results = [...filteredDiseases, ...filteredDiagnosis];
-            searchHistory[keyword] = {count: searchResult__count, results: searchResult__results};
-
-            // 검색 결과가 없는 경우
-            if(searchResult__count < 1){
-                if(beforeKeyword.length !== keyword.length){
-                    resetSearchResultHTML();
-                }
-                beforeKeyword = keyword;
-                return
-            }
-            // 있는 경우
-            resetSearchResultHTML();
-            setSearchResultHTML(searchResult__results);
-            beforeKeyword = keyword;
+        // 마지막 글자가 음운(자음,모음)와 같이 글자(가~힣)가 아니면 함수 종료
+        if(!isKoreanLetter(lastLetter)){
+            return
         }
 
-        if(keyword === ""){
-            beforeKeyword = keyword;
-            resetSearchResultHTML();
+        // 검색어를 포함시키는 질병,진단들만 리스트에 포함
+        const filteredDiseases = diseaseList.filter(elem => elem["name"].includes(keyword) === true);
+        const filteredDiagnosis = diagnosisList.filter(elem => elem["name"].includes(keyword) === true);
+
+        // 질병인지 진단인지 type 추가
+        for (const elem of filteredDiseases) {
+            elem["type"] = "disease";
         }
+        for (const elem of filteredDiagnosis) {
+            elem["type"] = "diagnosis";
+        }
+
+        const searchResult = [...filteredDiseases, ...filteredDiagnosis];
+
+        // 검색 결과가 없으면 함수 종료
+        if(searchResult.length < 1){
+            return
+        }
+
+        resetSearchResultHTML();
+        setSearchResultHTML(sortSearchResultArray(searchResult));
     }
     
     // 한글 글자(자음은 x)이면 true를 반환하는 함수
@@ -99,19 +66,6 @@ const search = async () => {
         return KoreanRegex.test(string);
     }
 
-    // async function searchResultJSONFor(keyword, url){
-        //let searchQuery;
-        // if(keyword.split(" ").length > 1){
-        //     searchQuery = "search_multi_match";
-        // }
-        // else{
-        //     searchQuery = "name__contains";
-        // }
-        // const response = await fetch(`${url}/?${searchQuery}=${keyword}`);
-        // const json = await response.json();
-        // return json
-    // }
-    
     async function fetchAPIData(url){
         const response = await fetch(url);
         const result = await response.json();
@@ -120,13 +74,11 @@ const search = async () => {
 
     function resetSearchResultHTML(){
         resultWrapper.innerHTML = ""; 
-        arrowFirstCount = 0;
         resultIndex = -1;
     }
 
     function setSearchResultHTML(json){
-        const jsonToSortedArray = sortSearchResult(json);
-        const sliced5ElementArray = jsonToSortedArray.slice(0,5);
+        const sliced5ElementArray = json.slice(0,5);
         let index = 0;
         sliced5ElementArray.forEach(data => {
             resultWrapper.insertAdjacentHTML(
@@ -139,7 +91,6 @@ const search = async () => {
                 `
             )
         })
-        arrowFirstCount = 0;
         keyword.addEventListener("keydown", handleKeydownInput);
         resultWrapper.querySelectorAll(".firstpage_search_result").forEach(result => {
             result.addEventListener("click", handleClickResult);
@@ -151,16 +102,16 @@ const search = async () => {
 
     }
 
-    function sortSearchResult(json){
+    function sortSearchResultArray(array){
         const result = []
-        const copiedJSON = cloneDeep(json);
-        for (const [key, data] of Object.entries(copiedJSON)) {
+        const copiedArray = cloneDeep(array);
+        for (const [key, data] of Object.entries(copiedArray)) {
             if(data.name.charAt(0) === keyword.value.charAt(0)){
                 result.push(data);
-                delete copiedJSON[key];
+                delete copiedArray[key];
             }
         }
-        for (const data of copiedJSON) {
+        for (const data of copiedArray) {
             if(data){
                 result.push(data);
             }
@@ -168,14 +119,12 @@ const search = async () => {
         return result;
     }
 
+    let resultIndex = -1;
     function handleKeydownInput(event){
+        console.log(event);
         const results = resultWrapper.querySelectorAll(".firstpage_search_result");
-        if(event.code === "ArrowDown"){
-            // 맨처음 밑 화살표가 두번되는 에러 방지
-            if(arrowFirstCount < 1){
-                arrowFirstCount++;
-                return
-            }
+        if(event.key === "ArrowDown"){
+
             resultIndex++;
             if(resultIndex >= results.length){
                 resultIndex = 0;
@@ -183,12 +132,8 @@ const search = async () => {
             focusResult(results[resultIndex]);
             return setTimeout(() => keyword.setSelectionRange(999,999), 1);
         }
-        else if(event.code === "ArrowUp"){
-            // 맨처음 위 화살표가 두번되는 에러 방지
-            if(arrowFirstCount < 1){
-                arrowFirstCount++;
-                return
-            }
+        else if(event.key === "ArrowUp"){
+
             resultIndex--;
             if(resultIndex < 0){
                 resultIndex = results.length - 1;
