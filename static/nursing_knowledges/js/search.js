@@ -55,12 +55,6 @@ const search = async () => {
         return KoreanRegex.test(string);
     }
 
-    async function fetchAPIData(url){
-        const response = await fetch(url);
-        const result = await response.json();
-        return result
-    }
-
     function resetSearchResultHTML(){
         resultWrapper.innerHTML = ""; 
         resultIndex = -1;
@@ -199,6 +193,21 @@ const search = async () => {
 /*
 ------------------------다른 페이지에서도 사용하는 함수 따로 추출---------------------------------
 */
+export async function fetchAPIData(url){
+    const response = await fetch(url);
+    const result = await response.json();
+    return result
+}
+
+export async function getSortedSearchDatas(diseaseList, diagnosisList, keyword){
+    // 키워드가 들어가는 질병,진단 데이터만 Array로 검색결과 반환
+    const searchResult = filterSearchDatas(diseaseList, diagnosisList, keyword);
+
+    // 오름차순으로 정렬해서 값 반환
+    return sortSearchResultArray(searchResult, keyword);
+}
+
+
 function filterSearchDatas(diseaseList, diagnosisList, keyword){
     // 검색어를 포함시키는 질병,진단들만 리스트에 포함
     const filteredDiseases = diseaseList.filter(elem => elem["name"].includes(keyword) === true);
