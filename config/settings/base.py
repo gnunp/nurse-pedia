@@ -48,8 +48,6 @@ MY_APPS = [
 THIRD_PARTY_APPS = [
     'rest_framework',
     'django_extensions',
-    'django_elasticsearch_dsl',
-    'django_elasticsearch_dsl_drf',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + MY_APPS + THIRD_PARTY_APPS
@@ -219,9 +217,3 @@ REST_FRAMEWORK = {
 }
 
 KAKAO_ID = os.environ.get("KAKAO_ID")
-
-ELASTICSEARCH_DSL = {
-    'default': {
-        'hosts': 'localhost:9200'
-    },
-}

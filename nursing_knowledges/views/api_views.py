@@ -1,12 +1,5 @@
-from django_elasticsearch_dsl_drf.viewsets import DocumentViewSet
-from django_elasticsearch_dsl_drf.filter_backends import (
-    FilteringFilterBackend,
-    CompoundSearchFilterBackend,
-    MultiMatchSearchFilterBackend,
-)
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from nursing_knowledges.documents import DiagnosisDocument, DiseaseDocument
 from ..models import (
     DiseaseLargeCategory,
     DiseaseMediumCategory,
@@ -22,8 +15,6 @@ from ..serializers import (
     DiseaseLargeToMediumSerializer,
     DiseaseMediumToSmallSerializer,
     DiagnosisToOtherSerializer,
-    # DiseaseDocumentSerializer,
-    # DiagnosisDocumentSerializer,
 )
 
 class DiseaseLargeCategoryView(APIView):
@@ -89,52 +80,3 @@ class DiagnosisToOtherView(APIView):
         diagnosis_to_others = DiagnosisToOther.objects.all()
         serializer = DiagnosisToOtherSerializer(diagnosis_to_others, many=True)
         return Response(serializer.data)
-
-# ------------------------ Elastic Search API --------------------------
-# class DiseaseDocumentView(DocumentViewSet):
-#     """
-#     질병(소분류) Elastic Search API View
-#     """
-#     document = DiseaseDocument
-#     serializer_class = DiseaseDocumentSerializer
-
-#     filter_backends = [
-#         FilteringFilterBackend,
-#         CompoundSearchFilterBackend,
-#         MultiMatchSearchFilterBackend,
-#     ]
-
-#     search_fields = ("name",)
-#     multi_match_search_fields = ("name",)
-#     multi_match_options = {
-#         'type': 'phrase_prefix'
-#     }
-#     filter_fields = {
-#         "name": {
-#             "field": "name",
-#         }
-#     }
-
-# class DiagnosisDocumentView(DocumentViewSet):
-#     """
-#     진단 Elastic Search API View
-#     """
-#     document = DiagnosisDocument
-#     serializer_class = DiagnosisDocumentSerializer
-
-#     filter_backends = [
-#         FilteringFilterBackend,
-#         CompoundSearchFilterBackend,
-#         MultiMatchSearchFilterBackend,
-#     ]
-
-#     search_fields = ("name",)
-#     multi_match_search_fields = ("name",)
-#     multi_match_options = {
-#         'type': 'phrase_prefix'
-#     }
-#     filter_fields = {
-#         "name": {
-#             "field": "name",
-#         }
-#     }
