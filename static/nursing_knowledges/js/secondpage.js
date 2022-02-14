@@ -31,6 +31,7 @@ class Secondpage{
         this.makepage();
     }
 
+    //데이터 세팅
     async makepage(){
         this.data = [];
 
@@ -78,9 +79,8 @@ class Secondpage{
     }
     
     mindmap(){
-
-        const minZoomlevel = 0.1; // 최소 축소 배율
-        let magnification = 2.5; // 마우스 올라갈때 변하는 비율
+        const minZoomlevel = 0.05; // 최소 축소 배율
+        let magnification = 3.5; // 마우스 올라갈때 변하는 비율
 
         //초기 노드 스타일
         const initNodeStyle = {
@@ -172,8 +172,7 @@ class Secondpage{
         }
 
         //마우스가 노드 위로 올라왔을 때, 스타일
-        let ActiveStyle = {
-            
+        const  ActiveStyle = {
             selectNodeSize : initNodeStyle.bigNodeSize * (magnification - 0.5),
             neighborNodeSize : initNodeStyle.middleNodeSize * (magnification - 0.5),
             farNodeSize : initNodeStyle.smallNodeSize * (magnification - 0.5),
@@ -188,35 +187,17 @@ class Secondpage{
             arrowColor : 'red',
             
             color : 'black',
-
-            // activeNodeSize : `${40 * magnification}`,
-            // activeFontSize : 16 * (magnification - 0.5),
-            // activeFontColor : this.globalColor.pink,
-
-            // subActiveDiaNodeSize :`${18 * magnification}`,
-            // subActiveSmallNodeSize :`${24 * magnification}`,
-            // subActiveMiddleNodeSize : `${34 * magnification}`,
-
-            // closeArrowColor : this.globalColor.dark_purple,
-            // closeFontColor : this.globalColor.dark_purple,
-
-            // farArrowColor : this.globalColor.dark_indigo,
-            // farFontColor :  this.globalColor.dark_indigo,
-
-            // arrowActiveScale : 2.0 * (magnification - 0.5),
-            // edgeActiveWidth :`${4 * magnification}px`,
         }
 
         const dimColor = this.globalColor.dark_indigo;//커서 노드위로 올렸을 때 주목받지 못한 노드&화살표 색
 
         //초기 MindMap 생성
         const cy = cytoscape({
-
             container: document.getElementById('cy'), 
 
             elements: this.data,
 
-            style: [ // the stylesheet for the graph
+            style: [ 
                 {
                     selector: 'node',
                     style: initStyle,
@@ -237,7 +218,7 @@ class Secondpage{
 
             layout: {
                 name: 'cose-bilkent',
-         
+
                 fit: true,             
                 padding: 30,            
                 randomize: true,     
@@ -251,26 +232,6 @@ class Secondpage{
                 animate: true,             
                 tilingPaddingVertical: 80,  
                 tilingPaddingHorizontal: 80
-                /*
-                name: 'cose-bilkent',
-                animate: false,
-                graviyRangeCompound: 12,
-                fit: true,
-                tile : true,
-                spacingFactor: 1.5,
-                quality:'default',
-                
-                // BoundingBox:{0, 0, 0, 0},
-                idealEdgeLength: function(edge){
-                     return edge.data().weight * .8
-                },
-
-                // edgeElasticity: function(edge){
-                //     return edge.data().weight * 6
-                // },
-
-               //gravity: 80,
-               */
             },
             wheelSensitivity : 0.1,
         });
@@ -283,6 +244,7 @@ class Secondpage{
             target_element.style('opacity', degree);
         }
 
+        //검색해서 Active되는 노드 스타일 설정 함수
         function setSearchFocus(target_element){
             target_element.style('background-color',function(ele){
                 if(ele.data("type") == "largedisease"){
@@ -594,15 +556,6 @@ class Secondpage{
             setRestFocus(e.cy);
         });
 
-        //Search Event
-        this.searchbar.addEventListener("keyup",(e)=>{
-            let user_search_value = e.target.value;
-            if(user_search_value.length == 0){
-                //아무것도 안적으면 처음 으로 리셋
-            }
-            searchNode(user_search_value, true);
-        })
-
         //resize Event
         let resizeTimer;
         window.addEventListener('resize', function(){
@@ -614,23 +567,8 @@ class Secondpage{
     }
 }
 
+//데이터 가져오기
 export class MakeData{ 
-    /*
-    APIView에서 데이터 가져옴
-    -> cy에서 원하는 형태의 data로 가공 
-    -> 배열에 넣어서 전달
-    */
-
-    //type = ['largedisease','middledisease','smalldease','diagnosis']
-    /*
-    id ={
-        Large_Disease : largedisease<int:pk>,
-        middle_disease : middledisease<int:pk>,
-        small_disease : samlldisease<ink:pk>,
-        diagnosis : diagnosis<int:pk>
-    }
-    */
-
     async getLargeDisease(){
         let id, url, label, item;
         let resultArr = [];

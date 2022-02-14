@@ -1,3 +1,6 @@
+.header{
+    position: absolute;
+}
 .editbtn{
     position: absolute;
     right: 10px;

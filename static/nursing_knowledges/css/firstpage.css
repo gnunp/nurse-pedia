@@ -10,7 +10,6 @@
         align-items: center;
     }
     .firstpage_main_text{
-
         margin-left: 1rem;
     
         font-family: 'Do Hyeon', sans-serif;
@@ -113,7 +112,6 @@
         white-space: nowrap;
     }
     .firstpage_search_wrapper{
-
         margin-top: 1rem;
 
         display: flex;
