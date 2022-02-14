@@ -1,7 +1,4 @@
-from elasticsearch_dsl import document
 from rest_framework import serializers
-from django_elasticsearch_dsl_drf.serializers import DocumentSerializer
-from .documents import *
 from .models import (
     DiseaseSmallCategory,
     Diagnosis,
@@ -100,37 +97,3 @@ class DiagnosisToOtherSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         result = super(DiagnosisToOtherSerializer, self).to_representation(instance)
         return OrderedDict([(key, result[key]) for key in result if result[key] is not None])
-
-
-# ---------------- Elastic Search Serializer -------------------
-# class DiseaseDocumentSerializer(DocumentSerializer):
-#     class Meta:
-#         model = DiseaseSmallCategory
-#         document = DiseaseDocument
-
-#         fields = (
-#             "id",
-#             "name",
-#         )
-
-#         def get_location(self, obj):
-#             try:
-#                 return obj.location.to_dict()
-#             except:
-#                 return {}
-
-# class DiagnosisDocumentSerializer(DocumentSerializer):
-#     class Meta:
-#         model = Diagnosis
-#         document = DiagnosisDocument
-
-#         fields = (
-#             "id",
-#             "name",
-#         )
-
-#         def get_location(self, obj):
-#             try:
-#                 return obj.location.to_dict()
-#             except:
-#                 return {}
