@@ -9,12 +9,12 @@
 
 <!-- ---------검색창 부분--------- -->
     <div class="nav_searchbar">
-        <form action="{% url 'nursing_knowledges:search' %}" class="firstpage_search_form js-search_form">
+        <form action="{% url 'nursing_knowledges:search' %}" class="firstpage_search_form">
             <label for="search_submit_btn">
                 <i class="fas fa-search firstpage_search_icon"></i>
             </label>
         
-            <input type="text" class="firstpage_search_text js-search_keyword" id="input_text" name="keyword" autocomplete='off'>
+            <input type="text" class="firstpage_search_text" id="input_text" name="map_keyword" autocomplete='off'>
         
             <input type="submit" class="firstpage_search_submit" id="search_submit_btn">
         </form>
