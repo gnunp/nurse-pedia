@@ -76,3 +76,11 @@ def search(request):
         return redirect(reverse("nursing_knowledges:diagnosis_detail", kwargs={'pk':diagnosis.pk}))
     except Diagnosis.DoesNotExist:
         return render(request, "nursing_knowledges/search_result.html")
+
+def disease_category(request):
+    context = {}
+    return render(request, "nursing_knowledges/disease_category.html", context)
+
+def diagnosis_category(request):
+    context = {}
+    return render(request, "nursing_knowledges/diagnosis_category.html", context)
