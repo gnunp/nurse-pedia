@@ -5,40 +5,39 @@
             <i class="fas fa-heartbeat logo_img"></i>
             <h1>Nurse Pedia</h1>
         </a>
-    </div>
-
-<!-- ---------검색창 부분--------- -->
-    <div class="nav_searchbar">
-        <form action="{% url 'nursing_knowledges:search' %}" class="firstpage_search_form">
-            <label for="search_submit_btn">
-                <i class="fas fa-search firstpage_search_icon"></i>
-            </label>
-        
-            <input type="text" class="firstpage_search_text" id="input_text" name="map_keyword" autocomplete='off'>
-        
-            <input type="submit" class="firstpage_search_submit" id="search_submit_btn">
-        </form>
+        <!-- ---------검색창 부분--------- -->
+        <div class="nav_searchbar disappear">
+            <form action="{% url 'nursing_knowledges:search' %}" class="nav_search_form">
+                <label for="search_submit_btn" class="nav_search_submit_btn">
+                    <i class="fas fa-search nav_search_icon"></i>
+                </label>
+            
+                <input type="text" class="nav_search_text" id="input_text" name="map_keyword" autocomplete='off' placeholder="간호 지식 검색" onfocus="this.placeholder=''">
+            
+                <input type="submit" class="nav_search_submit" id="search_submit_btn">
+            </form>
+        </div>
     </div>
     
-<!-- ---------nav바 부분--------- -->
+<!-- ----------nav바 부분---------- -->
     <div class="global_nav">
         <div class="global_nav_item" data-id="1" id="sort_nav">
             <div>분류</div>
             <div class="nav_underline"></div>
             <ul class="subnav disappear">
-                <div><a href="#">질병별</a></div>
-                <div><a href="#">진단별</a></div>
+                <div><a href="{% url 'nursing_knowledges:disease_category'%} ">질병별</a></div>
+                <div><a href="{% url 'nursing_knowledges:diagnosis_category'%} ">진단별</a></div>
             </ul>
         </div>
         <div class="global_nav_item" data-id="2" id="nurpi_nav">
             <div>널피</div>
             <div class="nav_underline"></div>
             <ul class="subnav disappear">
+                <!-- templates/nursing_knowledges/disease_category.html로 이동 -->
                 <div><a href="#">널피 사용법</a></div>
             </ul>
         </div>    
-    
-        <!------------ 로그인 ------------->
+        <!----------------- 로그인 ------------------>
         <div class="sign global_nav_item">
             {% if user.is_authenticated %}
                 <a href="{% url 'users:logout' %}" class="log_out js-log_out">로그아웃</a>

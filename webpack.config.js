@@ -11,6 +11,8 @@ module.exports = {
         
         userModal: "./static/users/js/userModal.js",
         kakaoSigninFormValidation: "./static/users/js/kakaoSigninFormValidation.js",
+
+        diseasecategory:"./static/nursing_knowledges/js/disease_category",
     },
     plugins: [
        // new BundleAnalyzerPlugin()

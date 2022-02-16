@@ -80,7 +80,7 @@ class Secondpage{
     
     mindmap(){
         const minZoomlevel = 0.05; // 최소 축소 배율
-        let magnification = 3.5; // 마우스 올라갈때 변하는 비율
+        const magnification = 3; // 마우스 올라갈때 변하는 비율
 
         //초기 노드 스타일
         const initNodeStyle = {
@@ -177,9 +177,9 @@ class Secondpage{
             neighborNodeSize : initNodeStyle.middleNodeSize * (magnification - 0.5),
             farNodeSize : initNodeStyle.smallNodeSize * (magnification - 0.5),
 
-            selectFontSize : initNodeStyle.bigFontSize * (magnification - 0.5),
-            neighborFontSize : initNodeStyle.middleFontSize * (magnification - 0.5),
-            farFontSize : initNodeStyle.smallFontSize * (magnification - 0.5),
+            selectFontSize : initNodeStyle.bigFontSize * (magnification - 1),
+            neighborFontSize : initNodeStyle.middleFontSize * (magnification - 1),
+            farFontSize : initNodeStyle.smallFontSize * (magnification - 1),
 
             edgeWidth : `${4 * magnification}px`,
             arrowScale : 2,
@@ -231,7 +231,8 @@ class Secondpage{
                 tile: true,                
                 animate: true,             
                 tilingPaddingVertical: 80,  
-                tilingPaddingHorizontal: 80
+                tilingPaddingHorizontal: 80,
+                minNodeSpacing:100,
             },
             wheelSensitivity : 0.1,
         });

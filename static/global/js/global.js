@@ -16,7 +16,7 @@ window.addEventListener('resize',()=>{
     });
 });
 
-/*-------------header nav바 이벤트-------------*/
+/*---------------------------header nav바 이벤트-----------------------------------*/
 const navitems = document.querySelectorAll('.global_nav_item');
 const subnavs = document.querySelectorAll('.subnav');
 
@@ -37,6 +37,14 @@ navitems.forEach(element => {
     });
 });
 
-/*---------------Header 검색창 나타냄 유무---------------*/ 
+/*-----------------------Header 검색창 나타냄 유무----------------------------*/ 
 const headerSearchBar = document.querySelector('.nav_searchbar');
-//주소를 받아서 디테일 페이지 인지 유무를 해야하는데 그런 코드 어캐짜지
+const currenthref = location.href;
+const isactiveSearchBar = (/knowledges/).test(currenthref);
+
+if(isactiveSearchBar){
+    headerSearchBar.classList.toggle("disappear", false);
+}
+else{
+    headerSearchBar.classList.toggle("disappear", true);
+}
