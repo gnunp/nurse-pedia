@@ -1,7 +1,9 @@
 import json
 from django.http.response import Http404
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+from nursing_knowledges.forms import DiseaseSmallForm
 from .api_views import *
 from ..models import (
     DiseaseSmallCategory,
@@ -104,3 +106,50 @@ def disease_category(request):
 def diagnosis_category(request):
     context = {}
     return render(request, "nursing_knowledges/diagnosis_category.html", context)
+
+
+
+@login_required
+def disease_detail_edit(request, pk):
+    disease = get_object_or_404(DiseaseSmallCategory, pk=pk)
+
+    disease_to_diagnoses = DiagnosisToOther.objects.filter(disease_small_category=disease)  # pk값으로 가져온 질병과 진단들의 연결관계 객체
+
+    diagnoses = []  # 연결된 진단들의 객체 리스트
+    for dis_to_diag in disease_to_diagnoses:
+        diagnoses.append(dis_to_diag.diagnosis)
+
+    if request.method == "POST":
+        form = DiseaseSmallForm(request.POST, instance=disease)
+
+        new_diagnoses = []
+        for d in request.POST.keys():
+            if d.startswith("added_"):
+                new_diagnoses.append(d.split("_")[-1])
+
+        if form.is_valid():
+            valided_disease = form.save()
+
+            DiagnosisToOther.objects.filter(disease_small_category=pk).delete()
+            for d in new_diagnoses:
+                try:
+                    d_obj = Diagnosis.objects.get(name=d)
+                    DiagnosisToOther.objects.create(disease_small_category=disease, diagnosis=d_obj)
+                except Diagnosis.DoesNotExist:
+                    pass
+
+            return redirect(valided_disease)
+    else:
+        form = DiseaseSmallForm(instance=disease)
+
+
+    context = {
+        "form":form,
+        "disease":disease,
+        "related_diagnoses":diagnoses,
+        "all_diagnosis":Diagnosis.objects.all().values_list("name",flat=True),
+    }
+
+    return render(request, "nursing_knowledges/disease_detail_edit.html", context)
+
+
