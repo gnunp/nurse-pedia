@@ -1,0 +1,83 @@
+.dis_cat_mainContent{
+    position: relative;
+    
+    margin: 0 auto;
+    width:90vw;
+    min-height: 100vh;
+
+    padding: 1rem 2rem;
+    
+    border-right: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+}
+.isspread{
+    height: fit-content;
+}
+.dis_cat_mainContent button{
+    background: none;
+    border: none;
+    color:white;
+
+    transition: transform 0.3s ease-in-out;
+}
+.btn_active{
+    transform: rotateZ(90deg);
+}
+.category_largedisease{
+    position: relative;
+
+    width: 80vw; 
+
+    margin-bottom: 1.5rem;
+    padding:1rem;
+
+    background-color: #FF8080;
+    border-radius: 1rem;
+
+    transition: height 0.6s ease-in-out;
+}
+.category_largedisease_content{
+    font-size: 1rem;
+    color:white;
+    
+    display: flex;
+    justify-content: space-between;
+}
+.category_middledisease{
+    width: 100%;
+    padding: 1rem;
+
+    margin-top:0.8rem;
+
+    background-color:#A6699D;
+    border-radius: 1rem;
+
+    color: white;
+    
+}
+.category_middledisease_content{
+    margin-bottom: 0.5rem;
+    padding:3px 0;
+
+    border-bottom: 1px solid rgba(250,250,250, 0.3);
+}
+.category_middledisease_content_header{
+    display: flex;
+    justify-content: space-between;
+}
+.category_smalldisease{
+    padding: 1rem;
+    margin-top: 0.5rem;
+
+    border-radius: 1rem;
+
+    background-color: #455879;
+}
+.category_smalldisease_content{
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(250,250,250,0.3);
+    padding:3px 0;
+}
+.disappear{
+    height:0;
+}

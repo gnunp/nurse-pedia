@@ -6,7 +6,6 @@ import global_color from "../css/color.css";
 
 window.addEventListener('resize',()=>{
     let pages = document.querySelectorAll('.page');
-    console.log(pages);
     let stageWidth = window.innerWidth;
     let stageHeight = window.innerHeight;
 
@@ -16,6 +15,9 @@ window.addEventListener('resize',()=>{
     });
 });
 
+/*-------------------------------Header 높이------------------------------ */
+const header_ele = document.querySelector('.header');
+export let headerHeight = header_ele.clientHeight;
 /*---------------------------header nav바 이벤트-----------------------------------*/
 const navitems = document.querySelectorAll('.global_nav_item');
 const subnavs = document.querySelectorAll('.subnav');
@@ -48,3 +50,10 @@ if(isactiveSearchBar){
 else{
     headerSearchBar.classList.toggle("disappear", true);
 }
+
+/*-----------------------Header 검색창 placeholder outfocus일때 나타내기----------------------------*/ 
+headerSearchBar.addEventListener("focusout",(e)=>{
+    if(!e.target.value){
+        e.target.placeholder ="간호 지식 검색";
+    }
+})

@@ -1,6 +1,3 @@
-html,body{
-    overflow: hidden;
-}
 /* -------------------PC버전------------------- */
 @media (hover: hover) and (pointer: fine){ 
     .header{
@@ -12,6 +9,8 @@ html,body{
         padding: 0 3%;
 
         box-sizing: border-box;
+
+        background-color: white;
 
         display: flex;
         justify-content: space-between;

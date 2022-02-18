@@ -1,8 +1,10 @@
 import css from "../css/disease_detail.css";
 import Secondpage from "./secondpage.js";
+import {headerHeight} from '../../global/js/global';
 
 class DiseaseDetail{
     constructor(){
+        this.setInit();
         this.colors = {
             1 : '#D6D6D6',
             2 : '#FFE5D9',
@@ -17,6 +19,10 @@ class DiseaseDetail{
         }
         this.findNode =document.querySelector('.title_word').textContent;
         new Secondpage(true, this.findNode);
+    }
+    setInit(){
+        this.diseaseDetailWrap = document.querySelector('.disease_detail_wrap');
+        this.diseaseDetailWrap.style.top = `${headerHeight}px`;
     }
 
     colorSet(){
