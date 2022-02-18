@@ -8,9 +8,12 @@ module.exports = {
 
         diseasedetail : "./static/nursing_knowledges/js/disease_detail.js",
         diagnosisdetail :"./static/nursing_knowledges/js/diagnosis_detail.js",
+        diseaseDetailEdit: "./static/nursing_knowledges/js/disease_detail_edit.js",
         
         userModal: "./static/users/js/userModal.js",
         kakaoSigninFormValidation: "./static/users/js/kakaoSigninFormValidation.js",
+
+
     },
     plugins: [
        // new BundleAnalyzerPlugin()
