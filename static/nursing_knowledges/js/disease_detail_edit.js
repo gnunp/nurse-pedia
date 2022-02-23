@@ -6,14 +6,14 @@ const handleClickAddDiagnosisBtn = (event) => {
     event.preventDefault();
     
     if(selectedDiagnosis.value.length){
-        console.log(selectedDiagnosis.value);
         checkboxList.insertAdjacentHTML(
             "beforeend",
             `
             <div class="diagnosis_set">
-            <input type="checkbox" id="${selectedDiagnosis.value}" name="added_${selectedDiagnosis.value}" checked>
-            <label for="${selectedDiagnosis.value}">${selectedDiagnosis.value}</label>
-        </div>
+                <input type="checkbox" id="${selectedDiagnosis.value}" name="added_${selectedDiagnosis.value}" checked>
+                <label for="${selectedDiagnosis.value}">${selectedDiagnosis.value}</label>
+                <input type="hidden" name="is_edited" value="${selectedDiagnosis.value}">
+            </div>
             `
         );
     }

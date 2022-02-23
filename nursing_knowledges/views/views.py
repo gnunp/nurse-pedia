@@ -3,13 +3,16 @@ from django.http.response import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
+from django.core.paginator import Paginator
 from nursing_knowledges.forms import DiseaseSmallForm
 from .api_views import *
 from ..models import (
     DiseaseSmallCategory,
     DiagnosisToOther,
     Diagnosis,
-    DiagnosisInterventionAlpha
+    DiagnosisInterventionAlpha,
+    KnowledgeEditHistory
 )
 
 def home(request):
@@ -112,6 +115,14 @@ def diagnosis_category(request):
 @login_required
 def disease_detail_edit(request, pk):
     disease = get_object_or_404(DiseaseSmallCategory, pk=pk)
+    before_word_count = count_words(
+        disease.definition,
+        disease.cause,
+        disease.symptom,
+        disease.diagnosis_and_checkup,
+        disease.treatment,
+        disease.nursing,
+    )
 
     disease_to_diagnoses = DiagnosisToOther.objects.filter(disease_small_category=disease)  # pk값으로 가져온 질병과 진단들의 연결관계 객체
 
@@ -129,6 +140,23 @@ def disease_detail_edit(request, pk):
 
         if form.is_valid():
             valided_disease = form.save()
+
+            # ------- 편집기록 저장 코드 --------------------------------------------------------------------------------
+            after_word_count = count_words(
+                disease.definition,
+                disease.cause,
+                disease.symptom,
+                disease.diagnosis_and_checkup,
+                disease.treatment,
+                disease.nursing,
+            )
+            KnowledgeEditHistory.objects.create(
+                disease=disease,
+                editor=request.user,
+                created_at= timezone.localtime(),
+                changed_word_count = after_word_count - before_word_count,
+            )
+            # ----------------------------------------------------------------------------------------------------------
 
             DiagnosisToOther.objects.filter(disease_small_category=pk).delete()
             for d in new_diagnoses:
@@ -152,4 +180,22 @@ def disease_detail_edit(request, pk):
 
     return render(request, "nursing_knowledges/disease_detail_edit.html", context)
 
+def count_words(*words):
+    result = 0
+    for word in words:
+        result += len(word)
 
+    return result
+
+def history(request):
+    histories = KnowledgeEditHistory.objects.all().order_by("-created_at")
+    paginator = Paginator(histories, 30)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'page_obj': page_obj,
+    }
+
+    return render(request, "nursing_knowledges/history.html", context)
