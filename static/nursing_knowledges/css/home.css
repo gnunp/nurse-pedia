@@ -2,11 +2,13 @@
 
 .wrappage{
     position: relative;
-
-    transition: transform 0.5s ease-in-out;
+    top:0;
+    transition: top 0.5s ease-in-out;
 }
 .page{
     position: relative;
+    width: 100vw; min-width: 720px;
+    height: 100vh; min-height: 360px;
 
     box-sizing: border-box;
 }

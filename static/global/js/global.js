@@ -15,3 +15,28 @@ window.addEventListener('resize',()=>{
         element.style.height = `${stageHeight}px`;
     });
 });
+
+/*-------------header nav바 이벤트-------------*/
+const navitems = document.querySelectorAll('.global_nav_item');
+const subnavs = document.querySelectorAll('.subnav');
+
+//nav바 마우스 오버와 리브에 따른 이벤트
+navitems.forEach(element => {
+    element.addEventListener('mouseover', (e)=>{
+        const activeId =e.target.dataset.id; 
+        if(activeId){
+            subnavs[activeId-1].classList.toggle('disappear', false);
+            subnavs[activeId-1].classList.toggle('activenav', true);
+        }
+    });
+    element.addEventListener('mouseleave', ()=>{
+        subnavs.forEach(element => {
+            element.classList.toggle('disappear', true);
+            element.classList.toggle('activenav', false);
+        });
+    });
+});
+
+/*---------------Header 검색창 나타냄 유무---------------*/ 
+const headerSearchBar = document.querySelector('.nav_searchbar');
+//주소를 받아서 디테일 페이지 인지 유무를 해야하는데 그런 코드 어캐짜지
