@@ -1,3 +1,3 @@
 @echo off
 set DJANGO_SETTINGS_MODULE=config.settings.local
-venv/scripts/activate
+np_venv/Scripts/activate

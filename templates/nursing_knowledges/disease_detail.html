@@ -26,7 +26,7 @@
         <div class="define_header">
             <div class="sorting_btn">☆질병</div>
             <h1 class="title_word">{{disease.name}}</h1>
-            <div class="editbtn">편집</div>
+            <a href="{% url 'nursing_knowledges:disease_detail_edit' disease.pk %}" class="editbtn">편집</a>
         </div>
         
         {% if disease.definition %}

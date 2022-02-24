@@ -6,6 +6,7 @@ class DiseaseCategory{
     constructor(){
         this.mainContent = document.querySelector('.dis_cat_mainContent');
         this.largedisease = knowledgeData.large_diseases;
+        this.spreadspeed = 0.1;
         console.log(knowledgeData);
 
         this.setInitStyle();
@@ -45,7 +46,7 @@ class DiseaseCategory{
 
             /*-------------largeElement Header부분 만드는 곳 ---------------*/
             largeelementHeader.innerHTML=`
-                <h1>${element}</h1>
+                <a href="#"><div class="category_header_text">${element}</div></a>
             `;
             largeelementHeader.appendChild(largetomiddleBtn);
             /*------------------ -----------------------------------------*/
@@ -78,7 +79,7 @@ class DiseaseCategory{
             const middleHeaderEle = document.createElement('div');
             middleHeaderEle.classList.add('category_middledisease_content_header');
             middleHeaderEle.innerHTML = `
-                <h1>${element}</h1>
+                <a href="#"><div class="category_header_text">${element}</div></a>
             `;
             middleHeaderEle.appendChild(middletosmallBtn);
             
@@ -97,9 +98,11 @@ class DiseaseCategory{
 
         smalldiseases.forEach(element => {
             const smallitem = document.createElement('div');
+            const smalldiseaseurl = '/knowledges/disease/'+ (element.id).toString();
+
             smallitem.classList.add('category_smalldisease_content');
             smallitem.innerHTML =`
-                <h1>${element}</h1>
+                <a href= ${smalldiseaseurl} %}><div class="category_header_text">${element.name}</div></a>
             `;
 
             smallEle.appendChild(smallitem);

@@ -1,0 +1,65 @@
+.edit_textarea_wrapper{
+    margin-top: 1rem;
+}
+
+.edit_textareas{
+    width: 100%;
+    margin: 0;
+    padding: 0.8rem;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+    resize: none;
+}
+
+.edit_textareas:focus{
+    outline: none;
+}
+
+.submit_wrapper{
+    display: flex;
+    justify-content: center;
+    margin-top: 4rem;
+}
+
+.submit_btn{
+    border: none;
+    border-radius: 5px;
+
+    padding: 0.7rem 2rem;
+    
+    background-color: var(--pink);
+    color: white;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.diagnoses_list{
+    padding-top: 1rem;
+    padding-left: 0.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.diagnosis_set{
+    margin-bottom: 0.5rem;
+}
+
+.diagnosis_set > input[type="checkbox"]:checked{
+    background-color: red;
+}
+
+.add_diagnosis_btn{
+    border: none;
+    border-radius: 5px;
+
+    padding: 0.7rem 0.5rem;
+    margin-left: 0.5rem;    
+    background-color: #ffa150;
+    color: white;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+#selected_diagnosis:focus{
+    outline: none;
+}

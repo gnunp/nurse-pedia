@@ -39,6 +39,7 @@ const search = async () => {
 
         // 키워드가 들어가는 질병,진단 데이터만 Array로 검색결과 반환
         const searchResult = filterSearchDatas(diseaseList, diagnosisList, keywordString);
+        console.log(searchResult);
 
         // 검색 결과가 없으면 함수 종료
         if(searchResult.length < 1){
@@ -121,8 +122,9 @@ const search = async () => {
     }
 
     function handleClickResult(event){
-        const id = event.target.dataset.id;
-        const type = event.target.dataset.type;
+        const result = event.target.closest(".firstpage_search_result");
+        const id = result.dataset.id;
+        const type = result.dataset.type;
         if(type === "disease"){
             location.href = `/knowledges/disease/${id}`;
         }

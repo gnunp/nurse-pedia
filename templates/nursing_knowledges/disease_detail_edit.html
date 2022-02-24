@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} {{disease.name}} {% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'nursing_knowledges/css/disease_detail.css' %}">
+<link rel="stylesheet" href="{% static 'nursing_knowledges/css/disease_detail_edit.css' %}">
+{% endblock css %}
+
+{% block link %}
+{% endblock link %}
+
+{% block head_script %}
+{% endblock head_script %}
+
+{% block content %}
+<style>
+    .header{
+        border-bottom: 1px solid rgba(100, 100, 100, 0.3);
+    }
+    html,body{
+        overflow: auto;
+    }
+    .cy_wrap{
+        margin: 0 auto;
+    }
+</style>
+<form id="edit_form"class="disease_detail_wrap" method="post" action="{% url 'nursing_knowledges:disease_detail_edit' disease.pk %}">
+    {% csrf_token %}
+    <div class="define">
+        <div class="define_header">
+            <div class="sorting_btn">☆질병</div>
+            <h1 class="title_word">{{disease.name}}</h1>
+        </div>
+        
+        <div class="edit_textarea_wrapper">
+            {{form.definition}}
+            {{form.definition.errors}}
+        </div>
+    </div>
+
+    
+    <div class="content">
+        <div class="content_title">
+            <h2>원인</h2>
+        </div>
+        <div class="edit_textarea_wrapper">
+            {{form.cause}}
+            {{form.cause.errors}}
+        </div>
+    </div>
+    
+
+    <div class="content">
+        <div class="content_title">
+            <h2>증상</h2>
+        </div>
+        <div class="edit_textarea_wrapper">
+            {{form.symptom}}
+            {{form.symptom.errors}}
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="content_title">
+            <h2>진단/검사</h2>
+        </div>
+        <div class="edit_textarea_wrapper">
+            {{form.diagnosis_and_checkup}}
+            {{form.diagnosis_and_checkup.errors}}
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="content_title">
+            <h2>치료</h2>
+        </div>
+        <div class="edit_textarea_wrapper">
+            {{form.treatment}}
+            {{form.treatment.errors}}
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="content_title">
+            <h2>간호</h2>
+        </div>
+        <div class="edit_textarea_wrapper">
+            {{form.nursing}}
+            {{form.nursing.errors}}
+        </div>
+    </div>
+
+
+    <div class="relative_diagnosis content">
+        <div class="relative_diagnosis_header content_title">
+            <h2 class="relative_diagnosis_title_word">관련 진단</h2>
+        </div>
+        <div class="relative_diagnosis_content content_article diagnoses_list js-diagnoses_list">
+            {% for item in related_diagnoses%}
+                <div class="diagnosis_set">
+                    <input type="checkbox" id="{{item.name}}" name="added_{{item.name}}" checked>
+                    <label for="{{item.name}}">{{item.name}}</label>
+                </div>
+            {% endfor%}
+        </div>
+        <div class="add_diagnosis_wrapper">
+            <input list="all_diagnosis" id="selected_diagnosis" name="selected_diagnosis" />
+            <datalist id="all_diagnosis">
+                {% for d in all_diagnosis %}
+                    <option value="{{d}}">
+                {% endfor %}
+            </datalist>
+            <button class="add_diagnosis_btn js-add_diagnosis_btn">진단 추가</button>
+        </div>
+    </div>
+
+    <div class="submit_wrapper">
+        <button class="submit_btn" type="submit" form="edit_form">수정하기</button>
+    </div>
+
+</div>
+{% endblock content %}
+
+
+
+{% block script %}
+<script src="{% static 'assets/js/diseaseDetailEdit.js' %}"></script>
+{% endblock script %}

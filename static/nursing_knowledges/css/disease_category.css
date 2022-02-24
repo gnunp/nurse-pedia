@@ -34,7 +34,9 @@
     background-color: #FF8080;
     border-radius: 1rem;
 
-    transition: height 0.6s ease-in-out;
+    overflow:hidden;
+
+    transition: height 1s ease-in-out;
 }
 .category_largedisease_content{
     font-size: 1rem;
@@ -53,7 +55,6 @@
     border-radius: 1rem;
 
     color: white;
-    
 }
 .category_middledisease_content{
     margin-bottom: 0.5rem;
@@ -80,4 +81,10 @@
 }
 .disappear{
     height:0;
+}
+.category_header_text{
+    color:white;
+}
+.category_header_text:hover{
+
 }
