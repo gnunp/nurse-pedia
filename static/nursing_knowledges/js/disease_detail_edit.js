@@ -1,6 +1,7 @@
 const addDiagnosisBtn = document.querySelector(".js-add_diagnosis_btn");
 const selectedDiagnosis = document.querySelector("#selected_diagnosis");
 const checkboxList = document.querySelector(".js-diagnoses_list");
+const textareas = document.querySelectorAll("textarea");
 
 const handleClickAddDiagnosisBtn = (event) => {
     event.preventDefault();
@@ -20,3 +21,11 @@ const handleClickAddDiagnosisBtn = (event) => {
 }
 
 addDiagnosisBtn.addEventListener("click", handleClickAddDiagnosisBtn);
+
+const allTextareaBlur = () => {
+    for (const textarea of textareas) {
+        textarea.blur();
+    }
+}
+
+window.addEventListener("scroll", allTextareaBlur);
