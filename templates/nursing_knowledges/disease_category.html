@@ -21,10 +21,15 @@
 
 
 {% block content %}
-<span>질병 분류</span>
+    <div class="dis_cat_mainContent"></div>
 {% endblock content %}
 
 
 
 {% block script %}
+<script>
+    const knowledgeData = {{knowledge_data|safe}};
+</script>
+<script src="{% static 'assets/js/diseasecategory.js' %}"></script>
+
 {% endblock script %}

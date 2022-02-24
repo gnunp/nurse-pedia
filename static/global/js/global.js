@@ -6,7 +6,6 @@ import global_color from "../css/color.css";
 
 window.addEventListener('resize',()=>{
     let pages = document.querySelectorAll('.page');
-    console.log(pages);
     let stageWidth = window.innerWidth;
     let stageHeight = window.innerHeight;
 
@@ -16,7 +15,10 @@ window.addEventListener('resize',()=>{
     });
 });
 
-/*-------------header nav바 이벤트-------------*/
+/*-------------------------------Header 높이------------------------------ */
+const header_ele = document.querySelector('.header');
+export let headerHeight = header_ele.clientHeight;
+/*---------------------------header nav바 이벤트-----------------------------------*/
 const navitems = document.querySelectorAll('.global_nav_item');
 const subnavs = document.querySelectorAll('.subnav');
 
@@ -37,6 +39,21 @@ navitems.forEach(element => {
     });
 });
 
-/*---------------Header 검색창 나타냄 유무---------------*/ 
+/*-----------------------Header 검색창 나타냄 유무----------------------------*/ 
 const headerSearchBar = document.querySelector('.nav_searchbar');
-//주소를 받아서 디테일 페이지 인지 유무를 해야하는데 그런 코드 어캐짜지
+const currenthref = location.href;
+const isactiveSearchBar = (/knowledges/).test(currenthref);
+
+if(isactiveSearchBar){
+    headerSearchBar.classList.toggle("disappear", false);
+}
+else{
+    headerSearchBar.classList.toggle("disappear", true);
+}
+
+/*-----------------------Header 검색창 placeholder outfocus일때 나타내기----------------------------*/ 
+headerSearchBar.addEventListener("focusout",(e)=>{
+    if(!e.target.value){
+        e.target.placeholder ="간호 지식 검색";
+    }
+})
