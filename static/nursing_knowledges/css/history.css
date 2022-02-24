@@ -1,0 +1,80 @@
+body, html{
+    overflow: auto !important;
+}
+
+.header{
+    border-bottom: solid 1px #D6D6D6;
+}
+
+.history_wrapper{
+    max-width: 1060px;
+    min-height: 100vh;
+    margin: 15vh auto;
+    margin-bottom: 0;
+    padding: 4rem;
+    border-left: solid 1px #D6D6D6;
+    border-right: solid 1px #D6D6D6;
+}
+
+.history__title{
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.history__list{
+    margin-top: 2.5rem;
+    margin-left: 2rem;
+}
+
+.history__list__item{
+    display: flex;
+    margin-bottom: 0.7rem;
+}
+
+.history__list__item::before{
+    content: "•";
+    margin-right: 0.5rem;
+}
+
+.history__list__item > .knowledge_name_wrapper{
+    display: flex;
+}
+
+.history__list__item .knowledge_name{
+    font-weight: bold;
+    color: #FF6565;
+}
+
+.history__list__item > .editor{
+}
+
+.set_color_blue{
+    color: blue;
+}
+
+.set_color_red{
+    color: red;
+}
+
+.history__page_btn_wrapper{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 3rem
+}
+
+.history__page_btn_wrapper > a{
+    border: none;
+    border: solid 1px #8D8D8D;
+    border-radius: 5px;
+    background-color: white;
+    padding: 8px 25px;
+    margin: 0 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.history__page_btn_wrapper > a:hover{
+    background-color: #eeeeee;
+    cursor: pointer;
+}

@@ -6,6 +6,7 @@ from .models import (
     Diagnosis,
     DiagnosisToOther,
     DiagnosisInterventionAlpha,
+    KnowledgeEditHistory,
 )
 
 @admin.register(DiseaseLargeCategory)
@@ -46,5 +47,12 @@ class DiagnosisAdmin(admin.ModelAdmin):
 class DiagnosisToOtherAdmin(admin.ModelAdmin):
     """
     질병(중분류 or 대분류) <--> 진단의 연결관계를 나타내는 Model Admin
+    """
+    pass
+
+@admin.register(KnowledgeEditHistory)
+class KnowledgeEditHistoryAdmin(admin.ModelAdmin):
+    """
+    질병, 진단을 수정한 사람의 정보와, 시간대가 나와있는 Model Admin
     """
     pass

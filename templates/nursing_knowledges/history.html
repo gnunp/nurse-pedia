@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %} 편집 히스토리 {% endblock title %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'nursing_knowledges/css/history.css' %}">
+{% endblock css %}
+
+
+
+{% block link %}
+{% endblock link %}
+
+
+
+{% block head_script %}
+{% endblock head_script %}
+
+
+
+{% block content %}
+
+<div class="history_wrapper">
+    <h1 class="history__title">편집 히스토리</h1>
+
+    <ul class="history__list">
+        {% for history in page_obj %}
+            <li class="history__list__item">
+                <span class="date">{{history.created_at|date:'Y-m-d H:i:s'}}</span>
+                <span>&nbsp;-&nbsp;</span>
+                <div class="knowledge_name_wrapper">
+                    <a href="{{history.get_knowledge.get_absolute_url}}" class="knowledge_name">{{history.get_knowledge.name}}</a>
+                    <span>(</span>
+                    {% if history.changed_word_count > 0 %}
+                        <div class="change_word_count set_color_blue">{{history.get_change_word_count}}</div>
+                    {% elif history.changed_word_count < 0 %}
+                        <div class="change_word_count set_color_red">{{history.get_change_word_count}}</div>
+                    {% else %}
+                        <div class="change_word_count">{{history.get_change_word_count}}</div>
+                    {% endif %}
+                    <span>)</span>
+                </div>
+                <span>&nbsp;-&nbsp;</span>
+                <span class="editor">{{history.editor}}</span>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="history__page_btn_wrapper">
+        
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">이전</a>
+        {% endif %}
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">다음</a>
+        {% endif %}
+    </div>
+</div>
+    
+{% endblock content %}
+
+
+
+{% block script %}
+{% endblock script %}
