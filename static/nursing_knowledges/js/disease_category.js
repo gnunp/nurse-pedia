@@ -16,6 +16,7 @@ class DiseaseCategory{
     setInitStyle(){
         /*--------------Header높이 만큼 위에서 떨어트림--------------- */
         this.mainContent.style.top = `${headerHeight}px`;
+        
     }
     createBtn(child_ele, parents_ele, type){
         const newbtn = document.createElement('button');
