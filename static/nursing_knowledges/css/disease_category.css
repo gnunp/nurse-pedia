@@ -2,7 +2,7 @@
     position: relative;
     
     margin: 0 auto;
-    width:90vw;
+    width:70vw;
     min-height: 100vh;
 
     padding: 1rem 2rem;
@@ -26,7 +26,8 @@
 .category_largedisease{
     position: relative;
 
-    width: 80vw; 
+    width: 100%; 
+    max-height: 3rem;
 
     margin-bottom: 1.5rem;
     padding:1rem;
@@ -36,7 +37,7 @@
 
     overflow:hidden;
 
-    transition: height 1s ease-in-out;
+    transition: max-height 1s ease-in-out;
 }
 .category_largedisease_content{
     font-size: 1rem;

@@ -4,6 +4,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 module.exports = {
     entry: {
         global: "./static/global/js/global.js",
+        animation: "./static/global/js/animation.js",
         home: "./static/nursing_knowledges/js/home.js",
 
         diseasedetail : "./static/nursing_knowledges/js/disease_detail.js",

@@ -1,11 +1,11 @@
 .diagnosis_detail_wrap{
     position: relative;
-
-    width: 80%; 
+    
+    width: 70vw; 
     margin: 0 auto;
     min-height: calc(100vh - 80px);
 
-    padding: 4rem 7rem;
+    padding: 4rem;
     box-sizing: border-box;
 
     border-right: 1px solid rgba(0, 0, 0, 0.3);

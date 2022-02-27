@@ -1,5 +1,6 @@
 import '../css/disease_category.css';
 
+import {animation} from '../../global/js/animation';
 import {headerHeight} from '../../global/js/global';
 
 class DiseaseCategory{
@@ -16,13 +17,28 @@ class DiseaseCategory{
         /*--------------Header높이 만큼 위에서 떨어트림--------------- */
         this.mainContent.style.top = `${headerHeight}px`;
     }
-    createBtn(child_ele, parents_ele){
+    createBtn(child_ele, parents_ele, type){
         const newbtn = document.createElement('button');
         newbtn.innerText = "▶";
 
         /*--------------------버튼 클릭시 발생되는 이벤트 ---------------- */
         newbtn.addEventListener('click',()=>{
+            /*-----------------처음 Height값 저장(첫번째 클릭에만 실행) -------------- */
+            if(parents_ele.dataset.issetmaxheight == 'true'){
+                parents_ele.setAttribute('data-issetmaxHeight', false);
+                const currentmaxHeight = parents_ele.clientHeight;
+                parents_ele.setAttribute('data-currentmaxHeight', currentmaxHeight);
+                parents_ele.style.maxHeight=`${currentmaxHeight}px`;
+            }
+            /*--------------------------------------------------------------------- */
             child_ele.classList.toggle('disappear');
+            const toggleheight = child_ele.clientHeight;
+            if(child_ele.classList.contains('disappear')){
+                animation.slideUp(parents_ele);
+            }
+            else{
+                animation.slideDown(parents_ele, );
+            }
             newbtn.classList.toggle('btn_active');
         });
 
@@ -36,14 +52,14 @@ class DiseaseCategory{
         this.largedisease.forEach(element => {
             const largeElement = document.createElement('div');
             largeElement.classList.add('category_largedisease');
+            largeElement.setAttribute('data-issetmaxheight', true);
 
             const largeelementHeader = document.createElement('div');
             largeelementHeader.classList.add('category_largedisease_content');
 
             const childmiddleEle = this.createMediumsDisease(element);
 
-            const largetomiddleBtn = this.createBtn(childmiddleEle, largeElement);
-
+            const largetomiddleBtn = this.createBtn(childmiddleEle, largeElement, 'large');
             /*-------------largeElement Header부분 만드는 곳 ---------------*/
             largeelementHeader.innerHTML=`
                 <a href="#"><div class="category_header_text">${element}</div></a>
@@ -71,10 +87,11 @@ class DiseaseCategory{
         middlediseases.forEach(element => {
             const newmiddleEle = document.createElement('div');
             newmiddleEle.classList.add('category_middledisease_content');
+            newmiddleEle.setAttribute('data-issetmaxheight', true);
 
             const childsmallEle = this.createSmallDisease(element);
 
-            const middletosmallBtn = this.createBtn(childsmallEle);
+            const middletosmallBtn = this.createBtn(childsmallEle, newmiddleEle, 'middle');
 
             const middleHeaderEle = document.createElement('div');
             middleHeaderEle.classList.add('category_middledisease_content_header');
