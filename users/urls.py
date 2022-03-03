@@ -12,4 +12,5 @@ urlpatterns = [
     path("signin/kakao/action", views.kakao_signin_action, name="kakao_signin_action"),
     path('signup', views.signup, name="signup"),
     path('logout', views.log_out, name="logout"),
+    path('mypage', views.mypage, name="mypage"),
 ]
