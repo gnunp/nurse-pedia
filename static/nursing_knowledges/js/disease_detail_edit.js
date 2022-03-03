@@ -1,7 +1,10 @@
+import { headerHeight } from "../../global/js/global";
+
 const addDiagnosisBtn = document.querySelector(".js-add_diagnosis_btn");
 const selectedDiagnosis = document.querySelector("#selected_diagnosis");
 const checkboxList = document.querySelector(".js-diagnoses_list");
 const textareas = document.querySelectorAll("textarea");
+const form = document.querySelector("#edit_form");
 
 const handleClickAddDiagnosisBtn = (event) => {
     event.preventDefault();
@@ -29,3 +32,6 @@ const allTextareaBlur = () => {
 }
 
 window.addEventListener("scroll", allTextareaBlur);
+
+console.log(form);
+form.style.top = `${headerHeight}px`
