@@ -54,7 +54,9 @@ class Diagnosis(models.Model):
     간호 진단 Model
     """
     name = models.CharField(max_length=100, unique=True)  # 진단명
+    definition = models.TextField(max_length=3000, default="", blank=True)  # 진단의 정의
     intervention_content = models.TextField(max_length=3000, default="", blank=True)  # 진단이 가지는 중재들을 설명하는 필드
+    related_diagnoses = models.ManyToManyField("self", symmetrical=False, blank=True, through="DiagnosisRelatedDiagnoses")  # 관련 간호진단
 
 
     class Meta:
@@ -65,6 +67,21 @@ class Diagnosis(models.Model):
 
     def get_absolute_url(self):
         return reverse('nursing_knowledges:diagnosis_detail', args=[self.id])
+
+class DiagnosisRelatedDiagnoses(models.Model):
+    """
+    간호 진단 Model의 related_diagnoses의 through에 설정된 Model
+    """
+    from_diagnosis = models.ForeignKey("Diagnosis", on_delete=models.CASCADE, related_name="from_diagnosis")
+    to_diagnosis = models.ForeignKey("Diagnosis", on_delete=models.CASCADE, related_name="to_diagnosis")
+    like_users = models.ManyToManyField("users.User", related_name="like_related_diagnoses")
+
+    def __str__(self):
+        return f"[{self.from_diagnosis.name}]의 관련 진단들"
+
+    def like_users_count(self):
+        return len(self.like_users)
+    
 
 class DiagnosisInterventionAlpha(models.Model):
     """

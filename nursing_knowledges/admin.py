@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import (
+    DiagnosisRelatedDiagnoses,
     DiseaseLargeCategory,
     DiseaseMediumCategory,
     DiseaseSmallCategory,
@@ -32,6 +33,13 @@ class DiseaseSmallCategory(admin.ModelAdmin):
 
 class DiagnosisInterventionAlphaInline(admin.TabularInline):
     model = DiagnosisInterventionAlpha
+    extra = 1
+
+class DiagnosisRelatedDiagnosesInline(admin.TabularInline):
+    model = DiagnosisRelatedDiagnoses
+    extra = 1
+    fk_name = "from_diagnosis"
+
 
 @admin.register(Diagnosis)
 class DiagnosisAdmin(admin.ModelAdmin):
@@ -40,8 +48,18 @@ class DiagnosisAdmin(admin.ModelAdmin):
     """
     inlines = [
         DiagnosisInterventionAlphaInline,
+        DiagnosisRelatedDiagnosesInline
     ]
-    list_display = ('name', 'intervention_content')
+    list_display = ('name', 'definition', 'intervention_content')
+
+
+# @admin.register(DiagnosisRelatedDiagnoses)
+# class DiagnosisRelatedDiagnosesAdmin(admin.ModelAdmin):
+#     """
+#     간호 진단 Model의 related_diagnoses의 through에 설정된 Model Admin
+#     """
+#     pass
+
 
 @admin.register(DiagnosisToOther)
 class DiagnosisToOtherAdmin(admin.ModelAdmin):
