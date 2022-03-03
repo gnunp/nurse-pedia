@@ -2,10 +2,10 @@
     position: relative;
     
     margin: 0 auto;
-    width:90vw;
+    width:70vw;
     min-height: 100vh;
 
-    padding: 1rem 2rem;
+    padding: 2rem;
     
     border-right: 1px solid #ccc;
     border-left: 1px solid #ccc;
@@ -21,12 +21,14 @@
     transition: transform 0.3s ease-in-out;
 }
 .btn_active{
-    transform: rotateZ(90deg);
+    transform: rotateZ(-90deg);
 }
 .category_largedisease{
     position: relative;
 
-    width: 80vw; 
+    width: 100%; 
+    max-height: 3rem;
+    min-height: 0;
 
     margin-bottom: 1.5rem;
     padding:1rem;
@@ -36,7 +38,7 @@
 
     overflow:hidden;
 
-    transition: height 1s ease-in-out;
+    transition: max-height 0.6s ease-in-out, min-height 0.6s ease-in-out;
 }
 .category_largedisease_content{
     font-size: 1rem;
@@ -47,6 +49,9 @@
 }
 .category_middledisease{
     width: 100%;
+    max-height: fit-content;
+    min-height:0;
+
     padding: 1rem;
 
     margin-top:0.8rem;
@@ -55,12 +60,23 @@
     border-radius: 1rem;
 
     color: white;
+    
+    overflow: hidden;
+
+    transition: max-height 0.6s ease-in-out, min-height 0.6s ease-in-out;
 }
 .category_middledisease_content{
+    max-height: 2rem;
+    min-height: 0;
+
     margin-bottom: 0.5rem;
     padding:3px 0;
 
     border-bottom: 1px solid rgba(250,250,250, 0.3);
+
+    overflow: hidden;
+
+    transition: max-height 0.6s ease-in-out, min-height 0.6s ease-in-out;
 }
 .category_middledisease_content_header{
     display: flex;
@@ -73,6 +89,7 @@
     border-radius: 1rem;
 
     background-color: #455879;
+
 }
 .category_smalldisease_content{
     margin-bottom: 0.5rem;
@@ -80,11 +97,12 @@
     padding:3px 0;
 }
 .disappear{
-    height:0;
+    visibility: hidden;
 }
 .category_header_text{
     color:white;
 }
-.category_header_text:hover{
-
+.category_smalldisease .category_header_text:hover{
+    font-size: 1.5rem;
+    font-weight: 900;
 }

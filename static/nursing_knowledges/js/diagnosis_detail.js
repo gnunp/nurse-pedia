@@ -10,8 +10,9 @@ class DiagnosisDetail{
     }
 
     setInit(){
-        this.diagnosisDetailWrap = document.querySelector('.diagnosis_detail_wrap');
-        this.diagnosisDetailWrap.getElementsByClassName.top =`${headerHeight}px`;
+    this.diagnosisDetailWrap = document.querySelector('.diagnosis_detail_wrap');
+        this.diagnosisDetailWrap.style.top =`${headerHeight}px`;
+        
     }
 }
 

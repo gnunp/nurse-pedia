@@ -10,6 +10,8 @@
 
         box-sizing: border-box;
 
+        border-bottom: 1px solid #ccc;
+
         background-color: white;
 
         display: flex;
@@ -132,7 +134,14 @@
         top: 100%; left: 50%;
         transform: translate(-50%, 0);
 
+        background-color: white;
+
         white-space: nowrap;
+    }
+    .subnav:last-child{
+        padding-bottom: 0.5rem;
+        border-bottom-left-radius: 0.5rem;
+        border-bottom-right-radius: 0.5rem;
     }
     .subnav div{
         padding: 1rem;
