@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
-from django.http import JsonResponse, HttpResponse
+from django.http import Http404, JsonResponse, HttpResponse
 from django.urls import reverse
 from django.conf import settings
 from .forms import SigninForm, SignupForm, KakaoSignupForm
@@ -181,3 +181,13 @@ def signup(request):
 def log_out(request):
     logout(request)
     return redirect(reverse("home"))
+
+def mypage(request):
+    # 로그인 한 사람만 갈 수 있도록
+    if request.user.is_anonymous:
+        raise Http404()
+    
+    context = {}
+
+    return render(request, 'users/mypage.html', context)
+    
