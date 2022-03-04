@@ -1,19 +1,24 @@
 import json
+from rest_framework.decorators import api_view, renderer_classes
+from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
+from rest_framework import status
 from django.http.response import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.core.paginator import Paginator
-from nursing_knowledges.forms import DiseaseSmallForm
+from nursing_knowledges.forms import DiagnosisForm, DiseaseSmallForm
 from .api_views import *
 from ..models import (
+    DiagnosisRelatedDiagnoses,
     DiseaseSmallCategory,
     DiagnosisToOther,
     Diagnosis,
     DiagnosisInterventionAlpha,
     KnowledgeEditHistory
 )
+from users.models import User
 
 def home(request):
     """
@@ -52,15 +57,24 @@ def diagnosis_detail(request, pk):
     """
     try:
         diagnosis = Diagnosis.objects.get(pk=pk)  # 해당 질병 객체
-        interventions = diagnosis.intervention_content.split("\n") if True else ""
         alphas = DiagnosisInterventionAlpha.objects.filter(diagnosis=pk)
-    except:
+    except Diagnosis.DoesNotExist:
         raise Http404()
+
+    try:
+        diagnosis_related_diagnoses = list(DiagnosisRelatedDiagnoses.objects.filter(from_diagnosis=pk))
+        diagnosis_related_diagnoses.sort(key=lambda x: x.like_users.all().count(), reverse=True)
+    except:
+        diagnosis_related_diagnoses = [""]
+        pass
+
+    form = DiagnosisForm()
 
     context = {
         "diagnosis": diagnosis,
-        "interventions": interventions,
+        "diagnosis_related_diagnoses": diagnosis_related_diagnoses,
         "alphas": alphas,
+        "form": form,
     }
     
     return render(request, "nursing_knowledges/diagnosis_detail.html", context)
@@ -187,6 +201,22 @@ def count_words(*words):
 
     return result
 
+@api_view(["POST"])
+def diagnosis_detail__related_diagnosis_edit(request, pk):
+    edited_text = request.data.get('editedText')
+
+    try:
+        diagnosis = Diagnosis.objects.get(pk=pk)
+        diagnosis.intervention_content = edited_text
+        diagnosis.save()
+    except Diagnosis.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+
+    return Response(status=status.HTTP_200_OK)
+
+
+
 def history(request):
     histories = KnowledgeEditHistory.objects.all().order_by("-created_at")
     paginator = Paginator(histories, 30)
@@ -199,3 +229,25 @@ def history(request):
     }
 
     return render(request, "nursing_knowledges/history.html", context)
+
+@api_view(["POST"])
+def related_diagnosis_like(request, pk):
+    if request.user.is_anonymous:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
+    try:
+        diagnosis_related_diagnoses = DiagnosisRelatedDiagnoses.objects.get(pk=pk)
+
+        try:
+            like_user = diagnosis_related_diagnoses.like_users.get(pk=request.user.pk)
+            diagnosis_related_diagnoses.like_users.remove(like_user)
+            return Response(status=status.HTTP_200_OK)
+
+        except User.DoesNotExist:
+            diagnosis_related_diagnoses.like_users.add(request.user)
+            return Response(status=status.HTTP_201_CREATED)
+
+    except DiagnosisRelatedDiagnoses.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    

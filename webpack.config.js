@@ -9,6 +9,7 @@ module.exports = {
 
         diseasedetail : "./static/nursing_knowledges/js/disease_detail.js",
         diagnosisdetail :"./static/nursing_knowledges/js/diagnosis_detail.js",
+        diagnosisdetail__relatedDiagnosisEvent :"./static/nursing_knowledges/js/diagnosis_detail__relatedDiagnosisEvent.js",
         diseaseDetailEdit: "./static/nursing_knowledges/js/disease_detail_edit.js",
         
         userModal: "./static/users/js/userModal.js",

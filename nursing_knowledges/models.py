@@ -68,19 +68,19 @@ class Diagnosis(models.Model):
     def get_absolute_url(self):
         return reverse('nursing_knowledges:diagnosis_detail', args=[self.id])
 
+    def get_intervention_list(self):
+        return self.intervention_content.split("\n") if True else ""
+
 class DiagnosisRelatedDiagnoses(models.Model):
     """
     간호 진단 Model의 related_diagnoses의 through에 설정된 Model
     """
     from_diagnosis = models.ForeignKey("Diagnosis", on_delete=models.CASCADE, related_name="from_diagnosis")
     to_diagnosis = models.ForeignKey("Diagnosis", on_delete=models.CASCADE, related_name="to_diagnosis")
-    like_users = models.ManyToManyField("users.User", related_name="like_related_diagnoses")
+    like_users = models.ManyToManyField("users.User", related_name="like_related_diagnoses", blank=True)
 
     def __str__(self):
-        return f"[{self.from_diagnosis.name}]의 관련 진단들"
-
-    def like_users_count(self):
-        return len(self.like_users)
+        return f"[{self.from_diagnosis.name}] -> [{self.to_diagnosis}]"
     
 
 class DiagnosisInterventionAlpha(models.Model):
