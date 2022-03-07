@@ -8,9 +8,10 @@ module.exports = {
         home: "./static/nursing_knowledges/js/home.js",
 
         diseasedetail : "./static/nursing_knowledges/js/disease_detail.js",
-        diagnosisdetail :"./static/nursing_knowledges/js/diagnosis_detail.js",
-        diagnosisdetail__relatedDiagnosisEvent :"./static/nursing_knowledges/js/diagnosis_detail__relatedDiagnosisEvent.js",
         diseaseDetailEdit: "./static/nursing_knowledges/js/disease_detail_edit.js",
+        diagnosisdetail :"./static/nursing_knowledges/js/diagnosis_detail.js",
+        diagnosisDetailEdit :"./static/nursing_knowledges/js/diagnosis_detail_edit.js",
+        diagnosisdetail__relatedDiagnosisEvent :"./static/nursing_knowledges/js/diagnosis_detail__relatedDiagnosisEvent.js",
         
         userModal: "./static/users/js/userModal.js",
         kakaoSigninFormValidation: "./static/users/js/kakaoSigninFormValidation.js",

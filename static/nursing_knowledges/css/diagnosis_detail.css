@@ -35,6 +35,11 @@
 
     cursor: pointer;
 }
+
+.editbtn:hover{
+    color: white; 
+}
+
 .define{
     min-height:240px;
 }

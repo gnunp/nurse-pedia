@@ -114,9 +114,6 @@ def disease_category(request):
         "medium_to_smalls": medium_to_smalls,
     }
 
-    print(json.dumps(result, indent=4, ensure_ascii=False))
-        
-
     context = {"knowledge_data": json.dumps(result, indent=4, ensure_ascii=False)}
     return render(request, "nursing_knowledges/disease_category.html", context)
 
@@ -193,6 +190,72 @@ def disease_detail_edit(request, pk):
     }
 
     return render(request, "nursing_knowledges/disease_detail_edit.html", context)
+
+@login_required
+def diagnosis_detail_edit(request, pk):
+    diagnosis = get_object_or_404(Diagnosis, pk=pk)
+    before_word_count = count_words(
+        diagnosis.definition,
+        diagnosis.intervention_content
+    )
+
+
+    related_diagnoses = DiagnosisRelatedDiagnoses.objects.filter(from_diagnosis=diagnosis)
+    related_diagnoses_string_list = [related_diagnosis.to_diagnosis.name for related_diagnosis in related_diagnoses]
+    if request.method == "POST":
+        form = DiagnosisForm(request.POST, instance=diagnosis)
+
+        new_diagnoses = []
+        for d in request.POST.keys():
+            if d.startswith("added_"):
+                new_diagnoses.append(d.split("_")[-1])
+            
+        # 삭제된 관련진단 처리하는 코드
+        deleted_diagnoses = set(related_diagnoses_string_list) - set(new_diagnoses)
+        for deleted_diagnosis_string in deleted_diagnoses:
+            try:
+                DiagnosisRelatedDiagnoses.objects.get(from_diagnosis=diagnosis, to_diagnosis__name=deleted_diagnosis_string).delete()
+            except DiagnosisRelatedDiagnoses.DoesNotExist:
+                pass
+
+        if form.is_valid():
+            valided_diagnosis = form.save()
+            # ------- 편집기록 저장 코드 --------------------------------------------------------------------------------
+            after_word_count = count_words(
+                diagnosis.definition,
+                diagnosis.intervention_content
+            )
+            KnowledgeEditHistory.objects.create(
+                diagnosis=diagnosis,
+                editor=request.user,
+                created_at= timezone.localtime(),
+                changed_word_count = after_word_count - before_word_count,
+            )
+            # ----------------------------------------------------------------------------------------------------------
+            for d in new_diagnoses:
+                try:
+                    diagnosis_obj = Diagnosis.objects.get(name=d)
+
+                    try:
+                        diagnosis_related_diagnosis = DiagnosisRelatedDiagnoses.objects.get(from_diagnosis=diagnosis, to_diagnosis=diagnosis_obj)
+                    except DiagnosisRelatedDiagnoses.DoesNotExist:
+                        DiagnosisRelatedDiagnoses.objects.create(from_diagnosis=diagnosis, to_diagnosis=diagnosis_obj)
+                    
+                except Diagnosis.DoesNotExist:
+                    pass
+
+            return redirect(valided_diagnosis)
+    
+    else:
+        form = DiagnosisForm(instance=diagnosis)
+
+    context = {
+        "form": form,
+        "diagnosis": diagnosis,
+        "related_diagnoses":related_diagnoses,
+    }
+    
+    return render(request, "nursing_knowledges/diagnosis_detail_edit.html", context)
 
 def count_words(*words):
     result = 0

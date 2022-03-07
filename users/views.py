@@ -11,7 +11,6 @@ import requests
 def signin_action(request):
     if request.method == 'POST':
         form = SigninForm(request.POST)
-        print(form)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('current_password')
@@ -30,7 +29,6 @@ def signin(request):
         form = SigninForm(request.POST)
         # print(request.POST)
         if form.is_valid():
-            print(form.cleaned_data)
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('current_password')
             
@@ -108,7 +106,6 @@ def kakao_callback(request):
 
 def kakao_signin_validation(request):
     if request.method == 'POST':
-        print(request.POST)
         form = KakaoSignupForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')

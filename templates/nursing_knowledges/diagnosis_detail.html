@@ -34,7 +34,7 @@
             <div class="define_header">
                 <div class="sorting_btn">진단</div>
                 <h1 class="title_word">{{diagnosis.name}}</h1>
-                <div class="editbtn">편집</div>
+                <a href="{% url 'nursing_knowledges:diagnosis_detail_edit' diagnosis.pk %}" class="editbtn">편집</a>
             </div>
             
             
