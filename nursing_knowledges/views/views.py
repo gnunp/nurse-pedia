@@ -106,7 +106,7 @@ def disease_category(request):
 
     medium_to_smalls = dict()
     for medium_disease in DiseaseMediumCategory.objects.all():
-        medium_to_smalls[medium_disease.name] = list(medium_disease.disease_small_categories.values('id', 'name'))
+        medium_to_smalls[medium_disease.name] = list(medium_disease.disease_small_categories_by_medium.values('id', 'name'))
 
     result = {
         "large_diseases": larges,
