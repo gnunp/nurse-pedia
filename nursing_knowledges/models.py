@@ -1,12 +1,12 @@
 from django.db import models
 from django.urls import reverse
 
+
 class DiseaseLargeCategory(models.Model):
     """
     질병 대분류 Model
     """
     name = models.CharField(max_length=100, unique=True)  # 대분류명
-
 
     def __str__(self):
         return self.name
@@ -26,6 +26,7 @@ class DiseaseMediumCategory(models.Model):
     def __str__(self):
         return self.name
 
+
 class DiseaseSmallCategory(models.Model):
     """
     질병 소분류 Model
@@ -37,10 +38,19 @@ class DiseaseSmallCategory(models.Model):
     diagnosis_and_checkup = models.TextField(max_length=3000, default="", blank=True)  # 진단/검사 필드
     treatment = models.TextField(max_length=3000, default="", blank=True)  # 치료 필드
     nursing = models.TextField(max_length=3000, default="", blank=True)  # 간호 필드
+    disease_large_category = models.ForeignKey(
+        "DiseaseLargeCategory",
+        on_delete=models.CASCADE,
+        related_name="disease_small_categories_by_large",
+        null=True,
+        blank=True
+    )  # 연결된 질병 대분류
     disease_medium_category = models.ForeignKey(
         "DiseaseMediumCategory",
         on_delete=models.CASCADE,
-        related_name="disease_small_categories",
+        related_name="disease_small_categories_by_medium",
+        null=True,
+        blank=True
     )  # 연결된 질병 중분류
 
     def __str__(self):
@@ -48,6 +58,7 @@ class DiseaseSmallCategory(models.Model):
 
     def get_absolute_url(self):
         return reverse('nursing_knowledges:disease_detail', args=[self.id])
+
 
 class DiagnosisLargeCategory(models.Model):
     """
@@ -73,6 +84,7 @@ class DiagnosisMediumCategory(models.Model):
     def __str__(self):
         return self.name
 
+
 class DiagnosisSmallCategory(models.Model):
     """
     간호 진단 Model
@@ -80,7 +92,8 @@ class DiagnosisSmallCategory(models.Model):
     name = models.CharField(max_length=100, unique=True)  # 진단명
     definition = models.TextField(max_length=3000, default="", blank=True)  # 진단의 정의
     intervention_content = models.TextField(max_length=3000, default="", blank=True)  # 진단이 가지는 중재들을 설명하는 필드
-    related_diagnoses = models.ManyToManyField("self", symmetrical=False, blank=True, through="DiagnosisRelatedDiagnoses")  # 관련 간호진단
+    related_diagnoses = models.ManyToManyField("self", symmetrical=False, blank=True,
+                                               through="DiagnosisRelatedDiagnoses")  # 관련 간호진단
     diagnosis_medium_category = models.ForeignKey(
         "DiagnosisMediumCategory",
         on_delete=models.CASCADE,
@@ -98,17 +111,19 @@ class DiagnosisSmallCategory(models.Model):
     def get_intervention_list(self):
         return self.intervention_content.split("\n") if True else ""
 
+
 class DiagnosisRelatedDiagnoses(models.Model):
     """
     간호 진단 Model의 related_diagnoses의 through에 설정된 Model
     """
-    from_diagnosis = models.ForeignKey("DiagnosisSmallCategory", on_delete=models.CASCADE, related_name="from_diagnosis")
+    from_diagnosis = models.ForeignKey("DiagnosisSmallCategory", on_delete=models.CASCADE,
+                                       related_name="from_diagnosis")
     to_diagnosis = models.ForeignKey("DiagnosisSmallCategory", on_delete=models.CASCADE, related_name="to_diagnosis")
     like_users = models.ManyToManyField("users.User", related_name="like_related_diagnoses", blank=True)
 
     def __str__(self):
         return f"[{self.from_diagnosis.name}] -> [{self.to_diagnosis}]"
-    
+
 
 class DiagnosisInterventionAlpha(models.Model):
     """
@@ -116,10 +131,11 @@ class DiagnosisInterventionAlpha(models.Model):
     어떤 질병인지에 따라 추가로 들어가는 중재 내용 Model
     """
     diagnosis = models.ForeignKey("DiagnosisSmallCategory", on_delete=models.CASCADE, related_name="alphas")
-    disease_medium_category = models.ForeignKey("DiseaseMediumCategory", on_delete=models.CASCADE, null=True, blank=True)  # 질병 중분류
-    disease_small_category = models.ForeignKey("DiseaseSmallCategory", on_delete=models.CASCADE, null=True, blank=True)  # 질병 소분류
+    disease_medium_category = models.ForeignKey("DiseaseMediumCategory", on_delete=models.CASCADE, null=True,
+                                                blank=True)  # 질병 중분류
+    disease_small_category = models.ForeignKey("DiseaseSmallCategory", on_delete=models.CASCADE, null=True,
+                                               blank=True)  # 질병 소분류
     content = models.TextField(max_length=3000)
-
 
 
 class DiagnosisToOther(models.Model):
@@ -127,8 +143,10 @@ class DiagnosisToOther(models.Model):
     노드의 연결관계를 나타내는 Model
     질병(중분류 or 소분류) <--> 진단
     """
-    disease_medium_category = models.ForeignKey("DiseaseMediumCategory", on_delete=models.CASCADE, null=True, blank=True)  # 질병 중분류
-    disease_small_category = models.ForeignKey("DiseaseSmallCategory", on_delete=models.CASCADE, null=True, blank=True)  # 질병 소분류
+    disease_medium_category = models.ForeignKey("DiseaseMediumCategory", on_delete=models.CASCADE, null=True,
+                                                blank=True)  # 질병 중분류
+    disease_small_category = models.ForeignKey("DiseaseSmallCategory", on_delete=models.CASCADE, null=True,
+                                               blank=True)  # 질병 소분류
     diagnosis = models.ForeignKey("DiagnosisSmallCategory", on_delete=models.CASCADE, null=True, blank=True)  # 진단
 
     def __str__(self):
@@ -139,8 +157,9 @@ class DiagnosisToOther(models.Model):
             nodes.append(f"[{self.disease_medium_category.__class__.__name__}]{self.disease_medium_category}")
         if self.diagnosis:
             nodes.append(f"[{self.diagnosis.__class__.__name__}]{self.diagnosis}")
-        
+
         return f"{nodes.pop()} <--> {nodes.pop()}"
+
 
 class KnowledgeEditHistory(models.Model):
     """
@@ -157,6 +176,7 @@ class KnowledgeEditHistory(models.Model):
             return self.disease
         else:
             return self.diagnosis
+
     def get_change_word_count(self):
         if self.changed_word_count > 0:
             return f"+{self.changed_word_count}"
