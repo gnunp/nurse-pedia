@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Diagnosis, DiseaseSmallCategory
+from .models import DiagnosisSmallCategory, DiseaseSmallCategory
 
 class DiseaseSmallForm(ModelForm):
     class Meta:
@@ -24,7 +24,7 @@ class DiseaseSmallForm(ModelForm):
 
 class DiagnosisForm(ModelForm):
     class Meta:
-        model = Diagnosis
+        model = DiagnosisSmallCategory
         fields = (
             "definition",
             "intervention_content",

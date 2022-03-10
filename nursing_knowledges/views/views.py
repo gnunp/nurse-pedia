@@ -14,7 +14,7 @@ from ..models import (
     DiagnosisRelatedDiagnoses,
     DiseaseSmallCategory,
     DiagnosisToOther,
-    Diagnosis,
+    DiagnosisSmallCategory,
     DiagnosisInterventionAlpha,
     KnowledgeEditHistory
 )
@@ -56,9 +56,9 @@ def diagnosis_detail(request, pk):
     진단 Detail 페이지 View
     """
     try:
-        diagnosis = Diagnosis.objects.get(pk=pk)  # 해당 질병 객체
+        diagnosis = DiagnosisSmallCategory.objects.get(pk=pk)  # 해당 질병 객체
         alphas = DiagnosisInterventionAlpha.objects.filter(diagnosis=pk)
-    except Diagnosis.DoesNotExist:
+    except DiagnosisSmallCategory.DoesNotExist:
         raise Http404()
 
     try:
@@ -92,9 +92,9 @@ def search(request):
         pass
 
     try:
-        diagnosis = Diagnosis.objects.get(name=keyword)
+        diagnosis = DiagnosisSmallCategory.objects.get(name=keyword)
         return redirect(reverse("nursing_knowledges:diagnosis_detail", kwargs={'pk':diagnosis.pk}))
-    except Diagnosis.DoesNotExist:
+    except DiagnosisSmallCategory.DoesNotExist:
         return render(request, "nursing_knowledges/search_result.html")
 
 def disease_category(request):
@@ -172,9 +172,9 @@ def disease_detail_edit(request, pk):
             DiagnosisToOther.objects.filter(disease_small_category=pk).delete()
             for d in new_diagnoses:
                 try:
-                    d_obj = Diagnosis.objects.get(name=d)
+                    d_obj = DiagnosisSmallCategory.objects.get(name=d)
                     DiagnosisToOther.objects.create(disease_small_category=disease, diagnosis=d_obj)
-                except Diagnosis.DoesNotExist:
+                except DiagnosisSmallCategory.DoesNotExist:
                     pass
 
             return redirect(valided_disease)
@@ -186,14 +186,14 @@ def disease_detail_edit(request, pk):
         "form":form,
         "disease":disease,
         "related_diagnoses":diagnoses,
-        "all_diagnosis":Diagnosis.objects.all().values_list("name",flat=True),
+        "all_diagnosis":DiagnosisSmallCategory.objects.all().values_list("name", flat=True),
     }
 
     return render(request, "nursing_knowledges/disease_detail_edit.html", context)
 
 @login_required
 def diagnosis_detail_edit(request, pk):
-    diagnosis = get_object_or_404(Diagnosis, pk=pk)
+    diagnosis = get_object_or_404(DiagnosisSmallCategory, pk=pk)
     before_word_count = count_words(
         diagnosis.definition,
         diagnosis.intervention_content
@@ -234,14 +234,14 @@ def diagnosis_detail_edit(request, pk):
             # ----------------------------------------------------------------------------------------------------------
             for d in new_diagnoses:
                 try:
-                    diagnosis_obj = Diagnosis.objects.get(name=d)
+                    diagnosis_obj = DiagnosisSmallCategory.objects.get(name=d)
 
                     try:
                         diagnosis_related_diagnosis = DiagnosisRelatedDiagnoses.objects.get(from_diagnosis=diagnosis, to_diagnosis=diagnosis_obj)
                     except DiagnosisRelatedDiagnoses.DoesNotExist:
                         DiagnosisRelatedDiagnoses.objects.create(from_diagnosis=diagnosis, to_diagnosis=diagnosis_obj)
                     
-                except Diagnosis.DoesNotExist:
+                except DiagnosisSmallCategory.DoesNotExist:
                     pass
 
             return redirect(valided_diagnosis)
@@ -269,10 +269,10 @@ def diagnosis_detail__related_diagnosis_edit(request, pk):
     edited_text = request.data.get('editedText')
 
     try:
-        diagnosis = Diagnosis.objects.get(pk=pk)
+        diagnosis = DiagnosisSmallCategory.objects.get(pk=pk)
         diagnosis.intervention_content = edited_text
         diagnosis.save()
-    except Diagnosis.DoesNotExist:
+    except DiagnosisSmallCategory.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
 

@@ -1,10 +1,12 @@
 from django.contrib import admin
 from .models import (
+    DiagnosisLargeCategory,
+    DiagnosisMediumCategory,
     DiagnosisRelatedDiagnoses,
     DiseaseLargeCategory,
     DiseaseMediumCategory,
     DiseaseSmallCategory,
-    Diagnosis,
+    DiagnosisSmallCategory,
     DiagnosisToOther,
     DiagnosisInterventionAlpha,
     KnowledgeEditHistory,
@@ -31,6 +33,21 @@ class DiseaseSmallCategory(admin.ModelAdmin):
     """
     pass
 
+@admin.register(DiagnosisLargeCategory)
+class DiagnosisLargeCategory(admin.ModelAdmin):
+    """
+    간호 진단 대분류 Model Admin
+    """
+    pass
+
+@admin.register(DiagnosisMediumCategory)
+class DiagnosisMediumCategoryAdmin(admin.ModelAdmin):
+    """
+    간호 진단 중분류 Model Admin
+    """
+    pass
+
+
 class DiagnosisInterventionAlphaInline(admin.TabularInline):
     model = DiagnosisInterventionAlpha
     extra = 1
@@ -40,8 +57,7 @@ class DiagnosisRelatedDiagnosesInline(admin.TabularInline):
     extra = 1
     fk_name = "from_diagnosis"
 
-
-@admin.register(Diagnosis)
+@admin.register(DiagnosisSmallCategory)
 class DiagnosisAdmin(admin.ModelAdmin):
     """
     간호 진단 Model Admin
@@ -50,7 +66,7 @@ class DiagnosisAdmin(admin.ModelAdmin):
         DiagnosisInterventionAlphaInline,
         DiagnosisRelatedDiagnosesInline
     ]
-    list_display = ('name', 'definition', 'intervention_content')
+    list_display = ('name', 'definition', 'intervention_content','diagnosis_medium_category')
 
 
 # @admin.register(DiagnosisRelatedDiagnoses)

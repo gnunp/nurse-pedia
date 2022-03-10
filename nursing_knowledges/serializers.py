@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import (
     DiseaseSmallCategory,
-    Diagnosis,
+    DiagnosisSmallCategory,
     DiagnosisToOther,
     DiseaseLargeCategory,
     DiseaseMediumCategory,
@@ -46,7 +46,7 @@ class DiagnosisSerializer(serializers.ModelSerializer):
     진단 Serializer
     """
     class Meta:
-        model = Diagnosis
+        model = DiagnosisSmallCategory
         fields = (
             'id',
             'name',

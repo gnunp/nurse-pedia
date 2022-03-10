@@ -3,7 +3,7 @@ from django.core.checks.messages import Error
 from numpy import NaN
 import pandas as pd
 from ..models import (
-    Diagnosis,
+    DiagnosisSmallCategory,
 )
 
 def run():
@@ -20,8 +20,8 @@ def run():
         intervention_data = df.iat[row,1]
 
         try:
-            diagnosis_obj = Diagnosis.objects.get(name=diagnosis_data)
+            diagnosis_obj = DiagnosisSmallCategory.objects.get(name=diagnosis_data)
             diagnosis_obj.intervention_content = intervention_data
             diagnosis_obj.save()
-        except Diagnosis.DoesNotExist:
+        except DiagnosisSmallCategory.DoesNotExist:
             print("엑셀 기준",row+2, "행에서 에러 발생")

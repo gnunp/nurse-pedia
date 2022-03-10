@@ -5,7 +5,7 @@ from ..models import (
     DiseaseLargeCategory,
     DiseaseMediumCategory,
     DiseaseSmallCategory,
-    Diagnosis,
+    DiagnosisSmallCategory,
     DiagnosisToOther,
 )
 
@@ -58,10 +58,10 @@ def run():
         if diagnosis_data is not NaN:
             # 진단이 DB에 있다면 pass
             try:
-                diagnosis_obj = Diagnosis.objects.get(name=diagnosis_data)
+                diagnosis_obj = DiagnosisSmallCategory.objects.get(name=diagnosis_data)
             # 진단이 DB에 없다면 새로 만들기
-            except Diagnosis.DoesNotExist:
-                diagnosis_obj = Diagnosis.objects.create(name=diagnosis_data)
+            except DiagnosisSmallCategory.DoesNotExist:
+                diagnosis_obj = DiagnosisSmallCategory.objects.create(name=diagnosis_data)
                 diagnosis_obj.save()
 
             # 소분류가 빈값이 아니라면 진단 <--> 소분류 연결
