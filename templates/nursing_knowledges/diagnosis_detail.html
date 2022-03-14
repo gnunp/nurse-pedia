@@ -33,7 +33,15 @@
         <div class="define">
             <div class="define_header">
                 <div class="sorting_btn_wrapper">
-                    <div class="diagnosis_relation">{{ diagnosis.get_relation_string }}</div>
+                    <div class="diagnosis_relation">
+                        {{ diagnosis.diagnosis_medium_category.diagnosis_large_category.name }}
+                        {% if diagnosis.diagnosis_medium_category.diagnosis_large_category.name|length > 8 or diagnosis.diagnosis_medium_category.name|length > 8 %}
+                            <br>↓<br>
+                        {% else %}
+                            >
+                        {% endif %}
+                        {{ diagnosis.diagnosis_medium_category.name }}
+                    </div>
                     <div class="sorting_btn">진단</div>
                 </div>
                 <h1 class="title_word">{{diagnosis.name}}</h1>

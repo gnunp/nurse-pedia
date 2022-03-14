@@ -1,6 +1,5 @@
 from django.db import models
 from django.urls import reverse
-from django.utils.safestring import mark_safe
 
 class DiseaseLargeCategory(models.Model):
     """
@@ -111,12 +110,6 @@ class DiagnosisSmallCategory(models.Model):
     def get_intervention_list(self):
         return self.intervention_content.split("\n") if True else ""
 
-    def get_relation_string(self):
-        result = f"{self.diagnosis_medium_category.name} > {self.diagnosis_medium_category.diagnosis_large_category.name}"
-        if len(result) < 15:
-            return result
-        else:
-            return mark_safe(f"{self.diagnosis_medium_category.name}<br>↓<br>{self.diagnosis_medium_category.diagnosis_large_category.name}")
 
 class DiagnosisRelatedDiagnoses(models.Model):
     """
