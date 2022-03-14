@@ -32,7 +32,10 @@
     <div class="diagnosis_detail_wrap">
         <div class="define">
             <div class="define_header">
-                <div class="sorting_btn">진단</div>
+                <div class="sorting_btn_wrapper">
+                    <div class="diagnosis_relation">{{ diagnosis.get_relation_string }}</div>
+                    <div class="sorting_btn">진단</div>
+                </div>
                 <h1 class="title_word">{{diagnosis.name}}</h1>
                 <a href="{% url 'nursing_knowledges:diagnosis_detail_edit' diagnosis.pk %}" class="editbtn">편집</a>
             </div>
