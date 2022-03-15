@@ -4,7 +4,7 @@ from ..models import (
     DiseaseLargeCategory,
     DiseaseMediumCategory,
     DiseaseSmallCategory,
-    Diagnosis,
+    DiagnosisSmallCategory,
     DiagnosisToOther,
 )
 from ..serializers import (
@@ -50,7 +50,7 @@ class DiagnosesView(APIView):
     진단 List API View
     """
     def get(self, request):
-        diagnoses = Diagnosis.objects.all()
+        diagnoses = DiagnosisSmallCategory.objects.all()
         serializer = DiagnosisSerializer(diagnoses, many=True)
         return Response(serializer.data)
 

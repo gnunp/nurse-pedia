@@ -1,3 +1,10 @@
+.block_dragging{
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none
+}
+
 .diagnosis_detail_wrap{
     position: relative;
     
@@ -28,39 +35,73 @@
 
     cursor: pointer;
 }
+
+.editbtn:hover{
+    color: white; 
+}
+
 .define{
     min-height:240px;
 }
-.define_header{
+.define_header, .content_header{
     position: relative;
     display: flex;
 
     align-items: center;
 
     padding: 10px;
+    margin-bottom: 1rem;
+
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);;
 }
+
+.content_header > .title_word{
+    font-size: 1.5rem;
+}
+
 .title_word{
     font-size: 2rem;
     font-weight: 900;
 }
+
+.sorting_btn_wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin:0 10px;
+}
+
+.diagnosis_relation{
+    margin-bottom: 5px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #969696;
+    text-align: center;
+    line-height: 1.1rem;
+}
+
 .sorting_btn{
     display: flex;
     align-items: center; justify-content: center;
 
-    padding: 5px; margin:0 10px;
+    padding: 5px;
 
-    width: 3.5rem; height: 1.5rem;
-    border-radius: 5px;
+    width: 5rem;
+    height: 2rem;
+    border-radius: 20px;
 
-    font-size: 0.8rem;
+    font-size: 1rem;
+    font-weight: bold;
     color: white;
 
-    background-color: #FFC66A;
+    background-color: #FA6F6F;
+}
+
+.definition_area{
+    line-height: 1.6rem;
 }
 
 .define_content{
-    margin-top: 1rem;
     padding: 0 0.3rem;
 
     font-size: 1rem;
@@ -70,10 +111,128 @@
     display: flex;
     flex-direction: column;
     padding-left: 2rem;
-    margin-bottom: 1rem;
 }
 
 .interventions > li{
     line-height: 1.6rem;
     list-style-type: decimal;
+}
+
+.content_info, .interventions{
+    margin-bottom: 6rem;
+}
+
+.related_diagnosis_wrapper{
+    border: solid 1px;
+    border-radius: 15px;
+    margin-bottom: 0.5rem;
+}
+
+.related_diagnosis_summary{
+    position: relative;
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 1rem;
+}
+
+.related_diagnosis_summary::-webkit-details-marker{
+    display: none;
+}
+
+.related_diagnosis_summary > *{
+    margin-right: 0.3rem;
+}
+
+.button_style{
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: none;
+    padding: 6px 8px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.intervention_like_button{
+    color: #FFC107;
+    background-color: #F6F6F6;
+}
+
+.intervention_like_button > i{
+    font-size: 0.7rem;
+    margin-right: 3px;
+}
+
+.intervention_like_button:hover{
+    background-color: #FFF0BA;
+}
+
+.intervention_like_count, .intervention_edit_button{
+    font-size: 0.8rem;
+}
+
+.intervention_edit_button{
+    color: white;
+    background-color: #FF8080;
+}
+
+.intervention_edit_button:hover{
+    background-color: #ff3e3e;
+}
+
+.related_diagnosis_arrow_wrapper{
+    position: absolute;
+    right: 1rem;
+}
+
+.related_interventions{
+    line-height: 1.6rem;
+    list-style-type: decimal;
+    padding-left: 3rem;
+    padding-bottom: 1rem;
+}
+
+.related_interventions_textarea{
+    display: block;
+    width: 95%;
+    height: 6rem;
+    margin: 0 auto;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border: solid 1px #FF8080;
+    line-height: 1.6rem;
+    list-style-type: decimal;
+    border-radius: 5px;
+    resize: none;
+}
+
+.related_interventions_textarea:focus{
+    outline: none;
+}
+
+.related_interventions_textarea::placeholder{
+    color: #d6d6d6;
+}
+
+/* JS */
+.border_gray{
+    border-color: #A9A9A9;
+}
+
+.border_pink{
+    border-color: #FF8080;
+}
+
+.color_pink{
+    color: #FF8080;
+    font-weight: bold;
+}
+
+.display_none{
+    display: none;
+}
+
+.already_like{
+    background-color: #FFF0BA;
 }
