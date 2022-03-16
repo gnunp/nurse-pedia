@@ -27,7 +27,7 @@
         {% if disease.definition %}
             <div class="knowledge_info">
                 <div class="knowledge_info__content">
-                    {{disease.definition}}
+                    {{disease.definition|linebreaks}}
                 </div>
             </div>
         {% endif %}
@@ -36,7 +36,7 @@
             <div class="knowledge_info">
                 <div class="knowledge_info__title">원인</div>
                 <div class="knowledge_info__content">
-                    {{disease.cause}}
+                    {{disease.cause|linebreaks}}
                 </div>
             </div>
         {% endif %}
@@ -46,7 +46,7 @@
             <div class="knowledge_info">
                 <div class="knowledge_info__title">증상</div>
                 <div class="knowledge_info__content">
-                    {{disease.symptom}}
+                    {{disease.symptom|linebreaks}}
                 </div>
             </div>
         {% endif %}
@@ -55,7 +55,7 @@
             <div class="knowledge_info">
                 <div class="knowledge_info__title">진단/검사</div>
                 <div class="knowledge_info__content">
-                    {{disease.diagnosis_and_checkup}}
+                    {{disease.diagnosis_and_checkup|linebreaks}}
                 </div>
             </div>
         {% endif %}
@@ -64,7 +64,7 @@
             <div class="knowledge_info">
                 <div class="knowledge_info__title">치료</div>
                 <div class="knowledge_info__content">
-                    {{disease.treatment}}
+                    {{disease.treatment|linebreaks}}
                 </div>
             </div>
         {% endif %}
@@ -73,7 +73,7 @@
             <div class="knowledge_info">
                 <div class="knowledge_info__title">간호</div>
                 <div class="knowledge_info__content">
-                    {{disease.nursing}}
+                    {{disease.nursing|linebreaks}}
                 </div>
             </div>
         {% endif %}

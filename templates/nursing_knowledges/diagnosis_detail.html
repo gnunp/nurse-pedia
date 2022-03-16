@@ -34,7 +34,7 @@
         {% if diagnosis.definition %}
             <div class="knowledge_info">
                 <div class="knowledge_info__content">
-                    {{diagnosis.definition}}
+                    {{diagnosis.definition|linebreaks}}
                 </div>
             </div>
         {% endif %}
