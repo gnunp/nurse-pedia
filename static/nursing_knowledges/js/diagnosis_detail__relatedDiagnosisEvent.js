@@ -1,5 +1,5 @@
 const relatedDiagnosisEvent = () => {
-    const allRelatedDiagnosisWrapper = document.querySelectorAll(".js-related_diagnosis_wrapper");
+    const allRelatedDiagnosisWrapper = document.querySelectorAll(".js-related_diagnosis");
     for (const wrapper of allRelatedDiagnosisWrapper) {
         wrapper.addEventListener("toggle", handleToggleWrapper);
 
@@ -12,7 +12,7 @@ const relatedDiagnosisEvent = () => {
 
     async function handleToggleWrapper(event){
         const wrapper = event.target;
-        const summaryTitle = wrapper.querySelector(".js-related_diagnosis_summary__title");
+        const summaryTitle = wrapper.querySelector(".js-related_diagnosis__summary__title");
         const arrowWrapper = wrapper.querySelector(".js-related_diagnosis_arrow_wrapper");
         const editBtn = wrapper.querySelector(".js-intervention_edit_button");
         const submitBtn = wrapper.querySelector(".js-intervention_edit_submit_button");
@@ -48,7 +48,7 @@ const relatedDiagnosisEvent = () => {
     }
 
     function handleClickInterventionEditBtn(event){
-        const wrapper = event.target.closest(".js-related_diagnosis_wrapper");
+        const wrapper = event.target.closest(".js-related_diagnosis");
         const relatedInterventionsList = wrapper.querySelector(".js-related_interventions");
         const interventionsText = relatedInterventionsList.innerText;
         relatedInterventionsList.classList.add("display_none");
@@ -70,7 +70,7 @@ const relatedDiagnosisEvent = () => {
     }
 
     async function handleSubmitEditedInterventions(event){
-        const wrapper = event.target.closest(".js-related_diagnosis_wrapper");
+        const wrapper = event.target.closest(".js-related_diagnosis");
         const relatedInterventionsTextarea = wrapper.querySelector(".js-related_interventions_textarea");
         const resultEditedTextValue = relatedInterventionsTextarea.value.trim();
         const relatedInterventionsList = wrapper.querySelector(".js-related_interventions");
@@ -113,7 +113,7 @@ const relatedDiagnosisEvent = () => {
     }
 
     async function handleClickLikeButton(event){
-        const wrapper = event.target.closest(".js-related_diagnosis_wrapper");
+        const wrapper = event.target.closest(".js-related_diagnosis");
         const likeBtn = event.target.closest(".js-intervention_like_button");
         const likeCount = likeBtn.querySelector(".js-intervention_like_count");
         const throughObjectPk = wrapper.dataset.through_object_id;

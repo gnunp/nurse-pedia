@@ -253,6 +253,7 @@ def diagnosis_detail_edit(request, pk):
         "form": form,
         "diagnosis": diagnosis,
         "related_diagnoses":related_diagnoses,
+        "all_diagnosis": DiagnosisSmallCategory.objects.all().values_list("name", flat=True),
     }
     
     return render(request, "nursing_knowledges/diagnosis_detail_edit.html", context)

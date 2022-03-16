@@ -1,0 +1,110 @@
+body{
+    font-family: 'Noto Sans KR', sans-serif !important;
+}
+
+.header{
+    border-bottom: 1px solid #D6D6D6 !important;
+}
+
+.root{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1000px;
+    min-height: calc(100vh - 80px);
+    margin: 0 auto;
+    padding: 5rem 6rem;
+    border-right: 1px solid #D6D6D6;
+    border-left: 1px solid #D6D6D6;
+}
+
+@media (max-width: 999px) {
+    .root{
+        border: none;
+        padding: 5rem 9.609%;
+    }
+}
+
+.knowledge_header{
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid #D6D6D6;
+}
+
+.knowledge_header__category{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    margin-right: 0.8rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: white;
+    background-color: #FA6F6F;
+}
+
+.knowledge_header__name{
+    position: relative;
+    bottom: 2px;
+    font-size: 2.2rem;
+    font-weight: bold;
+}
+
+.knowledge_header__edit_btn{
+    position: absolute;
+    right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem 1.3rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: white;
+    background-color: #C8C8C8;
+    cursor: pointer;
+}
+
+.knowledge_header__edit_btn:hover {
+    color: white;
+}
+
+.knowledge_info{
+    width: 100%;
+    margin-bottom: 5rem;
+}
+.knowledge_info__title{
+    width: 100%;
+    padding-bottom: 0.8rem;
+    box-sizing: border-box;
+    border-bottom: 1px solid #D6D6D6;
+    font-weight: 600;
+    font-size: 1.6rem;
+}
+.knowledge_info__content{
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    line-height: 1.6rem;
+}
+
+/*
+기타 동작 관련
+*/
+.block_dragging{
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none
+}
+
+/*
+cytoscape 관련
+*/
+.cy_wrap{
+    margin: 0 auto !important;
+}

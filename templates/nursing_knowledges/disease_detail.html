@@ -4,6 +4,8 @@
 {% block title %} {{disease.name}} {% endblock title %}
 
 {% block css %}
+    <link rel="stylesheet" href="{% static 'nursing_knowledges/css/knowledge_detail.css' %}">
+    <link rel="stylesheet" href="{% static 'nursing_knowledges/css/disease_detail.css' %}">
 {% endblock css %}
 
 {% block link %}
@@ -13,117 +15,85 @@
 {% endblock head_script %}
 
 {% block content %}
-<style>
-    .header{
-        border-bottom: 1px solid rgba(100, 100, 100, 0.3);
-    }
-    .cy_wrap{
-        margin: 0 auto;
-    }
-</style>
-<div class="disease_detail_wrap">
-    <div class="define">
-        <div class="define_header">
-            <div class="sorting_btn">☆질병</div>
-            <h1 class="title_word">{{disease.name}}</h1>
+    <div class="root">
+        <div class="knowledge_header">
+            <div class="knowledge_header__category">질병</div>
+            <h1 class="knowledge_header__name js-knowledge_name">{{disease.name}}</h1>
             {% if user.is_authenticated %}
-                <a href="{% url 'nursing_knowledges:disease_detail_edit' disease.pk %}" class="editbtn">편집</a>
+                <a href="{% url 'nursing_knowledges:disease_detail_edit' disease.pk %}" class="knowledge_header__edit_btn">편집</a>
             {% endif %}
         </div>
-        
+
         {% if disease.definition %}
-            <div class="define_content">
-                {{disease.definition}}
+            <div class="knowledge_info">
+                <div class="knowledge_info__content">
+                    {{disease.definition}}
+                </div>
             </div>
         {% endif %}
+
+        {% if disease.cause %}
+            <div class="knowledge_info">
+                <div class="knowledge_info__title">원인</div>
+                <div class="knowledge_info__content">
+                    {{disease.cause}}
+                </div>
+            </div>
+        {% endif %}
+
+
+        {% if disease.symptom %}
+            <div class="knowledge_info">
+                <div class="knowledge_info__title">증상</div>
+                <div class="knowledge_info__content">
+                    {{disease.symptom}}
+                </div>
+            </div>
+        {% endif %}
+
+        {% if disease.diagnosis_and_checkup %}
+            <div class="knowledge_info">
+                <div class="knowledge_info__title">진단/검사</div>
+                <div class="knowledge_info__content">
+                    {{disease.diagnosis_and_checkup}}
+                </div>
+            </div>
+        {% endif %}
+
+        {% if disease.treatment %}
+            <div class="knowledge_info">
+                <div class="knowledge_info__title">치료</div>
+                <div class="knowledge_info__content">
+                    {{disease.treatment}}
+                </div>
+            </div>
+        {% endif %}
+
+        {% if disease.nursing %}
+            <div class="knowledge_info">
+                <div class="knowledge_info__title">간호</div>
+                <div class="knowledge_info__content">
+                    {{disease.nursing}}
+                </div>
+            </div>
+        {% endif %}
+
+        {% if diagnoses %}
+        <div class="knowledge_info">
+            <div class="knowledge_info__title">관련 진단</div>
+            <div class="knowledge_info__content relative_diagnoses">
+                {% for diagnosis in diagnoses%}
+                    <a class="relative_diagnoses__item js-relative_diagnosis_item"
+                       href="{% url 'nursing_knowledges:diagnosis_detail' diagnosis.pk %}">
+                        {{diagnosis.name}}
+                    </a>
+                {% endfor%}
+            </div>
+        </div>
+        {% endif %}
+
+        {% include 'nursing_knowledges/mindmap.html' %}
     </div>
-    
-    {% if disease.cause %}
-        <div class="content">
-            <div class="content_title">
-                <h2>원인</h2>
-            </div>
-            <div class="content_article">
-                {{disease.cause}}
-            </div>
-        </div>
-    {% endif %}
-        
-
-    {% if disease.symptom %}
-        <div class="content">
-            <div class="content_title">
-                <h2>증상</h2>
-            </div>
-            <div class="content_article">
-                {{disease.symptom}}
-            </div>
-        </div>
-    {% endif %}
-
-    {% if disease.diagnosis_and_checkup %}
-        <div class="content">
-            <div class="content_title">
-                <h2>진단/검사</h2>
-            </div>
-            <div class="content_article">
-                {{disease.diagnosis_and_checkup}}
-            </div>
-        </div>
-    {% endif %}
-
-    {% if disease.treatment %}
-        <div class="content">
-            <div class="content_title">
-                <h2>치료</h2>
-            </div>
-            <div class="content_article">
-                {{disease.treatment}}
-            </div>
-        </div>
-    {% endif %}
-
-    {% if disease.nursing %}
-        <div class="content">
-            <div class="content_title">
-                <h2>간호</h2>
-            </div>
-            <div class="content_article">
-                {{disease.nursing}}
-            </div>
-        </div>
-    {% endif %}
-
-    {% if diagnoses %}
-    <div class="relative_diagnosis content">
-        <div class="relative_diagnosis_header content_title">
-            <h2 class="relative_diagnosis_title_word">관련 진단</h2>
-        </div>
-        <div class="relative_diagnosis_content content_article">
-            {% for item in diagnoses%}
-                <a class="diagnosis_btn" href="{% url 'nursing_knowledges:diagnosis_detail' item.pk %}">
-                    <div>{{item.name}}</div>
-                </a>
-            {% endfor%}
-        </div>
-    </div>
-    {% endif %}
-
-    {% include 'nursing_knowledges/mindmap.html' %}
-</div>
-
-    <!-- <ul>
-        <li>{{disease.name}}</li>
-        <li>{{disease.content}}</li>
-    </ul>
-    <h1>관련 진단</h1>
-
-    <ul>
-        {% for diagnosis in diagnoses %}
-            <a href="{% url 'nursing_knowledges:diagnosis_detail' diagnosis.pk %}">{{diagnosis.name}}</li>
-        {% endfor %}
-    </ul> -->
-        
 {% endblock content %}
 
 

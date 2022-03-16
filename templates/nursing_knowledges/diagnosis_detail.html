@@ -6,6 +6,8 @@
 
 
 {% block css %}
+        <link rel="stylesheet" href="{% static 'nursing_knowledges/css/knowledge_detail.css' %}">
+        <link rel="stylesheet" href="{% static 'nursing_knowledges/css/diagnosis_detail.css' %}">
 {% endblock css %}
 
 
@@ -20,114 +22,91 @@
 
 
 {% block content %}
-    <style>
-        .header{
-            border-bottom: 1px solid rgba(100, 100, 100, 0.3);
-        }
-        .cy_wrap{
-            margin: 0 auto;
-        }
-    </style>
-
-    <div class="diagnosis_detail_wrap">
-        <div class="define">
-            <div class="define_header">
-                <div class="sorting_btn_wrapper">
-                    <div class="diagnosis_relation">
-                        {{ diagnosis.diagnosis_medium_category.diagnosis_large_category.name }}
-                        {% if diagnosis.diagnosis_medium_category.diagnosis_large_category.name|length > 8 or diagnosis.diagnosis_medium_category.name|length > 8 %}
-                            <br>↓<br>
-                        {% else %}
-                            >
-                        {% endif %}
-                        {{ diagnosis.diagnosis_medium_category.name }}
-                    </div>
-                    <div class="sorting_btn">진단</div>
-                </div>
-                <h1 class="title_word">{{diagnosis.name}}</h1>
-                <a href="{% url 'nursing_knowledges:diagnosis_detail_edit' diagnosis.pk %}" class="editbtn">편집</a>
-            </div>
-            
-            
-            <div class="definition_area content_info">
-                {{ diagnosis.definition }}
-            </div>
-            
-            
-            <div class="define_content">
-                {% if diagnosis.get_intervention_list.0 %}
-                    <div class="content_header">
-                        <h1 class="title_word">관련 대표 중재</h1>
-                    </div>
-                    <ol class="interventions">
-                        <!-- 진단의 중재 내용 -->
-                        {% for intervention in diagnosis.get_intervention_list %}
-                            <li>{{ intervention }}</li>
-                        {% endfor %}
-                        
-                        <!-- 추가 중재 내용 -->
-                        {% for alpha in alphas %}
-                            <li>
-                                {% if alpha.disease_small_category %}
-                                    <span>{{alpha.disease_small_category}}</span>
-                                {% endif %}
-                                {% if alpha.disease_medium_category %}
-                                    <span>{{alpha.disease_medium_category}}</span>
-                                {% endif %}
-                                <span>- {{alpha.content}}</span>
-                            </li>
-                        {% endfor %}
-                    </ol>
-                {% endif %}
-
-                
-                {% if diagnosis_related_diagnoses %}
-                    <div class="content_header">
-                        <h1 class="title_word">관련 간호진단</h1>
-                    </div>
-                    <div class="content_info">
-                        {% for through_object in diagnosis_related_diagnoses %}
-                            <details
-                                class="related_diagnosis_wrapper js-related_diagnosis_wrapper border_gray"
-                                data-id="{{through_object.to_diagnosis.pk}}"
-                                data-through_object_id="{{through_object.pk}}"
-                                >
-                                <summary class="related_diagnosis_summary">
-                                    <span class="related_diagnosis_summary__title js-related_diagnosis_summary__title">{{through_object.to_diagnosis.name}}</span>
-                                    {% if user in through_object.like_users.all %}
-                                        <button class="button_style block_dragging intervention_like_button already_like js-intervention_like_button">
-                                            <i class="fas fa-star"></i>
-                                            <span class="intervention_like_count js-intervention_like_count">{{through_object.like_users.count}}</span>
-                                        </button>
-                                    {% else %}
-                                        <button class="button_style block_dragging intervention_like_button js-intervention_like_button">
-                                            <i class="fas fa-star"></i>
-                                            <span class="intervention_like_count js-intervention_like_count">{{through_object.like_users.count}}</span>
-                                    </button>
-                                    {% endif %}
-                                    <button class="button_style block_dragging intervention_edit_button js-intervention_edit_button display_none">수정</button>
-                                    <button class="button_style block_dragging intervention_edit_button js-intervention_edit_submit_button display_none">적용</button>
-                                    <div class="related_diagnosis_arrow_wrapper js-related_diagnosis_arrow_wrapper">
-                                        <i class="fas fa-chevron-down"></i>
-                                    </div>
-                                </summary>
-                                <ol class="related_interventions js-related_interventions">
-                                    {% for intervention in through_object.to_diagnosis.get_intervention_list  %}
-                                        {% if intervention|length > 0 %}
-                                            <li>{{intervention}}</li>
-                                        {% endif %}
-                                    {% endfor %}
-                                </ol>
-                            </details>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-                    
-                
-                    
-                    
-            </div>
+    <div class="root">
+        <div class="knowledge_header">
+            <div class="knowledge_header__category">진단</div>
+            <h1 class="knowledge_header__name js-knowledge_name">{{diagnosis.name}}</h1>
+            {% if user.is_authenticated %}
+                <a href="{% url 'nursing_knowledges:diagnosis_detail_edit' diagnosis.pk %}" class="knowledge_header__edit_btn">편집</a>
+            {% endif %}
         </div>
+
+        {% if diagnosis.definition %}
+            <div class="knowledge_info">
+                <div class="knowledge_info__content">
+                    {{diagnosis.definition}}
+                </div>
+            </div>
+        {% endif %}
+
+        {% if diagnosis.get_intervention_list.0 %}
+            <div class="knowledge_info">
+                <div class="knowledge_info__title">관련 대표 중재</div>
+                <ol class="knowledge_info__content interventions">
+                    <!-- 진단의 중재 내용 -->
+                    {% for intervention in diagnosis.get_intervention_list %}
+                        <li>{{ intervention }}</li>
+                    {% endfor %}
+
+                    <!-- 추가 중재 내용 -->
+                    {% for alpha in alphas %}
+                        <li>
+                            {% if alpha.disease_small_category %}
+                                <span>{{alpha.disease_small_category}}</span>
+                            {% endif %}
+                            {% if alpha.disease_medium_category %}
+                                <span>{{alpha.disease_medium_category}}</span>
+                            {% endif %}
+                            <span>- {{alpha.content}}</span>
+                        </li>
+                    {% endfor %}
+                </ol>
+            </div>
+        {% endif %}
+
+
+        {% if diagnosis_related_diagnoses %}
+            <div class="knowledge_info">
+                <div class="knowledge_info__title">관련 간호진단</div>
+                <div class="knowledge_info__content">
+                    {% for through_object in diagnosis_related_diagnoses %}
+                        <details
+                            class="related_diagnosis js-related_diagnosis border_gray"
+                            data-id="{{through_object.to_diagnosis.pk}}"
+                            data-through_object_id="{{through_object.pk}}"
+                            >
+                            <summary class="related_diagnosis__summary">
+                                <span class="related_diagnosis__summary__title js-related_diagnosis__summary__title">{{through_object.to_diagnosis.name}}</span>
+                                {% if user in through_object.like_users.all %}
+                                    <button class="button_style block_dragging intervention_like_button already_like js-intervention_like_button">
+                                        <i class="fas fa-star"></i>
+                                        <span class="intervention_like_count js-intervention_like_count">{{through_object.like_users.count}}</span>
+                                    </button>
+                                {% else %}
+                                    <button class="button_style block_dragging intervention_like_button js-intervention_like_button">
+                                        <i class="fas fa-star"></i>
+                                        <span class="intervention_like_count js-intervention_like_count">{{through_object.like_users.count}}</span>
+                                </button>
+                                {% endif %}
+                                <button class="button_style block_dragging intervention_edit_button js-intervention_edit_button display_none">수정</button>
+                                <button class="button_style block_dragging intervention_edit_button js-intervention_edit_submit_button display_none">적용</button>
+                                <div class="related_diagnosis_arrow_wrapper js-related_diagnosis_arrow_wrapper">
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                            </summary>
+                            <ol class="related_interventions js-related_interventions">
+                                {% for intervention in through_object.to_diagnosis.get_intervention_list  %}
+                                    {% if intervention|length > 0 %}
+                                        <li>{{intervention}}</li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ol>
+                        </details>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
         {% include 'nursing_knowledges/mindmap.html' %}
     </div>
 {% endblock content %}

@@ -4,8 +4,9 @@
 {% block title %} {{diagnosis.name}} {% endblock title %}
 
 {% block css %}
-<link rel="stylesheet" href="{% static 'nursing_knowledges/css/diagnosis_detail.css' %}">
-<link rel="stylesheet" href="{% static 'nursing_knowledges/css/diagnosis_detail_edit.css' %}">
+    <link rel="stylesheet" href="{% static 'nursing_knowledges/css/knowledge_detail.css' %}">
+    <link rel="stylesheet" href="{% static 'nursing_knowledges/css/knowledge_detail_edit.css' %}">
+    <link rel="stylesheet" href="{% static 'nursing_knowledges/css/diagnosis_detail_edit.css' %}">
 {% endblock css %}
 
 {% block link %}
@@ -15,44 +16,27 @@
 {% endblock head_script %}
 
 {% block content %}
-<style>
-    .header{
-        border-bottom: 1px solid rgba(100, 100, 100, 0.3);
-    }
-    .cy_wrap{
-        margin: 0 auto;
-    }
-</style>
-<form id="edit_form"class="diagnosis_detail_wrap" method="post">
+<form class="root" id="edit_form"class="root" method="post">
     {% csrf_token %}
-    <div class="define">
-        <div class="define_header">
-            <div class="sorting_btn">진단</div>
-            <h1 class="title_word">{{diagnosis.name}}</h1>
-        </div>
-
-        <div class="edit_textarea_wrapper">
-            {{form.definition}}
-            {{form.definition.errors}}
-        </div>
+    <div class="knowledge_header">
+        <div class="knowledge_header__category">진단</div>
+        <h1 class="knowledge_header__name js-knowledge_name">{{diagnosis.name}}</h1>
     </div>
 
-    
-    <div class="content">
-        <div class="content_header">
-            <h1 class="title_word">관련 대표 중재</h1>
-        </div>
-        <div class="edit_textarea_wrapper">
-            {{form.intervention_content}}
-            {{form.intervention_content.errors}}
-        </div>
+    <div class="knowledge_info">
+        {{form.definition}}
+        {{form.definition.errors}}
     </div>
 
-    <div class="relative_diagnosis content">
-        <div class="content_header ">
-            <h2 class="title_word">관련 간호진단</h2>
-        </div>
-        <div class="relative_diagnosis_content content_article diagnoses_list js-diagnoses_list">
+    <div class="knowledge_info">
+        <div class="knowledge_info__title">관련 대표 중재</div>
+        {{form.intervention_content}}
+        {{form.intervention_content.errors}}
+    </div>
+
+    <div class="knowledge_info relative_diagnosis">
+        <div class="knowledge_info__title">관련 간호진단</div>
+        <div class="diagnoses_list js-diagnoses_list">
             {% for item in related_diagnoses%}
                 <div class="diagnosis_set">
                     <input type="checkbox" id="{{item.to_diagnosis.name}}" name="added_{{item.to_diagnosis.name}}" checked>
@@ -76,7 +60,7 @@
         <button class="submit_btn" type="submit" form="edit_form">수정하기</button>
     </div>
 
-</div>
+</form>
 {% endblock content %}
 
 
