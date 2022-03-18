@@ -715,7 +715,7 @@ export class MakeData{
         jsonData.forEach(element => {
             target = "middledisease"+(element.disease_medium_category).toString();
 
-            element.disease_small_categories.forEach(ele => {
+            element.disease_small_categories_by_medium.forEach(ele => {
                 source = "smalldisease"+ (ele).toString();
                 id = source + "->" + target;
     

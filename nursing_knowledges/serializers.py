@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import (
     DiseaseSmallCategory,
-    Diagnosis,
+    DiagnosisSmallCategory,
     DiagnosisToOther,
     DiseaseLargeCategory,
     DiseaseMediumCategory,
@@ -46,7 +46,7 @@ class DiagnosisSerializer(serializers.ModelSerializer):
     진단 Serializer
     """
     class Meta:
-        model = Diagnosis
+        model = DiagnosisSmallCategory
         fields = (
             'id',
             'name',
@@ -74,13 +74,13 @@ class DiseaseMediumToSmallSerializer(serializers.ModelSerializer):
     질병 중분류 <--> 소분류 연결관계 Serializer
     """
     disease_medium_category = serializers.SerializerMethodField('get_id')
-    disease_small_categories = serializers.PrimaryKeyRelatedField(queryset=DiseaseSmallCategory.objects.all(), many=True)
+    disease_small_categories_by_medium = serializers.PrimaryKeyRelatedField(queryset=DiseaseSmallCategory.objects.all(), many=True)
 
     class Meta:
         model = DiseaseMediumCategory
         fields = (
             'disease_medium_category',
-            'disease_small_categories',
+            'disease_small_categories_by_medium',
         )
 
     def get_id(self, obj):
