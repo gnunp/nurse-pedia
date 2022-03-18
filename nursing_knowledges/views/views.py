@@ -11,12 +11,11 @@ from django.core.paginator import Paginator
 from nursing_knowledges.forms import DiagnosisForm, DiseaseSmallForm
 from .api_views import *
 from ..models import (
-    DiagnosisRelatedDiagnoses,
     DiseaseSmallCategory,
     DiagnosisToOther,
     DiagnosisSmallCategory,
     DiagnosisInterventionAlpha,
-    KnowledgeEditHistory
+    KnowledgeEditHistory, DiagnosisRelatedDiagnosis
 )
 from users.models import User
 
@@ -61,12 +60,8 @@ def diagnosis_detail(request, pk):
     except DiagnosisSmallCategory.DoesNotExist:
         raise Http404()
 
-    try:
-        diagnosis_related_diagnoses = list(DiagnosisRelatedDiagnoses.objects.filter(from_diagnosis=pk))
-        diagnosis_related_diagnoses.sort(key=lambda x: x.like_users.all().count(), reverse=True)
-    except:
-        diagnosis_related_diagnoses = [""]
-        pass
+    diagnosis_related_diagnoses = list(DiagnosisRelatedDiagnosis.objects.filter(target_diagnosis=pk))
+    diagnosis_related_diagnoses.sort(key=lambda x: x.like_users.all().count(), reverse=True)
 
     form = DiagnosisForm()
 
@@ -199,62 +194,51 @@ def diagnosis_detail_edit(request, pk):
         diagnosis.intervention_content
     )
 
-
-    related_diagnoses = DiagnosisRelatedDiagnoses.objects.filter(from_diagnosis=diagnosis)
-    related_diagnoses_string_list = [related_diagnosis.to_diagnosis.name for related_diagnosis in related_diagnoses]
+    related_diagnoses = diagnosis.DiagnosisRelatedDiagnoses.all()
     if request.method == "POST":
         form = DiagnosisForm(request.POST, instance=diagnosis)
 
-        new_diagnoses = []
-        for d in request.POST.keys():
-            if d.startswith("added_"):
-                new_diagnoses.append(d.split("_")[-1])
-            
-        # 삭제된 관련진단 처리하는 코드
-        deleted_diagnoses = set(related_diagnoses_string_list) - set(new_diagnoses)
-        for deleted_diagnosis_string in deleted_diagnoses:
-            try:
-                DiagnosisRelatedDiagnoses.objects.get(from_diagnosis=diagnosis, to_diagnosis__name=deleted_diagnosis_string).delete()
-            except DiagnosisRelatedDiagnoses.DoesNotExist:
-                pass
-
         if form.is_valid():
-            valided_diagnosis = form.save()
-            # ------- 편집기록 저장 코드 --------------------------------------------------------------------------------
-            after_word_count = count_words(
-                diagnosis.definition,
-                diagnosis.intervention_content
-            )
-            KnowledgeEditHistory.objects.create(
-                diagnosis=diagnosis,
-                editor=request.user,
-                created_at= timezone.localtime(),
-                changed_word_count = after_word_count - before_word_count,
-            )
-            # ----------------------------------------------------------------------------------------------------------
-            for d in new_diagnoses:
-                try:
-                    diagnosis_obj = DiagnosisSmallCategory.objects.get(name=d)
+            form.save()
 
-                    try:
-                        diagnosis_related_diagnosis = DiagnosisRelatedDiagnoses.objects.get(from_diagnosis=diagnosis, to_diagnosis=diagnosis_obj)
-                    except DiagnosisRelatedDiagnoses.DoesNotExist:
-                        DiagnosisRelatedDiagnoses.objects.create(from_diagnosis=diagnosis, to_diagnosis=diagnosis_obj)
-                    
-                except DiagnosisSmallCategory.DoesNotExist:
-                    pass
+        # 기존의 관련 진단 전부 삭제
+        related_diagnoses.delete()
 
-            return redirect(valided_diagnosis)
-    
+        # 관련 진단 새로 추가
+        relation_diagnosis_name = request.POST.getlist("relation_diagnosis_name")
+        relation_diagnosis_intervention_content = request.POST.getlist("relation_diagnosis_intervention_content")
+        for i in range(len(relation_diagnosis_name)):
+            if relation_diagnosis_name[i]:
+                new_related_diagnosis = DiagnosisRelatedDiagnosis.objects.create(
+                    related_diagnosis_name=relation_diagnosis_name[i],
+                    intervention_content=relation_diagnosis_intervention_content[i],
+                    target_diagnosis=diagnosis
+                )
+
+        # ------- 편집 기록 저장 코드 --------------------------------------------------------------------------------
+        after_word_count = count_words(
+            diagnosis.definition,
+            diagnosis.intervention_content
+        )
+        KnowledgeEditHistory.objects.create(
+            diagnosis=diagnosis,
+            editor=request.user,
+            created_at=timezone.localtime(),
+            changed_word_count=after_word_count - before_word_count,
+        )
+        # ----------------------------------------------------------------------------------------------------------
+
+        return redirect(diagnosis)
+
     else:
         form = DiagnosisForm(instance=diagnosis)
 
     context = {
         "form": form,
         "diagnosis": diagnosis,
-        "related_diagnoses":related_diagnoses,
+        "related_diagnoses": related_diagnoses,
     }
-    
+
     return render(request, "nursing_knowledges/diagnosis_detail_edit.html", context)
 
 def count_words(*words):
@@ -269,10 +253,10 @@ def diagnosis_detail__related_diagnosis_edit(request, pk):
     edited_text = request.data.get('editedText')
 
     try:
-        diagnosis = DiagnosisSmallCategory.objects.get(pk=pk)
-        diagnosis.intervention_content = edited_text
-        diagnosis.save()
-    except DiagnosisSmallCategory.DoesNotExist:
+        related_diagnosis = DiagnosisRelatedDiagnosis.objects.get(pk=pk)
+        related_diagnosis.intervention_content = edited_text
+        related_diagnosis.save()
+    except DiagnosisRelatedDiagnosis.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
 
@@ -298,9 +282,9 @@ def history(request):
 def related_diagnosis_like(request, pk):
     if request.user.is_anonymous:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
-    
+
     try:
-        diagnosis_related_diagnoses = DiagnosisRelatedDiagnoses.objects.get(pk=pk)
+        diagnosis_related_diagnoses = DiagnosisRelatedDiagnosis.objects.get(pk=pk)
 
         try:
             like_user = diagnosis_related_diagnoses.like_users.get(pk=request.user.pk)
@@ -311,7 +295,7 @@ def related_diagnosis_like(request, pk):
             diagnosis_related_diagnoses.like_users.add(request.user)
             return Response(status=status.HTTP_201_CREATED)
 
-    except DiagnosisRelatedDiagnoses.DoesNotExist:
+    except DiagnosisRelatedDiagnosis.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
     

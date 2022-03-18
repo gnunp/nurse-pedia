@@ -36,6 +36,7 @@
     "cytoscape": "^3.20.0",
     "cytoscape-cose-bilkent": "^4.1.0",
     "file-loader": "^6.2.0",
+    "hangul-js": "^0.2.6",
     "html-loader": "^3.0.1",
     "html-webpack-plugin": "^5.5.0",
     "lodash": "^4.17.21",
