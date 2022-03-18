@@ -31,21 +31,6 @@ textarea:focus{
     font-size: 0.9rem;
 }
 
-.diagnoses_list{
-    padding-top: 1rem;
-    padding-left: 0.5rem;
-    display: flex;
-    flex-direction: column;
-}
-
-.diagnosis_set{
-    margin-bottom: 0.5rem;
-}
-
-.diagnosis_set > input[type="checkbox"]:checked{
-    background-color: red;
-}
-
 .add_diagnosis_btn{
     border: none;
     border-radius: 5px;
@@ -56,8 +41,4 @@ textarea:focus{
     color: white;
     font-weight: bold;
     font-size: 0.9rem;
-}
-
-#selected_diagnosis:focus{
-    outline: none;
 }

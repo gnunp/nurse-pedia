@@ -1,21 +1,32 @@
+import { disassemble, isConsonant } from 'hangul-js';
+
 const relatedDiagnosisEvent = () => {
     const allRelatedDiagnosisWrapper = document.querySelectorAll(".js-related_diagnosis");
     for (const wrapper of allRelatedDiagnosisWrapper) {
         wrapper.addEventListener("toggle", handleToggleWrapper);
 
-        const editBtn = wrapper.querySelector(".js-intervention_edit_button");
-        editBtn.addEventListener("click", handleClickInterventionEditBtn);
+        if(userIsAuthenticated){
+            const editBtn = wrapper.querySelector(".js-intervention_edit_button");
+            editBtn.addEventListener("click", handleClickInterventionEditBtn);
 
-        const likeBtn = wrapper.querySelector(".js-intervention_like_button");
-        likeBtn.addEventListener("click", handleClickLikeButton)
+            const likeBtn = wrapper.querySelector(".js-intervention_like_button");
+            likeBtn.addEventListener("click", handleClickLikeButton);
+        }
+
+        const relatedDiagnosisTitleElement = wrapper.querySelector(".js-related_diagnosis__summary__title");
+        addAfterContent(relatedDiagnosisTitleElement);
     }
 
     async function handleToggleWrapper(event){
         const wrapper = event.target;
         const summaryTitle = wrapper.querySelector(".js-related_diagnosis__summary__title");
         const arrowWrapper = wrapper.querySelector(".js-related_diagnosis_arrow_wrapper");
-        const editBtn = wrapper.querySelector(".js-intervention_edit_button");
-        const submitBtn = wrapper.querySelector(".js-intervention_edit_submit_button");
+        let editBtn;
+        let submitBtn;
+        if(userIsAuthenticated) {
+            editBtn = wrapper.querySelector(".js-intervention_edit_button");
+            submitBtn = wrapper.querySelector(".js-intervention_edit_submit_button");
+        }
 
         if (wrapper.open) {
             /* the element was toggled open */
@@ -25,12 +36,12 @@ const relatedDiagnosisEvent = () => {
             
             arrowWrapper.innerHTML = '<i class="fas fa-chevron-up"></i>';
             arrowWrapper.classList.add("color_pink");
-            
-            if(wrapper.querySelector(".js-related_interventions_textarea")){
-                submitBtn.classList.remove("display_none");                
-            }
-            else{
-                editBtn.classList.remove("display_none");
+            if(userIsAuthenticated) {
+                if (wrapper.querySelector(".js-related_interventions_textarea")) {
+                    submitBtn.classList.remove("display_none");
+                } else {
+                    editBtn.classList.remove("display_none");
+                }
             }
           } else {
             /* the element was toggled closed */
@@ -40,16 +51,23 @@ const relatedDiagnosisEvent = () => {
 
             arrowWrapper.innerHTML = '<i class="fas fa-chevron-down"></i>';
             arrowWrapper.classList.remove("color_pink");
-
-            editBtn.classList.add("display_none");
-
-            submitBtn.classList.add("display_none");
+            if(userIsAuthenticated) {
+                editBtn.classList.add("display_none");
+                submitBtn.classList.add("display_none");
+            }
         }
     }
 
     function handleClickInterventionEditBtn(event){
         const wrapper = event.target.closest(".js-related_diagnosis");
         const relatedInterventionsList = wrapper.querySelector(".js-related_interventions");
+
+        // 내용 없음 문구 element 제거
+        const knowledgeContentEmptyElement = relatedInterventionsList.querySelector(".js-knowledge_content_empty");
+        if(knowledgeContentEmptyElement){
+            knowledgeContentEmptyElement.remove();
+        }
+
         const interventionsText = relatedInterventionsList.innerText;
         relatedInterventionsList.classList.add("display_none");
 
@@ -85,6 +103,14 @@ const relatedDiagnosisEvent = () => {
                     `
                 )
             }
+            else{
+                relatedInterventionsList.insertAdjacentHTML(
+                    "beforeend",
+                    `
+                    <div class="knowledge_info__content knowledge_info__no_content js-knowledge_content_empty block_dragging">중재</div>
+                    `
+                )
+            }
         }
 
         const submitBtn = event.target;
@@ -96,8 +122,8 @@ const relatedDiagnosisEvent = () => {
         relatedInterventionsTextarea.remove();
 
         // --------------------------------------AJAX 통신부---------------------------------------
-        const toDiagnosisPk = wrapper.dataset.id;
-        const response = await fetch(`/knowledges/related-diagnosis/${toDiagnosisPk}/edit`, {
+        const relatedDiagnosisId = wrapper.dataset.related_diagnosis_id;
+        const response = await fetch(`/knowledges/related-diagnosis/${relatedDiagnosisId}/edit`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',
@@ -116,7 +142,7 @@ const relatedDiagnosisEvent = () => {
         const wrapper = event.target.closest(".js-related_diagnosis");
         const likeBtn = event.target.closest(".js-intervention_like_button");
         const likeCount = likeBtn.querySelector(".js-intervention_like_count");
-        const throughObjectPk = wrapper.dataset.through_object_id;
+        const relatedDiagnosisId = wrapper.dataset.related_diagnosis_id;
 
         if(likeBtn.classList.contains('already_like')){
             likeCount.innerText--;
@@ -125,7 +151,7 @@ const relatedDiagnosisEvent = () => {
         }
         likeBtn.classList.toggle('already_like');
         
-        const response = await fetch(`/knowledges/diagnosis-related-diagnoses/${throughObjectPk}`, {
+        const response = await fetch(`/knowledges/diagnosis-related-diagnoses/${relatedDiagnosisId}/like`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',
@@ -156,6 +182,15 @@ const relatedDiagnosisEvent = () => {
             }
         }
         return cookieValue;
+    }
+
+    function addAfterContent(element){
+        const knowledgeName = document.querySelector(".js-knowledge_name");
+        const word = element.innerText;
+        const lastChar = disassemble(word).pop();
+        const afterStartChar = isConsonant(lastChar) ? "과" : "와";
+
+        element.innerText = `${word + afterStartChar} 관련된 ${knowledgeName.innerText}`
     }
 }
 

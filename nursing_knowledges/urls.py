@@ -13,5 +13,5 @@ urlpatterns = [
     path('diagnosis/<int:pk>/edit', views.diagnosis_detail_edit, name='diagnosis_detail_edit'),
     path('related-diagnosis/<int:pk>/edit', views.diagnosis_detail__related_diagnosis_edit, name='related_diagnosis_edit'),
     path('history/', views.history, name='history'),
-    path('diagnosis-related-diagnoses/<int:pk>', views.related_diagnosis_like, name='related_diagnosis_like'),
+    path('diagnosis-related-diagnoses/<int:pk>/like', views.related_diagnosis_like, name='related_diagnosis_like'),
 ]

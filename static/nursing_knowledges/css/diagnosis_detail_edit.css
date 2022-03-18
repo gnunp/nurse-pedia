@@ -1,0 +1,29 @@
+.knowledge_header__category{
+    background-color: #faa56f;
+}
+
+.knowledge_info__related_diagnoses{
+    margin: 1rem 0;
+}
+
+.related_diagnosis__summary__title{
+    border: none;
+    border: solid 1px;
+    border-radius: 5px;
+    padding: 0.5rem;
+    width: 9rem;
+}
+
+.related_diagnosis__summary__title::placeholder{
+    color: #d6d6d6;
+}
+
+.related_diagnosis__summary__title:focus{
+    outline: none;
+}
+
+.related_diagnosis__summary__delete_btn{
+    position: absolute;
+    right: 1rem;
+    cursor: pointer;
+}

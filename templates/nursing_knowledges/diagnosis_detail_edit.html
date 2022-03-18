@@ -5,6 +5,7 @@
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'nursing_knowledges/css/knowledge_detail.css' %}">
+    <link rel="stylesheet" href="{% static 'nursing_knowledges/css/diagnosis_detail.css' %}">
     <link rel="stylesheet" href="{% static 'nursing_knowledges/css/knowledge_detail_edit.css' %}">
     <link rel="stylesheet" href="{% static 'nursing_knowledges/css/diagnosis_detail_edit.css' %}">
 {% endblock css %}
@@ -34,25 +35,29 @@
         {{form.intervention_content.errors}}
     </div>
 
-    <div class="knowledge_info relative_diagnosis">
+    <div class="knowledge_info" id="related_diagnoses">
         <div class="knowledge_info__title">관련 간호진단</div>
-        <div class="diagnoses_list js-diagnoses_list">
-            {% for item in related_diagnoses%}
-                <div class="diagnosis_set">
-                    <input type="checkbox" id="{{item.to_diagnosis.name}}" name="added_{{item.to_diagnosis.name}}" checked>
-                    <label for="{{item.to_diagnosis.name}}">{{item.to_diagnosis.name}}</label>
+        <div class="knowledge_info__related_diagnoses js-knowledge_info__related_diagnoses">
+            {% for related_diagnosis in related_diagnoses %}
+                <div class="related_diagnosis js-related_diagnosis border_gray">
+                    <div class="related_diagnosis__summary">
+                        <input type="text"
+                               class="related_diagnosis__summary__title js-related_diagnosis__summary__title border_gray"
+                               name="relation_diagnosis_name"
+                               value="{{related_diagnosis.related_diagnosis_name}}"
+                               placeholder="진단명"
+                               required
+                        >
+                        <i class="fas fa-times related_diagnosis__summary__delete_btn js-related_diagnosis_delete_btn"></i>
+                    </div>
+                    <textarea class="related_interventions_textarea js-related_interventions_textarea border_gray"
+                              name="relation_diagnosis_intervention_content"
+                              placeholder="관련 대표 중재"
+                    >{{related_diagnosis.intervention_content}}</textarea>
                 </div>
-            {% endfor%}
+            {% endfor %}
         </div>
-        <div class="add_diagnosis_wrapper">
-            <input list="all_diagnosis" id="selected_diagnosis" name="selected_diagnosis" />
-            <datalist id="all_diagnosis">
-                {% for d in all_diagnosis %}
-                    <option value="{{d}}">
-                {% endfor %}
-            </datalist>
-            <button class="add_diagnosis_btn js-add_diagnosis_btn">진단 추가</button>
-        </div>
+        <button class="add_diagnosis_btn js-add_diagnosis_btn">진단 추가</button>
     </div>
 
 

@@ -20,7 +20,7 @@
             <div class="knowledge_header__category">질병</div>
             <h1 class="knowledge_header__name js-knowledge_name">{{disease.name}}</h1>
             {% if user.is_authenticated %}
-                <a href="{% url 'nursing_knowledges:disease_detail_edit' disease.pk %}" class="knowledge_header__edit_btn">편집</a>
+                <a href="{% url 'nursing_knowledges:disease_detail_edit' disease.pk %}" class="edit_btn_style knowledge_header__edit_btn">편집</a>
             {% endif %}
         </div>
 

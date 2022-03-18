@@ -57,9 +57,7 @@ body{
     font-weight: bold;
 }
 
-.knowledge_header__edit_btn{
-    position: absolute;
-    right: 10px;
+.edit_btn_style{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -67,9 +65,14 @@ body{
     border-radius: 10px;
     font-size: 0.9rem;
     font-weight: 500;
+    cursor: pointer;
+}
+
+.knowledge_header__edit_btn{
+    position: absolute;
+    right: 10px;
     color: white;
     background-color: #C8C8C8;
-    cursor: pointer;
 }
 
 .knowledge_header__edit_btn:hover {
