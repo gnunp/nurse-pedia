@@ -91,8 +91,6 @@ class DiagnosisSmallCategory(models.Model):
     name = models.CharField(max_length=100, unique=True)  # 진단명
     definition = models.TextField(max_length=3000, default="", blank=True)  # 진단의 정의
     intervention_content = models.TextField(max_length=3000, default="", blank=True)  # 진단이 가지는 중재들을 설명하는 필드
-    related_diagnoses = models.ManyToManyField("self", symmetrical=False, blank=True,
-                                               through="DiagnosisRelatedDiagnoses")  # 관련 간호진단
     diagnosis_medium_category = models.ForeignKey(
         "DiagnosisMediumCategory",
         on_delete=models.CASCADE,
@@ -111,17 +109,21 @@ class DiagnosisSmallCategory(models.Model):
         return self.intervention_content.split("\n") if True else ""
 
 
-class DiagnosisRelatedDiagnoses(models.Model):
+class DiagnosisRelatedDiagnosis(models.Model):
     """
-    간호 진단 Model의 related_diagnoses의 through에 설정된 Model
+    간호 진단 Model의 related_diagnoses의 FK Model
     """
-    from_diagnosis = models.ForeignKey("DiagnosisSmallCategory", on_delete=models.CASCADE,
-                                       related_name="from_diagnosis")
-    to_diagnosis = models.ForeignKey("DiagnosisSmallCategory", on_delete=models.CASCADE, related_name="to_diagnosis")
+    related_diagnosis_name = models.CharField(max_length=50)
+    intervention_content = models.TextField(max_length=3000, default="", blank=True)
+    target_diagnosis = models.ForeignKey("DiagnosisSmallCategory", on_delete=models.CASCADE,
+                                         related_name="DiagnosisRelatedDiagnoses")
     like_users = models.ManyToManyField("users.User", related_name="like_related_diagnoses", blank=True)
 
     def __str__(self):
-        return f"[{self.from_diagnosis.name}] -> [{self.to_diagnosis}]"
+        return f"[{self.target_diagnosis.name}] -> [{self.related_diagnosis_name}]"
+
+    def get_intervention_list(self):
+        return self.intervention_content.split("\n") if True else ""
 
 
 class DiagnosisInterventionAlpha(models.Model):

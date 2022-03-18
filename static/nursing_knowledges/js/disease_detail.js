@@ -1,35 +1,38 @@
-import css from "../css/disease_detail.css";
 import Secondpage from "./secondpage.js";
 import {headerHeight} from '../../global/js/global';
+import { shuffle } from "lodash";
 
 class DiseaseDetail{
     constructor(){
         this.setInit();
-        this.colors = {
-            1 : '#D6D6D6',
-            2 : '#FFE5D9',
-            3 : '#FFCAD4',
-            4 : '#F4ACB7',
-            5 : '#C6B5BA',
-        }
+        this.colors = [
+            '#D8E2DC',
+            '#FFE5D9',
+            '#FFCAD4',
+            '#F4ACB7',
+            '#C6B5BA',
+        ]
 
-        this.relative_diagnosis_btns = document.querySelectorAll('.diagnosis_btn');
-        if(this.relative_diagnosis_btns){
+
+        this.relativeDiagnoses = document.querySelectorAll('.relative_diagnoses__item');
+        if(this.relativeDiagnoses){
             this.colorSet();
         }
-        this.findNode =document.querySelector('.title_word').textContent;
+
+        this.findNode =document.querySelector('.js-knowledge_name').textContent;
         new Secondpage(true, this.findNode);
     }
     setInit(){
-        this.diseaseDetailWrap = document.querySelector('.disease_detail_wrap');
+        this.diseaseDetailWrap = document.querySelector('.root');
         this.diseaseDetailWrap.style.top = `${headerHeight}px`;
     }
 
     colorSet(){
-        let randnum;
-        this.relative_diagnosis_btns.forEach(element => {
-            randnum = Math.round(Math.random()*4) + 1;
-            element.style.backgroundColor=this.colors[randnum];
+        this.relativeDiagnoses.forEach((diagnosis, index) => {
+            if(index % this.colors.length === 0){
+                this.colors = shuffle(this.colors);
+            }
+            diagnosis.style.backgroundColor=this.colors[index % this.colors.length];
         });
     }
 }
