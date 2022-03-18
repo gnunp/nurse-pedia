@@ -199,3 +199,9 @@ def history(request):
     }
 
     return render(request, "nursing_knowledges/history.html", context)
+
+def mindmap(request):
+
+    context = {}
+
+    return render(request, "nursing_knowledges/mindmap_page.html", context)

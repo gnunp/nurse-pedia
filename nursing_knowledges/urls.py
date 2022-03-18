@@ -11,4 +11,5 @@ urlpatterns = [
     path('category/diagnosis', views.diagnosis_category, name='diagnosis_category'),
     path('disease/<int:pk>/edit', views.disease_detail_edit, name='disease_detail_edit'),
     path('history/', views.history, name='history'),
+    path('mindmap/', views.mindmap, name='mindmap'),
 ]
