@@ -14,4 +14,5 @@ urlpatterns = [
     path('related-diagnosis/<int:pk>/edit', views.diagnosis_detail__related_diagnosis_edit, name='related_diagnosis_edit'),
     path('history/', views.history, name='history'),
     path('diagnosis-related-diagnoses/<int:pk>', views.related_diagnosis_like, name='related_diagnosis_like'),
+    path('mindmap/', views.mindmap, name='mindmap'),
 ]
