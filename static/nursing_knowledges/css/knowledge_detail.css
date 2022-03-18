@@ -1,3 +1,5 @@
+@charset "utf-8";
+
 body{
     font-family: 'Noto Sans KR', sans-serif !important;
 }
@@ -90,6 +92,20 @@ body{
     margin-top: 1rem;
     font-size: 1.1rem;
     line-height: 1.6rem;
+}
+
+.knowledge_info__no_content{
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: #D6D6D6;
+}
+
+.knowledge_info__no_content:after{
+    content: " 내용이 비어 있습니다. 부족한 간호 지식을 채워 주세요!";
+}
+
+.after_content_none:after{
+    content: none;
 }
 
 /*
