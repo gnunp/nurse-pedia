@@ -277,6 +277,7 @@ def history(request):
 
     return render(request, "nursing_knowledges/history.html", context)
 
+
 @api_view(["POST"])
 def related_diagnosis_like(request, pk):
     if request.user.is_anonymous:
@@ -298,3 +299,8 @@ def related_diagnosis_like(request, pk):
         return Response(status=status.HTTP_404_NOT_FOUND)
     
     
+def mindmap(request):
+
+    context = {}
+
+    return render(request, "nursing_knowledges/mindmap_page.html", context)
