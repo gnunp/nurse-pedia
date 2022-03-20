@@ -35,9 +35,9 @@ api_patterns = [
         name='diagnosis_to_other'
     ),
     path(
-        'knowledges/disease-small-category/<int:pk>/mindmap-data',
-        knowledges_views.DiseaseLargeCategoryMindmapDataView.as_view(),
-        name='disease_large_category_mindmap_data'
+        'knowledges/detail-mindmap-data/',
+        knowledges_views.DetailMindmapDataView.as_view(),
+        name='detail_mindmap_data'
     )
 ]
 

@@ -1,5 +1,6 @@
 import json
 
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
@@ -96,19 +97,36 @@ class DiagnosisToOtherView(APIView):
         return Response(serializer.data)
 
 
-class DiseaseLargeCategoryMindmapDataView(APIView):
+class DetailMindmapDataView(APIView):
     """
     특정 대질병에 의해 생기는 마인드맵을 그리기위한 데이터 API
     """
-    def get(self, request, pk):
+    def get(self, request):
+        # Query String에 따라 최상단 대질병 찾아내기
+        if request.GET.get('disease_small_category_id'):
+            disease_small_category = get_object_or_404(DiseaseSmallCategory, pk=request.GET.get('disease_small_category_id'))
+            if disease_small_category.disease_large_category:
+                disease_large_category = disease_small_category.disease_large_category
+            else:
+                disease_large_category = disease_small_category.disease_medium_category.disease_large_category
+        elif request.GET.get('diagnosis_small_category_id'):
+            diagnosis_to_other = DiagnosisToOther.objects.filter(diagnosis=request.GET.get('diagnosis_small_category_id'))
+            if not diagnosis_to_other:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+            diagnosis_to_other = diagnosis_to_other[0]
+            if diagnosis_to_other.disease_medium_category:
+                disease_large_category = diagnosis_to_other.disease_medium_category.disease_large_category
+            else:
+                if diagnosis_to_other.disease_small_category.disease_large_category:
+                    disease_large_category = diagnosis_to_other.disease_small_category.disease_large_category
+                else:
+                    disease_large_category = diagnosis_to_other.disease_small_category.disease_medium_category.disease_large_category
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
         result = dict()
-        disease_small_category = get_object_or_404(DiseaseSmallCategory, pk=pk)
 
         # 연결된 대분류 진단 데이터 넣기
-        if disease_small_category.disease_large_category:
-            disease_large_category = disease_small_category.disease_large_category
-        else:
-            disease_large_category = disease_small_category.disease_medium_category.disease_large_category
         result['disease_large_category'] = {
             'id': disease_large_category.pk,
             'name': disease_large_category.name
