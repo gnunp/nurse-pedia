@@ -118,8 +118,10 @@ def diagnosis_category(request):
 
 
 
-@login_required
 def disease_detail_edit(request, pk):
+    if request.user.is_anonymous:
+        return redirect('home')
+
     disease = get_object_or_404(DiseaseSmallCategory, pk=pk)
     before_word_count = count_words(
         disease.definition,
@@ -186,8 +188,10 @@ def disease_detail_edit(request, pk):
 
     return render(request, "nursing_knowledges/disease_detail_edit.html", context)
 
-@login_required
 def diagnosis_detail_edit(request, pk):
+    if request.user.is_anonymous:
+        return redirect('home')
+
     diagnosis = get_object_or_404(DiagnosisSmallCategory, pk=pk)
     before_word_count = count_words(
         diagnosis.definition,
