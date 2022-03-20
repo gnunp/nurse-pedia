@@ -304,3 +304,4 @@ def mindmap(request):
     context = {}
 
     return render(request, "nursing_knowledges/mindmap_page.html", context)
+

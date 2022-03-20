@@ -1,5 +1,8 @@
+import json
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
 from ..models import (
     DiseaseLargeCategory,
     DiseaseMediumCategory,
@@ -91,3 +94,58 @@ class DiagnosisToOtherView(APIView):
         diagnosis_to_others = DiagnosisToOther.objects.all()
         serializer = DiagnosisToOtherSerializer(diagnosis_to_others, many=True)
         return Response(serializer.data)
+
+
+class DiseaseLargeCategoryMindmapDataView(APIView):
+    """
+    특정 대질병에 의해 생기는 마인드맵을 그리기위한 데이터 API
+    """
+    def get(self, request, pk):
+        result = dict()
+        disease_small_category = get_object_or_404(DiseaseSmallCategory, pk=pk)
+
+        # 연결된 대분류 진단 데이터 넣기
+        if disease_small_category.disease_large_category:
+            disease_large_category = disease_small_category.disease_large_category
+        else:
+            disease_large_category = disease_small_category.disease_medium_category.disease_large_category
+        result['disease_large_category'] = {
+            'id': disease_large_category.pk,
+            'name': disease_large_category.name
+        }
+        if disease_large_category.disease_small_categories_by_large.all():
+            result['disease_large_category']['disease_small_categories'] = []
+            for disease_small_category in disease_large_category.disease_small_categories_by_large.all():
+                result['disease_large_category']['disease_small_categories'].append(
+                    self.get_disease_small_data(disease_small_category)
+                )
+
+        disease_medium_categories = disease_large_category.disease_medium_categories.all()
+        result['disease_medium_categories'] = []
+        for disease_medium_category in disease_medium_categories:
+            disease_medium_data = {
+                'id': disease_medium_category.pk,
+                'name': disease_medium_category.name,
+                'disease_small_categories': []
+            }
+            for disease_small_category in disease_medium_category.disease_small_categories_by_medium.all():
+                disease_medium_data['disease_small_categories'].append(
+                    self.get_disease_small_data(disease_small_category)
+                )
+
+            result['disease_medium_categories'].append(disease_medium_data)
+
+        return Response(result)
+
+    def get_disease_small_data(self, disease_small_category):
+        disease_small_data = {
+            'id': disease_small_category.pk,
+            'name': disease_small_category.name,
+            'diagnoses': []
+        }
+        for diagnosis_to_other in DiagnosisToOther.objects.filter(disease_small_category=disease_small_category):
+            disease_small_data['diagnoses'].append({
+                'id': diagnosis_to_other.diagnosis.pk,
+                'name': diagnosis_to_other.diagnosis.name
+            })
+        return disease_small_data
