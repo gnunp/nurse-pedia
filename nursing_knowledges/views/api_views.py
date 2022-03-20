@@ -14,7 +14,7 @@ from ..serializers import (
     DiagnosisSerializer,
     DiseaseLargeToMediumSerializer,
     DiseaseMediumToSmallSerializer,
-    DiagnosisToOtherSerializer,
+    DiagnosisToOtherSerializer, DiseaseLargeToSmallSerializer,
 )
 
 class DiseaseLargeCategoryView(APIView):
@@ -71,6 +71,17 @@ class DiseaseMediumToSmallView(APIView):
         disease_medium_categories = DiseaseMediumCategory.objects.all()
         serializer = DiseaseMediumToSmallSerializer(disease_medium_categories, many=True)
         return Response(serializer.data)
+
+
+class DiseaseLargeToSmallView(APIView):
+    """
+    질병 대분류 <--> 소분류 연결관계 API View
+    """
+    def get(self, request):
+        disease_large_categories = DiseaseLargeCategory.objects.all()
+        serializer = DiseaseLargeToSmallSerializer(disease_large_categories, many=True)
+        return Response(serializer.data)
+
 
 class DiagnosisToOtherView(APIView):
     """
