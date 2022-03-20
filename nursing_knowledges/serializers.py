@@ -86,6 +86,23 @@ class DiseaseMediumToSmallSerializer(serializers.ModelSerializer):
     def get_id(self, obj):
         return obj.id
 
+class DiseaseLargeToSmallSerializer(serializers.ModelSerializer):
+    """
+    질병 대분류 <--> 소분류 연결관계 Serializer
+    """
+    disease_large_category = serializers.SerializerMethodField('get_id')
+    disease_small_categories_by_large = serializers.PrimaryKeyRelatedField(queryset=DiseaseSmallCategory.objects.all(), many=True)
+
+    class Meta:
+        model = DiseaseLargeCategory
+        fields = (
+            'disease_large_category',
+            'disease_small_categories_by_large',
+        )
+
+    def get_id(self, obj):
+        return obj.id
+
 class DiagnosisToOtherSerializer(serializers.ModelSerializer):
     """
     질병(중분류 or 소분류) <--> 진단 연결관계 Serializer
