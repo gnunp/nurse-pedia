@@ -14,7 +14,7 @@ class DiagnosisDetail{
         }
 
         this.findNode =document.querySelector('.js-knowledge_name').textContent;
-        // new Secondpage(true, this.findNode);
+        new Secondpage(true, this.findNode);
     }
 
     setInit(){
