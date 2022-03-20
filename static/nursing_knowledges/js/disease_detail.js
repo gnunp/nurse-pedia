@@ -15,7 +15,7 @@ class DiseaseDetail{
             '#F4ACB7',
             '#C6B5BA',
         ]
-        this.relativeDiagnoses = document.querySelectorAll('.relative_diagnoses__item');
+        this.relativeDiagnoses = document.querySelectorAll('.js-relative_diagnosis_item');
         if(this.relativeDiagnoses){
             this.colorSet();
         }
