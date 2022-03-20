@@ -2,6 +2,15 @@
     background-color: #faa56f;
 }
 
+#related_diagnoses{
+    position: relative;
+}
+
+#related_diagnoses_edit_flag{
+    position: relative;
+    bottom: 200px;
+}
+
 .knowledge_info__related_diagnoses{
     margin: 1rem 0;
 }

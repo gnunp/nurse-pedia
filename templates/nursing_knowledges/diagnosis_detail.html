@@ -73,7 +73,7 @@
                 <div class="knowledge_info__title related_diagnosis_wrapper">
                     <span>관련 간호진단</span>
                     {% if user.is_authenticated %}
-                        <a href="{% url 'nursing_knowledges:diagnosis_detail_edit' diagnosis.pk %}#related_diagnoses" class="edit_btn_style related_diagnosis_wrapper__edit_btn">추가/제거</a>
+                        <a href="{% url 'nursing_knowledges:diagnosis_detail_edit' diagnosis.pk %}#related_diagnoses_edit_flag" class="edit_btn_style related_diagnosis_wrapper__edit_btn">추가/제거</a>
                     {% endif %}
                 </div>
                     {% if diagnosis_related_diagnoses %}
