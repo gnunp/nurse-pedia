@@ -45,6 +45,7 @@ const diagnosisDetailEdit = () => {
                            class="related_diagnosis__summary__title js-related_diagnosis__summary__title border_gray"
                            name="relation_diagnosis_name"
                            placeholder="진단명"
+                           required
                     >
                     <i class="fas fa-times related_diagnosis__summary__delete_btn js-related_diagnosis_delete_btn"></i>
                 </div>

@@ -51,6 +51,7 @@ class DiseaseSmallCategory(models.Model):
         null=True,
         blank=True
     )  # 연결된 질병 중분류
+    like_users = models.ManyToManyField("users.User", related_name="like_diseases", blank=True)
 
     def __str__(self):
         return self.name
@@ -98,6 +99,7 @@ class DiagnosisSmallCategory(models.Model):
         null=True,
         blank=True
     )  # 연결된 진단 중분류, null,blank=True는 추후 삭제될 예정
+    like_users = models.ManyToManyField("users.User", related_name="like_diagnoses", blank=True)
 
     def __str__(self):
         return self.name

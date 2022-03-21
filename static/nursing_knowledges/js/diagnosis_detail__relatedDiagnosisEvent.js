@@ -1,4 +1,5 @@
 import { disassemble, isConsonant } from 'hangul-js';
+import {getCookie} from "./shortcuts";
 
 const relatedDiagnosisEvent = () => {
     const allRelatedDiagnosisWrapper = document.querySelectorAll(".js-related_diagnosis");
@@ -159,29 +160,19 @@ const relatedDiagnosisEvent = () => {
             },
         })
 
-        // 좋아요를 눌러서 +1 된 경우
-        // 좋아요를 취소해서 -1 된 경우
-        if(response.status === 201 || response.status === 200){
+        const knowledgeStarBtn = document.querySelector((".js-knowledge_star_btn"));
+        if(response.status === 201) {
+            // 좋아요를 눌러서 +1 된 경우, 진단 찜하기
+            if(!knowledgeStarBtn.classList.contains("js-clicked_star")){
+                knowledgeStarBtn.click();
+            }
+        }
+        else if(response.status === 200){
+            // 좋아요를 취소해서 -1 된 경우
         }
         else{
             alert("에러가 발생 했습니다.")
         }
-    }
-
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
     }
 
     function addAfterContent(element){

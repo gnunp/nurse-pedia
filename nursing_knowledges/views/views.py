@@ -40,11 +40,17 @@ def disease_detail(request, pk):
     diagnoses = []  # 연결된 진단들의 객체 리스트
     for dis_to_diag in disease_to_diagnoses:
         diagnoses.append(dis_to_diag.diagnosis)
-    
+
+    try:
+        user = disease.like_users.get(pk=request.user.pk)
+        is_star = True
+    except User.DoesNotExist:
+        is_star = False
 
     context = {
         "disease": disease,
         "diagnoses": diagnoses,
+        "is_star": is_star,
     }
 
     return render(request, "nursing_knowledges/disease_detail.html", context)
@@ -65,11 +71,18 @@ def diagnosis_detail(request, pk):
 
     form = DiagnosisForm()
 
+    try:
+        user = diagnosis.like_users.get(pk=request.user.pk)
+        is_star = True
+    except User.DoesNotExist:
+        is_star = False
+
     context = {
         "diagnosis": diagnosis,
         "diagnosis_related_diagnoses": diagnosis_related_diagnoses,
         "alphas": alphas,
         "form": form,
+        "is_star": is_star,
     }
     
     return render(request, "nursing_knowledges/diagnosis_detail.html", context)
@@ -118,8 +131,10 @@ def diagnosis_category(request):
 
 
 
-@login_required
 def disease_detail_edit(request, pk):
+    if request.user.is_anonymous:
+        return redirect('home')
+
     disease = get_object_or_404(DiseaseSmallCategory, pk=pk)
     before_word_count = count_words(
         disease.definition,
@@ -186,8 +201,10 @@ def disease_detail_edit(request, pk):
 
     return render(request, "nursing_knowledges/disease_detail_edit.html", context)
 
-@login_required
 def diagnosis_detail_edit(request, pk):
+    if request.user.is_anonymous:
+        return redirect('home')
+
     diagnosis = get_object_or_404(DiagnosisSmallCategory, pk=pk)
     before_word_count = count_words(
         diagnosis.definition,
@@ -304,4 +321,31 @@ def mindmap(request):
     context = {}
 
     return render(request, "nursing_knowledges/mindmap_page.html", context)
+
+
+@api_view(["POST"])
+def add_knowledge_star(request):
+    if request.user.is_anonymous:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+    knowledge_category = request.data.get('knowledgeCategory')
+    knowledge_id = request.data.get('id')
+
+    if (not knowledge_category) or (not knowledge_id):
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if knowledge_category == "disease":
+        knowledge = get_object_or_404(DiseaseSmallCategory, pk=knowledge_id)
+    elif knowledge_category == "diagnosis":
+        knowledge = get_object_or_404(DiagnosisSmallCategory, pk=knowledge_id)
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    try:
+        is_already_star = knowledge.like_users.get(pk=request.user.pk)
+        knowledge.like_users.remove(request.user)
+        return Response(status=status.HTTP_200_OK)
+    except User.DoesNotExist:
+        knowledge.like_users.add(request.user)
+        return Response(status=status.HTTP_201_CREATED)
 
