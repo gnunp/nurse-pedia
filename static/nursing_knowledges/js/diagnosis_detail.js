@@ -1,4 +1,4 @@
-import Secondpage from "./secondpage.js";
+import Mindmap from "./mindmap.js";
 import {headerHeight} from '../../global/js/global';
 import {toastMessage} from "./toastMessage";
 import {handleClickStarBtn, handleHoverStarBtn} from "./knowledge_detail";
@@ -26,7 +26,7 @@ class DiagnosisDetail{
 
         // 마인드맵 그리는 코드
         this.findNode =document.querySelector('.js-knowledge_name').textContent;
-        // new Secondpage(true, this.findNode);
+        new Mindmap(true, this.findNode);
     }
 
     setInit(){

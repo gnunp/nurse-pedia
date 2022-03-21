@@ -21,9 +21,11 @@
 
 
 {% block content %}
+    {% include 'nursing_knowledges/mindmap.html' %}
 {% endblock content %}
 
 
 
 {% block script %}
+<script src="{% static 'assets/js/mindmappage.js' %}"></script>
 {% endblock script %}

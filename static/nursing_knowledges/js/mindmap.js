@@ -1,13 +1,16 @@
-/*
 import cytoscape from 'cytoscape';
 import coseBilkent from 'cytoscape-cose-bilkent';
 
 cytoscape.use(coseBilkent);
 
-export class Mindmap{
+import mindmap_css from '../css/mindmap.css';
+
+class Mindmap{
     constructor(detailpage = false, findele = null){
+        //진단,질병 페이지 들어가면 해당 노드 표시
         this.isdetailpage = detailpage;
         this.targetNode = findele;
+
         //노드에 적용할 색깔
         this.globalColor ={
             pink:'#FF8080',
@@ -19,36 +22,45 @@ export class Mindmap{
             indigo:'#455879',
             dark_indigo:'#2F4858',
         };
-
-        this.makedata = new MakeData();
-
-        this.makepage();
+        
+        //디테일 페이지 id값
+        if(detailpage){
+            this.makedata = new MakeDetailData();
+            this.makeDetailpage();
+        }
+        else{
+            this.makedata = new MakeData();
+            this.makepage();
+        }
     }
 
+    //데이터 세팅
     async makepage(){
         this.data = [];
 
-        this.largediseasedata = await this.makedata.getLargeDisease();
-        this.middeldiseasedata = await this.makedata.getMiddleDisease();
-        this.smalldiseasedata = await this.makedata.getSmallDisease();
-        this.diagnosisdata = await this.makedata.getDiagnosis();
-        this.connectLargetoMiddle = await this.makedata.getConnectLargeToMiddle();
-        this.connectMiddletoSmall = await this.makedata.getConnectMiddleToSmall();
-        this.connectDiagnosis = await this.makedata.getConnectdiagnosis();
+        // 직렬 처리되던 api 호출을 한번에 병렬처리 하여 로딩속도 개선
+        [
+            this.largediseasedata,
+            this.middeldiseasedata,
+            this.smalldiseasedata,
+            this.diagnosisdata,
+            this.connectLargetoMiddle,
+            this.connectMiddletoSmall,
+            this.connectDiagnosis,
+        ] = await Promise.all([
+            this.makedata.getLargeDisease(),
+            this.makedata.getMiddleDisease(),
+            this.makedata.getSmallDisease(),
+            this.makedata.getDiagnosis(),
+            this.makedata.getConnectLargeToMiddle(),
+            this.makedata.getConnectMiddleToSmall(),
+            this.makedata.getConnectdiagnosis(),
+        ]);
         
         await this.largediseasedata.forEach(element => {
             this.data.push(JSON.parse(element));
         });
         await this.middeldiseasedata.forEach(element => {
-            this.data.push(JSON.parse(element));
-        });
-        await this.connectLargetoMiddle.forEach(element => {
-            this.data.push(JSON.parse(element));
-        });
-        await this.connectMiddletoSmall.forEach(element => {
-            this.data.push(JSON.parse(element));
-        });
-        await this.connectDiagnosis.forEach(element => {
             this.data.push(JSON.parse(element));
         });
         await this.smalldiseasedata.forEach(element => {
@@ -57,13 +69,51 @@ export class Mindmap{
         await this.diagnosisdata.forEach(element => {
             this.data.push(JSON.parse(element));
         });
+
+        await this.connectLargetoMiddle.forEach(element => {
+
+            this.data.push(JSON.parse(element));
+        });
+        await this.connectMiddletoSmall.forEach(element => {
+ 
+            this.data.push(JSON.parse(element));
+        });
+        await this.connectDiagnosis.forEach(element => {
+
+            this.data.push(JSON.parse(element));
+        });
+  
         this.mindmap();
     }
-    
-    mindmap(){
 
-        const minZoomlevel = 0.1; // 최소 축소 배율
-        let magnification = 2.5; // 마우스 올라갈때 변하는 비율
+    //디테일 데이터 세팅
+    async makeDetailpage(){
+        const address = window.location.href;
+        const kind = /disease/.test(address) ? 'disease' : 'diagnosis';
+        const idnum = /\d+$/.exec(address)[0];
+        this.makedata = new MakeDetailData(kind, idnum);
+        this.data = [];
+
+        // 직렬 처리되던 api 호출을 한번에 병렬처리 하여 로딩속도 개선
+        // 이부분 비동기 처리 해야하는데 안되네 우와 ...
+        [
+            this.database
+        ] = await Promise.all([
+            this.makedata.getData()
+        ]);
+        
+        await this.database.forEach(element => {
+            this.data.push(JSON.parse(element));
+        });
+
+    
+        this.mindmap();
+    }
+
+    mindmap(){
+/*------------------------------------------- 초기 세팅 ------------------------------------- */
+        const minZoomlevel = 0.05; // 최소 축소 배율
+        const magnification = 3; // 마우스 올라갈때 변하는 비율
 
         //초기 노드 스타일
         const initNodeStyle = {
@@ -155,15 +205,14 @@ export class Mindmap{
         }
 
         //마우스가 노드 위로 올라왔을 때, 스타일
-        let ActiveStyle = {
-            
+        const  ActiveStyle = {
             selectNodeSize : initNodeStyle.bigNodeSize * (magnification - 0.5),
             neighborNodeSize : initNodeStyle.middleNodeSize * (magnification - 0.5),
             farNodeSize : initNodeStyle.smallNodeSize * (magnification - 0.5),
 
-            selectFontSize : initNodeStyle.bigFontSize * (magnification - 0.5),
-            neighborFontSize : initNodeStyle.middleFontSize * (magnification - 0.5),
-            farFontSize : initNodeStyle.smallFontSize * (magnification - 0.5),
+            selectFontSize : initNodeStyle.bigFontSize * (magnification - 1),
+            neighborFontSize : initNodeStyle.middleFontSize * (magnification - 1),
+            farFontSize : initNodeStyle.smallFontSize * (magnification - 1),
 
             edgeWidth : `${4 * magnification}px`,
             arrowScale : 2,
@@ -171,35 +220,18 @@ export class Mindmap{
             arrowColor : 'red',
             
             color : 'black',
-
-            // activeNodeSize : `${40 * magnification}`,
-            // activeFontSize : 16 * (magnification - 0.5),
-            // activeFontColor : this.globalColor.pink,
-
-            // subActiveDiaNodeSize :`${18 * magnification}`,
-            // subActiveSmallNodeSize :`${24 * magnification}`,
-            // subActiveMiddleNodeSize : `${34 * magnification}`,
-
-            // closeArrowColor : this.globalColor.dark_purple,
-            // closeFontColor : this.globalColor.dark_purple,
-
-            // farArrowColor : this.globalColor.dark_indigo,
-            // farFontColor :  this.globalColor.dark_indigo,
-
-            // arrowActiveScale : 2.0 * (magnification - 0.5),
-            // edgeActiveWidth :`${4 * magnification}px`,
         }
 
-        const dimColor = this.globalColor.dark_indigo;//커서 노드위로 올렸을 때 주목받지 못한 노드&화살표 색
+        //커서 노드위로 올렸을 때 주목받지 못한 노드&화살표 색
+        const dimColor = this.globalColor.dark_indigo;
 
         //초기 MindMap 생성
         const cy = cytoscape({
-
             container: document.getElementById('cy'), 
 
             elements: this.data,
 
-            style: [ // the stylesheet for the graph
+            style: [ 
                 {
                     selector: 'node',
                     style: initStyle,
@@ -220,7 +252,7 @@ export class Mindmap{
 
             layout: {
                 name: 'cose-bilkent',
-         
+
                 fit: true,             
                 padding: 30,            
                 randomize: true,     
@@ -233,27 +265,8 @@ export class Mindmap{
                 tile: true,                
                 animate: true,             
                 tilingPaddingVertical: 80,  
-                tilingPaddingHorizontal: 80
-                /*
-                name: 'cose-bilkent',
-                animate: false,
-                graviyRangeCompound: 12,
-                fit: true,
-                tile : true,
-                spacingFactor: 1.5,
-                quality:'default',
-                
-                // BoundingBox:{0, 0, 0, 0},
-                idealEdgeLength: function(edge){
-                     return edge.data().weight * .8
-                },
-
-                // edgeElasticity: function(edge){
-                //     return edge.data().weight * 6
-                // },
-
-               //gravity: 80,
-               
+                tilingPaddingHorizontal: 80,
+                minNodeSpacing:100,
             },
             wheelSensitivity : 0.1,
         });
@@ -261,11 +274,41 @@ export class Mindmap{
         cy.minZoom(minZoomlevel); //최소 줌
         cy.autolock(false); // 노드 드래그로 움직이지 못하게 하는 것
 
+        //디테일 페이지 들어갔을 때 해당 페이지 노드 표시
+        if(this.isdetailpage){
+            this.isinitset = true;
+            searchNode(this.targetNode);
+        }
+/*------------------------------------------- 여러가지 함수들 ------------------------------------- */
         //투명도 주는 함수
         function setOpacityElement(target_element, degree){
             target_element.style('opacity', degree);
         }
 
+        //검색해서 Active되는 노드 스타일 설정 함수
+        function setSearchFocus(target_element){
+            target_element.style('background-color',function(ele){
+                if(ele.data("type") == "largedisease"){
+                    return initNodeStyle.bigNodeColor;
+                }
+                else if(ele.data("type") == "middledisease"){
+                    return initNodeStyle.middleNodeColor;
+                }
+                else if(ele.data("type") == "smalldisease"){
+                    return initNodeStyle.smallNodeColor;
+                }
+                else{
+                    return initNodeStyle.diagnosisNodeColor;
+                }
+            });
+
+            target_element.style('width', ActiveStyle.selectNodeSize);
+            target_element.style('height',ActiveStyle.selectNodeSize);
+            target_element.style('font-size', ActiveStyle.selectFontSize);
+            target_element.style('color', ActiveStyle.color);
+
+            setOpacityElement(target_element, 1);
+        }
         //마우스가 올라왔을 때 스타일 적용
         function setFocus(target_element){
             target_element.style('background-color',function(ele){
@@ -473,25 +516,53 @@ export class Mindmap{
                 target.style('opacity', 1);
             });
         }
-        //detailpage 노드 센터 + 커서 효과
-        if(this.isdetailpage){
-            this.isinitset = true;
-            let target_node_name = this.targetNode;
-            cy.filter(function(ele, count, elseelm){
+
+        //mindmap 검색창에 검색시 노드 반짝
+        function searchNode(target, searching = false){
+            let target_label = target.replaceAll(' ','');
+            let targetNodeArr =[];
+            
+            cy.filter(function(ele){
                 if(ele.isNode()){
-                    if(ele.data('label') === target_node_name){
-                        setDimStyle(cy, {
-                            'background-color' : dimColor,
-                            'line-color':dimColor,
-                            'source-arrow-color': dimColor,
-                            'color': dimColor,
-                        });
-                        setFocus(ele);
+                    //띄어쓰기 무시
+                    let node_label = ele.data('label').replaceAll(' ','');
+
+                    //몇 글자만 적어도 관련 노드 번쩍 거릴 수 있게
+                    if(searching){
+                        let textlength = target_label.length;
+                        
+                        let lastchar = target_label.charAt(textlength-1);
+                        if(lastchar < "가" || lastchar>"힣"){
+                            textlength -= 1;
+                        }
+
+                        node_label = node_label.substr(0,textlength);
+                    }
+
+                    if(node_label === target_label){
+                        targetNodeArr.push(ele);
                     }
                 }
-            })
+            });
+    
+            setDimStyle(cy, {
+                'background-color' : dimColor,
+                'line-color':dimColor,
+                'source-arrow-color': dimColor,
+                'color': dimColor,
+            });
+   
+            targetNodeArr.forEach(element => {
+                if(searching){
+                    setSearchFocus(element);
+                }
+                else{
+                    setFocus(element);
+                }
+            });
         }
 
+/*--------------------------------------------이벤트 발생시 함수 적용--------------------------------------- */
         // node 하이퍼 링크
         cy.on('tap', function(e){
             const url = e.target.data('url');
@@ -521,7 +592,6 @@ export class Mindmap{
         });
 
         //resize Event
-   
         let resizeTimer;
         window.addEventListener('resize', function(){
             this.clearTimeout(resizeTimer);
@@ -532,6 +602,7 @@ export class Mindmap{
     }
 }
 
+//데이터 가져오기
 export class MakeData{ 
     async getLargeDisease(){
         let id, url, label, item;
@@ -541,7 +612,6 @@ export class MakeData{
         const jsonData = await databaseData.json();
 
         jsonData.forEach(element => {
-          
             id = "largedisease"+(element.id);
             url = '#';
             label = element.name;
@@ -568,7 +638,6 @@ export class MakeData{
         const jsonData = await databaseData.json();
 
         jsonData.forEach(element => {
-          
             id = "middledisease"+(element.id).toString();
             url = '#';
             label = element.name;
@@ -678,7 +747,7 @@ export class MakeData{
         jsonData.forEach(element => {
             target = "middledisease"+(element.disease_medium_category).toString();
 
-            element.disease_small_categories.forEach(ele => {
+            element.disease_small_categories_by_medium.forEach(ele => {
                 source = "smalldisease"+ (ele).toString();
                 id = source + "->" + target;
     
@@ -728,7 +797,209 @@ export class MakeData{
     }
 }
 
-window.onload = ()=>{
-    const mindmap = new Mindmap();
+//디테일 페이지 데이터 가져오기
+export class MakeDetailData{ 
+    constructor(targetkind, targetid){
+        this.targetkind = targetkind
+        this.targetid = targetid;
+    }
+
+    async getData(){
+        const subaddress =  this.targetkind == 'disease'? `disease_small_category_id=${this.targetid}` : `diagnosis_small_category_id=${this.targetid}`;
+        const address = '/api/knowledges/detail-mindmap-data/?' + subaddress;
+
+        const database = await fetch(address);
+        const jsonData = await database.json();
+        console.log(jsonData);
+
+        let source, target;
+        let result =[];
+
+        //대분류 추가
+        let id, url, label, item;
+
+        id = "largedisease" + (jsonData.disease_large_category.id).toString();
+        url ='#';
+        label = jsonData.disease_large_category.name;
+
+        item = JSON.stringify({
+            "data":{
+                "id":  id,
+                "url": url,
+                "label": label,
+                "type":"largedisease",
+            }
+        });
+        result.push(item);
+
+        //대분류-소분류 관계 추가
+        let largetarget = "largedisease" +(jsonData.disease_large_category.id).toString();
+        
+        jsonData.disease_large_category.disease_small_categories.forEach(ele =>{
+            let largesource = "smalldisease"+(ele.id);
+            let largeconnectid = largesource +"-> "+ largetarget;
+
+            let largeconnectitem = JSON.stringify({
+                "data":{
+                    "id": largeconnectid,
+                    "source": largesource,
+                    "target": largetarget
+                }
+            });
+
+            result.push(largeconnectitem);
+
+            //소분류 추가
+            let largetosmallid = "smalldisease"+(ele.id).toString();
+            let largetosmallurl = "/knowledges/disease/"+(ele.id).toString();
+            let largetosmalllabel = ele.name;
+    
+            let largetosmallitem = JSON.stringify({
+                "data":{
+                    "id":  largetosmallid,
+                    "url": largetosmallurl,
+                    "label": largetosmalllabel,
+                    "type":"smalldisease",
+                }
+            });
+
+            result.push(largetosmallitem);
+
+            //소분류-진단 관계 추가
+            let smalltodiatarget = largetosmallid;
+
+            ele.diagnoses.forEach(el=>{
+                let smalltodiasource = "diagnosis" +(el.id).toString(); 
+                let smalltodiaid = smalltodiasource + "->" + smalltodiatarget;
+                let smalltodiaitem = JSON.stringify({
+                    "data":{
+                        "id": smalltodiaid,
+                        "source": smalltodiasource,
+                        "target": smalltodiatarget
+                    }
+                });
+
+                result.push(smalltodiaitem);
+
+                //진단 추가
+                let dia_id = "diagnosis"+(el.id).toString();
+                let dia_url = '/knowledges/diagnosis/'+(el.id).toString();
+                let dia_label = el.name;
+    
+                let dia_item = JSON.stringify({
+                    "data":{
+                        "id": dia_id,
+                        "url": dia_url,
+                        "label": dia_label,
+                        "type":"diagnosis",
+                    }
+                });
+                result.push(dia_item);
+            })
+        })
+
+        //대분류-중분류 관계 추가
+        target = "largedisease" +(jsonData.disease_large_category.id).toString();
+
+        jsonData.disease_medium_categories.forEach(element => {
+            source = "middledisease"+(element.id).toString();
+            id = source + "->" + target;
+
+            item = JSON.stringify({
+                "data":{
+                    "id": id,
+                    "source": source,
+                    "target": target
+                }
+            });
+
+            result.push(item);
+
+            //중분류 추가
+            let midid = "middledisease"+(element.id).toString();
+            let midurl ="#";
+            let midlabel = element.name;
+
+            let miditem = JSON.stringify({
+                "data":{
+                    "id":  midid,
+                    "url": midurl,
+                    "label": midlabel,
+                    "type":"middledisease",
+                }
+            });
+
+            result.push(miditem);
+
+            //중분류-소분류 관계 추가
+            let midtarget = midid;
+            element.disease_small_categories.forEach(ele =>{
+                let midsource = "smalldisease" + (ele.id).toString();
+                let connectid = midsource + "->" + midtarget;
+
+                let connectitem = JSON.stringify({
+                    "data":{
+                        "id": connectid,
+                        "source": midsource,
+                        "target": midtarget
+                    }
+                });
+                result.push(connectitem);
+
+                //소분류 추가
+                let smallid = "smalldisease"+(ele.id).toString();
+                let smallurl = "/knowledges/disease/"+(ele.id).toString();
+                let smalllabel = ele.name;
+    
+                let smallitem = JSON.stringify({
+                    "data":{
+                        "id":  smallid,
+                        "url": smallurl,
+                        "label": smalllabel,
+                        "type":"smalldisease",
+                    }
+                });
+
+                result.push(smallitem);
+
+                //소분류-진단 관계 추가
+                let dtarget = "smalldisease"+(ele.id).toString();
+                ele.diagnoses.forEach(el =>{
+                    let dsource = "diagnosis" +(el.id).toString(); 
+                    let did = dsource + "->" + dtarget;
+                    let ditem = JSON.stringify({
+                        "data":{
+                            "id": did,
+                            "source": dsource,
+                            "target": dtarget
+                        }
+                    });
+
+                    result.push(ditem);
+
+                    //진단 추가
+                    let diaid = "diagnosis"+(el.id).toString();
+                    let diaurl = '/knowledges/diagnosis/'+(el.id).toString();
+                    let dialabel = el.name;
+        
+                    let diaitem = JSON.stringify({
+                        "data":{
+                            "id": diaid,
+                            "url": diaurl,
+                            "label": dialabel,
+                            "type":"diagnosis",
+                        }
+                    });
+                    result.push(diaitem);
+                });
+            });
+        });
+
+        //중분류 추가
+        jsonData.disease_medium_categories.forEach(element =>{
+        });
+        return result;
+    }
 }
-*/
+
+export default Mindmap;

@@ -1,4 +1,4 @@
-import Secondpage from "./secondpage.js";
+import Mindmap from "./mindmap.js";
 import {headerHeight} from '../../global/js/global';
 import { shuffle } from "lodash";
 import {toastMessage} from "./toastMessage";
@@ -39,7 +39,7 @@ class DiseaseDetail{
 
         // 마인드맵 그리는 코드
         this.findNode =document.querySelector('.js-knowledge_name').textContent;
-        // new Secondpage(true, this.findNode);
+        new Mindmap(true, this.findNode);
     }
     setInit(){
         this.diseaseDetailWrap = document.querySelector('.root');
