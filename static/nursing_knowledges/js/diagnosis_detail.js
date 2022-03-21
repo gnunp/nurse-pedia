@@ -1,6 +1,7 @@
 import Secondpage from "./secondpage.js";
 import {headerHeight} from '../../global/js/global';
 import {toastMessage} from "./toastMessage";
+import {handleClickStarBtn, handleHoverStarBtn} from "./knowledge_detail";
 
 class DiagnosisDetail{
     constructor(){
@@ -13,8 +14,19 @@ class DiagnosisDetail{
             }
         }
 
+        // 찜하기 버튼 이벤트 관련 코드
+        if(document.querySelector('.js-knowledge_star_btn')){
+            this.starBtn = document.querySelector('.js-knowledge_star_btn');
+            if(!document.querySelector(".js-clicked_star")){
+                this.starBtn.addEventListener("mouseover", handleHoverStarBtn);
+                this.starBtn.addEventListener("mouseout", handleHoverStarBtn);
+            }
+            this.starBtn.addEventListener("click", handleClickStarBtn);
+        }
+
+        // 마인드맵 그리는 코드
         this.findNode =document.querySelector('.js-knowledge_name').textContent;
-        new Secondpage(true, this.findNode);
+        // new Secondpage(true, this.findNode);
     }
 
     setInit(){

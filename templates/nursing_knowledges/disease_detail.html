@@ -18,7 +18,17 @@
     <div class="root">
         <div class="knowledge_header">
             <div class="knowledge_header__category">질병</div>
-            <h1 class="knowledge_header__name js-knowledge_name">{{disease.name}}</h1>
+            <h1 class="knowledge_header__name js-knowledge_name"
+                data-knowledge_category="disease"
+                data-id="{{ disease.pk }}"
+            >{{disease.name}}</h1>
+            {% if user.is_authenticated %}
+                {% if is_star %}
+                    <i class="fa-star knowledge_header__star_btn js-knowledge_star_btn fas color_yellow js-clicked_star"></i>
+                {% else %}
+                    <i class="far fa-star knowledge_header__star_btn js-knowledge_star_btn"></i>
+                {% endif %}
+            {% endif %}
             <a href="{% url 'nursing_knowledges:disease_detail_edit' disease.pk %}"
                class="edit_btn_style knowledge_header__edit_btn{% if user.is_anonymous %} js-block_to_edit{% endif %}"
             >편집</a>

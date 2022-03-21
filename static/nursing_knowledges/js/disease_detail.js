@@ -2,6 +2,7 @@ import Secondpage from "./secondpage.js";
 import {headerHeight} from '../../global/js/global';
 import { shuffle } from "lodash";
 import {toastMessage} from "./toastMessage";
+import {handleHoverStarBtn, handleClickStarBtn} from "./knowledge_detail";
 
 class DiseaseDetail{
     constructor(){
@@ -26,9 +27,19 @@ class DiseaseDetail{
                 .addEventListener("click",this.handleClickEditBtn__toBlockEdit);
         }
 
+        // 찜하기 버튼 이벤트 관련 코드
+        if(document.querySelector('.js-knowledge_star_btn')){
+            this.starBtn = document.querySelector('.js-knowledge_star_btn');
+            if(!document.querySelector(".js-clicked_star")){
+                this.starBtn.addEventListener("mouseover", handleHoverStarBtn);
+                this.starBtn.addEventListener("mouseout", handleHoverStarBtn);
+            }
+            this.starBtn.addEventListener("click", handleClickStarBtn);
+        }
+
         // 마인드맵 그리는 코드
         this.findNode =document.querySelector('.js-knowledge_name').textContent;
-        new Secondpage(true, this.findNode);
+        // new Secondpage(true, this.findNode);
     }
     setInit(){
         this.diseaseDetailWrap = document.querySelector('.root');
@@ -43,6 +54,7 @@ class DiseaseDetail{
             diagnosis.style.backgroundColor=this.colors[index % this.colors.length];
         });
     }
+
     handleClickEditBtn__toBlockEdit(event){
         event.preventDefault();
         toastMessage("로그인이 필요합니다");

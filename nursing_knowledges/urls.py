@@ -16,4 +16,5 @@ urlpatterns = [
     path('diagnosis-related-diagnoses/<int:pk>', views.related_diagnosis_like, name='related_diagnosis_like'),
     path('mindmap/', views.mindmap, name='mindmap'),
     path('diagnosis-related-diagnoses/<int:pk>/like', views.related_diagnosis_like, name='related_diagnosis_like'),
+    path('star/', views.add_knowledge_star, name='add_knowledge_star'),
 ]
