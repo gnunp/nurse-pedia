@@ -833,70 +833,73 @@ export class MakeDetailData{
         result.push(item);
 
         //대분류-소분류 관계 추가
-        let largetarget = "largedisease" +(jsonData.disease_large_category.id).toString();
+        if(jsonData.disease_large_category.disease_small_categories){
+            let largetarget = "largedisease" +(jsonData.disease_large_category.id).toString();
         
-        jsonData.disease_large_category.disease_small_categories.forEach(ele =>{
-            let largesource = "smalldisease"+(ele.id);
-            let largeconnectid = largesource +"-> "+ largetarget;
-
-            let largeconnectitem = JSON.stringify({
-                "data":{
-                    "id": largeconnectid,
-                    "source": largesource,
-                    "target": largetarget
-                }
-            });
-
-            result.push(largeconnectitem);
-
-            //소분류 추가
-            let largetosmallid = "smalldisease"+(ele.id).toString();
-            let largetosmallurl = "/knowledges/disease/"+(ele.id).toString();
-            let largetosmalllabel = ele.name;
+            jsonData.disease_large_category.disease_small_categories.forEach(ele =>{
+                let largesource = "smalldisease"+(ele.id);
+                let largeconnectid = largesource +"-> "+ largetarget;
     
-            let largetosmallitem = JSON.stringify({
-                "data":{
-                    "id":  largetosmallid,
-                    "url": largetosmallurl,
-                    "label": largetosmalllabel,
-                    "type":"smalldisease",
-                }
-            });
-
-            result.push(largetosmallitem);
-
-            //소분류-진단 관계 추가
-            let smalltodiatarget = largetosmallid;
-
-            ele.diagnoses.forEach(el=>{
-                let smalltodiasource = "diagnosis" +(el.id).toString(); 
-                let smalltodiaid = smalltodiasource + "->" + smalltodiatarget;
-                let smalltodiaitem = JSON.stringify({
+                let largeconnectitem = JSON.stringify({
                     "data":{
-                        "id": smalltodiaid,
-                        "source": smalltodiasource,
-                        "target": smalltodiatarget
+                        "id": largeconnectid,
+                        "source": largesource,
+                        "target": largetarget
                     }
                 });
-
-                result.push(smalltodiaitem);
-
-                //진단 추가
-                let dia_id = "diagnosis"+(el.id).toString();
-                let dia_url = '/knowledges/diagnosis/'+(el.id).toString();
-                let dia_label = el.name;
     
-                let dia_item = JSON.stringify({
+                result.push(largeconnectitem);
+    
+                //소분류 추가
+                let largetosmallid = "smalldisease"+(ele.id).toString();
+                let largetosmallurl = "/knowledges/disease/"+(ele.id).toString();
+                let largetosmalllabel = ele.name;
+        
+                let largetosmallitem = JSON.stringify({
                     "data":{
-                        "id": dia_id,
-                        "url": dia_url,
-                        "label": dia_label,
-                        "type":"diagnosis",
+                        "id":  largetosmallid,
+                        "url": largetosmallurl,
+                        "label": largetosmalllabel,
+                        "type":"smalldisease",
                     }
                 });
-                result.push(dia_item);
+    
+                result.push(largetosmallitem);
+    
+                //소분류-진단 관계 추가
+                let smalltodiatarget = largetosmallid;
+    
+                ele.diagnoses.forEach(el=>{
+                    let smalltodiasource = "diagnosis" +(el.id).toString(); 
+                    let smalltodiaid = smalltodiasource + "->" + smalltodiatarget;
+                    let smalltodiaitem = JSON.stringify({
+                        "data":{
+                            "id": smalltodiaid,
+                            "source": smalltodiasource,
+                            "target": smalltodiatarget
+                        }
+                    });
+    
+                    result.push(smalltodiaitem);
+    
+                    //진단 추가
+                    let dia_id = "diagnosis"+(el.id).toString();
+                    let dia_url = '/knowledges/diagnosis/'+(el.id).toString();
+                    let dia_label = el.name;
+        
+                    let dia_item = JSON.stringify({
+                        "data":{
+                            "id": dia_id,
+                            "url": dia_url,
+                            "label": dia_label,
+                            "type":"diagnosis",
+                        }
+                    });
+                    result.push(dia_item);
+                })
             })
-        })
+        }
+      
 
         //대분류-중분류 관계 추가
         target = "largedisease" +(jsonData.disease_large_category.id).toString();
@@ -993,10 +996,6 @@ export class MakeDetailData{
                     result.push(diaitem);
                 });
             });
-        });
-
-        //중분류 추가
-        jsonData.disease_medium_categories.forEach(element =>{
         });
         return result;
     }
