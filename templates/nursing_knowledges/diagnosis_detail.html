@@ -25,10 +25,20 @@
     <div class="root">
         <div class="knowledge_header">
             <div class="knowledge_header__category">진단</div>
-            <h1 class="knowledge_header__name js-knowledge_name">{{diagnosis.name}}</h1>
+            <h1 class="knowledge_header__name js-knowledge_name"
+                data-knowledge_category="diagnosis"
+                data-id="{{ diagnosis.pk }}"
+            >{{diagnosis.name}}</h1>
             {% if user.is_authenticated %}
-                <a href="{% url 'nursing_knowledges:diagnosis_detail_edit' diagnosis.pk %}" class="edit_btn_style knowledge_header__edit_btn">편집</a>
+                {% if is_star %}
+                    <i class="fa-star knowledge_header__star_btn js-knowledge_star_btn fas color_yellow js-clicked_star"></i>
+                {% else %}
+                    <i class="far fa-star knowledge_header__star_btn js-knowledge_star_btn"></i>
+                {% endif %}
             {% endif %}
+            <a href="{% url 'nursing_knowledges:diagnosis_detail_edit' diagnosis.pk %}"
+               class="edit_btn_style knowledge_header__edit_btn{% if user.is_anonymous %} js-block_to_edit{% endif %}"
+            >편집</a>
         </div>
 
         <div class="knowledge_info">
@@ -72,9 +82,9 @@
             <div class="knowledge_info">
                 <div class="knowledge_info__title related_diagnosis_wrapper">
                     <span>관련 간호진단</span>
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'nursing_knowledges:diagnosis_detail_edit' diagnosis.pk %}#related_diagnoses" class="edit_btn_style related_diagnosis_wrapper__edit_btn">추가/제거</a>
-                    {% endif %}
+                    <a href="{% url 'nursing_knowledges:diagnosis_detail_edit' diagnosis.pk %}#related-diagnoses-flag"
+                       class="edit_btn_style related_diagnosis_wrapper__edit_btn{% if user.is_anonymous %} js-block_to_edit{% endif %}"
+                    >추가/제거</a>
                 </div>
                     {% if diagnosis_related_diagnoses %}
                         <div class="knowledge_info__content">
@@ -85,18 +95,18 @@
                                     >
                                     <summary class="related_diagnosis__summary">
                                         <span class="related_diagnosis__summary__title js-related_diagnosis__summary__title">{{related_diagnosis.related_diagnosis_name}}</span>
-                                        {% if user in related_diagnosis.like_users.all %}
-                                            <button class="button_style block_dragging intervention_like_button already_like js-intervention_like_button">
-                                                <i class="fas fa-star"></i>
-                                                <span class="intervention_like_count js-intervention_like_count">{{related_diagnosis.like_users.count}}</span>
-                                            </button>
-                                        {% else %}
-                                            <button class="button_style block_dragging intervention_like_button js-intervention_like_button">
-                                                <i class="fas fa-star"></i>
-                                                <span class="intervention_like_count js-intervention_like_count">{{related_diagnosis.like_users.count}}</span>
-                                        </button>
-                                        {% endif %}
                                         {% if user.is_authenticated %}
+                                            {% if user in related_diagnosis.like_users.all %}
+                                                <button class="button_style block_dragging intervention_like_button already_like js-intervention_like_button">
+                                                    <i class="fas fa-star"></i>
+                                                    <span class="intervention_like_count js-intervention_like_count">{{related_diagnosis.like_users.count}}</span>
+                                                </button>
+                                            {% else %}
+                                                <button class="button_style block_dragging intervention_like_button js-intervention_like_button">
+                                                    <i class="fas fa-star"></i>
+                                                    <span class="intervention_like_count js-intervention_like_count">{{related_diagnosis.like_users.count}}</span>
+                                            </button>
+                                            {% endif %}
                                             <button class="button_style block_dragging intervention_edit_button js-intervention_edit_button display_none">수정</button>
                                             <button class="button_style block_dragging intervention_edit_button js-intervention_edit_submit_button display_none">적용</button>
                                         {% endif %}
