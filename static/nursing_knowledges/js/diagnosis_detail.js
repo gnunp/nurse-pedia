@@ -1,11 +1,11 @@
-import Secondpage from "./secondpage.js";
+import Mindmap from "./mindmap.js";
 import {headerHeight} from '../../global/js/global';
 
 class DiagnosisDetail{
     constructor(){
         this.setInit();
         this.findNode =document.querySelector('.js-knowledge_name').textContent;
-        new Secondpage(true, this.findNode);
+        new Mindmap(true, this.findNode);
     }
 
     setInit(){

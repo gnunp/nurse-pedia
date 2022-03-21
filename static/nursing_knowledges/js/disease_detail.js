@@ -1,4 +1,4 @@
-import Secondpage from "./secondpage.js";
+import Mindmap from "./mindmap.js";
 import {headerHeight} from '../../global/js/global';
 import { shuffle } from "lodash";
 
@@ -13,14 +13,13 @@ class DiseaseDetail{
             '#C6B5BA',
         ]
 
-
         this.relativeDiagnoses = document.querySelectorAll('.relative_diagnoses__item');
         if(this.relativeDiagnoses){
             this.colorSet();
         }
 
         this.findNode =document.querySelector('.js-knowledge_name').textContent;
-        new Secondpage(true, this.findNode);
+        new Mindmap(true, this.findNode);
     }
     setInit(){
         this.diseaseDetailWrap = document.querySelector('.root');

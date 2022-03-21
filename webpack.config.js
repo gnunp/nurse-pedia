@@ -17,8 +17,11 @@ module.exports = {
         kakaoSigninFormValidation: "./static/users/js/kakaoSigninFormValidation.js",
 
         diseasecategory:"./static/nursing_knowledges/js/disease_category",
+        diagnosiscategory:"./static/nursing_knowledges/js/diagnosis_category",
 
         mypage:"./static/users/js/mypage.js",
+
+        mindmappage:"./static/nursing_knowledges/js/mindmappage.js",
     },
     plugins: [
        // new BundleAnalyzerPlugin()
