@@ -9,7 +9,7 @@ from ..models import (
     DiseaseMediumCategory,
     DiseaseSmallCategory,
     DiagnosisSmallCategory,
-    DiagnosisToOther,
+    DiagnosisToDisease,
 )
 from ..serializers import (
     DiseaseLargeCategorySerializer,
@@ -18,7 +18,7 @@ from ..serializers import (
     DiagnosisSerializer,
     DiseaseLargeToMediumSerializer,
     DiseaseMediumToSmallSerializer,
-    DiagnosisToOtherSerializer, DiseaseLargeToSmallSerializer,
+    DiagnosisToDiseaseSerializer, DiseaseLargeToSmallSerializer,
 )
 
 class DiseaseLargeCategoryView(APIView):
@@ -92,8 +92,8 @@ class DiagnosisToOtherView(APIView):
     질병(중분류 or 소분류) <--> 진단 연결관계 API View
     """
     def get(self, request):
-        diagnosis_to_others = DiagnosisToOther.objects.all()
-        serializer = DiagnosisToOtherSerializer(diagnosis_to_others, many=True)
+        diagnosis_to_disease = DiagnosisToDisease.objects.all()
+        serializer = DiagnosisToDiseaseSerializer(diagnosis_to_disease, many=True)
         return Response(serializer.data)
 
 
@@ -110,17 +110,17 @@ class DetailMindmapDataView(APIView):
             else:
                 disease_large_category = disease_small_category.disease_medium_category.disease_large_category
         elif request.GET.get('diagnosis_small_category_id'):
-            diagnosis_to_other = DiagnosisToOther.objects.filter(diagnosis=request.GET.get('diagnosis_small_category_id'))
-            if not diagnosis_to_other:
+            diagnosis_to_disease = DiagnosisToDisease.objects.filter(diagnosis=request.GET.get('diagnosis_small_category_id'))
+            if not diagnosis_to_disease:
                 return Response(status=status.HTTP_404_NOT_FOUND)
-            diagnosis_to_other = diagnosis_to_other[0]
-            if diagnosis_to_other.disease_medium_category:
-                disease_large_category = diagnosis_to_other.disease_medium_category.disease_large_category
+            diagnosis_to_disease = diagnosis_to_disease[0]
+            if diagnosis_to_disease.disease_medium_category:
+                disease_large_category = diagnosis_to_disease.disease_medium_category.disease_large_category
             else:
-                if diagnosis_to_other.disease_small_category.disease_large_category:
-                    disease_large_category = diagnosis_to_other.disease_small_category.disease_large_category
+                if diagnosis_to_disease.disease_small_category.disease_large_category:
+                    disease_large_category = diagnosis_to_disease.disease_small_category.disease_large_category
                 else:
-                    disease_large_category = diagnosis_to_other.disease_small_category.disease_medium_category.disease_large_category
+                    disease_large_category = diagnosis_to_disease.disease_small_category.disease_medium_category.disease_large_category
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -161,9 +161,31 @@ class DetailMindmapDataView(APIView):
             'name': disease_small_category.name,
             'diagnoses': []
         }
-        for diagnosis_to_other in DiagnosisToOther.objects.filter(disease_small_category=disease_small_category):
+        for diagnosis_to_disease in DiagnosisToDisease.objects.filter(disease_small_category=disease_small_category):
             disease_small_data['diagnoses'].append({
-                'id': diagnosis_to_other.diagnosis.pk,
-                'name': diagnosis_to_other.diagnosis.name
+                'id': diagnosis_to_disease.diagnosis.pk,
+                'name': diagnosis_to_disease.diagnosis.name
             })
         return disease_small_data
+
+class UserStarKnowledgeView(APIView):
+    """
+    유저가 찜한 소질병&소진단의 리스트를 가져오는 API
+    """
+    def get(self, request):
+        if request.user.is_anonymous:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        user_star_info = list(
+            request.user.disease_small_category_star_infoes.all()
+                .values('disease_small_category__id', 'disease_small_category__name', 'created_at')
+        ) + list(
+            request.user.diagnosis_small_category_star_infoes.all()
+                .values('diagnosis_small_category__id', 'diagnosis_small_category__name', 'created_at')
+        )
+
+        user_star_info.sort(key=lambda x: x["created_at"], reverse=True)
+
+        print(user_star_info)
+        return Response(user_star_info)
+

@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import (
     DiseaseSmallCategory,
     DiagnosisSmallCategory,
-    DiagnosisToOther,
+    DiagnosisToDisease,
     DiseaseLargeCategory,
     DiseaseMediumCategory,
 )
@@ -103,14 +103,14 @@ class DiseaseLargeToSmallSerializer(serializers.ModelSerializer):
     def get_id(self, obj):
         return obj.id
 
-class DiagnosisToOtherSerializer(serializers.ModelSerializer):
+class DiagnosisToDiseaseSerializer(serializers.ModelSerializer):
     """
     질병(중분류 or 소분류) <--> 진단 연결관계 Serializer
     """
     class Meta:
-        model = DiagnosisToOther
+        model = DiagnosisToDisease
         exclude = ("id",)
 
     def to_representation(self, instance):
-        result = super(DiagnosisToOtherSerializer, self).to_representation(instance)
+        result = super(DiagnosisToDiseaseSerializer, self).to_representation(instance)
         return OrderedDict([(key, result[key]) for key in result if result[key] is not None])

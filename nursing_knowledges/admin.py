@@ -7,9 +7,9 @@ from .models import (
     DiseaseSmallCategory,
     DiagnosisSmallCategory,
     DiagnosisRelatedDiagnosis,
-    DiagnosisToOther,
+    DiagnosisToDisease,
     DiagnosisInterventionAlpha,
-    KnowledgeEditHistory,
+    KnowledgeEditHistory, DiagnosisSmallCategoryStarInfo, DiseaseSmallCategoryStarInfo,
 )
 
 
@@ -29,12 +29,19 @@ class DiseaseMediumCategoryAdmin(admin.ModelAdmin):
     pass
 
 
+class DiseaseSmallCategoryStarInfoInline(admin.TabularInline):
+    model = DiseaseSmallCategoryStarInfo
+    extra = 1
+
+
 @admin.register(DiseaseSmallCategory)
 class DiseaseSmallCategory(admin.ModelAdmin):
     """
     간호 질병 소분류 Model Admin
     """
-    pass
+    inlines = [
+        DiseaseSmallCategoryStarInfoInline,
+    ]
 
 
 @admin.register(DiagnosisLargeCategory)
@@ -58,6 +65,11 @@ class DiagnosisInterventionAlphaInline(admin.TabularInline):
     extra = 1
 
 
+class DiagnosisSmallCategoryStarInfoInline(admin.TabularInline):
+    model = DiagnosisSmallCategoryStarInfo
+    extra = 1
+
+
 class DiagnosisRelatedDiagnosisInline(admin.TabularInline):
     model = DiagnosisRelatedDiagnosis
     extra = 1
@@ -70,13 +82,14 @@ class DiagnosisAdmin(admin.ModelAdmin):
     """
     inlines = [
         # DiagnosisInterventionAlphaInline,
+        DiagnosisSmallCategoryStarInfoInline,
         DiagnosisRelatedDiagnosisInline,
     ]
     list_display = ('name', 'definition', 'intervention_content', 'diagnosis_medium_category')
 
 
-@admin.register(DiagnosisToOther)
-class DiagnosisToOtherAdmin(admin.ModelAdmin):
+@admin.register(DiagnosisToDisease)
+class DiagnosisToDiseaseAdmin(admin.ModelAdmin):
     """
     질병(중분류 or 대분류) <--> 진단의 연결관계를 나타내는 Model Admin
     """
