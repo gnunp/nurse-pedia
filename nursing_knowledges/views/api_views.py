@@ -167,3 +167,25 @@ class DetailMindmapDataView(APIView):
                 'name': diagnosis_to_disease.diagnosis.name
             })
         return disease_small_data
+
+class UserStarKnowledgeView(APIView):
+    """
+    유저가 찜한 소질병&소진단의 리스트를 가져오는 API
+    """
+    def get(self, request):
+        if request.user.is_anonymous:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        user_star_info = list(
+            request.user.disease_small_category_star_infoes.all()
+                .values('disease_small_category__id', 'disease_small_category__name', 'created_at')
+        ) + list(
+            request.user.diagnosis_small_category_star_infoes.all()
+                .values('diagnosis_small_category__id', 'diagnosis_small_category__name', 'created_at')
+        )
+
+        user_star_info.sort(key=lambda x: x["created_at"], reverse=True)
+
+        print(user_star_info)
+        return Response(user_star_info)
+

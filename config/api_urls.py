@@ -38,6 +38,11 @@ api_patterns = [
         'knowledges/detail-mindmap-data/',
         knowledges_views.DetailMindmapDataView.as_view(),
         name='detail_mindmap_data'
+    ),
+    path(
+        'knowledges/user-star-knowledges/',
+        knowledges_views.UserStarKnowledgeView.as_view(),
+        name='user_star_knowledges'
     )
 ]
 

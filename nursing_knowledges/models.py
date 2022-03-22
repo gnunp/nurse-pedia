@@ -70,11 +70,14 @@ class DiseaseSmallCategoryStarInfo(models.Model):
     DiseaseSmallCategory의 like_users(M2M)의 through 속성에 해당 되는 Model
     """
     disease_small_category = models.ForeignKey("DiseaseSmallCategory", on_delete=models.CASCADE)
-    like_user = models.ForeignKey("users.User", on_delete=models.CASCADE)
+    like_user = models.ForeignKey("users.User", on_delete=models.CASCADE, related_name="disease_small_category_star_infoes")
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)  # null/blank 옵션은 서버 배포시 지워야 할 사항
 
     def __str__(self):
         return f"[{self.disease_small_category.name}] --> [{self.like_user.username}]"
+
+    def get_created_at(self):
+        return self.created_at.astimezone().strftime('%Y-%m-%d %H:%M:%S')
 
 
 class DiagnosisLargeCategory(models.Model):
@@ -138,11 +141,15 @@ class DiagnosisSmallCategoryStarInfo(models.Model):
     DiagnosisSmallCategory의 like_users(M2M)의 through 속성에 해당 되는 Model
     """
     diagnosis_small_category = models.ForeignKey("DiagnosisSmallCategory", on_delete=models.CASCADE)
-    like_user = models.ForeignKey("users.User", on_delete=models.CASCADE)
+    like_user = models.ForeignKey("users.User", on_delete=models.CASCADE, related_name="diagnosis_small_category_star_infoes")
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)  # null/blank 옵션은 서버 배포시 지워야 할 사항
 
     def __str__(self):
         return f"[{self.diagnosis_small_category.name}] --> [{self.like_user.username}]"
+
+    def get_created_at(self):
+        return self.created_at.astimezone().strftime('%Y-%m-%d %H:%M:%S')
+
 
 class DiagnosisRelatedDiagnosis(models.Model):
     """
