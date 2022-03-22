@@ -51,13 +51,30 @@ class DiseaseSmallCategory(models.Model):
         null=True,
         blank=True
     )  # 연결된 질병 중분류
-    like_users = models.ManyToManyField("users.User", related_name="like_diseases", blank=True)
+    like_users = models.ManyToManyField(
+        "users.User",
+        related_name="like_diseases",
+        through="DiseaseSmallCategoryStarInfo",
+        blank=True
+    )
 
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
         return reverse('nursing_knowledges:disease_detail', args=[self.id])
+
+
+class DiseaseSmallCategoryStarInfo(models.Model):
+    """
+    DiseaseSmallCategory의 like_users(M2M)의 through 속성에 해당 되는 Model
+    """
+    disease_small_category = models.ForeignKey("DiseaseSmallCategory", on_delete=models.CASCADE)
+    like_user = models.ForeignKey("users.User", on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)  # null/blank 옵션은 서버 배포시 지워야 할 사항
+
+    def __str__(self):
+        return f"[{self.disease_small_category.name}] --> [{self.like_user.username}]"
 
 
 class DiagnosisLargeCategory(models.Model):
@@ -99,7 +116,12 @@ class DiagnosisSmallCategory(models.Model):
         null=True,
         blank=True
     )  # 연결된 진단 중분류, null,blank=True는 추후 삭제될 예정
-    like_users = models.ManyToManyField("users.User", related_name="like_diagnoses", blank=True)
+    like_users = models.ManyToManyField(
+        "users.User",
+        related_name="like_diagnoses",
+        through="DiagnosisSmallCategoryStarInfo",
+        blank=True
+    )
 
     def __str__(self):
         return self.name
@@ -110,6 +132,17 @@ class DiagnosisSmallCategory(models.Model):
     def get_intervention_list(self):
         return self.intervention_content.split("\n") if True else ""
 
+
+class DiagnosisSmallCategoryStarInfo(models.Model):
+    """
+    DiagnosisSmallCategory의 like_users(M2M)의 through 속성에 해당 되는 Model
+    """
+    diagnosis_small_category = models.ForeignKey("DiagnosisSmallCategory", on_delete=models.CASCADE)
+    like_user = models.ForeignKey("users.User", on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)  # null/blank 옵션은 서버 배포시 지워야 할 사항
+
+    def __str__(self):
+        return f"[{self.diagnosis_small_category.name}] --> [{self.like_user.username}]"
 
 class DiagnosisRelatedDiagnosis(models.Model):
     """
