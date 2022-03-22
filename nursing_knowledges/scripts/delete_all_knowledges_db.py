@@ -5,7 +5,7 @@ from ..models import (
     DiseaseSmallCategory,
     DiagnosisSmallCategory,
     DiagnosisMediumCategory,
-    DiagnosisToOther,
+    DiagnosisToDisease,
 )
 
 

@@ -12,7 +12,7 @@ from nursing_knowledges.forms import DiagnosisForm, DiseaseSmallForm
 from .api_views import *
 from ..models import (
     DiseaseSmallCategory,
-    DiagnosisToOther,
+    DiagnosisToDisease,
     DiagnosisSmallCategory,
     DiagnosisInterventionAlpha,
     KnowledgeEditHistory, DiagnosisRelatedDiagnosis, DiagnosisLargeCategory, DiagnosisMediumCategory
@@ -37,7 +37,7 @@ def disease_detail(request, pk):
     except:
         raise Http404()
 
-    disease_to_diagnoses = DiagnosisToOther.objects.filter(disease_small_category=disease)  # pk값으로 가져온 질병과 진단들의 연결관계 객체
+    disease_to_diagnoses = DiagnosisToDisease.objects.filter(disease_small_category=disease)  # pk값으로 가져온 질병과 진단들의 연결관계 객체
 
     diagnoses = []  # 연결된 진단들의 객체 리스트
     for dis_to_diag in disease_to_diagnoses:
@@ -170,10 +170,10 @@ def disease_detail_edit(request, pk):
         disease.nursing,
     )
 
-    disease_to_diagnoses = DiagnosisToOther.objects.filter(disease_small_category=disease)  # pk값으로 가져온 질병과 진단들의 연결관계 객체
+    diagnosis_to_disease = DiagnosisToDisease.objects.filter(disease_small_category=disease)  # pk값으로 가져온 질병과 진단들의 연결관계 객체
 
     diagnoses = []  # 연결된 진단들의 객체 리스트
-    for dis_to_diag in disease_to_diagnoses:
+    for dis_to_diag in diagnosis_to_disease:
         diagnoses.append(dis_to_diag.diagnosis)
 
     if request.method == "POST":
@@ -204,11 +204,11 @@ def disease_detail_edit(request, pk):
             )
             # ----------------------------------------------------------------------------------------------------------
 
-            DiagnosisToOther.objects.filter(disease_small_category=pk).delete()
+            DiagnosisToDisease.objects.filter(disease_small_category=pk).delete()
             for d in new_diagnoses:
                 try:
                     d_obj = DiagnosisSmallCategory.objects.get(name=d)
-                    DiagnosisToOther.objects.create(disease_small_category=disease, diagnosis=d_obj)
+                    DiagnosisToDisease.objects.create(disease_small_category=disease, diagnosis=d_obj)
                 except DiagnosisSmallCategory.DoesNotExist:
                     pass
 

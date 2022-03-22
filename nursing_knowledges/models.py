@@ -174,7 +174,7 @@ class DiagnosisInterventionAlpha(models.Model):
     content = models.TextField(max_length=3000)
 
 
-class DiagnosisToOther(models.Model):
+class DiagnosisToDisease(models.Model):
     """
     노드의 연결관계를 나타내는 Model
     질병(중분류 or 소분류) <--> 진단

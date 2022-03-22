@@ -7,7 +7,7 @@ from .models import (
     DiseaseSmallCategory,
     DiagnosisSmallCategory,
     DiagnosisRelatedDiagnosis,
-    DiagnosisToOther,
+    DiagnosisToDisease,
     DiagnosisInterventionAlpha,
     KnowledgeEditHistory, DiagnosisSmallCategoryStarInfo, DiseaseSmallCategoryStarInfo,
 )
@@ -88,8 +88,8 @@ class DiagnosisAdmin(admin.ModelAdmin):
     list_display = ('name', 'definition', 'intervention_content', 'diagnosis_medium_category')
 
 
-@admin.register(DiagnosisToOther)
-class DiagnosisToOtherAdmin(admin.ModelAdmin):
+@admin.register(DiagnosisToDisease)
+class DiagnosisToDiseaseAdmin(admin.ModelAdmin):
     """
     질병(중분류 or 대분류) <--> 진단의 연결관계를 나타내는 Model Admin
     """
