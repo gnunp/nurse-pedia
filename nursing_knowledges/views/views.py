@@ -15,9 +15,10 @@ from ..models import (
     DiagnosisToOther,
     DiagnosisSmallCategory,
     DiagnosisInterventionAlpha,
-    KnowledgeEditHistory, DiagnosisRelatedDiagnosis
+    KnowledgeEditHistory, DiagnosisRelatedDiagnosis, DiagnosisLargeCategory, DiagnosisMediumCategory
 )
 from users.models import User
+
 
 def home(request):
     """
@@ -25,6 +26,7 @@ def home(request):
     """
     context = {}
     return render(request, "nursing_knowledges/home.html", context)
+
 
 def disease_detail(request, pk):
     """
@@ -54,7 +56,7 @@ def disease_detail(request, pk):
     }
 
     return render(request, "nursing_knowledges/disease_detail.html", context)
-    
+
 
 def diagnosis_detail(request, pk):
     """
@@ -84,8 +86,9 @@ def diagnosis_detail(request, pk):
         "form": form,
         "is_star": is_star,
     }
-    
+
     return render(request, "nursing_knowledges/diagnosis_detail.html", context)
+
 
 def search(request):
     """
@@ -95,26 +98,29 @@ def search(request):
 
     try:
         disease = DiseaseSmallCategory.objects.get(name=keyword)
-        return redirect(reverse("nursing_knowledges:disease_detail", kwargs={'pk':disease.pk}))
+        return redirect(reverse("nursing_knowledges:disease_detail", kwargs={'pk': disease.pk}))
     except DiseaseSmallCategory.DoesNotExist:
         pass
 
     try:
         diagnosis = DiagnosisSmallCategory.objects.get(name=keyword)
-        return redirect(reverse("nursing_knowledges:diagnosis_detail", kwargs={'pk':diagnosis.pk}))
+        return redirect(reverse("nursing_knowledges:diagnosis_detail", kwargs={'pk': diagnosis.pk}))
     except DiagnosisSmallCategory.DoesNotExist:
         return render(request, "nursing_knowledges/search_result.html")
 
+
 def disease_category(request):
-    larges = list(DiseaseLargeCategory.objects.all().values_list('name', flat=True)) 
+    larges = list(DiseaseLargeCategory.objects.all().values_list('name', flat=True))
 
     large_to_mediums = dict()
     for large_disease in DiseaseLargeCategory.objects.all():
-        large_to_mediums[large_disease.name] = list(large_disease.disease_medium_categories.values_list('name', flat=True))
+        large_to_mediums[large_disease.name] = list(
+            large_disease.disease_medium_categories.values_list('name', flat=True))
 
     medium_to_smalls = dict()
     for medium_disease in DiseaseMediumCategory.objects.all():
-        medium_to_smalls[medium_disease.name] = list(medium_disease.disease_small_categories_by_medium.values('id', 'name'))
+        medium_to_smalls[medium_disease.name] = list(
+            medium_disease.disease_small_categories_by_medium.values('id', 'name'))
 
     result = {
         "large_diseases": larges,
@@ -125,10 +131,29 @@ def disease_category(request):
     context = {"knowledge_data": json.dumps(result, indent=4, ensure_ascii=False)}
     return render(request, "nursing_knowledges/disease_category.html", context)
 
-def diagnosis_category(request):
-    context = {}
-    return render(request, "nursing_knowledges/diagnosis_category.html", context)
 
+def diagnosis_category(request):
+    larges = list(DiagnosisLargeCategory.objects.all().values_list('name', flat=True))
+
+    large_to_mediums = dict()
+    for large_diagnosis in DiagnosisLargeCategory.objects.all():
+        large_to_mediums[large_diagnosis.name] = list(
+            large_diagnosis.diagnosis_medium_categories.values_list('name', flat=True)
+        )
+
+    medium_to_smalls = dict()
+    for medium_diagnosis in DiagnosisMediumCategory.objects.all():
+        medium_to_smalls[medium_diagnosis.name] = list(
+            medium_diagnosis.diagnosis_small_categories.values('id', 'name'))
+
+    result = {
+        "large_diagnoses": larges,
+        "large_to_mediums": large_to_mediums,
+        "medium_to_smalls": medium_to_smalls,
+    }
+
+    context = {"knowledge_data": json.dumps(result, indent=4, ensure_ascii=False)}
+    return render(request, "nursing_knowledges/diagnosis_category.html", context)
 
 
 def disease_detail_edit(request, pk):
@@ -174,8 +199,8 @@ def disease_detail_edit(request, pk):
             KnowledgeEditHistory.objects.create(
                 disease=disease,
                 editor=request.user,
-                created_at= timezone.localtime(),
-                changed_word_count = after_word_count - before_word_count,
+                created_at=timezone.localtime(),
+                changed_word_count=after_word_count - before_word_count,
             )
             # ----------------------------------------------------------------------------------------------------------
 
@@ -191,15 +216,15 @@ def disease_detail_edit(request, pk):
     else:
         form = DiseaseSmallForm(instance=disease)
 
-
     context = {
-        "form":form,
-        "disease":disease,
-        "related_diagnoses":diagnoses,
-        "all_diagnosis":DiagnosisSmallCategory.objects.all().values_list("name", flat=True),
+        "form": form,
+        "disease": disease,
+        "related_diagnoses": diagnoses,
+        "all_diagnosis": DiagnosisSmallCategory.objects.all().values_list("name", flat=True),
     }
 
     return render(request, "nursing_knowledges/disease_detail_edit.html", context)
+
 
 def diagnosis_detail_edit(request, pk):
     if request.user.is_anonymous:
@@ -258,12 +283,14 @@ def diagnosis_detail_edit(request, pk):
 
     return render(request, "nursing_knowledges/diagnosis_detail_edit.html", context)
 
+
 def count_words(*words):
     result = 0
     for word in words:
         result += len(word)
 
     return result
+
 
 @api_view(["POST"])
 def diagnosis_detail__related_diagnosis_edit(request, pk):
@@ -275,10 +302,8 @@ def diagnosis_detail__related_diagnosis_edit(request, pk):
         related_diagnosis.save()
     except DiagnosisRelatedDiagnosis.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    
 
     return Response(status=status.HTTP_200_OK)
-
 
 
 def history(request):
@@ -314,10 +339,9 @@ def related_diagnosis_like(request, pk):
 
     except DiagnosisRelatedDiagnosis.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    
-    
-def mindmap(request):
 
+
+def mindmap(request):
     context = {}
 
     return render(request, "nursing_knowledges/mindmap_page.html", context)
@@ -348,4 +372,3 @@ def add_knowledge_star(request):
     except User.DoesNotExist:
         knowledge.like_users.add(request.user)
         return Response(status=status.HTTP_201_CREATED)
-

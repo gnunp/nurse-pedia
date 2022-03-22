@@ -95,7 +95,7 @@ class DiagnosisSmallCategory(models.Model):
     diagnosis_medium_category = models.ForeignKey(
         "DiagnosisMediumCategory",
         on_delete=models.CASCADE,
-        related_name="diagnosis_medium_categories",
+        related_name="diagnosis_small_categories",
         null=True,
         blank=True
     )  # 연결된 진단 중분류, null,blank=True는 추후 삭제될 예정
