@@ -15,7 +15,7 @@ from ..models import (
     DiagnosisToOther,
     DiagnosisSmallCategory,
     DiagnosisInterventionAlpha,
-    KnowledgeEditHistory, DiagnosisRelatedDiagnosis
+    KnowledgeEditHistory, DiagnosisRelatedDiagnosis, DiagnosisLargeCategory, DiagnosisMediumCategory
 )
 from users.models import User
 
@@ -133,7 +133,26 @@ def disease_category(request):
 
 
 def diagnosis_category(request):
-    context = {}
+    larges = list(DiagnosisLargeCategory.objects.all().values_list('name', flat=True))
+
+    large_to_mediums = dict()
+    for large_diagnosis in DiagnosisLargeCategory.objects.all():
+        large_to_mediums[large_diagnosis.name] = list(
+            large_diagnosis.diagnosis_medium_categories.values_list('name', flat=True)
+        )
+
+    medium_to_smalls = dict()
+    for medium_diagnosis in DiagnosisMediumCategory.objects.all():
+        medium_to_smalls[medium_diagnosis.name] = list(
+            medium_diagnosis.diagnosis_small_categories.values('id', 'name'))
+
+    result = {
+        "large_diagnoses": larges,
+        "large_to_mediums": large_to_mediums,
+        "medium_to_smalls": medium_to_smalls,
+    }
+
+    context = {"knowledge_data": json.dumps(result, indent=4, ensure_ascii=False)}
     return render(request, "nursing_knowledges/diagnosis_category.html", context)
 
 
