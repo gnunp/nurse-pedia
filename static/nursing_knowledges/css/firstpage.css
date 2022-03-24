@@ -1,3 +1,7 @@
+.header{
+    justify-content: space-between;
+}
+
 /* 모바일 버전 */
 @media (hover: none) and (pointer:coarse){
     .firstpage{  
@@ -68,7 +72,7 @@
         width: 100%;
     }
     
-    .firstpage_search_result{
+    .search_result{
         display: flex;
         align-items: center;
         height: 2.5rem;
@@ -76,12 +80,12 @@
         cursor: pointer;
     }
     
-    .firstpage_search_result > i{
+    .search_result > i{
         color: var(--pink);
         margin-right: 0.5rem;
     }
     
-    .firstpage_search_result > .name{
+    .search_result > .name{
         font-weight: bold;
     }
     

@@ -40,10 +40,18 @@
 		<script>
 			const csrfToken = "{{ csrf_token }}";
 		</script>
-
 		<!-- SCRIPTS -->
 		<script src="{% static 'assets/js/global.js' %}"></script>
-		
+        {% if request.path == "/" %}
+            <script>
+                // 헤더에 있는 검색창 제거
+                if(document.querySelector(".js-nav_searchbar")){
+                    document.querySelector(".js-nav_searchbar").remove();
+                }
+            </script>
+        {% endif %}
+        <script src="{% static 'assets/js/search.js' %}"></script>
+
 		{% if user.is_authenticated %}
 		{% else %}
 			<script src="{% static 'assets/js/userModal.js' %}"></script>

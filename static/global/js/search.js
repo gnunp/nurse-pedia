@@ -67,7 +67,7 @@ const search = async () => {
             resultWrapper.insertAdjacentHTML(
                 "beforeend",
                 `
-                <div class="firstpage_search_result" data-id="${data.id}" data-type="${data.type}" data-index="${index++}">
+                <div class="search_result" data-id="${data.id}" data-type="${data.type}" data-index="${index++}">
                     <i class="fas fa-plus-circle"></i>
                     <span class="name">${data.name}</span>
                 </div>
@@ -75,7 +75,7 @@ const search = async () => {
             )
         })
         keyword.addEventListener("keydown", handleKeydownInput);
-        resultWrapper.querySelectorAll(".firstpage_search_result").forEach(result => {
+        resultWrapper.querySelectorAll(".search_result").forEach(result => {
             result.addEventListener("click", handleClickResult);
             result.addEventListener("mouseover", handleMouseoverResult);
             result.addEventListener("mouseout", handleMouseOutResult);
@@ -89,7 +89,7 @@ const search = async () => {
 
     let resultIndex = -1;
     function handleKeydownInput(event){
-        const results = resultWrapper.querySelectorAll(".firstpage_search_result");
+        const results = resultWrapper.querySelectorAll(".search_result");
         if(event.key === "ArrowDown"){
 
             resultIndex++;
@@ -111,7 +111,7 @@ const search = async () => {
     }
 
     function focusResult(result){
-        const results = resultWrapper.querySelectorAll(".firstpage_search_result");
+        const results = resultWrapper.querySelectorAll(".search_result");
         results.forEach(result => {
             result.classList.remove("js-result_selected");
         })
@@ -121,7 +121,7 @@ const search = async () => {
     }
 
     function handleClickResult(event){
-        const result = event.target.closest(".firstpage_search_result");
+        const result = event.target.closest(".search_result");
         const id = result.dataset.id;
         const type = result.dataset.type;
         if(type === "disease"){
@@ -133,9 +133,9 @@ const search = async () => {
     }
 
     function handleMouseoverResult(event){
-        const result = event.target.closest(".firstpage_search_result");
+        const result = event.target.closest(".search_result");
         resultIndex = result.dataset.index;
-        const results = resultWrapper.querySelectorAll(".firstpage_search_result");
+        const results = resultWrapper.querySelectorAll(".search_result");
         results.forEach(result => {
             result.classList.remove("js-result_selected");
         })
@@ -143,7 +143,7 @@ const search = async () => {
     }
 
     function handleMouseOutResult(event){
-        const results = resultWrapper.querySelectorAll(".firstpage_search_result");
+        const results = resultWrapper.querySelectorAll(".search_result");
         results.forEach(result => {
             result.classList.remove("js-result_selected");
         })
@@ -152,9 +152,9 @@ const search = async () => {
     }
 
     function handleMousemoveResult(event){
-        const result = event.target.closest(".firstpage_search_result");
+        const result = event.target.closest(".search_result");
         resultIndex = result.dataset.index;
-        const results = resultWrapper.querySelectorAll(".firstpage_search_result");
+        const results = resultWrapper.querySelectorAll(".search_result");
         results.forEach(result => {
             result.classList.remove("js-result_selected");
         })
