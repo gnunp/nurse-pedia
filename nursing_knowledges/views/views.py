@@ -199,7 +199,6 @@ def disease_detail_edit(request, pk):
             KnowledgeEditHistory.objects.create(
                 disease=disease,
                 editor=request.user,
-                created_at=timezone.localtime(),
                 changed_word_count=after_word_count - before_word_count,
             )
             # ----------------------------------------------------------------------------------------------------------
@@ -265,7 +264,6 @@ def diagnosis_detail_edit(request, pk):
         KnowledgeEditHistory.objects.create(
             diagnosis=diagnosis,
             editor=request.user,
-            created_at=timezone.localtime(),
             changed_word_count=after_word_count - before_word_count,
         )
         # ----------------------------------------------------------------------------------------------------------
