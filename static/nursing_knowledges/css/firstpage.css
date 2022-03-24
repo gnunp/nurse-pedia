@@ -188,6 +188,10 @@
     .firstpage_search_result_wrapper .js-result_selected{
         background-color: rgb(196, 196, 196) !important;
     }
+
+    .firstpage_search_result_wrapper .js-result_selected:last-child{
+        border-radius: 0 0 0.5rem 0.5rem;
+    }
     
     .firstpage_search_result_wrapper .js-display_none{
         display: none !important;
