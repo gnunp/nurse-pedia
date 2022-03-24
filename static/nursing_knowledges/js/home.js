@@ -39,8 +39,4 @@ window.onunload = ()=>{
 
 window.onload = async () => {
     new Home();
-
-    const { default: Mindmap } = await import('./mindmap.js');
-    
-    const mindmap = new Mindmap();
 }
