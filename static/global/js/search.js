@@ -68,7 +68,7 @@ const search = async () => {
                 "beforeend",
                 `
                 <div class="search_result" data-id="${data.id}" data-type="${data.type}" data-index="${index++}">
-                    <i class="fas fa-plus-circle"></i>
+                    <i class="fas fa-plus-circle ${data.type === 'diagnosis' ? 'js-diagnosis_icon_color' : ''}"></i>
                     <span class="name">${data.name}</span>
                 </div>
                 `

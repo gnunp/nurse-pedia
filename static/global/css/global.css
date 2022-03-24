@@ -141,6 +141,10 @@
         display: none !important;
     }
 
+    .js-diagnosis_icon_color{
+        color: #faa56f !important;
+    }
+
     /*---------------------nav 스타일 적용----------------------*/
     .disappear{
         display: none;

@@ -196,4 +196,8 @@
     .firstpage_search_result_wrapper .js-display_none{
         display: none !important;
     }
+
+    .firstpage_search_result_wrapper .js-diagnosis_icon_color{
+        color: #faa56f !important;
+    }
 }
