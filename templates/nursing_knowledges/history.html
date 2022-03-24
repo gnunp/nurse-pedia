@@ -23,7 +23,7 @@
 
 {% block content %}
 
-<div class="history_wrapper">
+<div class="history_wrapper js-history_wrapper">
     <h1 class="history__title">편집 히스토리</h1>
 
     <ul class="history__list">
@@ -66,4 +66,5 @@
 
 
 {% block script %}
+    <script src="{% static 'assets/js/history.js' %}"></script>
 {% endblock script %}

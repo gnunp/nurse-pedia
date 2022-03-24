@@ -22,6 +22,8 @@ module.exports = {
         mypage:"./static/users/js/mypage.js",
 
         mindmappage:"./static/nursing_knowledges/js/mindmappage.js",
+
+        history:"./static/nursing_knowledges/js/history.js",
     },
     plugins: [
        // new BundleAnalyzerPlugin()
