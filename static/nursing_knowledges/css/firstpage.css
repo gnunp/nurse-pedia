@@ -34,7 +34,8 @@
 
         border-radius: 0.5rem;
         background-color: rgba(201, 201, 201, 0.5);
-        font-size: 0.8rem;
+        font-size: 1rem;
+        font-family: 'Noto Sans KR', sans-serif !important;
     }
     .firstpage_search_form{
         position: relative;
@@ -128,7 +129,8 @@
         border-radius: 0.5rem;
         background-color: rgba(201, 201, 201, 0.5);
 
-        font-size: 0.8rem;
+        font-size: 1rem;
+        font-family: 'Noto Sans KR', sans-serif !important;
     }
     .firstpage_search_form{
         position: relative;
