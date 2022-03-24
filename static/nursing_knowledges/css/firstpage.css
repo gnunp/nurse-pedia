@@ -93,7 +93,7 @@
         background-color: rgb(196, 196, 196) !important;
     }
     
-    .firstpage_search_result_wrapper .js-display_none{
+    .js-display_none{
         display: none !important;
     }
 }

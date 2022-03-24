@@ -137,7 +137,7 @@
         border-radius: 0 0 24px 24px;
     }
 
-    .nav_search_result_wrapper .js-display_none{
+    .js-display_none{
         display: none !important;
     }
 
