@@ -97,7 +97,7 @@ const search = async () => {
                 resultIndex = 0;
             }
             focusResult(results[resultIndex]);
-            return setTimeout(() => keyword.setSelectionRange(999,999), 1);
+            return setTimeout(() => keyword.setSelectionRange(999,999), 0.01);
         }
         else if(event.key === "ArrowUp"){
 
@@ -106,7 +106,7 @@ const search = async () => {
                 resultIndex = results.length - 1;
             }
             focusResult(results[resultIndex]);
-            return setTimeout(() => keyword.setSelectionRange(999,999), 1);
+            return setTimeout(() => keyword.setSelectionRange(999,999), 0.01);
         }
     }
 

@@ -107,7 +107,8 @@
     }
 
 
-    .search_result{
+    .nav_search_result_wrapper .search_result{
+        z-index: 10001;
         display: flex;
         align-items: center;
         height: 2.5rem;
@@ -119,20 +120,24 @@
         margin-top: 46.51px;
     }
 
-    .search_result > i{
+    .nav_search_result_wrapper .search_result > i{
         color: var(--pink);
         margin-right: 0.5rem;
     }
 
-    .search_result > .name{
+    .nav_search_result_wrapper .search_result > .name{
         font-weight: bold;
     }
 
-    .js-result_selected{
+    .nav_search_result_wrapper .js-result_selected{
         background-color: rgb(196, 196, 196) !important;
     }
 
-    .js-display_none{
+    .nav_search_result_wrapper .js-result_selected:last-child{
+        border-radius: 0 0 24px 24px;
+    }
+
+    .nav_search_result_wrapper .js-display_none{
         display: none !important;
     }
 

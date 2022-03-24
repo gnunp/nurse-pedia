@@ -72,7 +72,7 @@
         width: 100%;
     }
     
-    .search_result{
+    .firstpage_search_result_wrapper .search_result{
         display: flex;
         align-items: center;
         height: 2.5rem;
@@ -80,20 +80,20 @@
         cursor: pointer;
     }
     
-    .search_result > i{
+    .firstpage_search_result_wrapper .search_result > i{
         color: var(--pink);
         margin-right: 0.5rem;
     }
     
-    .search_result > .name{
+    .firstpage_search_result_wrapper .search_result > .name{
         font-weight: bold;
     }
     
-    .js-result_selected{
+    .firstpage_search_result_wrapper .js-result_selected{
         background-color: rgb(196, 196, 196) !important;
     }
     
-    .js-display_none{
+    .firstpage_search_result_wrapper .js-display_none{
         display: none !important;
     }
 }
@@ -166,7 +166,7 @@
         width: 100%;
     }
     
-    .firstpage_search_result{
+    .firstpage_search_result_wrapper .search_result{
         display: flex;
         align-items: center;
         height: 2.5rem;
@@ -174,20 +174,20 @@
         cursor: pointer;
     }
     
-    .firstpage_search_result > i{
+    .firstpage_search_result_wrapper .search_result > i{
         color: var(--pink);
         margin-right: 0.5rem;
     }
     
-    .firstpage_search_result > .name{
+    .firstpage_search_result_wrapper .search_result > .name{
         font-weight: bold;
     }
     
-    .js-result_selected{
+    .firstpage_search_result_wrapper .js-result_selected{
         background-color: rgb(196, 196, 196) !important;
     }
     
-    .js-display_none{
+    .firstpage_search_result_wrapper .js-display_none{
         display: none !important;
     }
 }
