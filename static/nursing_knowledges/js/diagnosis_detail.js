@@ -5,8 +5,6 @@ import {handleClickStarBtn, handleHoverStarBtn} from "./knowledge_detail";
 
 class DiagnosisDetail{
     constructor(){
-        this.setInit();
-
         // 비로그인 편집 방지하는 코드
         if(document.querySelector('.js-block_to_edit')){
             for (const editBtn of document.querySelectorAll('.js-block_to_edit')) {
@@ -28,18 +26,14 @@ class DiagnosisDetail{
         this.findNode =document.querySelector('.js-knowledge_name').textContent;
         new Mindmap(true, this.findNode);
     }
-
-    setInit(){
-        this.diagnosisDetailWrap = document.querySelector('.root');
-        this.diagnosisDetailWrap.style.top =`${headerHeight}px`;
-    }
-
     handleClickEditBtn__toBlockEdit(event){
         event.preventDefault();
         toastMessage("로그인이 필요합니다");
     }
 }
 
+const diagnosisDetailWrap = document.querySelector('.root');
+diagnosisDetailWrap.style.top =`${headerHeight}px`;
 window.onload = () =>{
     new DiagnosisDetail();
 }

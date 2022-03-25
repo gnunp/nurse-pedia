@@ -6,8 +6,6 @@ import {handleHoverStarBtn, handleClickStarBtn} from "./knowledge_detail";
 
 class DiseaseDetail{
     constructor(){
-        this.setInit();
-
         // 관련 진단 아이템들 색 랜덤으로 부여하는 코드
         this.colors = [
             '#D8E2DC',
@@ -41,10 +39,6 @@ class DiseaseDetail{
         this.findNode =document.querySelector('.js-knowledge_name').textContent;
         new Mindmap(true, this.findNode);
     }
-    setInit(){
-        this.diseaseDetailWrap = document.querySelector('.root');
-        this.diseaseDetailWrap.style.top = `${headerHeight}px`;
-    }
 
     colorSet(){
         this.relativeDiagnoses.forEach((diagnosis, index) => {
@@ -60,6 +54,9 @@ class DiseaseDetail{
         toastMessage("로그인이 필요합니다");
     }
 }
+
+const diseaseDetailWrap = document.querySelector('.root');
+diseaseDetailWrap.style.top = `${headerHeight}px`;
 
 window.onload = ()=>{
     new DiseaseDetail();

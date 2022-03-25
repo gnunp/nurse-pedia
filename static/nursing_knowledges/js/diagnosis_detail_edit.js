@@ -1,7 +1,6 @@
 import { headerHeight } from "../../global/js/global";
 
 const diagnosisDetailEdit = () => {
-    setWrapperTopStyle();
     applyTextareaBlur();
 
     const addDiagnosisBtn = document.querySelector(".js-add_diagnosis_btn");
@@ -16,11 +15,6 @@ const diagnosisDetailEdit = () => {
                relatedDiagnosis.remove();
            }
         });
-    }
-    
-    function setWrapperTopStyle(){
-        const form = document.querySelector("#edit_form");
-        form.style.top = `${headerHeight}px`
     }
 
     function applyTextareaBlur(){
@@ -68,6 +62,7 @@ const diagnosisDetailEdit = () => {
 
 
 
-
+const form = document.querySelector("#edit_form");
+form.style.top = `${headerHeight}px`
 
 diagnosisDetailEdit()
