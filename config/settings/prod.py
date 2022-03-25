@@ -5,7 +5,7 @@ STATIC_ROOT = BASE_DIR / 'static/'
 STATICFILES_DIRS = []
 DEBUG = False
 
-MY_URL = "nurpi.co.kr"
+MY_URL = "https://nurpi.co.kr"
 
 DATABASES = {
     'default': {
