@@ -55,9 +55,6 @@ class DiseaseDetail{
     }
 }
 
-const diseaseDetailWrap = document.querySelector('.root');
-diseaseDetailWrap.style.top = `${headerHeight}px`;
-
 window.onload = ()=>{
     new DiseaseDetail();
 }

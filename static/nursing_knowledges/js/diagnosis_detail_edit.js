@@ -62,7 +62,4 @@ const diagnosisDetailEdit = () => {
 
 
 
-const form = document.querySelector("#edit_form");
-form.style.top = `${headerHeight}px`
-
 diagnosisDetailEdit()

@@ -4,7 +4,6 @@ const addDiagnosisBtn = document.querySelector(".js-add_diagnosis_btn");
 const selectedDiagnosis = document.querySelector("#selected_diagnosis");
 const checkboxList = document.querySelector(".js-diagnoses_list");
 const textareas = document.querySelectorAll("textarea");
-const form = document.querySelector("#edit_form");
 
 const handleClickAddDiagnosisBtn = (event) => {
     event.preventDefault();
@@ -32,5 +31,3 @@ const allTextareaBlur = () => {
 }
 
 window.addEventListener("scroll", allTextareaBlur);
-
-form.style.top = `${headerHeight}px`
