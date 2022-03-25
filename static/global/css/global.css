@@ -1,3 +1,7 @@
+body{
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
 /* -------------------PC버전------------------- */
 @media (hover: hover) and (pointer: fine){ 
     .header{
@@ -211,11 +215,11 @@
         padding-bottom: 0.3rem;
 
         font-size: 0.6rem;
-        font-weight: 800;
+        font-weight: 500;
     }
     .subnav div:hover{
         font-size:0.8rem;
-        font-weight: 900;
+        font-weight: 600;
     }
     .sign{
         display: flex;
@@ -231,7 +235,6 @@
         border-radius: var(--width);
     
         font-size: 0.8rem;
-        font-weight: 900;
         
         display: flex;
         justify-content: center;
@@ -250,8 +253,7 @@
         border-radius: var(--width);
     
         font-size: 0.8rem;
-        font-weight: 900;
-        
+
         display: flex;
         justify-content: center;
         align-items: center;
