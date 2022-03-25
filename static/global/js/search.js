@@ -99,14 +99,18 @@ const search = async () => {
             focusResult(results[resultIndex]);
             return setTimeout(() => keyword.setSelectionRange(999,999), 0.01);
         }
-        else if(event.key === "ArrowUp"){
+        else if(event.key === "ArrowUp") {
 
             resultIndex--;
-            if(resultIndex < 0){
+            if (resultIndex < 0) {
                 resultIndex = results.length - 1;
             }
             focusResult(results[resultIndex]);
-            return setTimeout(() => keyword.setSelectionRange(999,999), 0.01);
+            return setTimeout(() => keyword.setSelectionRange(999, 999), 0.01);
+        }
+        else if(event.key === "Escape"){
+            event.target.value = "";
+            resultWrapper.innerHTML = "";
         }
     }
 
