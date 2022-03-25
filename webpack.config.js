@@ -5,6 +5,7 @@ module.exports = {
     entry: {
         global: "./static/global/js/global.js",
         animation: "./static/global/js/animation.js",
+        search: "./static/global/js/search.js",
         home: "./static/nursing_knowledges/js/home.js",
 
         diseasedetail : "./static/nursing_knowledges/js/disease_detail.js",
@@ -22,6 +23,8 @@ module.exports = {
         mypage:"./static/users/js/mypage.js",
 
         mindmappage:"./static/nursing_knowledges/js/mindmappage.js",
+
+        history:"./static/nursing_knowledges/js/history.js",
     },
     plugins: [
        // new BundleAnalyzerPlugin()

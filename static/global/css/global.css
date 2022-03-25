@@ -5,8 +5,9 @@
         top: 0; left: 0; z-index: 9999;
 
         width: 100%;  min-width: 720px;
-        height: 15vh; min-height: 80px;
-        padding: 0 3%;
+        min-height: 80px;
+        padding-left: 1.3rem;
+        padding-right: 0.3rem;
 
         box-sizing: border-box;
 
@@ -15,7 +16,7 @@
         background-color: white;
 
         display: flex;
-        justify-content: space-between;
+        flex-direction: row;
         align-items: center;
     }
     /*--------------------logo 스타일 적용----------------------*/
@@ -46,14 +47,22 @@
     }
 
     /*--------------Header Search bar스타일 적용---------------*/
-    .nav_searchbar .nav_search_form{
+    .nav_searchbar{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+        margin: 0 0.5rem;
+    }
+    .nav_search_form{
+        z-index: 10000;
+        width: 100%;
         display: flex;
         align-items: center;
-        margin-left: 10px;
-        
+
         background-color: rgb(230, 230, 230);
-        padding: 3px 5px;
-        border-radius: 10px;
+        padding: 0 1rem;
+        border-radius: 24px;
     }
     .nav_search_submit_btn{
         display: flex;
@@ -64,6 +73,7 @@
 
         cursor: pointer;
         font-size: 1rem;
+        margin-right: 0.5rem;
     }
     .nav_search_text{
         width:100%;
@@ -72,14 +82,67 @@
         
         background: none;
 
-        font-size: 0.8rem;
+        padding: 0.8rem 0;
+
+        font-size: 1rem;
     }
     .nav_search_text:focus{
         outline: none;
     }
+    .nav_search_text::placeholder{
+        font-size: 1rem;
+    }
     .nav_search_submit{
         position: fixed;
         left: -9999px;
+    }
+
+    .nav_search_result_wrapper{
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        border-radius: 24px;
+        background-color: rgb(230, 230, 230)
+    }
+
+
+    .nav_search_result_wrapper .search_result{
+        z-index: 10001;
+        display: flex;
+        align-items: center;
+        height: 2.5rem;
+        padding-left: 1.3rem;
+        cursor: pointer;
+    }
+
+    .nav_search_result_wrapper .search_result:first-child{
+        margin-top: 46.51px;
+    }
+
+    .nav_search_result_wrapper .search_result > i{
+        color: var(--pink);
+        margin-right: 0.5rem;
+    }
+
+    .nav_search_result_wrapper .search_result > .name{
+        font-weight: bold;
+    }
+
+    .nav_search_result_wrapper .js-result_selected{
+        background-color: rgb(196, 196, 196) !important;
+    }
+
+    .nav_search_result_wrapper .js-result_selected:last-child{
+        border-radius: 0 0 24px 24px;
+    }
+
+    .js-display_none{
+        display: none !important;
+    }
+
+    .js-diagnosis_icon_color{
+        color: #faa56f !important;
     }
 
     /*---------------------nav 스타일 적용----------------------*/
@@ -235,7 +298,8 @@
         box-sizing: border-box;
 
         display: flex;
-        justify-content: space-between;
+        flex-direction: row;
+
         padding: 1rem;
     }
     .logo{

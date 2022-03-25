@@ -17,7 +17,11 @@
 {% endblock head_script %}
 
 {% block content %}
-<form class="root" id="edit_form"class="root" method="post">
+<form id="edit_form"
+      class="root"
+      method="post"
+      action="{% url 'nursing_knowledges:diagnosis_detail_edit' diagnosis.pk %}"
+>
     {% csrf_token %}
     <div class="knowledge_header">
         <div class="knowledge_header__category">진단</div>

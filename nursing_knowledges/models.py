@@ -212,7 +212,7 @@ class KnowledgeEditHistory(models.Model):
     diagnosis = models.ForeignKey("DiagnosisSmallCategory", on_delete=models.CASCADE, null=True, blank=True)
     editor = models.ForeignKey("users.User", on_delete=models.CASCADE)
     changed_word_count = models.IntegerField(default=0)
-    created_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def get_knowledge(self):
         if self.disease:

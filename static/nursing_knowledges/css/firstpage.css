@@ -1,3 +1,7 @@
+.header{
+    justify-content: space-between;
+}
+
 /* 모바일 버전 */
 @media (hover: none) and (pointer:coarse){
     .firstpage{  
@@ -30,7 +34,8 @@
 
         border-radius: 0.5rem;
         background-color: rgba(201, 201, 201, 0.5);
-        font-size: 0.8rem;
+        font-size: 1rem;
+        font-family: 'Noto Sans KR', sans-serif !important;
     }
     .firstpage_search_form{
         position: relative;
@@ -68,7 +73,7 @@
         width: 100%;
     }
     
-    .firstpage_search_result{
+    .firstpage_search_result_wrapper .search_result{
         display: flex;
         align-items: center;
         height: 2.5rem;
@@ -76,16 +81,16 @@
         cursor: pointer;
     }
     
-    .firstpage_search_result > i{
+    .firstpage_search_result_wrapper .search_result > i{
         color: var(--pink);
         margin-right: 0.5rem;
     }
     
-    .firstpage_search_result > .name{
+    .firstpage_search_result_wrapper .search_result > .name{
         font-weight: bold;
     }
     
-    .js-result_selected{
+    .firstpage_search_result_wrapper .js-result_selected{
         background-color: rgb(196, 196, 196) !important;
     }
     
@@ -124,7 +129,8 @@
         border-radius: 0.5rem;
         background-color: rgba(201, 201, 201, 0.5);
 
-        font-size: 0.8rem;
+        font-size: 1rem;
+        font-family: 'Noto Sans KR', sans-serif !important;
     }
     .firstpage_search_form{
         position: relative;
@@ -162,7 +168,7 @@
         width: 100%;
     }
     
-    .firstpage_search_result{
+    .firstpage_search_result_wrapper .search_result{
         display: flex;
         align-items: center;
         height: 2.5rem;
@@ -170,20 +176,28 @@
         cursor: pointer;
     }
     
-    .firstpage_search_result > i{
+    .firstpage_search_result_wrapper .search_result > i{
         color: var(--pink);
         margin-right: 0.5rem;
     }
     
-    .firstpage_search_result > .name{
+    .firstpage_search_result_wrapper .search_result > .name{
         font-weight: bold;
     }
     
-    .js-result_selected{
+    .firstpage_search_result_wrapper .js-result_selected{
         background-color: rgb(196, 196, 196) !important;
     }
+
+    .firstpage_search_result_wrapper .js-result_selected:last-child{
+        border-radius: 0 0 0.5rem 0.5rem;
+    }
     
-    .js-display_none{
+    .firstpage_search_result_wrapper .js-display_none{
         display: none !important;
+    }
+
+    .firstpage_search_result_wrapper .js-diagnosis_icon_color{
+        color: #faa56f !important;
     }
 }

@@ -1,6 +1,5 @@
 import home_css from "../css/home.css";
 import firstpage_css from "../css/firstpage.css";
-import "./search.js";
 class Home{
     constructor(){
         //디바이스가 모바일 인지 아닌지 판단
@@ -39,8 +38,4 @@ window.onunload = ()=>{
 
 window.onload = async () => {
     new Home();
-
-    const { default: Mindmap } = await import('./mindmap.js');
-    
-    const mindmap = new Mindmap();
 }
