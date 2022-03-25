@@ -7,13 +7,13 @@ DEBUG = False
 
 MY_URL = "34.204.36.26"
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'nurpi-db',
-#         'USER': 'postgres',
-#         'PASSWORD': 'QZepqvTLad',
-#         'HOST': 'nurpi-db.ceosuratl2js.ap-northeast-2.rds.amazonaws.com',
-#         'PORT': '5432',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ.get("DB_NAME"),
+        'USER': os.environ.get("DB_USER"),
+        'PASSWORD': os.environ.get("DB_PASSWORD"),
+        'HOST': os.environ.get("DB_HOST"),
+        'PORT': '5432',
+    }
+}
