@@ -30,6 +30,7 @@ body{
         display: flex;
         flex-direction: row;
         align-items: center;
+        margin-right: 1rem;
     }
     .logo_achor{
         width: fit-content;
@@ -146,7 +147,7 @@ body{
     }
 
     .js-diagnosis_icon_color{
-        color: #faa56f !important;
+        color: #ffcf28 !important;
     }
 
     /*---------------------nav 스타일 적용----------------------*/

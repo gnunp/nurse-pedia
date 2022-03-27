@@ -41,7 +41,7 @@
 
     <div class="knowledge_info" id="related_diagnoses">
         <div id="related-diagnoses-flag"></div>
-        <div class="knowledge_info__title">관련 간호진단</div>
+        <div class="knowledge_info__title">연관 간호진단</div>
         <div class="knowledge_info__related_diagnoses js-knowledge_info__related_diagnoses">
             {% for related_diagnosis in related_diagnoses %}
                 <div class="related_diagnosis js-related_diagnosis border_gray">
@@ -50,14 +50,14 @@
                                class="related_diagnosis__summary__title js-related_diagnosis__summary__title border_gray"
                                name="relation_diagnosis_name"
                                value="{{related_diagnosis.related_diagnosis_name}}"
-                               placeholder="진단명"
+                               placeholder="관련 요인"
                                required
                         >
                         <i class="fas fa-times related_diagnosis__summary__delete_btn js-related_diagnosis_delete_btn"></i>
                     </div>
                     <textarea class="related_interventions_textarea js-related_interventions_textarea border_gray"
                               name="relation_diagnosis_intervention_content"
-                              placeholder="관련 대표 중재"
+                              placeholder="세부 간호 중재"
                     >{{related_diagnosis.intervention_content}}</textarea>
                 </div>
             {% endfor %}
