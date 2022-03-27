@@ -38,14 +38,14 @@ const diagnosisDetailEdit = () => {
                     <input type="text"
                            class="related_diagnosis__summary__title js-related_diagnosis__summary__title border_gray"
                            name="relation_diagnosis_name"
-                           placeholder="진단명"
+                           placeholder="관련 요인"
                            required
                     >
                     <i class="fas fa-times related_diagnosis__summary__delete_btn js-related_diagnosis_delete_btn"></i>
                 </div>
                 <textarea class="related_interventions_textarea js-related_interventions_textarea border_gray"
                           name="relation_diagnosis_intervention_content"
-                          placeholder="관련 대표 중재"
+                          placeholder="세부 간호 중재"
                 ></textarea>
             </div>
             `
