@@ -42,14 +42,14 @@
 		</script>
 		<!-- SCRIPTS -->
 		<script src="{% static 'assets/js/global.js' %}"></script>
-        <!-- {% if request.path == "/" %}
+        {% if request.path == "/" %}
             <script>
                 // 헤더에 있는 검색창 제거
                 if(document.querySelector(".js-nav_searchbar")){
                     document.querySelector(".js-nav_searchbar").remove();
                 }
             </script>
-        {% endif %} -->
+        {% endif %}
     
         <script src="{% static 'assets/js/search.js' %}"></script>
 
