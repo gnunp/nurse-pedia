@@ -43,6 +43,7 @@
 .active{
     background-color: #FF8080;
     color: white;
+<<<<<<< HEAD
     font-weight: 900;
 }
 .starcontent{
@@ -53,4 +54,7 @@
     height: 2rem;
     background-color: yellow;
     color:white;
+=======
+    font-weight: 700;
+>>>>>>> d57561f8a51431ed7396c6421ec963fa64b266cd
 }
