@@ -43,6 +43,11 @@ api_patterns = [
         'knowledges/user-star-knowledges/',
         knowledges_views.UserStarKnowledgeView.as_view(),
         name='user_star_knowledges'
+    ),
+    path(
+        'knowledges/mindmap-data/all/',
+        knowledges_views.AllKnowledgeDataView.as_view(),
+        name='all_knowledges'
     )
 ]
 
