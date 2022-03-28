@@ -1,7 +1,7 @@
 import '../css/disease_category.css';
 
 import {animation} from '../../global/js/animation';
-import {headerHeight} from '../../global/js/global';
+import {headerHeight} from "../../global/js/variables";
 
 class DiseaseCategory{
     constructor(){

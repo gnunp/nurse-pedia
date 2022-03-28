@@ -1,5 +1,5 @@
 import Mindmap from "./mindmap.js";
-import {headerHeight} from '../../global/js/global';
+import {headerHeight} from '../../global/js/variables';
 import { shuffle } from "lodash";
 import {toastMessage} from "./toastMessage";
 import {handleHoverStarBtn, handleClickStarBtn} from "./knowledge_detail";

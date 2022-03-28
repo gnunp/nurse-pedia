@@ -15,9 +15,6 @@ window.addEventListener('resize',()=>{
     });
 });
 
-/*-------------------------------Header 높이------------------------------ */
-const header_ele = document.querySelector('.header');
-export let headerHeight = header_ele.clientHeight;
 /*---------------------------header nav바 이벤트-----------------------------------*/
 const navitems = document.querySelectorAll('.global_nav_item');
 const subnavs = document.querySelectorAll('.subnav');

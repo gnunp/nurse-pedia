@@ -1,4 +1,5 @@
-import { headerHeight } from "../../global/js/global";
+import {headerHeight} from "../../global/js/variables";
+
 
 const addDiagnosisBtn = document.querySelector(".js-add_diagnosis_btn");
 const selectedDiagnosis = document.querySelector("#selected_diagnosis");
