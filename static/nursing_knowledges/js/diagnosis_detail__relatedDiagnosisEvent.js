@@ -15,8 +15,20 @@ const relatedDiagnosisEvent = () => {
         }
 
         const relatedDiagnosisTitleElement = wrapper.querySelector(".js-related_diagnosis__summary__title");
-        addAfterContent(relatedDiagnosisTitleElement);
+        const knowledgeName = document.querySelector(".js-knowledge_name");
+        const word = relatedDiagnosisTitleElement.innerText;
+
+
+        relatedDiagnosisTitleElement.innerText = `${getAdverbAddedWord(word)} 관련된 ${knowledgeName.innerText}`
     }
+
+    // 연관 간호 진단이 없을때
+    const diagnosis_ifNoHaveRelatedDiagnosis = document.querySelector(".js-related_diagnosis__no_exist__diagnosis_name");
+    if(diagnosis_ifNoHaveRelatedDiagnosis){
+        diagnosis_ifNoHaveRelatedDiagnosis.innerText = getAdverbAddedWord(diagnosis_ifNoHaveRelatedDiagnosis.innerText);
+    }
+
+
 
     async function handleToggleWrapper(event){
         const wrapper = event.target;
@@ -175,13 +187,11 @@ const relatedDiagnosisEvent = () => {
         }
     }
 
-    function addAfterContent(element){
-        const knowledgeName = document.querySelector(".js-knowledge_name");
-        const word = element.innerText;
+    function getAdverbAddedWord(word){
         const lastChar = disassemble(word).pop();
-        const afterStartChar = isConsonant(lastChar) ? "과" : "와";
+        const adverb = isConsonant(lastChar) ? "과" : "와";
 
-        element.innerText = `${word + afterStartChar} 관련된 ${knowledgeName.innerText}`
+        return word + adverb;
     }
 }
 

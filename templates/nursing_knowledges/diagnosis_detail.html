@@ -86,53 +86,64 @@
                        class="edit_btn_style related_diagnosis_wrapper__edit_btn{% if user.is_anonymous %} js-block_to_edit{% endif %}"
                     >추가/제거</a>
                 </div>
-                    {% if diagnosis_related_diagnoses %}
                         <div class="knowledge_info__content">
-                            {% for related_diagnosis in diagnosis_related_diagnoses %}
-                                <details
-                                    class="related_diagnosis js-related_diagnosis border_gray"
-                                    data-related_diagnosis_id="{{related_diagnosis.pk}}"
-                                    >
-                                    <summary class="related_diagnosis__summary">
-                                        <span class="related_diagnosis__summary__title js-related_diagnosis__summary__title">{{related_diagnosis.related_diagnosis_name}}</span>
-                                        {% if user.is_authenticated %}
-                                            {% if user in related_diagnosis.like_users.all %}
-                                                <button class="button_style block_dragging intervention_like_button already_like js-intervention_like_button">
-                                                    <i class="fas fa-star"></i>
-                                                    <span class="intervention_like_count js-intervention_like_count">{{related_diagnosis.like_users.count}}</span>
-                                                </button>
+                            {% if diagnosis_related_diagnoses %}
+                                {% for related_diagnosis in diagnosis_related_diagnoses %}
+                                    <details
+                                        class="related_diagnosis js-related_diagnosis border_gray"
+                                        data-related_diagnosis_id="{{related_diagnosis.pk}}"
+                                        >
+                                        <summary class="related_diagnosis__summary">
+                                            <div class="related_diagnosis__summary__title_wrapper">
+                                                <span class="related_diagnosis__summary__title js-related_diagnosis__summary__title">{{related_diagnosis.related_diagnosis_name}}</span>
+                                                <div class="related_diagnosis__summary__btn_wrapper">
+                                                    {% if user.is_authenticated %}
+                                                        {% if user in related_diagnosis.like_users.all %}
+                                                            <button class="button_style block_dragging intervention_like_button already_like js-intervention_like_button">
+                                                                <i class="fas fa-star"></i>
+                                                                <span class="intervention_like_count js-intervention_like_count">{{related_diagnosis.like_users.count}}</span>
+                                                            </button>
+                                                        {% else %}
+                                                            <button class="button_style block_dragging intervention_like_button js-intervention_like_button">
+                                                                <i class="fas fa-star"></i>
+                                                                <span class="intervention_like_count js-intervention_like_count">{{related_diagnosis.like_users.count}}</span>
+                                                        </button>
+                                                        {% endif %}
+                                                        <button class="button_style block_dragging intervention_edit_button js-intervention_edit_button display_none">수정</button>
+                                                        <button class="button_style block_dragging intervention_edit_button js-intervention_edit_submit_button display_none">적용</button>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="related_diagnosis__summary__arrow_wrapper js-related_diagnosis_arrow_wrapper">
+                                                <i class="fas fa-chevron-down"></i>
+                                            </div>
+                                        </summary>
+                                        <ol class="related_interventions js-related_interventions">
+                                            {% if related_diagnosis.intervention_content %}
+                                                {% for intervention in related_diagnosis.get_intervention_list  %}
+                                                    {% if intervention|length > 0 %}
+                                                        <li>{{intervention}}</li>
+                                                    {% endif %}
+                                                {% endfor %}
                                             {% else %}
-                                                <button class="button_style block_dragging intervention_like_button js-intervention_like_button">
-                                                    <i class="fas fa-star"></i>
-                                                    <span class="intervention_like_count js-intervention_like_count">{{related_diagnosis.like_users.count}}</span>
-                                            </button>
+                                                <div class="knowledge_info__content knowledge_info__no_content js-knowledge_content_empty block_dragging">중재</div>
                                             {% endif %}
-                                            <button class="button_style block_dragging intervention_edit_button js-intervention_edit_button display_none">수정</button>
-                                            <button class="button_style block_dragging intervention_edit_button js-intervention_edit_submit_button display_none">적용</button>
-                                        {% endif %}
-                                        <div class="related_diagnosis_arrow_wrapper js-related_diagnosis_arrow_wrapper">
-                                            <i class="fas fa-chevron-down"></i>
-                                        </div>
-                                    </summary>
-                                    <ol class="related_interventions js-related_interventions">
-                                        {% if related_diagnosis.intervention_content %}
-                                            {% for intervention in related_diagnosis.get_intervention_list  %}
-                                                {% if intervention|length > 0 %}
-                                                    <li>{{intervention}}</li>
-                                                {% endif %}
-                                            {% endfor %}
-                                        {% else %}
-                                            <div class="knowledge_info__content knowledge_info__no_content js-knowledge_content_empty block_dragging">중재</div>
-                                        {% endif %}
-                                    </ol>
-                                </details>
-                            {% endfor %}
+                                        </ol>
+                                    </details>
+                                {% endfor %}
+                            {% else %}
+                                <div class="related_diagnosis no_related_diagnosis">
+                                    <div class="related_diagnosis__summary">
+                                        <span
+                                            class="related_diagnosis__summary__title"
+                                        >관련 요인과 관련된 {{ diagnosis.name }}</span>
+                                    </div>
+                                    <div class="related_interventions">
+                                        <span>{{ diagnosis.name }}의 세부 간호 중재가 없습니다. 부족한 간호지식을 채워 주세요!</span>
+                                    </div>
+                                </div>
+                            {% endif %}
                         </div>
-                    {% else %}
-                        <div class="knowledge_info__content knowledge_info__no_content after_content_none block_dragging">
-                            아직 관련 진단이 없습니다. 관련 진단을 추가해 주세요!
-                        </div>
-                    {% endif %}
             </div>
 
         {% include 'nursing_knowledges/mindmap.html' %}
