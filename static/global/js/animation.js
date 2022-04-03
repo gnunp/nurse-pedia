@@ -15,7 +15,7 @@ class Animation{
         return parents;
     }
 
-    setmaxHeight(child_ele){
+    setinitmaxHeight(child_ele){
         const parents = this.parentsNodeArray(child_ele);
 
         parents.forEach(element => {
@@ -33,7 +33,10 @@ class Animation{
         parents_ele.style.maxHeight = `calc(${newMaxHeight}px + 1rem)`;
         parents_ele.style.minHeight = `calc(${newMaxHeight}px)`;
     }
-    slideDownMiddle(node){
+    slideDownMiddle(node, parent_node){
+        while(!parent_node.getAttribute(canCaculateHeight)){
+
+        }
         const parents = this.parentsNodeArray(node);
 
         parents.forEach(element => {

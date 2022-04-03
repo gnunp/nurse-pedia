@@ -3,6 +3,7 @@ import CSS from '../css/diagnosis_category.css';
 import {animation} from '../../global/js/animation';
 import {headerHeight} from "../../global/js/variables";
 import { async } from 'regenerator-runtime';
+import { forEach } from 'lodash';
 
 
 class DiagnosisCategory{
@@ -30,20 +31,23 @@ class DiagnosisCategory{
         newbtn.addEventListener('click',()=>{
             /*-----------------처음 Height값 저장(첫번째 클릭에만 실행) -------------- */
             if(parents_ele.dataset.issetmaxheight == 'true'){
-               animation.setmaxHeight(child_ele);
+               animation.setinitmaxHeight(child_ele);
             }
             /*--------------------------------------------------------------------- */
             child_ele.classList.toggle('active');
-         
+        
+            /*active가 없으면 닫히는것 active가 있으면 열리는것 */
+            //열리는 부분
             if(child_ele.classList.contains('active')){
                 child_ele.classList.toggle('disappear');
                 if(type === 'large'){
                     animation.slideDownLarge(parents_ele, child_ele);
                 }
                 else{
-                    animation.slideDownMiddle(child_ele);
+                    animation.slideDownMiddle(child_ele, parents_ele);
                 }
             }
+            //닫히는 부분
             else{
                 if(type === 'large'){
                     animation.slideUpLarge(parents_ele);
@@ -60,56 +64,6 @@ class DiagnosisCategory{
         });
 
         return newbtn;
-    }
-    transitionOff(){
-        const contextbtn = document.querySelectorAll('.context_btn');
-        contextbtn.forEach(element => {
-            element.classList.remove('context_btn');
-            element.classList.add('context_btn_transitionoff');
-        });
-
-        const largedisease = document.querySelectorAll('.category_largedisease');
-        largedisease.forEach(element => {
-            element.classList.remove('category_largedisease');
-            element.classList.add('category_largedisease_transitionoff');
-        });
-
-        const middledisease = document.querySelectorAll('.category_middledisease');
-        middledisease.forEach(element => {
-            element.classList.remove('category_middledisease');
-            element.classList.add('category_middledisease_transitionoff');
-        });
-        
-        const middlediseaseContent = document.querySelectorAll('.category_middledisease_content');
-        middlediseaseContent.forEach(element => {
-            element.classList.remove('category_middledisease_content');
-            element.classList.add('category_middledisease_content_transitionoff');
-        });
-    }
-    transitionOn(){
-        const contextbtn = document.querySelectorAll('.context_btn');
-        contextbtn.forEach(element => {
-            element.classList.remove('context_btn_transitionoff');
-            element.classList.add('context_btn');
-        });
-
-        const largedisease = document.querySelectorAll('.category_largedisease');
-        largedisease.forEach(element => {
-            element.classList.remove('category_largedisease_transitionoff');
-            element.classList.add('category_largedisease');
-        });
-
-        const middledisease = document.querySelectorAll('.category_middledisease');
-        middledisease.forEach(element => {
-            element.classList.remove('category_middledisease_transitionoff');
-            element.classList.add('category_middledisease');
-        });
-        
-        const middlediseaseContent = document.querySelectorAll('.category_middledisease_content');
-        middlediseaseContent.forEach(element => {
-            element.classList.remove('category_middledisease_content_transitionoff');
-            element.classList.add('category_middledisease_content');
-        });
     }
     createControlBtn(){
         const controlbtns = document.createElement('div');
@@ -135,20 +89,15 @@ class DiagnosisCategory{
         openbtn.addEventListener('click', function(){
             const large_target = document.querySelectorAll('[type="large"]:not(.btn_active)');
             const middle_target = document.querySelectorAll('[type="middle"]:not(.btn_active)');
-            this.transitionOff();
-            new Promise((resolve)=>{
-       
-                resolve();
-            }).then(()=>{
-                large_target.forEach(element => {
-                    element.click();
-                });
-                middle_target.forEach(element =>{
-                    element.click();
-                });
-            }).then(()=>{
-                this.transitionOn();
+            
+
+            large_target.forEach(element => {
+                element.click();
             });
+
+            middle_target.forEach(element => {
+                element.click();
+            });       
         });
         
         controlbtns.appendChild(closebtn);
@@ -197,6 +146,9 @@ class DiagnosisCategory{
 
         const mediumElement = document.createElement('div');
         mediumElement.classList.add('category_middledisease');
+        //test
+        mediumElement.setAttribute('canCaculateHeight', true);
+        //test
         mediumElement.setAttribute('data-issetmaxheight', true);
         mediumElement.classList.add('disappear');
 
