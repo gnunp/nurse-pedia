@@ -54,7 +54,7 @@ class Mypage{
         newitem.classList.add('staritem');
 
         newitem.innerHTML =`
-            <a href=${url}><h1>${name}</h1></a>
+            <a href='${url}'><h1>${name}</h1></a>
         `
         return newitem;
     }

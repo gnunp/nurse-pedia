@@ -26,7 +26,7 @@ class DiseaseCategory{
         newbtn.addEventListener('click',()=>{
             /*-----------------처음 Height값 저장(첫번째 클릭에만 실행) -------------- */
             if(parents_ele.dataset.issetmaxheight == 'true'){
-               animation.setmaxHeight(child_ele);
+               animation.setinitmaxHeight(child_ele);
             }
             /*--------------------------------------------------------------------- */
             child_ele.classList.toggle('active');

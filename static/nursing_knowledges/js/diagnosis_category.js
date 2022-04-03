@@ -44,7 +44,7 @@ class DiagnosisCategory{
                     animation.slideDownLarge(parents_ele, child_ele);
                 }
                 else{
-                    animation.slideDownMiddle(child_ele, parents_ele);
+                    animation.slideDownMiddle(child_ele);
                 }
             }
             //닫히는 부분
@@ -89,7 +89,6 @@ class DiagnosisCategory{
         openbtn.addEventListener('click', function(){
             const large_target = document.querySelectorAll('[type="large"]:not(.btn_active)');
             const middle_target = document.querySelectorAll('[type="middle"]:not(.btn_active)');
-            
 
             large_target.forEach(element => {
                 element.click();
@@ -146,9 +145,6 @@ class DiagnosisCategory{
 
         const mediumElement = document.createElement('div');
         mediumElement.classList.add('category_middledisease');
-        //test
-        mediumElement.setAttribute('canCaculateHeight', true);
-        //test
         mediumElement.setAttribute('data-issetmaxheight', true);
         mediumElement.classList.add('disappear');
 

@@ -33,16 +33,34 @@ class Animation{
         parents_ele.style.maxHeight = `calc(${newMaxHeight}px + 1rem)`;
         parents_ele.style.minHeight = `calc(${newMaxHeight}px)`;
     }
-    slideDownMiddle(node, parent_node){
-        while(!parent_node.getAttribute(canCaculateHeight)){
-
-        }
+    slideDownMiddle(node){
         const parents = this.parentsNodeArray(node);
 
         parents.forEach(element => {
-            const newMaxHeight = element.clientHeight + node.clientHeight;
+            console.log(`element.style.maxHeight : ${element.style.maxHeight}`);
+            console.log(`node.clientHeight : ${node.clientHeight}`);
+            
+            const num = Number(/\d+/.exec(element.style.maxHeight));
+            const newMaxHeight = num + node.clientHeight;
+
             element.style.maxHeight = `calc(${newMaxHeight}px + 1rem)`;
             element.style.minHeight = `calc(${newMaxHeight}px )`;
+            /*
+            if(!/^calc/.test(element.style.maxHeight)){
+                const num = Number(/\d+/.exec(element.style.maxHeight));
+                const newMaxHeight = num + node.clientHeight;
+
+                element.style.maxHeight = `calc(${newMaxHeight}px + 1rem)`;
+                element.style.minHeight = `calc(${newMaxHeight}px )`;
+            }
+            else{
+                const num = Number(/\d+/.exec(element.style.maxHeight));
+                const newMaxHeight = num + node.clientHeight;
+
+                element.style.maxHeight = `calc(${newMaxHeight}px + 1rem)`;
+                element.style.minHeight = `calc(${newMaxHeight}px)`;
+            }
+           */
         });
     }
     slideUpLarge(parents_ele){
