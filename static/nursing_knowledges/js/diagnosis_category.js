@@ -2,6 +2,7 @@ import CSS from '../css/diagnosis_category.css';
 
 import {animation} from '../../global/js/animation';
 import {headerHeight} from "../../global/js/variables";
+import { async } from 'regenerator-runtime';
 
 
 class DiagnosisCategory{
@@ -22,6 +23,7 @@ class DiagnosisCategory{
     createBtn(child_ele, parents_ele, type){
         const newbtn = document.createElement('button');
         newbtn.classList.add('context_btn');
+        newbtn.setAttribute('type', `${type}`);
         newbtn.innerText = "◀";
 
         /*--------------------버튼 클릭시 발생되는 이벤트 ---------------- */
@@ -59,23 +61,94 @@ class DiagnosisCategory{
 
         return newbtn;
     }
+    transitionOff(){
+        const contextbtn = document.querySelectorAll('.context_btn');
+        contextbtn.forEach(element => {
+            element.classList.remove('context_btn');
+            element.classList.add('context_btn_transitionoff');
+        });
+
+        const largedisease = document.querySelectorAll('.category_largedisease');
+        largedisease.forEach(element => {
+            element.classList.remove('category_largedisease');
+            element.classList.add('category_largedisease_transitionoff');
+        });
+
+        const middledisease = document.querySelectorAll('.category_middledisease');
+        middledisease.forEach(element => {
+            element.classList.remove('category_middledisease');
+            element.classList.add('category_middledisease_transitionoff');
+        });
+        
+        const middlediseaseContent = document.querySelectorAll('.category_middledisease_content');
+        middlediseaseContent.forEach(element => {
+            element.classList.remove('category_middledisease_content');
+            element.classList.add('category_middledisease_content_transitionoff');
+        });
+    }
+    transitionOn(){
+        const contextbtn = document.querySelectorAll('.context_btn');
+        contextbtn.forEach(element => {
+            element.classList.remove('context_btn_transitionoff');
+            element.classList.add('context_btn');
+        });
+
+        const largedisease = document.querySelectorAll('.category_largedisease');
+        largedisease.forEach(element => {
+            element.classList.remove('category_largedisease_transitionoff');
+            element.classList.add('category_largedisease');
+        });
+
+        const middledisease = document.querySelectorAll('.category_middledisease');
+        middledisease.forEach(element => {
+            element.classList.remove('category_middledisease_transitionoff');
+            element.classList.add('category_middledisease');
+        });
+        
+        const middlediseaseContent = document.querySelectorAll('.category_middledisease_content');
+        middlediseaseContent.forEach(element => {
+            element.classList.remove('category_middledisease_content_transitionoff');
+            element.classList.add('category_middledisease_content');
+        });
+    }
     createControlBtn(){
         const controlbtns = document.createElement('div');
         const closebtn = document.createElement('button');
         const openbtn = document.createElement('button');
 
+        controlbtns.classList.add('controlbox');
         closebtn.classList.add('controlbtn');
         openbtn.classList.add('controlbtn');
 
         closebtn.innerText ="접기";
         openbtn.innerText ="펼치기";
 
-        closebtn.addEventListener('click',()=>{ 
-            console.log('close버튼 입니다');
+        //접기 버튼을 눌렀을 경우
+        closebtn.addEventListener('click', ()=>{
+            const target = document.querySelectorAll('.btn_active[type="large"]');
+            target.forEach(element => {
+                element.click();
+            });
         });
 
-        openbtn.addEventListener('click',()=>{
-            console.log('open버튼 입니다');
+        //펼치기 버튼을 눌렀을 경우
+        openbtn.addEventListener('click', function(){
+            const large_target = document.querySelectorAll('[type="large"]:not(.btn_active)');
+            const middle_target = document.querySelectorAll('[type="middle"]:not(.btn_active)');
+            this.transitionOff();
+            new Promise((resolve)=>{
+       
+                resolve();
+            }).then(()=>{
+                large_target.forEach(element => {
+                    element.click();
+                });
+                middle_target.forEach(element =>{
+                    element.click();
+                });
+            }).then(()=>{
+                this.transitionOn();
+            });
         });
         
         controlbtns.appendChild(closebtn);
@@ -169,7 +242,6 @@ class DiagnosisCategory{
         });
         return smallEle;
     }
-    
 }
 window.onload = ()=>{
     new DiagnosisCategory();
