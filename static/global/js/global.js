@@ -15,9 +15,6 @@ window.addEventListener('resize',()=>{
     });
 });
 
-/*-------------------------------Header 높이------------------------------ */
-const header_ele = document.querySelector('.header');
-export let headerHeight = header_ele.clientHeight;
 /*---------------------------header nav바 이벤트-----------------------------------*/
 const navitems = document.querySelectorAll('.global_nav_item');
 const subnavs = document.querySelectorAll('.subnav');
@@ -42,7 +39,7 @@ navitems.forEach(element => {
 /*-----------------------Header 검색창 나타냄 유무----------------------------*/ 
 const headerSearchBar = document.querySelector('.nav_searchbar');
 const currenthref = location.href;
-const isactiveSearchBar = (/knowledges/).test(currenthref);
+const isactiveSearchBar = (/knowledges/).test(currenthref) | (/users/).test(currenthref);
 
 if(isactiveSearchBar){
     headerSearchBar.classList.toggle("disappear", false);
@@ -57,3 +54,18 @@ headerSearchBar.addEventListener("focusout",(e)=>{
         e.target.placeholder ="간호 지식 검색";
     }
 })
+
+/*------------personal_info 창 열고 닫기----------------------- */
+const personalbtn = document.querySelector('.personal_btn');
+const subwindow = document.querySelector('.personal_info');
+const closebtn = document.querySelector('.close_btn');
+
+personalbtn.addEventListener('click', ()=>{
+    console.log("왜 안되냐?");
+    subwindow.classList.toggle('unactive');
+});
+
+closebtn.addEventListener('click',()=>{
+    console.log("왜 안되냐?222");
+    subwindow.classList.toggle('unactive');
+});

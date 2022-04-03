@@ -27,9 +27,9 @@
             <div>분류</div>
             <div class="nav_underline"></div>
             <ul class="subnav disappear">
-                <div><a href="{% url 'nursing_knowledges:disease_category'%} ">질병별(밴-다이어그램)</a></div>
-                <div><a href="{% url 'nursing_knowledges:mindmap'%} ">질병별(마인드맵)</a></div>
+                <div><a href="{% url 'nursing_knowledges:disease_category'%} ">질병별</a></div>
                 <div><a href="{% url 'nursing_knowledges:diagnosis_category'%} ">진단별</a></div>
+                <div><a href="{% url 'nursing_knowledges:mindmap'%} ">마인드맵</a></div>
             </ul>
         </div>
         <div class="global_nav_item" data-id="2" id="nurpi_nav">
@@ -37,18 +37,28 @@
             <div class="nav_underline"></div>
             <ul class="subnav disappear">
                 <!-- templates/nursing_knowledges/disease_category.html로 이동 -->
-                <div><a href="#">널피 사용법</a></div>
+                <div><a href="{% url 'nursing_knowledges:history'%} ">편집 히스토리</a></div>
             </ul>
         </div>    
         <!----------------- 로그인 ------------------>
         <div class="sign global_nav_item">
             {% if user.is_authenticated %}
-                <a href="{% url 'users:logout' %}" class="log_out js-log_out">로그아웃</a>
+                <div class="personal_btn" >{{ user.username }}</div>
+
+                <div class="personal_info unactive">
+                    <div class="personal_subwindow">
+                        <div class="close_btn">X</div>
+                        <div class="personal_btn_subwindow" >{{ user.username }}</div>
+                        <div class="subwindow_username">{{ user.username }}</div>
+                        <a href="{%url 'users:mypage' %}" class="sign_btn">마이페이지</a>
+                        <a href="{% url 'users:logout' %}" class="log_out js-log_out sign_btn">로그아웃</a>
+                    </div>
+                </div>
             {% else %}
-                <div class="sign_in js-sign_in">
+                <div class="sign_in js-sign_in sign_btn">
                     <p>로그인</p>
                 </div>
-                <div class="sign_up js-sign_up">
+                <div class="sign_up js-sign_up sign_btn">
                     <p>회원가입</p>
                 </div>
             {% endif %}

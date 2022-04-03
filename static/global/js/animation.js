@@ -15,7 +15,7 @@ class Animation{
         return parents;
     }
 
-    setmaxHeight(child_ele){
+    setinitmaxHeight(child_ele){
         const parents = this.parentsNodeArray(child_ele);
 
         parents.forEach(element => {
@@ -37,9 +37,30 @@ class Animation{
         const parents = this.parentsNodeArray(node);
 
         parents.forEach(element => {
-            const newMaxHeight = element.clientHeight + node.clientHeight;
+            console.log(`element.style.maxHeight : ${element.style.maxHeight}`);
+            console.log(`node.clientHeight : ${node.clientHeight}`);
+            
+            const num = Number(/\d+/.exec(element.style.maxHeight));
+            const newMaxHeight = num + node.clientHeight;
+
             element.style.maxHeight = `calc(${newMaxHeight}px + 1rem)`;
             element.style.minHeight = `calc(${newMaxHeight}px )`;
+            /*
+            if(!/^calc/.test(element.style.maxHeight)){
+                const num = Number(/\d+/.exec(element.style.maxHeight));
+                const newMaxHeight = num + node.clientHeight;
+
+                element.style.maxHeight = `calc(${newMaxHeight}px + 1rem)`;
+                element.style.minHeight = `calc(${newMaxHeight}px )`;
+            }
+            else{
+                const num = Number(/\d+/.exec(element.style.maxHeight));
+                const newMaxHeight = num + node.clientHeight;
+
+                element.style.maxHeight = `calc(${newMaxHeight}px + 1rem)`;
+                element.style.minHeight = `calc(${newMaxHeight}px)`;
+            }
+           */
         });
     }
     slideUpLarge(parents_ele){

@@ -30,7 +30,12 @@
         </div>
         <div class="mypage_content">
             <h1>내 정보 수정</h1>
-            <div class="content">내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</div>
+            <div class="update_info">
+                {{user.username}}
+            </div>
+            <div class="star_info "></div>
+            <div class="history_info"></div>
+            <div class="develop_info"></div>
         </div>
     </div>
 {% endblock content %}
@@ -38,3 +43,4 @@
 {% block script %}
 <script src="{% static 'assets/js/mypage.js' %}"></script>
 {% endblock script %}
+
