@@ -30,15 +30,28 @@
     color: white;
 }
 
+
 .related_diagnosis{
     border: solid 1px;
     border-radius: 15px;
     margin-bottom: 0.5rem;
 }
 
+.no_related_diagnosis{
+    border-color: #D6D6D6;
+    color: #D6D6D6;
+}
+
+.no_related_diagnosis > .related_diagnosis__summary{
+    font-weight: bold;
+}
+
+
 .related_diagnosis__summary{
     position: relative;
     display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
     align-items: center;
     list-style: none;
     padding: 1rem;
@@ -48,8 +61,26 @@
     display: none;
 }
 
+.related_diagnosis__summary__title_wrapper{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 .related_diagnosis__summary > *{
     margin-right: 0.3rem;
+}
+
+.related_diagnosis__summary__btn_wrapper{
+    display: flex;
+    flex-direction: row;
+    min-width: 100px;
+    margin-left: 5px;
+    height: 30px;
+}
+
+.related_diagnosis__summary__btn_wrapper > *{
+    margin-right: 5px;
 }
 
 .button_style{
@@ -89,16 +120,19 @@
     background-color: #ff3e3e;
 }
 
-.related_diagnosis_arrow_wrapper{
-    position: absolute;
-    right: 1rem;
+.related_diagnosis__summary__arrow_wrapper{
 }
 
 .related_interventions{
     line-height: 1.6rem;
     list-style-type: decimal;
-    padding-left: 3rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
     padding-bottom: 1rem;
+}
+
+.related_interventions > li{
+    margin-left: 1rem;
 }
 
 .related_interventions_textarea{
