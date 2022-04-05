@@ -185,7 +185,7 @@ body{
 
         background-color: #FF8080;
     }
-    .global_nav_item:hover{
+    .sign_btn:hover{
         color:#FF8080;
 
         transition: color 0.35s ease-in-out;
@@ -244,7 +244,7 @@ body{
         cursor: pointer;
         z-index: 10;  /* cursor: pointer가 안먹혀서 추가 */
     }
-    .sign div{
+    .sign_btn{
         --height: 2rem;
         --width: calc(var(--height) * 2);
     

@@ -1,4 +1,4 @@
-import { headerHeight } from "../../global/js/global";
+import {headerHeight} from "../../global/js/variables";
 
 const diagnosisDetailEdit = () => {
     applyTextareaBlur();

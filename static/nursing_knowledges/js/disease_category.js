@@ -1,7 +1,7 @@
 import '../css/disease_category.css';
 
 import {animation} from '../../global/js/animation';
-import {headerHeight} from '../../global/js/global';
+import {headerHeight} from "../../global/js/variables";
 
 class DiseaseCategory{
     constructor(){
@@ -26,7 +26,7 @@ class DiseaseCategory{
         newbtn.addEventListener('click',()=>{
             /*-----------------처음 Height값 저장(첫번째 클릭에만 실행) -------------- */
             if(parents_ele.dataset.issetmaxheight == 'true'){
-               animation.setmaxHeight(child_ele);
+               animation.setinitmaxHeight(child_ele);
             }
             /*--------------------------------------------------------------------- */
             child_ele.classList.toggle('active');

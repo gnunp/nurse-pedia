@@ -1,11 +1,29 @@
 import Mindmap from "./mindmap.js";
-import {headerHeight} from '../../global/js/global';
 import shuffle from "lodash/shuffle";
+import {headerHeight} from '../../global/js/variables';
 import {toastMessage} from "./toastMessage";
 import {handleHoverStarBtn, handleClickStarBtn} from "./knowledge_detail";
 
 class DiseaseDetail{
-    constructor(){
+    constructor(){        
+        //mypage 내가 열어본 페이지에 저장하는 코드
+        const address = location.href.match(/knowledges.*/).join();
+        const name = document.querySelector('.knowledge_header__name').textContent; 
+        const item = {address : address, name : name};
+
+        if(localStorage.length > 0){
+            const pagehistory = JSON.parse(localStorage.getItem('pageHistory'));
+            
+            if(pagehistory[pagehistory.length-1].name != item.name){
+                pagehistory.push(item);
+                localStorage.setItem('pageHistory',JSON.stringify(pagehistory));
+            }
+        }
+        else{
+            const pagehistory = [item];
+            localStorage.setItem('pageHistory', JSON.stringify(pagehistory));    
+        }
+
         // 관련 진단 아이템들 색 랜덤으로 부여하는 코드
         this.colors = [
             '#D8E2DC',

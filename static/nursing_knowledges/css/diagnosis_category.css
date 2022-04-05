@@ -1,0 +1,122 @@
+.dia_cat_mainContent{
+    position: relative;
+    
+    margin: 0 auto;
+    width:70vw;
+    min-height: 100vh;
+
+    padding: 2rem;
+    
+    border-right: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+}
+.isspread{
+    height: fit-content;
+}
+.context_btn{
+    background: none;
+    border: none;
+    color:white;
+
+    transition: transform 0.3s ease-in-out;
+}
+.btn_active{
+    transform: rotateZ(-90deg);
+}
+.category_largedisease{
+    position: relative;
+
+    width: 100%; 
+    max-height: 3rem;
+    min-height: 0;
+
+    margin-bottom: 1.5rem;
+    padding:1rem;
+
+    background-color: #FF8080;
+    border-radius: 1rem;
+
+    overflow:hidden;
+
+    transition: max-height 0.6s ease-in-out, min-height 0.6s ease-in-out;
+}
+.category_largedisease_content{
+    font-size: 1rem;
+    color:white;
+    
+    display: flex;
+    justify-content: space-between;
+}
+.category_middledisease{
+    width: 100%;
+    max-height: fit-content;
+    min-height:0;
+
+    padding: 1rem;
+
+    margin-top:0.8rem;
+
+    background-color:#A6699D;
+    border-radius: 1rem;
+
+    color: white;
+    
+    overflow: hidden;
+
+    transition: max-height 0.6s ease-in-out, min-height 0.6s ease-in-out;
+}
+.category_middledisease_content{
+    max-height: 2rem;
+    min-height: 0;
+
+    margin-bottom: 0.5rem;
+    padding:3px 0;
+
+    border-bottom: 1px solid rgba(250,250,250, 0.3);
+
+    overflow: hidden;
+
+    transition: max-height 0.6s ease-in-out, min-height 0.6s ease-in-out;
+}
+.category_middledisease_content_header{
+    display: flex;
+    justify-content: space-between;
+}
+.category_smalldisease{
+    padding: 1rem;
+    margin-top: 0.5rem;
+
+    border-radius: 1rem;
+
+    background-color: #455879;
+
+}
+.category_smalldisease_content{
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(250,250,250,0.3);
+    padding:3px 0;
+}
+.disappear{
+    visibility: hidden;
+}
+.category_header_text{
+    color:white;
+}
+.category_smalldisease .category_header_text:hover{
+    font-size: 1.5rem;
+    font-weight: 900;
+}
+/* -------------------Controlbtn CSS-------------------*/
+.controlbox{
+    display: flex;
+    justify-content: right;
+}
+.controlbtn{
+    background-color: #716393;
+    color:white;
+
+    margin: 1rem 0.15rem;
+    padding: 0.2rem 0.5rem;
+
+    border-radius: 0.5rem;
+}
