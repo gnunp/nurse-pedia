@@ -9,7 +9,8 @@ from .models import (
     DiagnosisRelatedDiagnosis,
     DiagnosisToDisease,
     DiagnosisInterventionAlpha,
-    KnowledgeEditHistory, DiagnosisSmallCategoryStarInfo, DiseaseSmallCategoryStarInfo,
+    KnowledgeEditHistory, DiagnosisSmallCategoryStarInfo, DiseaseSmallCategoryStarInfo, DiseaseSmallCategoryEditHistory,
+    DiseaseSmallCategoryEditHistoryRelatedDiagnosis,
 )
 
 
@@ -92,6 +93,22 @@ class DiagnosisAdmin(admin.ModelAdmin):
 class DiagnosisToDiseaseAdmin(admin.ModelAdmin):
     """
     질병(중분류 or 대분류) <--> 진단의 연결관계를 나타내는 Model Admin
+    """
+    pass
+
+
+@admin.register(DiseaseSmallCategoryEditHistory)
+class DiseaseSmallCategoryEditHistoryAdmin(admin.ModelAdmin):
+    """
+    질병 소분류의 편집 히스토리를 나타내는 Model Admin
+    """
+    pass
+
+
+@admin.register(DiseaseSmallCategoryEditHistoryRelatedDiagnosis)
+class DiseaseSmallCategoryEditHistoryRelatedDiagnosisAdmin(admin.ModelAdmin):
+    """
+    질병 소분류의 편집 히스토리의 관련 진단 Model Admin
     """
     pass
 

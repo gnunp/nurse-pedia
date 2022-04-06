@@ -370,3 +370,11 @@ def add_knowledge_star(request):
     except User.DoesNotExist:
         knowledge.like_users.add(request.user)
         return Response(status=status.HTTP_201_CREATED)
+
+
+def disease_edit_history(request, pk):
+    pass
+
+
+def diagnosis_edit_history(request, pk):
+    pass

@@ -36,9 +36,14 @@
                     <i class="far fa-star knowledge_header__star_btn js-knowledge_star_btn"></i>
                 {% endif %}
             {% endif %}
-            <a href="{% url 'nursing_knowledges:diagnosis_detail_edit' diagnosis.pk %}"
-               class="edit_btn_style knowledge_header__edit_btn{% if user.is_anonymous %} js-block_to_edit{% endif %}"
-            >편집</a>
+            <div class="knowledge_header__btn_wrapper">
+                <a href="{% url 'nursing_knowledges:diagnosis_edit_history' diagnosis.pk %}"
+                   class="edit_btn_style knowledge_header__edit_history_btn"
+                >편집 기록</a>
+                <a href="{% url 'nursing_knowledges:diagnosis_detail_edit' diagnosis.pk %}"
+                   class="edit_btn_style knowledge_header__edit_btn{% if user.is_anonymous %} js-block_to_edit{% endif %}"
+                >편집</a>
+            </div>
         </div>
 
         <div class="knowledge_info">

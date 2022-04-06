@@ -71,9 +71,29 @@
     cursor: pointer;
 }
 
-.knowledge_header__edit_btn{
+.knowledge_header__btn_wrapper{
     position: absolute;
-    right: 10px;
+    right: 0;
+    display: flex;
+    flex-direction: row;
+}
+
+.knowledge_header__btn_wrapper > *{
+    margin-right: 5px;
+}
+
+.knowledge_header__edit_history_btn{
+    color: white;
+    background-color: #C8C8C8;
+    padding-left: 0.7rem;
+    padding-right: 0.7rem;
+}
+
+.knowledge_header__edit_history_btn:hover{
+    color: white;
+}
+
+.knowledge_header__edit_btn{
     color: white;
     background-color: #C8C8C8;
 }
