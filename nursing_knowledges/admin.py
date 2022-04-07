@@ -10,7 +10,8 @@ from .models import (
     DiagnosisToDisease,
     DiagnosisInterventionAlpha,
     KnowledgeEditHistory, DiagnosisSmallCategoryStarInfo, DiseaseSmallCategoryStarInfo, DiseaseSmallCategoryEditHistory,
-    DiseaseSmallCategoryEditHistoryRelatedDiagnosis,
+    DiseaseSmallCategoryRelatedDiagnosisEditHistory, DiagnosisSmallCategoryEditHistory,
+    DiagnosisRelatedDiagnosisEditHistory,
 )
 
 
@@ -98,7 +99,7 @@ class DiagnosisToDiseaseAdmin(admin.ModelAdmin):
 
 
 class DiseaseSmallCategoryEditHistoryRelatedDiagnosisInline(admin.TabularInline):
-    model = DiseaseSmallCategoryEditHistoryRelatedDiagnosis
+    model = DiseaseSmallCategoryRelatedDiagnosisEditHistory
     extra = 1
 
 
@@ -112,13 +113,19 @@ class DiseaseSmallCategoryEditHistoryAdmin(admin.ModelAdmin):
     ]
 
 
-@admin.register(DiseaseSmallCategoryEditHistoryRelatedDiagnosis)
-class DiseaseSmallCategoryEditHistoryRelatedDiagnosisAdmin(admin.ModelAdmin):
-    """
-    질병 소분류의 편집 히스토리의 관련 진단 Model Admin
-    """
-    pass
+class DiagnosisRelatedDiagnosisEditHistoryInline(admin.TabularInline):
+    model = DiagnosisRelatedDiagnosisEditHistory
+    extra = 1
 
+
+@admin.register(DiagnosisSmallCategoryEditHistory)
+class DiagnosisSmallCategoryEditHistoryAdmin(admin.ModelAdmin):
+    """
+    진단 소분류의 편집 히스토리를 나타내는 Model Admin
+    """
+    inlines = [
+        DiagnosisRelatedDiagnosisEditHistoryInline,
+    ]
 
 @admin.register(KnowledgeEditHistory)
 class KnowledgeEditHistoryAdmin(admin.ModelAdmin):

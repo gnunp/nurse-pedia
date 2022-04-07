@@ -134,13 +134,25 @@ class DiagnosisMediumCategory(models.Model):
         return self.name
 
 
-class DiagnosisSmallCategory(models.Model):
+class BaseDiagnosisSmallCategoryModel(models.Model):
     """
-    간호 진단 Model
+    진단 소분류 & 진단 소분류 History Model을 상속할 Abstract Model
     """
-    name = models.CharField(max_length=100, unique=True)  # 진단명
     definition = models.TextField(max_length=3000, default="", blank=True)  # 진단의 정의
     intervention_content = models.TextField(max_length=3000, default="", blank=True)  # 진단이 가지는 중재들을 설명하는 필드
+
+    def get_intervention_list(self):
+        return self.intervention_content.split("\n") if True else ""
+
+    class Meta:
+        abstract = True
+
+
+class DiagnosisSmallCategory(BaseDiagnosisSmallCategoryModel):
+    """
+    간호 진단 소분류 Model
+    """
+    name = models.CharField(max_length=100, unique=True)  # 진단명
     diagnosis_medium_category = models.ForeignKey(
         "DiagnosisMediumCategory",
         on_delete=models.CASCADE,
@@ -155,14 +167,27 @@ class DiagnosisSmallCategory(models.Model):
         blank=True
     )
 
+    def save(self, *args, **kwargs):
+        is_new = False
+        # 처음 데이터가 생성될 때(수정되는 경우가 아닌)
+        if self.pk is None:
+            is_new = True
+
+        # 실제 save() 를 호출
+        super().save(*args, **kwargs)
+
+        if is_new:
+            diagnosis_small_category_edit_history = DiagnosisSmallCategoryEditHistory.objects.create(
+                original_diagnosis_small_category=self,
+                definition=self.definition,
+                intervention_content=self.intervention_content,
+            )
+
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
         return reverse('nursing_knowledges:diagnosis_detail', args=[self.id])
-
-    def get_intervention_list(self):
-        return self.intervention_content.split("\n") if True else ""
 
 
 class DiagnosisSmallCategoryStarInfo(models.Model):
@@ -180,21 +205,30 @@ class DiagnosisSmallCategoryStarInfo(models.Model):
         return self.created_at.astimezone().strftime('%Y-%m-%d %H:%M:%S')
 
 
-class DiagnosisRelatedDiagnosis(models.Model):
+class BaseDiagnosisRelatedDiagnosisModel(models.Model):
     """
-    간호 진단 Model의 related_diagnoses의 FK Model
+    진단 소분류의 관련 진단 & 진단 소분류 관련 진단 Edit History Model을 상속할 Abstract Model
     """
     related_diagnosis_name = models.CharField(max_length=50)
     intervention_content = models.TextField(max_length=3000, default="", blank=True)
+
+    def get_intervention_list(self):
+        return self.intervention_content.split("\n") if True else ""
+
+    class Meta:
+        abstract = True
+
+
+class DiagnosisRelatedDiagnosis(BaseDiagnosisRelatedDiagnosisModel):
+    """
+    간호 진단 Model의 related_diagnoses의 FK Model
+    """
     target_diagnosis = models.ForeignKey("DiagnosisSmallCategory", on_delete=models.CASCADE,
                                          related_name="DiagnosisRelatedDiagnoses")
     like_users = models.ManyToManyField("users.User", related_name="like_related_diagnoses", blank=True)
 
     def __str__(self):
         return f"[{self.target_diagnosis.name}] -> [{self.related_diagnosis_name}]"
-
-    def get_intervention_list(self):
-        return self.intervention_content.split("\n") if True else ""
 
 
 class DiagnosisInterventionAlpha(models.Model):
@@ -229,7 +263,7 @@ class DiagnosisToDisease(models.Model):
         if is_created_by_script and self.disease_small_category:
             disease_small_category_edit_history = DiseaseSmallCategoryEditHistory.objects\
                 .get(original_disease_small_category=self.disease_small_category)
-            disease_small_category_edit_history_related_diagnosis = DiseaseSmallCategoryEditHistoryRelatedDiagnosis\
+            disease_small_category_edit_history_related_diagnosis = DiseaseSmallCategoryRelatedDiagnosisEditHistory\
                 .objects\
                 .create(
                     disease_small_category_edit_history=disease_small_category_edit_history,
@@ -248,7 +282,20 @@ class DiagnosisToDisease(models.Model):
         return f"{nodes.pop()} <--> {nodes.pop()}"
 
 
-class DiseaseSmallCategoryEditHistory(BaseDiseaseSmallCategoryModel):
+class BaseKnowledgeEditHistoryModel(models.Model):
+    """
+    질병 소분류 Edit History & 진단 소분류 Edit History Model을 상속할 Abstract Model
+    """
+    editor = models.ForeignKey("users.User", on_delete=models.CASCADE, null=True, blank=True)
+    changed_word_count = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    version = models.PositiveIntegerField(blank=True)
+
+    class Meta:
+        abstract = True
+
+
+class DiseaseSmallCategoryEditHistory(BaseDiseaseSmallCategoryModel, BaseKnowledgeEditHistoryModel):
     """
     질병 소분류의 편집 히스토리를 나타내는 Model
     """
@@ -258,10 +305,6 @@ class DiseaseSmallCategoryEditHistory(BaseDiseaseSmallCategoryModel):
         null=True,
         related_name="disease_small_category_edit_histories"
     )
-    editor = models.ForeignKey("users.User", on_delete=models.CASCADE, null=True, blank=True)
-    changed_word_count = models.IntegerField(default=0)
-    created_at = models.DateTimeField(auto_now_add=True)
-    version = models.PositiveIntegerField(blank=True)
 
     def save(self, *args, **kwargs):
         # 처음 데이터가 생성될 때(수정되는 경우가 아닌)
@@ -284,19 +327,65 @@ class DiseaseSmallCategoryEditHistory(BaseDiseaseSmallCategoryModel):
         return f"{self.original_disease_small_category.name} - {self.version}번째 수정본"
 
 
-class DiseaseSmallCategoryEditHistoryRelatedDiagnosis(models.Model):
+class DiseaseSmallCategoryRelatedDiagnosisEditHistory(models.Model):
     """
     질병 소분류의 편집 히스토리의 관련 진단 Model
     """
     disease_small_category_edit_history = models.ForeignKey(
         "DiseaseSmallCategoryEditHistory",
         on_delete=models.CASCADE,
-        related_name="disease_small_category_edit_history_related_diagnoses"
+        related_name="disease_small_category_related_diagnosis_edit_histories"
     )
     diagnosis_small_category = models.ForeignKey("DiagnosisSmallCategory", on_delete=models.CASCADE)
 
     def __str__(self):
         return f"[{self.disease_small_category_edit_history}]의 관련 진단 - {self.diagnosis_small_category.name}"
+
+
+class DiagnosisSmallCategoryEditHistory(BaseDiagnosisSmallCategoryModel, BaseKnowledgeEditHistoryModel):
+    """
+    진단 소분류의 편집 히스토리를 나타내는 Model
+    """
+    original_diagnosis_small_category = models.ForeignKey(
+        "DiagnosisSmallCategory",
+        on_delete=models.CASCADE,
+        null=True,
+        related_name="diagnosis_small_category_edit_histories"
+    )
+
+    def save(self, *args, **kwargs):
+        # 처음 데이터가 생성될 때(수정되는 경우가 아닌)
+        if self.pk is None:
+            last_data = DiagnosisSmallCategoryEditHistory.objects\
+                .filter(original_diagnosis_small_category=self.original_diagnosis_small_category)\
+                .last()
+
+            if last_data:
+                before_version = last_data.version
+            else:
+                before_version = 0
+
+            self.version = before_version + 1
+
+        # 실제 save() 를 호출
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.original_diagnosis_small_category.name} - {self.version}번째 수정본"
+
+
+class DiagnosisRelatedDiagnosisEditHistory(BaseDiagnosisRelatedDiagnosisModel):
+    """
+    진단 소분류 관련 진단 Edit History Model
+    """
+    diagnosis_small_category_edit_history = models.ForeignKey(
+        "DiagnosisSmallCategoryEditHistory",
+        on_delete=models.CASCADE,
+        related_name="diagnosis_small_category_related_diagnosis_edit_histories"
+    )
+
+    def __str__(self):
+        return f"[{self.diagnosis_small_category_edit_history}]의 관련 진단 - {self.related_diagnosis_name}"
 
 
 class KnowledgeEditHistory(models.Model):

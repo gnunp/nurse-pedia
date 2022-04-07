@@ -16,7 +16,8 @@ from ..models import (
     DiagnosisSmallCategory,
     DiagnosisInterventionAlpha,
     KnowledgeEditHistory, DiagnosisRelatedDiagnosis, DiagnosisLargeCategory, DiagnosisMediumCategory,
-    DiseaseSmallCategoryEditHistory, DiseaseSmallCategoryEditHistoryRelatedDiagnosis
+    DiseaseSmallCategoryEditHistory, DiseaseSmallCategoryRelatedDiagnosisEditHistory, DiagnosisSmallCategoryEditHistory,
+    DiagnosisRelatedDiagnosisEditHistory
 )
 from users.models import User
 
@@ -216,7 +217,7 @@ def disease_detail_edit(request, pk):
                     d_obj = DiagnosisSmallCategory.objects.get(name=d)
                     DiagnosisToDisease.objects.create(disease_small_category=disease, diagnosis=d_obj)
                     # ----------------------------- 편집기록 저장 코드 ------------------------------
-                    DiseaseSmallCategoryEditHistoryRelatedDiagnosis.objects.create(
+                    DiseaseSmallCategoryRelatedDiagnosisEditHistory.objects.create(
                         disease_small_category_edit_history=disease_small_category_edit_history,
                         diagnosis_small_category=d_obj,
                     )
@@ -243,17 +244,28 @@ def diagnosis_detail_edit(request, pk):
         return redirect('home')
 
     diagnosis = get_object_or_404(DiagnosisSmallCategory, pk=pk)
+    related_diagnoses = diagnosis.DiagnosisRelatedDiagnoses.all()
+
     before_word_count = count_words(
         diagnosis.definition,
-        diagnosis.intervention_content
+        diagnosis.intervention_content,
+        *[diagnosis.related_diagnosis_name + diagnosis.intervention_content for diagnosis in related_diagnoses]
     )
 
-    related_diagnoses = diagnosis.DiagnosisRelatedDiagnoses.all()
     if request.method == "POST":
         form = DiagnosisForm(request.POST, instance=diagnosis)
 
         if form.is_valid():
             form.save()
+
+        # ----------------------------------------- 편집 기록 저장 코드 ----------------------------------------------
+        diagnosis_small_category_edit_history = DiagnosisSmallCategoryEditHistory.objects.create(
+            definition=diagnosis.definition,
+            intervention_content=diagnosis.intervention_content,
+            original_diagnosis_small_category=diagnosis,
+            editor=request.user,
+        )
+        # ----------------------------------------------------------------------------------------------------------
 
         # 기존의 관련 진단 전부 삭제
         related_diagnoses.delete()
@@ -268,18 +280,25 @@ def diagnosis_detail_edit(request, pk):
                     intervention_content=relation_diagnosis_intervention_content[i],
                     target_diagnosis=diagnosis
                 )
+                # ----------------------------- 편집 기록 저장 코드 -------------------------------
+                new_related_diagnosis_edit_history = DiagnosisRelatedDiagnosisEditHistory.objects.create(
+                    related_diagnosis_name=relation_diagnosis_name[i],
+                    intervention_content=relation_diagnosis_intervention_content[i],
+                    diagnosis_small_category_edit_history=diagnosis_small_category_edit_history
+                )
+                # -------------------------------------------------------------------------------
 
-        # ------- 편집 기록 저장 코드 --------------------------------------------------------------------------------
         after_word_count = count_words(
             diagnosis.definition,
-            diagnosis.intervention_content
+            diagnosis.intervention_content,
+            *[
+                diagnosis.related_diagnosis_name + diagnosis.intervention_content
+                for diagnosis in diagnosis_small_category_edit_history
+                .diagnosis_small_category_related_diagnosis_edit_histories.all()
+            ]
         )
-        KnowledgeEditHistory.objects.create(
-            diagnosis=diagnosis,
-            editor=request.user,
-            changed_word_count=after_word_count - before_word_count,
-        )
-        # ----------------------------------------------------------------------------------------------------------
+        diagnosis_small_category_edit_history.changed_word_count = after_word_count - before_word_count
+        diagnosis_small_category_edit_history.save()
 
         return redirect(diagnosis)
 
@@ -309,8 +328,34 @@ def diagnosis_detail__related_diagnosis_edit(request, pk):
 
     try:
         related_diagnosis = DiagnosisRelatedDiagnosis.objects.get(pk=pk)
+
+        before_word_count = count_words(
+            related_diagnosis.related_diagnosis_name,
+            related_diagnosis.intervention_content,
+        )
+
         related_diagnosis.intervention_content = edited_text
         related_diagnosis.save()
+        # ---------------- 편집 기록 저장 코드 -----------------
+        after_word_count = count_words(
+            related_diagnosis.related_diagnosis_name,
+            related_diagnosis.intervention_content,
+        )
+        target_diagnosis = related_diagnosis.target_diagnosis
+        diagnosis_small_category_edit_history = DiagnosisSmallCategoryEditHistory.objects.create(
+            definition=target_diagnosis.definition,
+            intervention_content=target_diagnosis.intervention_content,
+            original_diagnosis_small_category=target_diagnosis,
+            editor=request.user,
+            changed_word_count=after_word_count - before_word_count,
+        )
+
+        new_related_diagnosis_edit_history = DiagnosisRelatedDiagnosisEditHistory.objects.create(
+            related_diagnosis_name=related_diagnosis.related_diagnosis_name,
+            intervention_content=related_diagnosis.intervention_content,
+            diagnosis_small_category_edit_history=diagnosis_small_category_edit_history,
+        )
+        # ---------------------------------------------------
     except DiagnosisRelatedDiagnosis.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
