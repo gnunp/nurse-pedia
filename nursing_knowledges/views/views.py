@@ -15,7 +15,8 @@ from ..models import (
     DiagnosisToDisease,
     DiagnosisSmallCategory,
     DiagnosisInterventionAlpha,
-    KnowledgeEditHistory, DiagnosisRelatedDiagnosis, DiagnosisLargeCategory, DiagnosisMediumCategory
+    KnowledgeEditHistory, DiagnosisRelatedDiagnosis, DiagnosisLargeCategory, DiagnosisMediumCategory,
+    DiseaseSmallCategoryEditHistory, DiseaseSmallCategoryEditHistoryRelatedDiagnosis
 )
 from users.models import User
 
@@ -187,7 +188,7 @@ def disease_detail_edit(request, pk):
         if form.is_valid():
             valided_disease = form.save()
 
-            # ------- 편집기록 저장 코드 --------------------------------------------------------------------------------
+            # ------------------------------------------- 편집기록 저장 코드 --------------------------------------------
             after_word_count = count_words(
                 disease.definition,
                 disease.cause,
@@ -196,8 +197,14 @@ def disease_detail_edit(request, pk):
                 disease.treatment,
                 disease.nursing,
             )
-            KnowledgeEditHistory.objects.create(
-                disease=disease,
+            disease_small_category_edit_history = DiseaseSmallCategoryEditHistory.objects.create(
+                definition=disease.definition,
+                cause=disease.cause,
+                symptom=disease.symptom,
+                diagnosis_and_checkup=disease.diagnosis_and_checkup,
+                treatment=disease.treatment,
+                nursing=disease.nursing,
+                original_disease_small_category=disease,
                 editor=request.user,
                 changed_word_count=after_word_count - before_word_count,
             )
@@ -208,6 +215,12 @@ def disease_detail_edit(request, pk):
                 try:
                     d_obj = DiagnosisSmallCategory.objects.get(name=d)
                     DiagnosisToDisease.objects.create(disease_small_category=disease, diagnosis=d_obj)
+                    # ----------------------------- 편집기록 저장 코드 ------------------------------
+                    DiseaseSmallCategoryEditHistoryRelatedDiagnosis.objects.create(
+                        disease_small_category_edit_history=disease_small_category_edit_history,
+                        diagnosis_small_category=d_obj,
+                    )
+                    # ----------------------------------------------------------------------------
                 except DiagnosisSmallCategory.DoesNotExist:
                     pass
 

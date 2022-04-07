@@ -221,15 +221,12 @@ class DiagnosisToDisease(models.Model):
                                                blank=True)  # 질병 소분류
     diagnosis = models.ForeignKey("DiagnosisSmallCategory", on_delete=models.CASCADE, null=True, blank=True)  # 진단
 
-    def save(self, *args, **kwargs):
-        is_new = False
-        if self.pk is None:
-            is_new = True
-
+    def save(self, is_created_by_script=False, *args, **kwargs):
         # 실제 save() 를 호출
         super().save(*args, **kwargs)
 
-        if is_new and self.disease_small_category:
+        # excel파일을 통해 처음 DB를 생성할때만 작동하는 코드
+        if is_created_by_script and self.disease_small_category:
             disease_small_category_edit_history = DiseaseSmallCategoryEditHistory.objects\
                 .get(original_disease_small_category=self.disease_small_category)
             disease_small_category_edit_history_related_diagnosis = DiseaseSmallCategoryEditHistoryRelatedDiagnosis\
@@ -267,7 +264,6 @@ class DiseaseSmallCategoryEditHistory(BaseDiseaseSmallCategoryModel):
     version = models.PositiveIntegerField(blank=True)
 
     def save(self, *args, **kwargs):
-
         # 처음 데이터가 생성될 때(수정되는 경우가 아닌)
         if self.pk is None:
             last_data = DiseaseSmallCategoryEditHistory.objects\

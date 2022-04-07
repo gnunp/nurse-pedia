@@ -97,12 +97,19 @@ class DiagnosisToDiseaseAdmin(admin.ModelAdmin):
     pass
 
 
+class DiseaseSmallCategoryEditHistoryRelatedDiagnosisInline(admin.TabularInline):
+    model = DiseaseSmallCategoryEditHistoryRelatedDiagnosis
+    extra = 1
+
+
 @admin.register(DiseaseSmallCategoryEditHistory)
 class DiseaseSmallCategoryEditHistoryAdmin(admin.ModelAdmin):
     """
     질병 소분류의 편집 히스토리를 나타내는 Model Admin
     """
-    pass
+    inlines = [
+        DiseaseSmallCategoryEditHistoryRelatedDiagnosisInline,
+    ]
 
 
 @admin.register(DiseaseSmallCategoryEditHistoryRelatedDiagnosis)
