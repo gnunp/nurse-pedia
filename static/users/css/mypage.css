@@ -74,6 +74,7 @@
 }
 .staritem:hover a, .staritem a:active{
     color: white;
+    font-weight: 700;
 }
 
 .disappear{
@@ -82,5 +83,7 @@
 
 /*----------------내가 열어본 페이지 스타일-------------*/
 .historyitem{
-    background-color: pink;
+    margin: 1rem;
+
+    cursor: pointer;
 }

@@ -211,6 +211,7 @@
 .subwindow_username{
     color:black;
     font-size: 1rem;
+    margin: 1rem 0;
 }
 
 .unactive{
@@ -225,7 +226,6 @@
 
     border: 1px solid #ccc;
     border-radius: 1rem;
-    box-shadow: 0.5px 0.5px 10px #ccc, -0.5px -0.5px -1px 10px #ccc;
 
     display:flex;
     flex-direction: column;
@@ -235,6 +235,12 @@
     background-color: white;
 
     overflow: hidden;
+}
+.personal_info_mypagebtn{
+    margin-bottom: 0.5rem;
+}
+.personal_info_mypagebtn:hover{
+    color: white;
 }
 .close_btn{
     position: absolute;

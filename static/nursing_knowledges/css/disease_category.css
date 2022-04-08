@@ -101,8 +101,9 @@
 }
 .category_header_text{
     color:white;
+
 }
 .category_smalldisease .category_header_text:hover{
-    font-size: 1.5rem;
-    font-weight: 900;
+
+    font-weight: 700;
 }

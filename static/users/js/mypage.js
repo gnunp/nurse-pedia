@@ -27,8 +27,6 @@ class Mypage{
         
         let url, type, id, name;
         jsonstarknowledge.forEach(element => {
-            console.log(JSON.stringify(element));
-
             if(element.disease_small_category__id){
                 type = "disease";
                 id = element.disease_small_category__id;
@@ -65,6 +63,7 @@ class Mypage{
 
         if(localStorage.length>0){
             const pagehistory = JSON.parse(localStorage.getItem('pageHistory'));
+
             pagehistory.forEach(element => {
                 console.log(element);
                 historycontent.appendChild(this.createhistoryitem(element));
@@ -75,12 +74,14 @@ class Mypage{
     }
     createhistoryitem(ele){
         const name = ele.name;
-        const address = ele.address;
-        const newitem = document.createElement('div');
+        const address = `/${ele.address}`;
+        const date = ele.date;
+
+        const newitem = document.createElement('li');
         newitem.classList.add('historyitem');
 
         newitem.innerHTML=`
-            <a href=${address}><h1>${name}</h1></a>
+            <a href='${address}'>${date} - <span style="color:#FF6565;font-weight:900;">${name}</span></a>
         `
         return newitem;
     }
@@ -131,7 +132,6 @@ class Mypage{
                     default:
                         break;
                 }
-                console.log(currentinfo);
             })
         });
     }

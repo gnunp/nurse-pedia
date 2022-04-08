@@ -7,6 +7,9 @@ import mindmap_css from '../css/mindmap.css';
 
 class Mindmap{
     constructor(detailpage = false, findele = null){
+        //로딩화면
+        this.loading = true;
+
         //진단,질병 페이지 들어가면 해당 노드 표시
         this.isdetailpage = detailpage;
         this.targetNode = findele;
@@ -70,15 +73,12 @@ class Mindmap{
         });
 
         await this.connectLargetoMiddle.forEach(element => {
-
             this.data.push(JSON.parse(element));
         });
         await this.connectMiddletoSmall.forEach(element => {
- 
             this.data.push(JSON.parse(element));
         });
         await this.connectDiagnosis.forEach(element => {
-
             this.data.push(JSON.parse(element));
         });
   
@@ -267,6 +267,11 @@ class Mindmap{
             },
             wheelSensitivity : 0.1,
         });
+
+        //로딩 끝
+        setTimeout(()=>{
+            document.querySelector('.loadingio-spinner-rolling-mth6byn47dp').classList.add('disappear');
+        },500);
 
         cy.minZoom(minZoomlevel); //최소 줌
         cy.autolock(false); // 노드 드래그로 움직이지 못하게 하는 것
