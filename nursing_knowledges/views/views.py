@@ -437,8 +437,34 @@ def add_knowledge_star(request):
 
 
 def disease_edit_history(request, pk):
-    pass
+    histories = DiseaseSmallCategoryEditHistory.objects.filter(original_disease_small_category=pk).order_by('-created_at')
+    knowledge_name = histories.first().original_disease_small_category.name
+
+    paginator = Paginator(histories, 30)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'knowledge_name': knowledge_name,
+        'page_obj': page_obj,
+    }
+
+    return render(request, "nursing_knowledges/history.html", context)
 
 
 def diagnosis_edit_history(request, pk):
-    pass
+    histories = DiagnosisSmallCategoryEditHistory.objects.filter(original_diagnosis_small_category=pk).order_by('-created_at')
+    knowledge_name = histories.first().original_diagnosis_small_category.name
+
+    paginator = Paginator(histories, 30)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'knowledge_name': knowledge_name,
+        'page_obj': page_obj,
+    }
+
+    return render(request, "nursing_knowledges/history.html", context)
