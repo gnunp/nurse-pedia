@@ -25,7 +25,7 @@
 
 <div class="history_wrapper js-history_wrapper">
     <h1 class="history__title">
-        {% if knowledge_name %}{{ knowledge_name }} {% endif %}
+        {% if knowledge_name %}{{ knowledge_name }} - {% endif %}
         편집 히스토리
     </h1>
 
@@ -36,21 +36,25 @@
                 <span>-</span>
                 <a class="version_info" href="#">[보기]</a>
                 <a class="version_info" href="#">[되돌리기]</a>
-                <span>{{ history.version }}번째 수정본</span>
-                {% if history.changed_word_count > 0 %}
-                    <span class="change_word_count set_color_green">+{{history.changed_word_count}}</span>
-                {% elif history.changed_word_count < 0 %}
-                    <span class="change_word_count set_color_red">{{history.changed_word_count}}</span>
-                {% else %}
-                    <span class="change_word_count">{{history.changed_word_count}}</span>
+                <span>{{ history.version }}번째 버전</span>
+                {% if history.editor %}
+                    {% if history.changed_word_count > 0 %}
+                        <span class="change_word_count set_color_green">+{{history.changed_word_count}}</span>
+                    {% elif history.changed_word_count < 0 %}
+                        <span class="change_word_count set_color_red">{{history.changed_word_count}}</span>
+                    {% else %}
+                        <span class="change_word_count">{{history.changed_word_count}}</span>
+                    {% endif %}
                 {% endif %}
-                <span>-</span>
                 {% if is_total_history_page %}
-                    <a href="{{history.get_knowledge.get_absolute_url}}" class="knowledge_name">{{history.get_knowledge.name}}</a>
                     <span>-</span>
+                    <a href="{{history.get_knowledge.get_absolute_url}}" class="knowledge_name">{{history.get_knowledge.name}}</a>
                 {% endif %}
-                <span class="editor">{{history.editor}}</span>
-                <a class="report_user" href="#">[신고하기]</a>
+                {% if history.editor %}
+                    <span>-</span>
+                    <span class="editor">{{history.editor}}</span>
+                    <a class="report_user" href="#">[신고하기]</a>
+                {% endif %}
             </li>
         {% endfor %}
     </ul>
