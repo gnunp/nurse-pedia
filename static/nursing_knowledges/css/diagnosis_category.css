@@ -1,3 +1,4 @@
+/*
 .dia_cat_mainContent{
     position: relative;
     
@@ -106,7 +107,7 @@
     font-size: 1.5rem;
     font-weight: 900;
 }
-/* -------------------Controlbtn CSS-------------------*/
+ -------------------Controlbtn CSS-------------------
 .controlbox{
     display: flex;
     justify-content: right;
@@ -119,4 +120,48 @@
     padding: 0.2rem 0.5rem;
 
     border-radius: 0.5rem;
+}
+*/
+.dia_cat_mainContent{
+    position: relative;
+    
+    margin: 0 auto;
+    width:70vw;
+    min-height: 100vh;
+
+    padding: 2rem;
+    
+    border-right: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+}
+/*
+.maincontentdiv{
+
+}
+*/
+.titlediv{
+    font-size: 2rem;
+    font-weight: 900;
+
+    margin-bottom: 1rem;
+}
+.subcontent{
+    height: fit-content;
+    margin: 4rem;
+}
+.itembox{
+    width:100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.item{
+    width:fit-content;
+    padding: 0.5rem 1rem;
+    margin: 0.5rem 1rem;
+
+    background-color: blanchedalmond;
+
+    border-radius: 0.5rem;
+
+    cursor: pointer;
 }

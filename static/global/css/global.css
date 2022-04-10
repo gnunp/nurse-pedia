@@ -185,11 +185,6 @@ body{
 
         background-color: #FF8080;
     }
-    .sign_btn:hover{
-        color:#FF8080;
-
-        transition: color 0.35s ease-in-out;
-    }
     .global_nav_item:hover .nav_underline{
         width:100%;
 
@@ -258,11 +253,20 @@ body{
         display: flex;
         justify-content: center;
         align-items: center;
+
+        background-color: var(--pink);
+        color:white;
     
         cursor: pointer;
         z-index: 10;  /* cursor: pointer가 안먹혀서 추가 */
     }
-    
+    /*
+    .sign_btn:hover{
+        color:#FF8080;
+
+        transition: color 0.35s ease-in-out;
+    }
+    */
     .log_out{
         display: flex;
         justify-content: center;
