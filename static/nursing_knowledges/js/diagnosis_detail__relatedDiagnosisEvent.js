@@ -6,7 +6,7 @@ const relatedDiagnosisEvent = () => {
     for (const wrapper of allRelatedDiagnosisWrapper) {
         wrapper.addEventListener("toggle", handleToggleWrapper);
 
-        if(userIsAuthenticated){
+        if(userIsAuthenticated && !isBeforeVersion){
             const editBtn = wrapper.querySelector(".js-intervention_edit_button");
             editBtn.addEventListener("click", handleClickInterventionEditBtn);
 
@@ -36,7 +36,7 @@ const relatedDiagnosisEvent = () => {
         const arrowWrapper = wrapper.querySelector(".js-related_diagnosis_arrow_wrapper");
         let editBtn;
         let submitBtn;
-        if(userIsAuthenticated) {
+        if(userIsAuthenticated && !isBeforeVersion) {
             editBtn = wrapper.querySelector(".js-intervention_edit_button");
             submitBtn = wrapper.querySelector(".js-intervention_edit_submit_button");
         }
@@ -49,7 +49,7 @@ const relatedDiagnosisEvent = () => {
             
             arrowWrapper.innerHTML = '<i class="fas fa-chevron-up"></i>';
             arrowWrapper.classList.add("color_pink");
-            if(userIsAuthenticated) {
+            if(userIsAuthenticated && !isBeforeVersion) {
                 if (wrapper.querySelector(".js-related_interventions_textarea")) {
                     submitBtn.classList.remove("display_none");
                 } else {
@@ -64,7 +64,7 @@ const relatedDiagnosisEvent = () => {
 
             arrowWrapper.innerHTML = '<i class="fas fa-chevron-down"></i>';
             arrowWrapper.classList.remove("color_pink");
-            if(userIsAuthenticated) {
+            if(userIsAuthenticated && !isBeforeVersion) {
                 editBtn.classList.add("display_none");
                 submitBtn.classList.add("display_none");
             }

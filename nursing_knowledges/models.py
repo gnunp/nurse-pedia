@@ -306,6 +306,9 @@ class DiseaseSmallCategoryEditHistory(BaseDiseaseSmallCategoryModel, BaseKnowled
         related_name="disease_small_category_edit_histories"
     )
 
+    def get_absolute_url(self):
+        return reverse('nursing_knowledges:disease_detail', args=[self.original_disease_small_category.pk]) + f"?version={self.version}"
+
     def get_knowledge(self):
         return self.original_disease_small_category
 
@@ -355,6 +358,9 @@ class DiagnosisSmallCategoryEditHistory(BaseDiagnosisSmallCategoryModel, BaseKno
         null=True,
         related_name="diagnosis_small_category_edit_histories"
     )
+
+    def get_absolute_url(self):
+        return reverse('nursing_knowledges:diagnosis_detail', args=[self.original_diagnosis_small_category.pk]) + f"?version={self.version}"
 
     def get_knowledge(self):
         return self.original_diagnosis_small_category

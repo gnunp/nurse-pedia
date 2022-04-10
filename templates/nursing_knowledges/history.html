@@ -34,7 +34,7 @@
             <li class="history__list__item">
                 <span class="date">{{history.created_at|date:'Y-m-d H:i:s'}}</span>
                 <span>-</span>
-                <a class="version_info" href="#">[보기]</a>
+                <a class="version_info" href="{{ history.get_absolute_url }}">[보기]</a>
                 <a class="version_info" href="#">[되돌리기]</a>
                 <span>{{ history.version }}번째 버전</span>
                 {% if history.editor %}

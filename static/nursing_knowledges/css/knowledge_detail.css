@@ -27,6 +27,7 @@
 .knowledge_header{
     position: relative;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     width: 100%;
     padding-bottom: 0.8rem;
@@ -60,6 +61,11 @@
     cursor: pointer;
 }
 
+.knowledge_header__before_knowledge_version{
+    font-size: 1.5rem;
+    margin-left: 0.5rem;
+}
+
 .edit_btn_style{
     display: flex;
     justify-content: center;
@@ -73,6 +79,7 @@
 
 .knowledge_header__btn_wrapper{
     position: absolute;
+    top: 0;
     right: 0;
     display: flex;
     flex-direction: row;
@@ -100,6 +107,23 @@
 
 .knowledge_header__edit_btn:hover {
     color: white;
+}
+
+.go_to_before_version_wrapper{
+    width: 100%;
+    margin-top: 2rem;
+    padding: 0.8rem 1rem;
+    border-radius: 5px;
+    background-color: #ffdada;
+}
+
+.go_to_before_version_wrapper > a{
+    color: #FA6F6F;
+    font-weight: 500;
+}
+
+.go_to_before_version_wrapper > a:hover{
+    color: #FA6F6F;
 }
 
 .knowledge_info{

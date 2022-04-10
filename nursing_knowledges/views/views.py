@@ -39,11 +39,29 @@ def disease_detail(request, pk):
     except:
         raise Http404()
 
-    disease_to_diagnoses = DiagnosisToDisease.objects.filter(disease_small_category=disease)  # pk값으로 가져온 질병과 진단들의 연결관계 객체
+    before_version = request.GET.get('version')
+    is_before_version = True if before_version else False
 
-    diagnoses = []  # 연결된 진단들의 객체 리스트
-    for dis_to_diag in disease_to_diagnoses:
-        diagnoses.append(dis_to_diag.diagnosis)
+    if is_before_version:
+        try:
+            before_version_disease = DiseaseSmallCategoryEditHistory.objects.get(
+                version=before_version,
+                original_disease_small_category=pk
+            )
+        except DiseaseSmallCategoryEditHistory.DoesNotExist:
+            raise Http404()
+
+    if not is_before_version:
+        disease_to_diagnoses = DiagnosisToDisease.objects.filter(disease_small_category=disease)  # pk값으로 가져온 질병과 진단들의 연결관계 객체
+        diagnoses = []  # 연결된 진단들의 객체 리스트
+        for dis_to_diag in disease_to_diagnoses:
+            diagnoses.append(dis_to_diag.diagnosis)
+    else:
+        disease_to_diagnoses = DiseaseSmallCategoryRelatedDiagnosisEditHistory\
+            .objects.filter(disease_small_category_edit_history=before_version_disease)
+        diagnoses = []  # 연결된 진단들의 객체 리스트
+        for dis_to_diag in disease_to_diagnoses:
+            diagnoses.append(dis_to_diag.diagnosis_small_category)
 
     try:
         user = disease.like_users.get(pk=request.user.pk)
@@ -51,10 +69,18 @@ def disease_detail(request, pk):
     except User.DoesNotExist:
         is_star = False
 
+    if is_before_version:
+        original_disease = disease
+        disease = before_version_disease
+    else:
+        original_disease = disease
+
     context = {
         "disease": disease,
         "diagnoses": diagnoses,
         "is_star": is_star,
+        "is_before_version": is_before_version,
+        "original_knowledge": original_disease,
     }
 
     return render(request, "nursing_knowledges/disease_detail.html", context)
@@ -70,10 +96,25 @@ def diagnosis_detail(request, pk):
     except DiagnosisSmallCategory.DoesNotExist:
         raise Http404()
 
-    diagnosis_related_diagnoses = list(DiagnosisRelatedDiagnosis.objects.filter(target_diagnosis=pk))
-    diagnosis_related_diagnoses.sort(key=lambda x: x.like_users.all().count(), reverse=True)
+    before_version = request.GET.get('version')
+    is_before_version = True if before_version else False
 
-    form = DiagnosisForm()
+    if is_before_version:
+        try:
+            before_version_diagnosis = DiagnosisSmallCategoryEditHistory.objects.get(
+                version=before_version,
+                original_diagnosis_small_category=pk
+            )
+        except DiagnosisSmallCategoryEditHistory.DoesNotExist:
+            raise Http404()
+
+    if not is_before_version:
+        diagnosis_related_diagnoses = list(DiagnosisRelatedDiagnosis.objects.filter(target_diagnosis=pk))
+        diagnosis_related_diagnoses.sort(key=lambda x: x.like_users.all().count(), reverse=True)
+    else:
+        diagnosis_related_diagnoses = list(DiagnosisRelatedDiagnosisEditHistory.objects.filter(
+            diagnosis_small_category_edit_history=before_version_diagnosis
+        ))
 
     try:
         user = diagnosis.like_users.get(pk=request.user.pk)
@@ -81,12 +122,19 @@ def diagnosis_detail(request, pk):
     except User.DoesNotExist:
         is_star = False
 
+    if is_before_version:
+        original_diagnosis = diagnosis
+        diagnosis = before_version_diagnosis
+    else:
+        original_diagnosis = diagnosis
+
     context = {
         "diagnosis": diagnosis,
         "diagnosis_related_diagnoses": diagnosis_related_diagnoses,
         "alphas": alphas,
-        "form": form,
         "is_star": is_star,
+        "is_before_version": is_before_version,
+        "original_knowledge": original_diagnosis,
     }
 
     return render(request, "nursing_knowledges/diagnosis_detail.html", context)
