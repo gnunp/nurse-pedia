@@ -306,6 +306,9 @@ class DiseaseSmallCategoryEditHistory(BaseDiseaseSmallCategoryModel, BaseKnowled
         related_name="disease_small_category_edit_histories"
     )
 
+    def get_knowledge(self):
+        return self.original_disease_small_category
+
     def save(self, *args, **kwargs):
         # 처음 데이터가 생성될 때(수정되는 경우가 아닌)
         if self.pk is None:
@@ -352,6 +355,9 @@ class DiagnosisSmallCategoryEditHistory(BaseDiagnosisSmallCategoryModel, BaseKno
         null=True,
         related_name="diagnosis_small_category_edit_histories"
     )
+
+    def get_knowledge(self):
+        return self.original_diagnosis_small_category
 
     def save(self, *args, **kwargs):
         # 처음 데이터가 생성될 때(수정되는 경우가 아닌)

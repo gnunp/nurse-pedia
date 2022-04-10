@@ -363,7 +363,12 @@ def diagnosis_detail__related_diagnosis_edit(request, pk):
 
 
 def history(request):
-    histories = KnowledgeEditHistory.objects.all().order_by("-created_at")
+    disease_small_category_history = list(DiseaseSmallCategoryEditHistory.objects.filter(editor__isnull=False))
+    diagnosis_small_category_history = list(DiagnosisSmallCategoryEditHistory.objects.filter(editor__isnull=False))
+
+    histories = disease_small_category_history + diagnosis_small_category_history
+    histories.sort(key=lambda x: x.created_at, reverse=True)
+
     paginator = Paginator(histories, 30)
 
     page_number = request.GET.get('page')
@@ -371,6 +376,7 @@ def history(request):
 
     context = {
         'page_obj': page_obj,
+        'is_total_history_page': True,
     }
 
     return render(request, "nursing_knowledges/history.html", context)

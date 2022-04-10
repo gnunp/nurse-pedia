@@ -1,3 +1,5 @@
+@charset "utf-8";
+
 .header{
     border-bottom: solid 1px #D6D6D6;
 }
@@ -33,7 +35,8 @@
 }
 
 .history__list__item{
-    display: flex;
+    word-break: break-all;
+    line-height: 1.4rem;
     margin-bottom: 0.7rem;
 }
 
@@ -42,20 +45,35 @@
     margin-right: 0.5rem;
 }
 
-.history__list__item > .knowledge_name_wrapper{
-    display: flex;
+.history__list__item > .version_info{
+    color: #0275d8;
 }
 
-.history__list__item .knowledge_name{
+.history__list__item > .version_info:hover{
+    color: #0275d8;
+}
+
+.history__list__item > .knowledge_name{
     font-weight: bold;
-    color: #FF6565;
+    /*color: #FF6565;*/
 }
 
-.history__list__item > .editor{
+.history__list__item > .change_word_count::before{
+    content: "(";
+    color: black;
 }
 
-.set_color_blue{
-    color: blue;
+.history__list__item > .change_word_count::after{
+    content: ")";
+    color: black;
+}
+
+.history__list__item > .report_user{
+    color: #ff3b3b;
+}
+
+.set_color_green{
+    color: green;
 }
 
 .set_color_red{
