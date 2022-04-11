@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.contrib import messages
 from django.core.paginator import Paginator
 from nursing_knowledges.forms import DiagnosisForm, DiseaseSmallForm
 from .api_views import *
@@ -486,7 +487,7 @@ def add_knowledge_star(request):
 
 def disease_edit_history(request, pk):
     histories = DiseaseSmallCategoryEditHistory.objects.filter(original_disease_small_category=pk).order_by('-created_at')
-    knowledge_name = histories.first().original_disease_small_category.name
+    knowledge = histories.first().original_disease_small_category
 
     paginator = Paginator(histories, 30)
 
@@ -494,7 +495,7 @@ def disease_edit_history(request, pk):
     page_obj = paginator.get_page(page_number)
 
     context = {
-        'knowledge_name': knowledge_name,
+        'knowledge': knowledge,
         'page_obj': page_obj,
     }
 
@@ -503,7 +504,7 @@ def disease_edit_history(request, pk):
 
 def diagnosis_edit_history(request, pk):
     histories = DiagnosisSmallCategoryEditHistory.objects.filter(original_diagnosis_small_category=pk).order_by('-created_at')
-    knowledge_name = histories.first().original_diagnosis_small_category.name
+    knowledge = histories.first().original_diagnosis_small_category
 
     paginator = Paginator(histories, 30)
 
@@ -511,8 +512,97 @@ def diagnosis_edit_history(request, pk):
     page_obj = paginator.get_page(page_number)
 
     context = {
-        'knowledge_name': knowledge_name,
+        'knowledge': knowledge,
         'page_obj': page_obj,
     }
 
     return render(request, "nursing_knowledges/history.html", context)
+
+
+def disease_rollback(request, pk):
+    if request.user.is_anonymous:
+        raise Http404()
+
+    disease_edit_history = get_object_or_404(DiseaseSmallCategoryEditHistory, pk=pk)
+    original_disease = disease_edit_history.original_disease_small_category
+
+    original_disease.definition = disease_edit_history.definition
+    original_disease.cause = disease_edit_history.cause
+    original_disease.symptom = disease_edit_history.symptom
+    original_disease.diagnosis_and_checkup = disease_edit_history.diagnosis_and_checkup
+    original_disease.treatment = disease_edit_history.treatment
+    original_disease.nursing = disease_edit_history.nursing
+    original_disease.save()
+
+    # ------------------------------------------- 편집 기록 저장 코드 --------------------------------------------
+    new_disease_edit_history = DiseaseSmallCategoryEditHistory.objects.create(
+        definition=original_disease.definition,
+        cause=original_disease.cause,
+        symptom=original_disease.symptom,
+        diagnosis_and_checkup=original_disease.diagnosis_and_checkup,
+        treatment=original_disease.treatment,
+        nursing=original_disease.nursing,
+        original_disease_small_category=original_disease,
+        editor=request.user,
+        is_rollbacked=True,
+        rollback_version=disease_edit_history.version,
+    )
+    # ----------------------------------------------------------------------------------------------------------
+
+    DiagnosisToDisease.objects.filter(disease_small_category=original_disease.pk).delete()
+    for obj in disease_edit_history.disease_small_category_related_diagnosis_edit_histories.all():
+        try:
+            DiagnosisToDisease.objects.create(
+                disease_small_category=original_disease,
+                diagnosis=obj.diagnosis_small_category,
+            )
+            # ----------------------------- 편집 기록 저장 코드 ------------------------------
+            DiseaseSmallCategoryRelatedDiagnosisEditHistory.objects.create(
+                disease_small_category_edit_history=new_disease_edit_history,
+                diagnosis_small_category=obj.diagnosis_small_category,
+            )
+            # ----------------------------------------------------------------------------
+        except DiagnosisSmallCategory.DoesNotExist:
+            pass
+
+    return redirect(reverse('nursing_knowledges:disease_edit_history', kwargs={"pk": original_disease.pk}))
+
+
+def diagnosis_rollback(request, pk):
+    if request.user.is_anonymous:
+        raise Http404()
+
+    diagnosis_edit_history = get_object_or_404(DiagnosisSmallCategoryEditHistory, pk=pk)
+    original_diagnosis = diagnosis_edit_history.original_diagnosis_small_category
+
+    original_diagnosis.definition = diagnosis_edit_history.definition
+    original_diagnosis.intervention_content = diagnosis_edit_history.intervention_content
+    original_diagnosis.save()
+
+    # ----------------------------------------- 편집 기록 저장 코드 ----------------------------------------------
+    new_diagnosis_edit_history = DiagnosisSmallCategoryEditHistory.objects.create(
+        definition=original_diagnosis.definition,
+        intervention_content=original_diagnosis.intervention_content,
+        original_diagnosis_small_category=original_diagnosis,
+        editor=request.user,
+        is_rollbacked=True,
+        rollback_version=diagnosis_edit_history.version,
+    )
+    # ----------------------------------------------------------------------------------------------------------
+
+    original_diagnosis.DiagnosisRelatedDiagnoses.all().delete()
+    for history_related_diagnosis in diagnosis_edit_history.diagnosis_small_category_related_diagnosis_edit_histories.all():
+        new_related_diagnosis = DiagnosisRelatedDiagnosis.objects.create(
+            related_diagnosis_name=history_related_diagnosis.related_diagnosis_name,
+            intervention_content=history_related_diagnosis.intervention_content,
+            target_diagnosis=original_diagnosis
+        )
+        # ----------------------------- 편집 기록 저장 코드 -------------------------------
+        new_related_diagnosis_edit_history = DiagnosisRelatedDiagnosisEditHistory.objects.create(
+            related_diagnosis_name=history_related_diagnosis.related_diagnosis_name,
+            intervention_content=history_related_diagnosis.intervention_content,
+            diagnosis_small_category_edit_history=new_diagnosis_edit_history
+        )
+        # -------------------------------------------------------------------------------
+
+    return redirect(reverse('nursing_knowledges:diagnosis_edit_history', kwargs={"pk": original_diagnosis.pk}))

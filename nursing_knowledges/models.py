@@ -290,6 +290,8 @@ class BaseKnowledgeEditHistoryModel(models.Model):
     changed_word_count = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     version = models.PositiveIntegerField(blank=True)
+    is_rollbacked = models.BooleanField(default=False)
+    rollback_version = models.PositiveIntegerField(blank=True, null=True)
 
     class Meta:
         abstract = True
@@ -306,8 +308,11 @@ class DiseaseSmallCategoryEditHistory(BaseDiseaseSmallCategoryModel, BaseKnowled
         related_name="disease_small_category_edit_histories"
     )
 
-    def get_absolute_url(self):
+    def get_absolute_original_knowledge_url(self):
         return reverse('nursing_knowledges:disease_detail', args=[self.original_disease_small_category.pk]) + f"?version={self.version}"
+
+    def get_absolute_rollback_url(self):
+        return reverse('nursing_knowledges:disease_rollback', args=[self.pk])
 
     def get_knowledge(self):
         return self.original_disease_small_category
@@ -359,8 +364,11 @@ class DiagnosisSmallCategoryEditHistory(BaseDiagnosisSmallCategoryModel, BaseKno
         related_name="diagnosis_small_category_edit_histories"
     )
 
-    def get_absolute_url(self):
+    def get_absolute_original_knowledge_url(self):
         return reverse('nursing_knowledges:diagnosis_detail', args=[self.original_diagnosis_small_category.pk]) + f"?version={self.version}"
+
+    def get_absolute_rollback_url(self):
+        return reverse('nursing_knowledges:diagnosis_rollback', args=[self.pk])
 
     def get_knowledge(self):
         return self.original_diagnosis_small_category
