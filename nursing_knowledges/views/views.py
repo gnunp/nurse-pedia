@@ -35,13 +35,13 @@ def disease_detail(request, pk):
     """
     질병 Detail 페이지 View
     """
-    try:
-        disease = DiseaseSmallCategory.objects.get(pk=pk)  # 해당 질병 객체
-    except:
-        raise Http404()
+    disease = get_object_or_404(DiseaseSmallCategory, pk=pk)
 
     before_version = request.GET.get('version')
     is_before_version = True if before_version else False
+
+    if not before_version.isdigit():
+        raise Http404()
 
     if is_before_version:
         try:
@@ -99,6 +99,10 @@ def diagnosis_detail(request, pk):
 
     before_version = request.GET.get('version')
     is_before_version = True if before_version else False
+
+    if not before_version.isdigit():
+        raise Http404()
+
 
     if is_before_version:
         try:
