@@ -17,6 +17,7 @@ class Mypage{
         /*----------html 미리 만드는 코드----------- */
         this.createstarcontent();
         this.createhistorycontent();
+        this.createdevmail();
     }
 
     /*-------------------------내가 찜한 페이지 document element만드는 코드 ----------------- */
@@ -86,6 +87,13 @@ class Mypage{
         return newitem;
     }
 
+    /*-----------------개발자에게 쪽지 보내기 만드는 코드 ----------------- */
+    createdevmail(){
+        const devcontent = document.querySelector('.develop_info');
+
+        devcontent.classList.add('disappear');
+    }
+
     /*------------------------------왼쪽 global_nav바 클릭 이벤트-----------------------*/
     navClickevent(){
         this.navitems = document.querySelectorAll('.nav_item');
@@ -134,8 +142,6 @@ class Mypage{
                 }
             })
         });
-    }
-    setStarKnowledges(){
     }
 }
 

@@ -87,3 +87,65 @@
 
     cursor: pointer;
 }
+
+/*---------------------개발자에게 쪽지 보내기-----------------*/
+.email-me{
+    min-width: 720px;
+    padding: 1.5rem;
+    
+    border: 0.3rem solid #FF8080;
+    border-radius: 1rem;
+}
+
+.title-section{
+    font-size: 24px;
+}
+.filedset{
+    position: relative;
+
+}
+.messageheader{
+    margin-bottom: 1rem;
+
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 5fr;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+
+#userName{
+    padding: 0.3rem;
+}
+#userName:active{
+    border: 2px solid #FF8080;
+}
+
+#userEmail{
+    padding:0.3rem;
+}
+#userEmail:active{
+    border: 2px solid #FF8080;
+}
+.submit_box{
+    margin-bottom: 1rem;
+}
+
+.btn-send{
+    padding: 0.3rem 1rem;
+    border-radius: 0.5rem;
+    background-color: #FF8080;
+    color: white;
+    border: none;
+}
+.btn-send:hover{
+    background-color: #D97096;
+}
+
+#userMessage{
+    width: 100%;
+    height: 30vh; min-height: 240px;
+}
+
+
