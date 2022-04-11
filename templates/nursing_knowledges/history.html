@@ -34,7 +34,10 @@
 
     <ul class="history__list">
         {% for history in page_obj %}
-            <li class="history__list__item">
+            <li class="history__list__item js-history__list__item"
+                data-knowledge_type="{{ history.get_knowledge_type }}"
+                data-history_id="{{ history.pk }}"
+            >
                 <span class="date">{{history.created_at|date:'Y-m-d H:i:s'}}</span>
                 <span>-</span>
                 <a class="version_info" href="{{ history.get_absolute_original_knowledge_url }}">[보기]</a>
@@ -60,7 +63,7 @@
                 {% if history.editor %}
                     <span>-</span>
                     <span class="editor">{{history.editor}}</span>
-                    <a class="report_user" href="#">[신고하기]</a>
+                    <a class="report_user js-report_user_btn" href="#">[신고하기]</a>
                 {% endif %}
             </li>
         {% endfor %}

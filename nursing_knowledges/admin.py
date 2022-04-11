@@ -11,7 +11,7 @@ from .models import (
     DiagnosisInterventionAlpha,
     DiagnosisSmallCategoryStarInfo, DiseaseSmallCategoryStarInfo, DiseaseSmallCategoryEditHistory,
     DiseaseSmallCategoryRelatedDiagnosisEditHistory, DiagnosisSmallCategoryEditHistory,
-    DiagnosisRelatedDiagnosisEditHistory,
+    DiagnosisRelatedDiagnosisEditHistory, ReportedKnowledgeEditHistory,
 )
 
 
@@ -127,3 +127,10 @@ class DiagnosisSmallCategoryEditHistoryAdmin(admin.ModelAdmin):
         DiagnosisRelatedDiagnosisEditHistoryInline,
     ]
 
+
+@admin.register(ReportedKnowledgeEditHistory)
+class ReportedKnowledgeEditHistoryAdmin(admin.ModelAdmin):
+    """
+    악의적이라고 생각된 편집 기록을 유저가 신고한 기록을 가진 Model Admin
+    """
+    pass

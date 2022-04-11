@@ -18,7 +18,7 @@ from ..models import (
     DiagnosisInterventionAlpha,
     DiagnosisRelatedDiagnosis, DiagnosisLargeCategory, DiagnosisMediumCategory,
     DiseaseSmallCategoryEditHistory, DiseaseSmallCategoryRelatedDiagnosisEditHistory, DiagnosisSmallCategoryEditHistory,
-    DiagnosisRelatedDiagnosisEditHistory
+    DiagnosisRelatedDiagnosisEditHistory, ReportedKnowledgeEditHistory
 )
 from users.models import User
 
@@ -610,3 +610,30 @@ def diagnosis_rollback(request, pk):
         # -------------------------------------------------------------------------------
 
     return redirect(reverse('nursing_knowledges:diagnosis_edit_history', kwargs={"pk": original_diagnosis.pk}))
+
+
+@api_view(["POST"])
+def report_knowledge_edit_history(request, pk):
+    reporter = request.user
+    if reporter.is_anonymous:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+    knowledge_type = request.data.get('knowledgeType')
+    if not (knowledge_type == 'disease' or knowledge_type == 'diagnosis'):
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    if knowledge_type == 'disease':
+        knowledge_edit_history = get_object_or_404(DiseaseSmallCategoryEditHistory, pk=pk)
+        ReportedKnowledgeEditHistory.objects.create(
+            reporter=reporter,
+            reported_disease_edit_history=knowledge_edit_history,
+        )
+    else:
+        knowledge_edit_history = get_object_or_404(DiagnosisSmallCategoryEditHistory, pk=pk)
+        ReportedKnowledgeEditHistory.objects.create(
+            reporter=reporter,
+            reported_diagnosis_edit_history=knowledge_edit_history,
+        )
+
+    return Response(status=status.HTTP_200_OK)
+

@@ -317,6 +317,9 @@ class DiseaseSmallCategoryEditHistory(BaseDiseaseSmallCategoryModel, BaseKnowled
     def get_knowledge(self):
         return self.original_disease_small_category
 
+    def get_knowledge_type(self):
+        return "disease"
+
     def save(self, *args, **kwargs):
         # 처음 데이터가 생성될 때(수정되는 경우가 아닌)
         if self.pk is None:
@@ -373,6 +376,9 @@ class DiagnosisSmallCategoryEditHistory(BaseDiagnosisSmallCategoryModel, BaseKno
     def get_knowledge(self):
         return self.original_diagnosis_small_category
 
+    def get_knowledge_type(self):
+        return "diagnosis"
+
     def save(self, *args, **kwargs):
         # 처음 데이터가 생성될 때(수정되는 경우가 아닌)
         if self.pk is None:
@@ -407,3 +413,21 @@ class DiagnosisRelatedDiagnosisEditHistory(BaseDiagnosisRelatedDiagnosisModel):
     def __str__(self):
         return f"[{self.diagnosis_small_category_edit_history}]의 관련 진단 - {self.related_diagnosis_name}"
 
+
+class ReportedKnowledgeEditHistory(models.Model):
+    """
+    악의적이라고 생각된 편집 기록을 유저가 신고한 기록을 가진 Model
+    """
+    reporter = models.ForeignKey("users.User", on_delete=models.CASCADE)
+    reported_disease_edit_history = models.ForeignKey("DiseaseSmallCategoryEditHistory", on_delete=models.CASCADE, null=True, blank=True)
+    reported_diagnosis_edit_history = models.ForeignKey("DiagnosisSmallCategoryEditHistory", on_delete=models.CASCADE, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+
+    def get_reported_knowledge_edit_history(self):
+        if self.reported_disease_edit_history:
+            return self.reported_disease_edit_history
+        else:
+            return self.reported_diagnosis_edit_history
+
+    def __str__(self):
+        return f"{self.get_reported_knowledge_edit_history()} ------- 신고자: {self.reporter.username}"
