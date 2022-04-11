@@ -407,31 +407,3 @@ class DiagnosisRelatedDiagnosisEditHistory(BaseDiagnosisRelatedDiagnosisModel):
     def __str__(self):
         return f"[{self.diagnosis_small_category_edit_history}]의 관련 진단 - {self.related_diagnosis_name}"
 
-
-class KnowledgeEditHistory(models.Model):
-    """
-    질병, 진단을 수정한 사람의 정보와, 시간대가 나와있는 모델
-    """
-    disease = models.ForeignKey("DiseaseSmallCategory", on_delete=models.CASCADE, null=True, blank=True)
-    diagnosis = models.ForeignKey("DiagnosisSmallCategory", on_delete=models.CASCADE, null=True, blank=True)
-    editor = models.ForeignKey("users.User", on_delete=models.CASCADE, null=True, blank=True)
-    changed_word_count = models.IntegerField(default=0)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def get_knowledge(self):
-        if self.disease:
-            return self.disease
-        else:
-            return self.diagnosis
-
-    def get_change_word_count(self):
-        if self.changed_word_count > 0:
-            return f"+{self.changed_word_count}"
-        else:
-            return self.changed_word_count
-
-    def edit_history(self):
-        return f"{self.created_at.astimezone().strftime('%Y-%m-%d %H:%M:%S')} - {self.get_knowledge().name}[{self.get_change_word_count()}] - {self.editor.username}"
-
-    def __str__(self):
-        return self.edit_history()

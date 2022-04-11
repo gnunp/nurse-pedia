@@ -16,7 +16,7 @@ from ..models import (
     DiagnosisToDisease,
     DiagnosisSmallCategory,
     DiagnosisInterventionAlpha,
-    KnowledgeEditHistory, DiagnosisRelatedDiagnosis, DiagnosisLargeCategory, DiagnosisMediumCategory,
+    DiagnosisRelatedDiagnosis, DiagnosisLargeCategory, DiagnosisMediumCategory,
     DiseaseSmallCategoryEditHistory, DiseaseSmallCategoryRelatedDiagnosisEditHistory, DiagnosisSmallCategoryEditHistory,
     DiagnosisRelatedDiagnosisEditHistory
 )

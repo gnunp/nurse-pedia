@@ -9,7 +9,7 @@ from .models import (
     DiagnosisRelatedDiagnosis,
     DiagnosisToDisease,
     DiagnosisInterventionAlpha,
-    KnowledgeEditHistory, DiagnosisSmallCategoryStarInfo, DiseaseSmallCategoryStarInfo, DiseaseSmallCategoryEditHistory,
+    DiagnosisSmallCategoryStarInfo, DiseaseSmallCategoryStarInfo, DiseaseSmallCategoryEditHistory,
     DiseaseSmallCategoryRelatedDiagnosisEditHistory, DiagnosisSmallCategoryEditHistory,
     DiagnosisRelatedDiagnosisEditHistory,
 )
@@ -127,9 +127,3 @@ class DiagnosisSmallCategoryEditHistoryAdmin(admin.ModelAdmin):
         DiagnosisRelatedDiagnosisEditHistoryInline,
     ]
 
-@admin.register(KnowledgeEditHistory)
-class KnowledgeEditHistoryAdmin(admin.ModelAdmin):
-    """
-    질병, 진단을 수정한 사람의 정보와, 시간대가 나와있는 Model Admin
-    """
-    pass
