@@ -49,7 +49,13 @@ const historyInit = () => {
 
         if(response.status === 200){
             // 신고가 완료된 경우
-            toastMessage("신고가 완료되었습니다.")
+            const responseData = await response.json();
+            if(responseData.is_already_reported){
+                toastMessage("이미 처리된 신고입니다.", "toast__fail");
+            }
+            else{
+                toastMessage("신고가 완료되었습니다.");
+            }
         }
         else if(response.status === 500){
             alert("에러가 발생 했습니다.");

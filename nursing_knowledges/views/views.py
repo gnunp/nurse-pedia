@@ -621,18 +621,35 @@ def report_knowledge_edit_history(request, pk):
     if not (knowledge_type == 'disease' or knowledge_type == 'diagnosis'):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
-    if knowledge_type == 'disease':
-        knowledge_edit_history = get_object_or_404(DiseaseSmallCategoryEditHistory, pk=pk)
-        ReportedKnowledgeEditHistory.objects.create(
-            reporter=reporter,
-            reported_disease_edit_history=knowledge_edit_history,
-        )
-    else:
-        knowledge_edit_history = get_object_or_404(DiagnosisSmallCategoryEditHistory, pk=pk)
-        ReportedKnowledgeEditHistory.objects.create(
-            reporter=reporter,
-            reported_diagnosis_edit_history=knowledge_edit_history,
-        )
+    try:
+        if knowledge_type == 'disease':
+            knowledge_edit_history = get_object_or_404(DiseaseSmallCategoryEditHistory, pk=pk)
+            ReportedKnowledgeEditHistory.objects.get(
+                reporter=reporter,
+                reported_disease_edit_history=knowledge_edit_history,
+            )
+        else:
+            knowledge_edit_history = get_object_or_404(DiagnosisSmallCategoryEditHistory, pk=pk)
+            ReportedKnowledgeEditHistory.objects.get(
+                reporter=reporter,
+                reported_diagnosis_edit_history=knowledge_edit_history,
+            )
+        is_already_reported = True
+    except ReportedKnowledgeEditHistory.DoesNotExist:
+        if knowledge_type == 'disease':
+            knowledge_edit_history = get_object_or_404(DiseaseSmallCategoryEditHistory, pk=pk)
+            ReportedKnowledgeEditHistory.objects.create(
+                reporter=reporter,
+                reported_disease_edit_history=knowledge_edit_history,
+            )
+        else:
+            knowledge_edit_history = get_object_or_404(DiagnosisSmallCategoryEditHistory, pk=pk)
+            ReportedKnowledgeEditHistory.objects.create(
+                reporter=reporter,
+                reported_diagnosis_edit_history=knowledge_edit_history,
+            )
+        is_already_reported = False
 
-    return Response(status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_200_OK, data={"is_already_reported": is_already_reported})
+
 
