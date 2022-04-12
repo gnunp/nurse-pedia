@@ -40,7 +40,7 @@
             >
                 <span class="date">{{history.created_at|date:'Y-m-d H:i:s'}}</span>
                 <span>-</span>
-                <a class="version_info" href="{{ history.get_absolute_original_knowledge_url }}">[보기]</a>
+                <a class="version_info" href="{{ history.get_absolute_knowledge_version_detail_url }}">[보기]</a>
                 <a class="version_info js-version_rollback_btn" href="{{ history.get_absolute_rollback_url }}">[되돌리기]</a>
                 <span>{{ history.version }}번째 버전</span>
                 {% if history.editor %}
@@ -58,7 +58,7 @@
                 {% endif %}
                 {% if is_total_history_page %}
                     <span>-</span>
-                    <a href="{{history.get_knowledge.get_absolute_original_knowledge_url}}" class="knowledge_name">{{history.get_knowledge.name}}</a>
+                    <a href="{{history.get_knowledge.get_absolute_url}}" class="knowledge_name">{{history.get_knowledge.name}}</a>
                 {% endif %}
                 {% if history.editor %}
                     <span>-</span>
