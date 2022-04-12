@@ -338,7 +338,7 @@ class DiseaseSmallCategoryEditHistory(BaseDiseaseSmallCategoryModel, BaseKnowled
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.original_disease_small_category.name} - {self.version}번째 수정본"
+        return f"{self.original_disease_small_category.name} - {self.version}번째 버전"
 
 
 class DiseaseSmallCategoryRelatedDiagnosisEditHistory(models.Model):
@@ -397,7 +397,7 @@ class DiagnosisSmallCategoryEditHistory(BaseDiagnosisSmallCategoryModel, BaseKno
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.original_diagnosis_small_category.name} - {self.version}번째 수정본"
+        return f"{self.original_diagnosis_small_category.name} - {self.version}번째 버전"
 
 
 class DiagnosisRelatedDiagnosisEditHistory(BaseDiagnosisRelatedDiagnosisModel):
