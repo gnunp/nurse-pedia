@@ -79,9 +79,9 @@ def run():
             if small_category_data is not NaN:
                 diagnosis_to_small = DiagnosisToDisease(diagnosis=diagnosis_obj,
                                                         disease_small_category=small_category_obj)
-                diagnosis_to_small.save()
+                diagnosis_to_small.save(is_created_by_script=True)
             # 소분류가 빈값이라면 진단 <--> 중분류 연결
             else:
                 diagnosis_to_medium = DiagnosisToDisease(diagnosis=diagnosis_obj,
                                                          disease_medium_category=medium_category_obj)
-                diagnosis_to_medium.save()
+                diagnosis_to_medium.save(is_created_by_script=True)

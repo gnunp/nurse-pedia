@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.contrib import messages
 from django.core.paginator import Paginator
 from nursing_knowledges.forms import DiagnosisForm, DiseaseSmallForm
 from .api_views import *
@@ -15,7 +16,9 @@ from ..models import (
     DiagnosisToDisease,
     DiagnosisSmallCategory,
     DiagnosisInterventionAlpha,
-    KnowledgeEditHistory, DiagnosisRelatedDiagnosis, DiagnosisLargeCategory, DiagnosisMediumCategory
+    DiagnosisRelatedDiagnosis, DiagnosisLargeCategory, DiagnosisMediumCategory,
+    DiseaseSmallCategoryEditHistory, DiseaseSmallCategoryRelatedDiagnosisEditHistory, DiagnosisSmallCategoryEditHistory,
+    DiagnosisRelatedDiagnosisEditHistory, ReportedKnowledgeEditHistory
 )
 from users.models import User
 
@@ -32,16 +35,34 @@ def disease_detail(request, pk):
     """
     질병 Detail 페이지 View
     """
-    try:
-        disease = DiseaseSmallCategory.objects.get(pk=pk)  # 해당 질병 객체
-    except:
+    disease = get_object_or_404(DiseaseSmallCategory, pk=pk)
+
+    before_version = request.GET.get('version')
+    is_before_version = True if before_version else False
+
+    if before_version is not None and (not before_version.isdigit()):
         raise Http404()
 
-    disease_to_diagnoses = DiagnosisToDisease.objects.filter(disease_small_category=disease)  # pk값으로 가져온 질병과 진단들의 연결관계 객체
+    if is_before_version:
+        try:
+            before_version_disease = DiseaseSmallCategoryEditHistory.objects.get(
+                version=before_version,
+                original_disease_small_category=pk
+            )
+        except DiseaseSmallCategoryEditHistory.DoesNotExist:
+            raise Http404()
 
-    diagnoses = []  # 연결된 진단들의 객체 리스트
-    for dis_to_diag in disease_to_diagnoses:
-        diagnoses.append(dis_to_diag.diagnosis)
+    if not is_before_version:
+        disease_to_diagnoses = DiagnosisToDisease.objects.filter(disease_small_category=disease)  # pk값으로 가져온 질병과 진단들의 연결관계 객체
+        diagnoses = []  # 연결된 진단들의 객체 리스트
+        for dis_to_diag in disease_to_diagnoses:
+            diagnoses.append(dis_to_diag.diagnosis)
+    else:
+        disease_to_diagnoses = DiseaseSmallCategoryRelatedDiagnosisEditHistory\
+            .objects.filter(disease_small_category_edit_history=before_version_disease)
+        diagnoses = []  # 연결된 진단들의 객체 리스트
+        for dis_to_diag in disease_to_diagnoses:
+            diagnoses.append(dis_to_diag.diagnosis_small_category)
 
     try:
         user = disease.like_users.get(pk=request.user.pk)
@@ -49,10 +70,18 @@ def disease_detail(request, pk):
     except User.DoesNotExist:
         is_star = False
 
+    if is_before_version:
+        original_disease = disease
+        disease = before_version_disease
+    else:
+        original_disease = disease
+
     context = {
         "disease": disease,
         "diagnoses": diagnoses,
         "is_star": is_star,
+        "is_before_version": is_before_version,
+        "original_knowledge": original_disease,
     }
 
     return render(request, "nursing_knowledges/disease_detail.html", context)
@@ -68,10 +97,28 @@ def diagnosis_detail(request, pk):
     except DiagnosisSmallCategory.DoesNotExist:
         raise Http404()
 
-    diagnosis_related_diagnoses = list(DiagnosisRelatedDiagnosis.objects.filter(target_diagnosis=pk))
-    diagnosis_related_diagnoses.sort(key=lambda x: x.like_users.all().count(), reverse=True)
+    before_version = request.GET.get('version')
+    is_before_version = True if before_version else False
 
-    form = DiagnosisForm()
+    if before_version is not None and (not before_version.isdigit()):
+        raise Http404()
+
+    if is_before_version:
+        try:
+            before_version_diagnosis = DiagnosisSmallCategoryEditHistory.objects.get(
+                version=before_version,
+                original_diagnosis_small_category=pk
+            )
+        except DiagnosisSmallCategoryEditHistory.DoesNotExist:
+            raise Http404()
+
+    if not is_before_version:
+        diagnosis_related_diagnoses = list(DiagnosisRelatedDiagnosis.objects.filter(target_diagnosis=pk))
+        diagnosis_related_diagnoses.sort(key=lambda x: x.like_users.all().count(), reverse=True)
+    else:
+        diagnosis_related_diagnoses = list(DiagnosisRelatedDiagnosisEditHistory.objects.filter(
+            diagnosis_small_category_edit_history=before_version_diagnosis
+        ))
 
     try:
         user = diagnosis.like_users.get(pk=request.user.pk)
@@ -79,12 +126,19 @@ def diagnosis_detail(request, pk):
     except User.DoesNotExist:
         is_star = False
 
+    if is_before_version:
+        original_diagnosis = diagnosis
+        diagnosis = before_version_diagnosis
+    else:
+        original_diagnosis = diagnosis
+
     context = {
         "diagnosis": diagnosis,
         "diagnosis_related_diagnoses": diagnosis_related_diagnoses,
         "alphas": alphas,
-        "form": form,
         "is_star": is_star,
+        "is_before_version": is_before_version,
+        "original_knowledge": original_diagnosis,
     }
 
     return render(request, "nursing_knowledges/diagnosis_detail.html", context)
@@ -187,7 +241,7 @@ def disease_detail_edit(request, pk):
         if form.is_valid():
             valided_disease = form.save()
 
-            # ------- 편집기록 저장 코드 --------------------------------------------------------------------------------
+            # ------------------------------------------- 편집기록 저장 코드 --------------------------------------------
             after_word_count = count_words(
                 disease.definition,
                 disease.cause,
@@ -196,8 +250,14 @@ def disease_detail_edit(request, pk):
                 disease.treatment,
                 disease.nursing,
             )
-            KnowledgeEditHistory.objects.create(
-                disease=disease,
+            disease_small_category_edit_history = DiseaseSmallCategoryEditHistory.objects.create(
+                definition=disease.definition,
+                cause=disease.cause,
+                symptom=disease.symptom,
+                diagnosis_and_checkup=disease.diagnosis_and_checkup,
+                treatment=disease.treatment,
+                nursing=disease.nursing,
+                original_disease_small_category=disease,
                 editor=request.user,
                 changed_word_count=after_word_count - before_word_count,
             )
@@ -208,6 +268,12 @@ def disease_detail_edit(request, pk):
                 try:
                     d_obj = DiagnosisSmallCategory.objects.get(name=d)
                     DiagnosisToDisease.objects.create(disease_small_category=disease, diagnosis=d_obj)
+                    # ----------------------------- 편집기록 저장 코드 ------------------------------
+                    DiseaseSmallCategoryRelatedDiagnosisEditHistory.objects.create(
+                        disease_small_category_edit_history=disease_small_category_edit_history,
+                        diagnosis_small_category=d_obj,
+                    )
+                    # ----------------------------------------------------------------------------
                 except DiagnosisSmallCategory.DoesNotExist:
                     pass
 
@@ -230,17 +296,28 @@ def diagnosis_detail_edit(request, pk):
         return redirect('home')
 
     diagnosis = get_object_or_404(DiagnosisSmallCategory, pk=pk)
+    related_diagnoses = diagnosis.DiagnosisRelatedDiagnoses.all()
+
     before_word_count = count_words(
         diagnosis.definition,
-        diagnosis.intervention_content
+        diagnosis.intervention_content,
+        *[diagnosis.related_diagnosis_name + diagnosis.intervention_content for diagnosis in related_diagnoses]
     )
 
-    related_diagnoses = diagnosis.DiagnosisRelatedDiagnoses.all()
     if request.method == "POST":
         form = DiagnosisForm(request.POST, instance=diagnosis)
 
         if form.is_valid():
             form.save()
+
+        # ----------------------------------------- 편집 기록 저장 코드 ----------------------------------------------
+        diagnosis_small_category_edit_history = DiagnosisSmallCategoryEditHistory.objects.create(
+            definition=diagnosis.definition,
+            intervention_content=diagnosis.intervention_content,
+            original_diagnosis_small_category=diagnosis,
+            editor=request.user,
+        )
+        # ----------------------------------------------------------------------------------------------------------
 
         # 기존의 관련 진단 전부 삭제
         related_diagnoses.delete()
@@ -255,18 +332,25 @@ def diagnosis_detail_edit(request, pk):
                     intervention_content=relation_diagnosis_intervention_content[i],
                     target_diagnosis=diagnosis
                 )
+                # ----------------------------- 편집 기록 저장 코드 -------------------------------
+                new_related_diagnosis_edit_history = DiagnosisRelatedDiagnosisEditHistory.objects.create(
+                    related_diagnosis_name=relation_diagnosis_name[i],
+                    intervention_content=relation_diagnosis_intervention_content[i],
+                    diagnosis_small_category_edit_history=diagnosis_small_category_edit_history
+                )
+                # -------------------------------------------------------------------------------
 
-        # ------- 편집 기록 저장 코드 --------------------------------------------------------------------------------
         after_word_count = count_words(
             diagnosis.definition,
-            diagnosis.intervention_content
+            diagnosis.intervention_content,
+            *[
+                diagnosis.related_diagnosis_name + diagnosis.intervention_content
+                for diagnosis in diagnosis_small_category_edit_history
+                .diagnosis_small_category_related_diagnosis_edit_histories.all()
+            ]
         )
-        KnowledgeEditHistory.objects.create(
-            diagnosis=diagnosis,
-            editor=request.user,
-            changed_word_count=after_word_count - before_word_count,
-        )
-        # ----------------------------------------------------------------------------------------------------------
+        diagnosis_small_category_edit_history.changed_word_count = after_word_count - before_word_count
+        diagnosis_small_category_edit_history.save()
 
         return redirect(diagnosis)
 
@@ -296,8 +380,34 @@ def diagnosis_detail__related_diagnosis_edit(request, pk):
 
     try:
         related_diagnosis = DiagnosisRelatedDiagnosis.objects.get(pk=pk)
+
+        before_word_count = count_words(
+            related_diagnosis.related_diagnosis_name,
+            related_diagnosis.intervention_content,
+        )
+
         related_diagnosis.intervention_content = edited_text
         related_diagnosis.save()
+        # ---------------- 편집 기록 저장 코드 -----------------
+        after_word_count = count_words(
+            related_diagnosis.related_diagnosis_name,
+            related_diagnosis.intervention_content,
+        )
+        target_diagnosis = related_diagnosis.target_diagnosis
+        diagnosis_small_category_edit_history = DiagnosisSmallCategoryEditHistory.objects.create(
+            definition=target_diagnosis.definition,
+            intervention_content=target_diagnosis.intervention_content,
+            original_diagnosis_small_category=target_diagnosis,
+            editor=request.user,
+            changed_word_count=after_word_count - before_word_count,
+        )
+
+        new_related_diagnosis_edit_history = DiagnosisRelatedDiagnosisEditHistory.objects.create(
+            related_diagnosis_name=related_diagnosis.related_diagnosis_name,
+            intervention_content=related_diagnosis.intervention_content,
+            diagnosis_small_category_edit_history=diagnosis_small_category_edit_history,
+        )
+        # ---------------------------------------------------
     except DiagnosisRelatedDiagnosis.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -305,7 +415,12 @@ def diagnosis_detail__related_diagnosis_edit(request, pk):
 
 
 def history(request):
-    histories = KnowledgeEditHistory.objects.all().order_by("-created_at")
+    disease_small_category_history = list(DiseaseSmallCategoryEditHistory.objects.filter(editor__isnull=False))
+    diagnosis_small_category_history = list(DiagnosisSmallCategoryEditHistory.objects.filter(editor__isnull=False))
+
+    histories = disease_small_category_history + diagnosis_small_category_history
+    histories.sort(key=lambda x: x.created_at, reverse=True)
+
     paginator = Paginator(histories, 30)
 
     page_number = request.GET.get('page')
@@ -313,6 +428,7 @@ def history(request):
 
     context = {
         'page_obj': page_obj,
+        'is_total_history_page': True,
     }
 
     return render(request, "nursing_knowledges/history.html", context)
@@ -370,3 +486,153 @@ def add_knowledge_star(request):
     except User.DoesNotExist:
         knowledge.like_users.add(request.user)
         return Response(status=status.HTTP_201_CREATED)
+
+
+def disease_edit_history(request, pk):
+    histories = DiseaseSmallCategoryEditHistory.objects.filter(original_disease_small_category=pk).order_by('-created_at')
+    knowledge = histories.first().original_disease_small_category
+
+    paginator = Paginator(histories, 30)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'knowledge': knowledge,
+        'page_obj': page_obj,
+    }
+
+    return render(request, "nursing_knowledges/history.html", context)
+
+
+def diagnosis_edit_history(request, pk):
+    histories = DiagnosisSmallCategoryEditHistory.objects.filter(original_diagnosis_small_category=pk).order_by('-created_at')
+    knowledge = histories.first().original_diagnosis_small_category
+
+    paginator = Paginator(histories, 30)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'knowledge': knowledge,
+        'page_obj': page_obj,
+    }
+
+    return render(request, "nursing_knowledges/history.html", context)
+
+
+def disease_rollback(request, pk):
+    if request.user.is_anonymous:
+        raise Http404()
+
+    disease_edit_history = get_object_or_404(DiseaseSmallCategoryEditHistory, pk=pk)
+    original_disease = disease_edit_history.original_disease_small_category
+
+    original_disease.definition = disease_edit_history.definition
+    original_disease.cause = disease_edit_history.cause
+    original_disease.symptom = disease_edit_history.symptom
+    original_disease.diagnosis_and_checkup = disease_edit_history.diagnosis_and_checkup
+    original_disease.treatment = disease_edit_history.treatment
+    original_disease.nursing = disease_edit_history.nursing
+    original_disease.save()
+
+    # ------------------------------------------- 편집 기록 저장 코드 --------------------------------------------
+    new_disease_edit_history = DiseaseSmallCategoryEditHistory.objects.create(
+        definition=original_disease.definition,
+        cause=original_disease.cause,
+        symptom=original_disease.symptom,
+        diagnosis_and_checkup=original_disease.diagnosis_and_checkup,
+        treatment=original_disease.treatment,
+        nursing=original_disease.nursing,
+        original_disease_small_category=original_disease,
+        editor=request.user,
+        is_rollbacked=True,
+        rollback_version=disease_edit_history.version,
+    )
+    # ----------------------------------------------------------------------------------------------------------
+
+    DiagnosisToDisease.objects.filter(disease_small_category=original_disease.pk).delete()
+    for obj in disease_edit_history.disease_small_category_related_diagnosis_edit_histories.all():
+        try:
+            DiagnosisToDisease.objects.create(
+                disease_small_category=original_disease,
+                diagnosis=obj.diagnosis_small_category,
+            )
+            # ----------------------------- 편집 기록 저장 코드 ------------------------------
+            DiseaseSmallCategoryRelatedDiagnosisEditHistory.objects.create(
+                disease_small_category_edit_history=new_disease_edit_history,
+                diagnosis_small_category=obj.diagnosis_small_category,
+            )
+            # ----------------------------------------------------------------------------
+        except DiagnosisSmallCategory.DoesNotExist:
+            pass
+
+    return redirect(reverse('nursing_knowledges:disease_edit_history', kwargs={"pk": original_disease.pk}))
+
+
+def diagnosis_rollback(request, pk):
+    if request.user.is_anonymous:
+        raise Http404()
+
+    diagnosis_edit_history = get_object_or_404(DiagnosisSmallCategoryEditHistory, pk=pk)
+    original_diagnosis = diagnosis_edit_history.original_diagnosis_small_category
+
+    original_diagnosis.definition = diagnosis_edit_history.definition
+    original_diagnosis.intervention_content = diagnosis_edit_history.intervention_content
+    original_diagnosis.save()
+
+    # ----------------------------------------- 편집 기록 저장 코드 ----------------------------------------------
+    new_diagnosis_edit_history = DiagnosisSmallCategoryEditHistory.objects.create(
+        definition=original_diagnosis.definition,
+        intervention_content=original_diagnosis.intervention_content,
+        original_diagnosis_small_category=original_diagnosis,
+        editor=request.user,
+        is_rollbacked=True,
+        rollback_version=diagnosis_edit_history.version,
+    )
+    # ----------------------------------------------------------------------------------------------------------
+
+    original_diagnosis.DiagnosisRelatedDiagnoses.all().delete()
+    for history_related_diagnosis in diagnosis_edit_history.diagnosis_small_category_related_diagnosis_edit_histories.all():
+        new_related_diagnosis = DiagnosisRelatedDiagnosis.objects.create(
+            related_diagnosis_name=history_related_diagnosis.related_diagnosis_name,
+            intervention_content=history_related_diagnosis.intervention_content,
+            target_diagnosis=original_diagnosis
+        )
+        # ----------------------------- 편집 기록 저장 코드 -------------------------------
+        new_related_diagnosis_edit_history = DiagnosisRelatedDiagnosisEditHistory.objects.create(
+            related_diagnosis_name=history_related_diagnosis.related_diagnosis_name,
+            intervention_content=history_related_diagnosis.intervention_content,
+            diagnosis_small_category_edit_history=new_diagnosis_edit_history
+        )
+        # -------------------------------------------------------------------------------
+
+    return redirect(reverse('nursing_knowledges:diagnosis_edit_history', kwargs={"pk": original_diagnosis.pk}))
+
+
+@api_view(["POST"])
+def report_knowledge_edit_history(request, pk):
+    reporter = request.user
+    if reporter.is_anonymous:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+    knowledge_type = request.data.get('knowledgeType')
+    if not (knowledge_type == 'disease' or knowledge_type == 'diagnosis'):
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    if knowledge_type == 'disease':
+        knowledge_edit_history = get_object_or_404(DiseaseSmallCategoryEditHistory, pk=pk)
+        ReportedKnowledgeEditHistory.objects.create(
+            reporter=reporter,
+            reported_disease_edit_history=knowledge_edit_history,
+        )
+    else:
+        knowledge_edit_history = get_object_or_404(DiagnosisSmallCategoryEditHistory, pk=pk)
+        ReportedKnowledgeEditHistory.objects.create(
+            reporter=reporter,
+            reported_diagnosis_edit_history=knowledge_edit_history,
+        )
+
+    return Response(status=status.HTTP_200_OK)
+

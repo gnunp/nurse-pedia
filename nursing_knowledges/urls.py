@@ -17,4 +17,9 @@ urlpatterns = [
     path('mindmap/', views.mindmap, name='mindmap'),
     path('diagnosis-related-diagnoses/<int:pk>/like', views.related_diagnosis_like, name='related_diagnosis_like'),
     path('star/', views.add_knowledge_star, name='add_knowledge_star'),
+    path('disease/<int:pk>/edit-history', views.disease_edit_history, name='disease_edit_history'),
+    path('diagnosis/<int:pk>/edit-history', views.diagnosis_edit_history, name='diagnosis_edit_history'),
+    path('disease/edit-history/<int:pk>/rollback', views.disease_rollback, name='disease_rollback'),
+    path('diagnosis/edit-history/<int:pk>/rollback', views.diagnosis_rollback, name='diagnosis_rollback'),
+    path('report/<int:pk>', views.report_knowledge_edit_history, name='report_knowledge_edit_history'),
 ]

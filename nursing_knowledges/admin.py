@@ -9,7 +9,9 @@ from .models import (
     DiagnosisRelatedDiagnosis,
     DiagnosisToDisease,
     DiagnosisInterventionAlpha,
-    KnowledgeEditHistory, DiagnosisSmallCategoryStarInfo, DiseaseSmallCategoryStarInfo,
+    DiagnosisSmallCategoryStarInfo, DiseaseSmallCategoryStarInfo, DiseaseSmallCategoryEditHistory,
+    DiseaseSmallCategoryRelatedDiagnosisEditHistory, DiagnosisSmallCategoryEditHistory,
+    DiagnosisRelatedDiagnosisEditHistory, ReportedKnowledgeEditHistory,
 )
 
 
@@ -96,9 +98,39 @@ class DiagnosisToDiseaseAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(KnowledgeEditHistory)
-class KnowledgeEditHistoryAdmin(admin.ModelAdmin):
+class DiseaseSmallCategoryEditHistoryRelatedDiagnosisInline(admin.TabularInline):
+    model = DiseaseSmallCategoryRelatedDiagnosisEditHistory
+    extra = 1
+
+
+@admin.register(DiseaseSmallCategoryEditHistory)
+class DiseaseSmallCategoryEditHistoryAdmin(admin.ModelAdmin):
     """
-    질병, 진단을 수정한 사람의 정보와, 시간대가 나와있는 Model Admin
+    질병 소분류의 편집 히스토리를 나타내는 Model Admin
+    """
+    inlines = [
+        DiseaseSmallCategoryEditHistoryRelatedDiagnosisInline,
+    ]
+
+
+class DiagnosisRelatedDiagnosisEditHistoryInline(admin.TabularInline):
+    model = DiagnosisRelatedDiagnosisEditHistory
+    extra = 1
+
+
+@admin.register(DiagnosisSmallCategoryEditHistory)
+class DiagnosisSmallCategoryEditHistoryAdmin(admin.ModelAdmin):
+    """
+    진단 소분류의 편집 히스토리를 나타내는 Model Admin
+    """
+    inlines = [
+        DiagnosisRelatedDiagnosisEditHistoryInline,
+    ]
+
+
+@admin.register(ReportedKnowledgeEditHistory)
+class ReportedKnowledgeEditHistoryAdmin(admin.ModelAdmin):
+    """
+    악의적이라고 생각된 편집 기록을 유저가 신고한 기록을 가진 Model Admin
     """
     pass
