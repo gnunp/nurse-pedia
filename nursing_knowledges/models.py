@@ -308,7 +308,7 @@ class DiseaseSmallCategoryEditHistory(BaseDiseaseSmallCategoryModel, BaseKnowled
         related_name="disease_small_category_edit_histories"
     )
 
-    def get_absolute_original_knowledge_url(self):
+    def get_absolute_knowledge_version_detail_url(self):
         return reverse('nursing_knowledges:disease_detail', args=[self.original_disease_small_category.pk]) + f"?version={self.version}"
 
     def get_absolute_rollback_url(self):
@@ -338,7 +338,7 @@ class DiseaseSmallCategoryEditHistory(BaseDiseaseSmallCategoryModel, BaseKnowled
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.original_disease_small_category.name} - {self.version}번째 수정본"
+        return f"{self.original_disease_small_category.name} - {self.version}번째 버전"
 
 
 class DiseaseSmallCategoryRelatedDiagnosisEditHistory(models.Model):
@@ -367,7 +367,7 @@ class DiagnosisSmallCategoryEditHistory(BaseDiagnosisSmallCategoryModel, BaseKno
         related_name="diagnosis_small_category_edit_histories"
     )
 
-    def get_absolute_original_knowledge_url(self):
+    def get_absolute_knowledge_version_detail_url(self):
         return reverse('nursing_knowledges:diagnosis_detail', args=[self.original_diagnosis_small_category.pk]) + f"?version={self.version}"
 
     def get_absolute_rollback_url(self):
@@ -397,7 +397,7 @@ class DiagnosisSmallCategoryEditHistory(BaseDiagnosisSmallCategoryModel, BaseKno
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.original_diagnosis_small_category.name} - {self.version}번째 수정본"
+        return f"{self.original_diagnosis_small_category.name} - {self.version}번째 버전"
 
 
 class DiagnosisRelatedDiagnosisEditHistory(BaseDiagnosisRelatedDiagnosisModel):

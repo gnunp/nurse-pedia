@@ -37,7 +37,7 @@ class DiseaseSmallCategoryStarInfoInline(admin.TabularInline):
 
 
 @admin.register(DiseaseSmallCategory)
-class DiseaseSmallCategory(admin.ModelAdmin):
+class DiseaseSmallCategoryAdmin(admin.ModelAdmin):
     """
     간호 질병 소분류 Model Admin
     """
@@ -47,7 +47,7 @@ class DiseaseSmallCategory(admin.ModelAdmin):
 
 
 @admin.register(DiagnosisLargeCategory)
-class DiagnosisLargeCategory(admin.ModelAdmin):
+class DiagnosisLargeCategoryAdmin(admin.ModelAdmin):
     """
     간호 진단 대분류 Model Admin
     """
@@ -78,7 +78,7 @@ class DiagnosisRelatedDiagnosisInline(admin.TabularInline):
 
 
 @admin.register(DiagnosisSmallCategory)
-class DiagnosisAdmin(admin.ModelAdmin):
+class DiagnosisSmallCategoryAdmin(admin.ModelAdmin):
     """
     간호 진단 Model Admin
     """

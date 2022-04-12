@@ -1,8 +1,8 @@
-export const toastMessage = (message) => {
+export const toastMessage = (message, toastMessageColorCssClassName='') => {
     document.body.insertAdjacentHTML(
         "beforeend",
         `
-            <div class="toast_message js-toast_message">
+            <div class="toast_message js-toast_message ${toastMessageColorCssClassName}">
                 <span class="toast_message_text">${message}</span>
             </div>
         `
