@@ -40,7 +40,7 @@ def disease_detail(request, pk):
     before_version = request.GET.get('version')
     is_before_version = True if before_version else False
 
-    if not before_version.isdigit():
+    if before_version is not None and (not before_version.isdigit()):
         raise Http404()
 
     if is_before_version:
@@ -100,9 +100,8 @@ def diagnosis_detail(request, pk):
     before_version = request.GET.get('version')
     is_before_version = True if before_version else False
 
-    if not before_version.isdigit():
+    if before_version is not None and (not before_version.isdigit()):
         raise Http404()
-
 
     if is_before_version:
         try:
