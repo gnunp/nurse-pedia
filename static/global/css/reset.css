@@ -53,3 +53,5 @@ table {
 a {color: black; text-decoration: none; outline: none}
 
 a:hover, a:active {text-decoration: none; color: black;}
+
+input:focus::-webkit-input-placeholder, textarea:focus::-webkit-input-placeholder { /* WebKit browsers */ color:transparent; }

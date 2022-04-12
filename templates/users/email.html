@@ -1,0 +1,27 @@
+<section class="email-me">
+    <form class="gform" action="https://script.google.com/macros/s/AKfycbzcNqiLoAwIf5KMDb_zjZtzIN6XFe413sIRjcgD7Q/exec" method="POST" data-email="qhflrnfl4324@gmail.com">
+        <fieldset class="fieldset">
+            <div class="messageheader">
+                    <label for="userName" id="userNameTitle">보내는 이</label>
+                    <input type="text" id="userName" name="name" placeholder="유저 이름" required>
+            
+                    <label for="userEmail">보내는이 이메일</label>
+                    <input type="email" id="userEmail" name="email" placeholder="유저 이메일" required>
+            </div>
+            <div class="submit_box">
+                <button type="submit" class="btn-send">보내기</button>
+            </div>
+            <div class="box-input">
+                <textarea name="message" id="userMessage" required></textarea>
+            </div>
+  
+        </fieldset>
+
+        <div style="display:none" class="thankyou_message">
+            <!-- You can customize the thankyou message by editing the code below -->
+            <p>연락주셔서 감사합니다. 빠른 시일 내에 답변 드리겠습니다🚀</p>
+        </div>
+    </form>
+    <script data-cfasync="false" type="text/javascript"
+    src="https://cdn.rawgit.com/dwyl/html-form-send-email-via-google-script-without-server/master/form-submission-handler.js"></script>
+</section>
