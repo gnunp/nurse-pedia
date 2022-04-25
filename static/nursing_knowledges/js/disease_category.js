@@ -8,7 +8,6 @@ class DiseaseCategory{
         this.mainContent = document.querySelector('.dis_cat_mainContent');
         this.largedisease = knowledgeData.large_diseases;
         this.spreadspeed = 0.1;
-        console.log(knowledgeData);
 
         this.setInitStyle();
         this.createCategoryElement();
@@ -16,14 +15,13 @@ class DiseaseCategory{
     setInitStyle(){
         /*--------------Header높이 만큼 위에서 떨어트림--------------- */
         this.mainContent.style.top = `${headerHeight}px`;
-
     }
     createBtn(child_ele, parents_ele, type){
         const newbtn = document.createElement('button');
         newbtn.innerText = "◀";
 
         /*--------------------버튼 클릭시 발생되는 이벤트 ---------------- */
-        newbtn.addEventListener('click',()=>{
+        newbtn.addEventListener('click',(e)=>{
             /*-----------------처음 Height값 저장(첫번째 클릭에만 실행) -------------- */
             if(parents_ele.dataset.issetmaxheight == 'true'){
                animation.setinitmaxHeight(child_ele);
@@ -53,7 +51,14 @@ class DiseaseCategory{
             }
 
             newbtn.classList.toggle('btn_active');
+            e.stopPropagation();
         });
+
+        /* 버튼 외 구역 눌러도 펼쳐지고 접어지게 */
+        parents_ele.addEventListener('click', (e)=>{
+            newbtn.click();
+            e.stopPropagation();
+        },false);
 
         return newbtn;
     }
@@ -105,17 +110,20 @@ class DiseaseCategory{
 
             const childsmallEle = this.createSmallDisease(element);
 
-            const middletosmallBtn = this.createBtn(childsmallEle, newmiddleEle, 'middle');
-
             const middleHeaderEle = document.createElement('div');
             middleHeaderEle.classList.add('category_middledisease_content_header');
             middleHeaderEle.innerHTML = `
                 <a href="#"><div class="category_header_text">${element}</div></a>
             `;
-            middleHeaderEle.appendChild(middletosmallBtn);
+
+            if(childsmallEle){
+                const middletosmallBtn = this.createBtn(childsmallEle, newmiddleEle, 'middle');
+                middleHeaderEle.appendChild(middletosmallBtn);
+            }
             
             newmiddleEle.appendChild(middleHeaderEle);
-            newmiddleEle.appendChild(childsmallEle);
+            if(childsmallEle) newmiddleEle.appendChild(childsmallEle);
+
             mediumElement.appendChild(newmiddleEle);
         }); 
         
@@ -123,22 +131,26 @@ class DiseaseCategory{
     }
     createSmallDisease(middle_ele){
         const smalldiseases = knowledgeData.medium_to_smalls[middle_ele];
-        const smallEle = document.createElement('div');
-        smallEle.classList.add('category_smalldisease');
-        smallEle.classList.add('disappear');
-
-        smalldiseases.forEach(element => {
-            const smallitem = document.createElement('div');
-            const smalldiseaseurl = '/knowledges/disease/'+ (element.id).toString();
-
-            smallitem.classList.add('category_smalldisease_content');
-            smallitem.innerHTML =`
-                <a href= ${smalldiseaseurl} %}><div class="category_header_text">${element.name}</div></a>
-            `;
-
-            smallEle.appendChild(smallitem);
-        });
-        return smallEle;
+        if(smalldiseases){
+            const smallEle = document.createElement('div');
+            smallEle.classList.add('category_smalldisease');
+            smallEle.classList.add('disappear');
+    
+            smalldiseases.forEach(element => {
+                const smallitem = document.createElement('div');
+                const smalldiseaseurl = '/knowledges/disease/'+ (element.id).toString();
+    
+                smallitem.classList.add('category_smalldisease_content');
+                smallitem.innerHTML =`
+                    <a href= ${smalldiseaseurl} %}><div class="category_header_text">${element.name}</div></a>
+                `;
+    
+                smallEle.appendChild(smallitem);
+            });
+            return smallEle;
+        }
+        //아무것도 없으면 안나와야하는데 ... !고쳐야 할점!
+        return null;
     }
 }
 
