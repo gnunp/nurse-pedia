@@ -37,7 +37,6 @@ class SigninForm(forms.ModelForm):
                 self.add_error("username", forms.ValidationError("존재하지 않는 계정입니다.", code="not_existing_user"))
 
 
-
 class SignupForm(forms.ModelForm):
     class Meta:
         model = User
@@ -81,6 +80,7 @@ class SignupForm(forms.ModelForm):
             raise forms.ValidationError("비밀번호가 일치하지 않습니다.", code="not_matching_password")
         else:
             return confirm_password
+
 
 class KakaoSignupForm(forms.ModelForm):
     class Meta:
