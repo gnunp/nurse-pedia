@@ -30,7 +30,7 @@ const signUpModal = `
                         
                     </div>
                 
-                <button class="modal__content__form__submit_btn js-submit_btn">
+                <button class="form__submit_btn js-submit_btn">
                     <span>회원가입</span>
                 </button>
             </form>

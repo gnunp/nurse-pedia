@@ -408,6 +408,9 @@ body{
 }
 
 /* --------Toast Message 관련 코드-------- */
+.django_messages{
+    display: none;
+}
 .toast_message{
     z-index: 999999999;
     position: fixed;

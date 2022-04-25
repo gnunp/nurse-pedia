@@ -36,6 +36,14 @@
 		{% include 'base_header.html' %}
 		{% block content %}{% endblock content %}
 
+        {% if messages %}
+            <div class="django_messages js-django_messages">
+                {% for message in messages %}
+                   <span>{{ message.message }}</span>
+                {% endfor %}
+            </div>
+        {% endif %}
+
 		<!-- DJANGO TEMPLATE VARIABLES -->
 		<script>
 			const csrfToken = "{{ csrf_token }}";

@@ -36,6 +36,14 @@
     font-size: 2rem;
     font-weight: 700;
 }
+.update_info{
+    max-width: 300px;
+}
+.profile_update_submit_btn{
+    max-width: 150px;
+    margin: 0 auto;
+    margin-top: 1.5rem;
+}
 .content{
     width: 100%;
     min-height: 50vh;

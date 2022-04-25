@@ -20,7 +20,7 @@ const signInModal = `
                         
                     </div>
                 
-                <button type="submit" class="modal__content__form__submit_btn js-submit_btn">
+                <button type="submit" class="form__submit_btn js-submit_btn">
                     <span>로그인</span>
                 </button>
             </form>

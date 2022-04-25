@@ -3,6 +3,7 @@ import reset_css from "../css/reset.css";
 import global_css from "../css/global.css";
 import user_css from "../../users/css/user_modal.css";
 import global_color from "../css/color.css";
+import {toastMessage} from "../../nursing_knowledges/js/toastMessage";
 
 window.addEventListener('resize',()=>{
     let pages = document.querySelectorAll('.page');
@@ -69,3 +70,16 @@ closebtn.addEventListener('click',()=>{
     console.log("왜 안되냐?222");
     subwindow.classList.toggle('unactive');
 });
+
+/*----------Django Message가 있는지 확인 하고, 있으면 Toast Message 띄우는 코드------------ */
+const djangoMessages = document.querySelectorAll('.js-django_messages > span');
+if(djangoMessages.length > 0){
+    console.log(djangoMessages);
+    let resultMessage = '';
+    for (const djangoMessage of djangoMessages) {
+        console.log(djangoMessage)
+        resultMessage += `${djangoMessage.innerText}<br>`;
+    }
+    console.log(resultMessage);
+    toastMessage(resultMessage.trimEnd());
+}

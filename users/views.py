@@ -3,10 +3,11 @@ from django.shortcuts import render, redirect
 from django.http import Http404, JsonResponse, HttpResponse
 from django.urls import reverse
 from django.conf import settings
-from .forms import SigninForm, SignupForm, KakaoSignupForm
+from django.contrib import messages
+from .forms import SigninForm, SignupForm, KakaoSignupForm, UpdateProfileForm
 from .models import User
 import requests
-# Create your views here.
+
 
 def signin_action(request):
     if request.method == 'POST':
@@ -31,13 +32,14 @@ def signin(request):
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('current_password')
-            
+
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 return HttpResponse(status=200)
         else:
             context = {"form": form}
             return JsonResponse(form.errors, status=400)
+
 
 def kakao_signin(request):
     client_id = settings.KAKAO_ID
@@ -46,8 +48,10 @@ def kakao_signin(request):
         f"https://kauth.kakao.com/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code"
     )
 
+
 class KakaoException(Exception):
     pass
+
 
 def kakao_callback(request):
     try:
@@ -80,15 +84,12 @@ def kakao_callback(request):
 
         kakao_id = profile_json.get("id")
 
-
         user_info = profile_json.get("kakao_account")
         email = user_info.get("email")
 
-
-
         context = {
             "email": email,
-            "kakao_id":kakao_id
+            "kakao_id": kakao_id
         }
         # 유저가 이미 존재한다면 로그인
         try:
@@ -103,6 +104,7 @@ def kakao_callback(request):
     except:
         # 추후 에러 토스트 메세지 추가 예정
         return redirect(reverse("home"))
+
 
 def kakao_signin_validation(request):
     if request.method == 'POST':
@@ -125,6 +127,7 @@ def kakao_signin_validation(request):
         else:
             return JsonResponse(form.errors, status=400)
 
+
 def kakao_signin_action(request):
     # 카카오 로그인에서 접근한건지 확인
     previous_url = request.META.get('HTTP_REFERER')
@@ -136,7 +139,6 @@ def kakao_signin_action(request):
     except:
         return redirect(reverse("home"))
 
-
     if request.method == 'POST':
         username = request.POST.get("username")
 
@@ -144,6 +146,7 @@ def kakao_signin_action(request):
         login(request, user)
 
         return redirect(reverse("home"))
+
 
 def signup(request):
     if request.method == 'GET':
@@ -175,16 +178,27 @@ def signup(request):
     }
     return render(request, 'users/signup.html', context)
 
+
 def log_out(request):
     logout(request)
     return redirect(reverse("home"))
+
 
 def mypage(request):
     # 로그인 한 사람만 갈 수 있도록
     if request.user.is_anonymous:
         raise Http404()
-    
-    context = {}
+
+    if request.method == 'GET':
+        profile_update_form = UpdateProfileForm(instance=request.user)
+    elif request.method == 'POST':
+        profile_update_form = UpdateProfileForm(request.POST, instance=request.user, request=request)
+        if profile_update_form.is_valid():
+            profile_update_form.save()
+            messages.info(request, '프로필이 수정되었습니다.')
+
+    context = {
+        'profile_update_form': profile_update_form,
+    }
 
     return render(request, 'users/mypage.html', context)
-    
