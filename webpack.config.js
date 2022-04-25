@@ -1,6 +1,9 @@
 const path = require("path");
+const dotenv = require("dotenv");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
+dotenv.config({ path: path.join(__dirname, '.js_env') })
 
 module.exports = {
     entry: {
@@ -29,7 +32,7 @@ module.exports = {
     plugins: [
        // new BundleAnalyzerPlugin()
     ],
-    mode: "development",
+    mode: process.env.DEVELOPMENT_MODE === "local" ? "development" : "production",
     output: {
         filename: "[name].js",
         path: path.resolve(__dirname, 'static','assets', 'js'),
