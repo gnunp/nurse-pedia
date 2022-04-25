@@ -1,5 +1,6 @@
 import "regenerator-runtime/runtime.js";
-import {toastMessage} from "../../nursing_knowledges/js/toastMessage";
+import {toastMessage} from "./shortcuts";
+
 
 window.addEventListener('resize',()=>{
     let pages = document.querySelectorAll('.page');

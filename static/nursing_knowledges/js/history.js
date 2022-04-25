@@ -1,6 +1,5 @@
 import {headerHeight} from "../../global/js/variables";
-import {getCookie} from "./shortcuts";
-import {toastMessage} from "./toastMessage";
+import {getCookie, toastMessage} from "../../global/js/shortcuts";
 
 const historyInit = () => {
     const historyWrapper = document.querySelector('.js-history_wrapper');

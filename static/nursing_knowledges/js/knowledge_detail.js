@@ -1,4 +1,4 @@
-import {getCookie} from "./shortcuts";
+import {getCookie} from "../../global/js/shortcuts";
 
 export function handleHoverStarBtn(event){
     const starBtn = event.target;

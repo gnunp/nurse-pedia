@@ -1,7 +1,7 @@
 import Mindmap from "./mindmap.js";
 import shuffle from "lodash/shuffle";
 import {headerHeight} from '../../global/js/variables';
-import {toastMessage} from "./toastMessage";
+import {toastMessage} from "../../global/js/shortcuts";
 import {handleHoverStarBtn, handleClickStarBtn} from "./knowledge_detail";
 
 class DiseaseDetail{
