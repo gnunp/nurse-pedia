@@ -61,11 +61,9 @@ const subwindow = document.querySelector('.personal_info');
 const closebtn = document.querySelector('.close_btn');
 
 personalbtn.addEventListener('click', ()=>{
-    console.log("왜 안되냐?");
     subwindow.classList.toggle('unactive');
 });
 
 closebtn.addEventListener('click',()=>{
-    console.log("왜 안되냐?222");
     subwindow.classList.toggle('unactive');
 });

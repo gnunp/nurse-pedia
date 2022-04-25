@@ -82,7 +82,7 @@ class Mypage{
         newitem.classList.add('historyitem');
 
         newitem.innerHTML=`
-            <a href='${address}'>${date} - <span style="color:#FF6565;font-weight:900;">${name}</span></a>
+            <a href='${address}'>${date} - <span style="color:#FF6565;font-weight:700;">${name}</span></a>
         `
         return newitem;
     }
