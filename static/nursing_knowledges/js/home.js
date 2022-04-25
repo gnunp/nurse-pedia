@@ -1,5 +1,3 @@
-import home_css from "../css/home.css";
-import firstpage_css from "../css/firstpage.css";
 class Home{
     constructor(){
         //디바이스가 모바일 인지 아닌지 판단

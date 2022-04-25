@@ -3,8 +3,6 @@ import coseBilkent from 'cytoscape-cose-bilkent';
 
 cytoscape.use(coseBilkent);
 
-import mindmap_css from '../css/mindmap.css';
-
 class Mindmap{
     constructor(detailpage = false, findele = null){
         //로딩화면

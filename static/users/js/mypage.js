@@ -1,5 +1,3 @@
-import css from '../css/mypage.css';
-
 import {headerHeight} from '../../global/js/variables';
 
 class Mypage{

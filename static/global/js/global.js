@@ -1,8 +1,4 @@
 import "regenerator-runtime/runtime.js";
-import reset_css from "../css/reset.css";
-import global_css from "../css/global.css";
-import user_css from "../../users/css/user_modal.css";
-import global_color from "../css/color.css";
 import {toastMessage} from "../../nursing_knowledges/js/toastMessage";
 
 window.addEventListener('resize',()=>{
