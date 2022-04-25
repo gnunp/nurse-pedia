@@ -10,6 +10,10 @@
     background-color: rgba(0, 0, 0, 0.65);
 }
 
+.kakao_add_more_info_wrapper{
+    background-color: #595959;
+}
+
 .modal_wrapper{
     display: flex;
     flex-direction: column;

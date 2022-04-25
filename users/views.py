@@ -7,6 +7,7 @@ from django.contrib import messages
 from .forms import SigninForm, SignupForm, KakaoSignupForm, UpdateProfileForm
 from .models import User
 import requests
+import random
 
 
 def signin_action(request):
@@ -87,65 +88,64 @@ def kakao_callback(request):
         user_info = profile_json.get("kakao_account")
         email = user_info.get("email")
 
-        context = {
-            "email": email,
-            "kakao_id": kakao_id
-        }
         # 유저가 이미 존재한다면 로그인
         try:
             user = User.objects.get(kakao_id=kakao_id)
             login(request, user)
             return redirect(reverse("home"))
-        # 아니면 회원정보 추가 화면으로 이동
+        # 아니면 회원가입 시키고, 유저정보 추가입력창으로 이동
         except User.DoesNotExist:
-            return render(request, "users/kakao_signin_user_form.html", context)
+            while True:
+                try:
+                    new_random_username = f"유저{random.randint(1000, 9999999)}"
+                    user = User.objects.get(username=new_random_username)
+                except User.DoesNotExist:
+                    user = User.objects.create(
+                        username=new_random_username,
+                        kakao_id=kakao_id,
+                        is_kakao=True,
+                    )
+                    if email:
+                        user.email = email
+                    user.save()
+
+                    login(request, user)
+                    break
+            return redirect(reverse("users:kakao_add_more_info"))
 
     # 토큰이 유효하지 않으면 홈화면으로 반환
     except:
-        # 추후 에러 토스트 메세지 추가 예정
+        messages.info(request, '토큰이 만료되었습니다.')
         return redirect(reverse("home"))
 
 
-def kakao_signin_validation(request):
-    if request.method == 'POST':
+def kakao_add_more_info(request):
+    if request.user.is_anonymous:
+        raise Http404()
+    if not request.user.is_kakao:
+        raise Http404()
+
+    if request.method == 'GET':
+        form = KakaoSignupForm()
+    elif request.method == 'POST':
         form = KakaoSignupForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
+            request.user.username = username
+
             email = form.cleaned_data.get('email')
-            kakao_id = form.cleaned_data.get('kakao_id')
-
             if email:
-                new_user = User.objects.create(username=username, email=email, is_kakao=True, kakao_id=kakao_id)
-            else:
-                new_user = User.objects.create(username=username, is_kakao=True, kakao_id=kakao_id)
+                request.user.email = email
 
-            new_user.set_unusable_password()
-            new_user.save()
+            request.user.save()
 
-            return HttpResponse(status=200)
-
-        else:
-            return JsonResponse(form.errors, status=400)
-
-
-def kakao_signin_action(request):
-    # 카카오 로그인에서 접근한건지 확인
-    previous_url = request.META.get('HTTP_REFERER')
-    try:
-        user_url = previous_url.split("?")[0]
-        if not reverse("users:kakao_callback") in user_url:
-            # 추후 toast 메세지 추가 or http404
             return redirect(reverse("home"))
-    except:
-        return redirect(reverse("home"))
 
-    if request.method == 'POST':
-        username = request.POST.get("username")
+    context = {
+        "form": form,
+    }
 
-        user = User.objects.get(username=username)
-        login(request, user)
-
-        return redirect(reverse("home"))
+    return render(request, "users/kakao_add_more_info.html", context)
 
 
 def signup(request):

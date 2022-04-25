@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %} 회원정보 추가 {% endblock title %}
+
+
+{% block css %}
+{% endblock css %}
+
+
+
+{% block link %}
+{% endblock link %}
+
+
+
+{% block head_script %}
+{% endblock head_script %}
+
+
+{% block content %}
+    <div class="modal_background kakao_add_more_info_wrapper">
+        <div class="modal_wrapper">
+            <!-- 모달 HEADER -->
+            <div class="modal__header">
+                <div class=""></div>
+                <span class="modal_header__title">회원정보 추가</span>
+                <div class=""></div>
+            </div>
+
+            <!-- 모달 CONTENT -->
+            <div class="modal__content">
+                <form method="post" class="modal__content__form">
+                    {% csrf_token %}
+                    <div class="input_wrapper">
+                        {{ form.username }}
+                        {% if form.username.errors %}
+                            {% for error in form.username.errors %}
+                                <span class="error">{{error}}</span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    {% if not request.user.email %}
+                        <div class="input_wrapper">
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                                {% for error in form.email.errors %}
+                                    <span class="error">{{error}}</span>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    <button type="submit" class="form__submit_btn">
+                        <span>추가하기</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block script %}
+{% endblock script %}
+

@@ -16,7 +16,6 @@ module.exports = {
         diagnosisdetail__relatedDiagnosisEvent :"./static/nursing_knowledges/js/diagnosis_detail__relatedDiagnosisEvent.js",
         
         userModal: "./static/users/js/userModal.js",
-        kakaoSigninFormValidation: "./static/users/js/kakaoSigninFormValidation.js",
 
         diseasecategory:"./static/nursing_knowledges/js/disease_category",
         diagnosiscategory:"./static/nursing_knowledges/js/diagnosis_category",
