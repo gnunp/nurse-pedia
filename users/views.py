@@ -23,13 +23,8 @@ def signin_action(request):
 
 
 def signin(request):
-    if request.method == 'GET':
-        form = SigninForm()
-        context = {"form": form}
-        return render(request, 'users/signin.html', context)
-    elif request.method == 'POST':
+    if request.method == 'POST':
         form = SigninForm(request.POST)
-        # print(request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('current_password')
@@ -149,12 +144,7 @@ def kakao_add_more_info(request):
 
 
 def signup(request):
-    if request.method == 'GET':
-        form = SignupForm()
-        context = {"form": form}
-        return render(request, 'users/signup.html', context)
-
-    elif request.method == 'POST':
+    if request.method == 'POST':
         form = SignupForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
@@ -172,11 +162,6 @@ def signup(request):
         else:
             context = {"form": form}
             return JsonResponse(form.errors, status=400)
-
-    context = {
-        "form": form,
-    }
-    return render(request, 'users/signup.html', context)
 
 
 def log_out(request):
