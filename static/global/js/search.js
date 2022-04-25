@@ -1,5 +1,3 @@
-import cloneDeep from "lodash/cloneDeep";
-
 const search = async () => {
     const keyword = document.querySelector(".js-search_keyword");
     const resultWrapper = document.querySelector(".js-search_result_wrapper");
@@ -231,7 +229,7 @@ function filterSearchDatas(diseaseList, diagnosisList, keyword){
 
 function sortSearchResultArray(array, keyword){
     const result = []
-    const copiedArray = cloneDeep(array);
+    const copiedArray = JSON.parse(JSON.stringify(array));
     for (const [key, data] of Object.entries(copiedArray)) {
         if(data.name.charAt(0) === keyword.charAt(0)){
             result.push(data);
