@@ -4,7 +4,7 @@
     border-bottom: 1px solid #D6D6D6 !important;
 }
 
-.root{
+.knowledge_detail_wrapper{
     position: relative;
     display: flex;
     flex-direction: column;
@@ -18,7 +18,7 @@
 }
 
 @media (max-width: 999px) {
-    .root{
+    .knowledge_detail_wrapper{
         border: none;
         padding: 5rem 9.609%;
     }

@@ -1,10 +1,6 @@
-import {headerHeight} from "../../global/js/variables";
 import {getCookie, toastMessage} from "../../global/js/shortcuts";
 
 const historyInit = () => {
-    const historyWrapper = document.querySelector('.js-history_wrapper');
-    historyWrapper.style.top = `${headerHeight}px`;
-
     const allVersionRollbackBtn = document.querySelectorAll('.js-version_rollback_btn');
     for (const versionRollbackBtn of allVersionRollbackBtn) {
         versionRollbackBtn.addEventListener('click', (event) =>{

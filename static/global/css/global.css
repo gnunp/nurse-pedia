@@ -295,6 +295,10 @@ body{
     color: rgba(150, 150, 150, 1);
 }
 
+#root{
+    position: relative;
+}
+
 /* --------Toast Message 관련 코드-------- */
 .django_messages{
     display: none;

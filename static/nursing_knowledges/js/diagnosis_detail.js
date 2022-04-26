@@ -1,5 +1,4 @@
 import Mindmap from "./mindmap.js";
-import {headerHeight} from "../../global/js/variables";
 import {toastMessage} from "../../global/js/shortcuts";
 import {handleClickStarBtn, handleHoverStarBtn} from "./knowledge_detail";
 
@@ -76,8 +75,6 @@ class DiagnosisDetail{
     }
 }
 
-const diagnosisDetailWrap = document.querySelector('.root');
-diagnosisDetailWrap.style.top =`${headerHeight}px`;
 window.onload = () =>{
     new DiagnosisDetail();
 }

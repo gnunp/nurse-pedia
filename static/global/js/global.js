@@ -1,17 +1,11 @@
 import "regenerator-runtime/runtime.js";
 import {toastMessage} from "./shortcuts";
+import {headerHeight} from "./variables";
 
-
-window.addEventListener('resize',()=>{
-    let pages = document.querySelectorAll('.page');
-    let stageWidth = window.innerWidth;
-    let stageHeight = window.innerHeight;
-
-    pages.forEach(element => {
-        element.style.width = `${stageWidth}px`;
-        element.style.height = `${stageHeight}px`;
-    });
-});
+if((location.pathname !== "/") && (location.pathname !== "/knowledges/mindmap/")){
+    const rootElement = document.querySelector('#root');
+    rootElement.style.top = `${headerHeight}px`;
+}
 
 /*---------------------------header nav바 이벤트-----------------------------------*/
 const navitems = document.querySelectorAll('.global_nav_item');

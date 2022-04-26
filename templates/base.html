@@ -44,7 +44,10 @@
 	</head>
 	<body>
 		{% include 'base_header.html' %}
-		{% block content %}{% endblock content %}
+        <div id="root">
+            {% block content %}
+            {% endblock content %}
+        </div>
 
         {% if messages %}
             <div class="django_messages js-django_messages">

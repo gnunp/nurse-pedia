@@ -1,5 +1,3 @@
-import {headerHeight} from "../../global/js/variables";
-
 const diagnosisDetailEdit = () => {
     applyTextareaBlur();
 
@@ -59,10 +57,5 @@ const diagnosisDetailEdit = () => {
         });
     }
 }
-
-
-
-const form = document.querySelector("#edit_form");
-form.style.top = `${headerHeight}px`
 
 diagnosisDetailEdit()

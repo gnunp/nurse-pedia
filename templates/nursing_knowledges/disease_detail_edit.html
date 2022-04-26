@@ -16,7 +16,7 @@
 {% endblock head_script %}
 
 {% block content %}
-<form class="root" id="edit_form"class="root" method="post" action="{% url 'nursing_knowledges:disease_detail_edit' disease.pk %}">
+<form class="knowledge_detail_wrapper" id="edit_form" class="knowledge_detail_wrapper" method="post" action="{% url 'nursing_knowledges:disease_detail_edit' disease.pk %}">
     {% csrf_token %}
     <div class="knowledge_header">
         <div class="knowledge_header__category">질병</div>

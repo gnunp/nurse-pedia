@@ -1,5 +1,4 @@
 import {animation} from '../../global/js/animation';
-import {headerHeight} from "../../global/js/variables";
 
 class DiagnosisCategory{
     constructor(){
@@ -7,15 +6,8 @@ class DiagnosisCategory{
         this.mainContent = document.querySelector('.dia_cat_mainContent');
         this.largedisease = knowledgeData.large_diagnoses;
         this.spreadspeed = 0.1;
-        
-        this.setInitStyle();
 
         this.createCategoryElement();
-    }
-    setInitStyle(){
-        /*--------------Header높이 만큼 위에서 떨어트림--------------- */
-        this.mainContent.style.top = `${headerHeight}px`;
-
     }
     createBtn(child_ele, parents_ele, type){
         const newbtn = document.createElement('button');
@@ -204,7 +196,6 @@ class newDiagnosisCategory{
     createcontent(){
         const maincontentdiv = document.querySelector('.dia_cat_mainContent');
         maincontentdiv.classList.add('maincontentdiv');
-        maincontentdiv.style.top = `${headerHeight}px`;
 
         const largeDiagnoses = knowledgeData.large_diagnoses;
         const largeToMediums = knowledgeData.large_to_mediums;

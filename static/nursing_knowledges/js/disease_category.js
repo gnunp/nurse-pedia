@@ -1,5 +1,4 @@
 import {animation} from '../../global/js/animation';
-import {headerHeight} from "../../global/js/variables";
 
 class DiseaseCategory{
     constructor(){
@@ -8,14 +7,9 @@ class DiseaseCategory{
         this.spreadspeed = 0.1;
         console.log(knowledgeData);
 
-        this.setInitStyle();
         this.createCategoryElement();
     }
-    setInitStyle(){
-        /*--------------Header높이 만큼 위에서 떨어트림--------------- */
-        this.mainContent.style.top = `${headerHeight}px`;
 
-    }
     createBtn(child_ele, parents_ele, type){
         const newbtn = document.createElement('button');
         newbtn.innerText = "◀";

@@ -1,5 +1,3 @@
-import {headerHeight} from '../../global/js/variables';
-
 class Mypage{
     constructor(){
         this.setInit();
@@ -9,9 +7,6 @@ class Mypage{
     }
     
     setInit(){
-        const mypage = document.querySelector('.mypage_wrap');
-        mypage.style.top = `${headerHeight}px`;
-
         /*----------html 미리 만드는 코드----------- */
         this.createstarcontent();
         this.createhistorycontent();

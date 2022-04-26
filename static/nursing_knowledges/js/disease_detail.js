@@ -1,6 +1,5 @@
 import Mindmap from "./mindmap.js";
 import shuffle from "lodash/shuffle";
-import {headerHeight} from '../../global/js/variables';
 import {toastMessage} from "../../global/js/shortcuts";
 import {handleHoverStarBtn, handleClickStarBtn} from "./knowledge_detail";
 
@@ -96,9 +95,6 @@ class DiseaseDetail{
         toastMessage("로그인이 필요합니다");
     }
 }
-
-const diseaseDetailWrap = document.querySelector('.root');
-diseaseDetailWrap.style.top = `${headerHeight}px`;
 
 window.onload = ()=>{
     new DiseaseDetail();
