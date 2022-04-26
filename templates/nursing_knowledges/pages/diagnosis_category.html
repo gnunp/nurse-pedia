@@ -1,14 +1,13 @@
-{% extends 'base.html' %}
+{% extends 'base/base.html' %}
 {% load static %}
 
 
-{% block title %} 질병 분류 {% endblock title %}
+{% block title %} 진단 분류 {% endblock title %}
 
 
 {% block css %}
-    <link rel="stylesheet" href="{% static 'nursing_knowledges/css/disease_category.css' %}">
+    <link rel="stylesheet" href="{% static 'nursing_knowledges/css/diagnosis_category.css' %}">
 {% endblock css %}
-
 
 
 {% block link %}
@@ -22,13 +21,17 @@
 
 
 {% block content %}
-    <div class="dis_cat_mainContent"></div>
+
+<div class="dia_cat_mainContent"></div>
+
 {% endblock content %}
+
+
 
 {% block script %}
 <script>
     const knowledgeData = {{knowledge_data|safe}};
 </script>
-<script src="{% static 'assets/js/diseasecategory.js' %}"></script>
+<script src="{% static 'assets/js/diagnosiscategory.js' %}"></script>
 
 {% endblock script %}

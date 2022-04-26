@@ -140,7 +140,7 @@ def kakao_add_more_info(request):
         "form": form,
     }
 
-    return render(request, "users/kakao_add_more_info.html", context)
+    return render(request, "users/pages/kakao_add_more_info.html", context)
 
 
 def signup(request):
@@ -186,4 +186,4 @@ def mypage(request):
         'profile_update_form': profile_update_form,
     }
 
-    return render(request, 'users/mypage.html', context)
+    return render(request, 'users/pages/mypage.html', context)

@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base/base.html' %}
 {% load static %}
 
 {% block title %} {{original_knowledge.name}} {% endblock title %}
@@ -134,7 +134,7 @@
                 {% endif %}
             </div>
         {% if not is_before_version %}
-            {% include 'nursing_knowledges/mindmap.html' %}
+            {% include 'nursing_knowledges/components/mindmap.html' %}
         {% endif %}
     </div>
 {% endblock content %}
