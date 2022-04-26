@@ -1,9 +1,12 @@
 import Mindmap from "../../utils/mindmap.js";
 import {toastMessage} from "../../../../global/js/utils/toastMessage";
 import {handleClickStarBtn, handleHoverStarBtn} from "../../utils/knowledgeStarAction";
+import {relatedDiagnosisEvent} from "./relatedDiagnosisEvent";
 
 class DiagnosisDetail{
     constructor(){
+        relatedDiagnosisEvent();
+
         //mypage 내가 열어본 페이지에 저장하는 코드
         const address = location.href.match(/knowledges.*/).join();
         const name = document.querySelector('.knowledge_header__name').textContent;

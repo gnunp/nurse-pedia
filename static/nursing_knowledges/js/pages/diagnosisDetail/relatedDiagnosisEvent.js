@@ -1,7 +1,7 @@
 import { disassemble, isConsonant } from 'hangul-js';
-import {getCookie} from "../../../global/js/utils/getCookie";
+import {getCookie} from "../../../../global/js/utils/getCookie";
 
-const relatedDiagnosisEvent = () => {
+export const relatedDiagnosisEvent = () => {
     const allRelatedDiagnosisWrapper = document.querySelectorAll(".js-related_diagnosis");
     for (const wrapper of allRelatedDiagnosisWrapper) {
         wrapper.addEventListener("toggle", handleToggleWrapper);
@@ -194,5 +194,3 @@ const relatedDiagnosisEvent = () => {
         return word + adverb;
     }
 }
-
-relatedDiagnosisEvent();
