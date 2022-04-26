@@ -7,7 +7,6 @@
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'nursing_knowledges/css/home.css' %}">
-    <link rel="stylesheet" href="{% static 'nursing_knowledges/css/firstpage.css' %}">
 {% endblock css %}
 
 
@@ -23,8 +22,25 @@
 
 
 {% block content %}
-    <div class="wrappage">
-        {% include 'nursing_knowledges/firstpage.html'%}
+    <div class="home_wrapper">
+        <div class="home_main_text">
+            <p>
+                함께 만들어가는<br>
+                간호 지식 공유 사이트
+            </p>
+            <div class="home_search_wrapper js-search_wrapper">
+                <label for="input_text">
+                    <form action="{% url 'nursing_knowledges:search' %}" class="home_search_form js-search_form">
+                        <label for="search_submit_btn">
+                            <i class="fas fa-search home_search_icon"></i>
+                        </label>
+                        <input type="text" class="home_search_text js-search_keyword" id="input_text" name="keyword" autocomplete='off'>
+                        <input type="submit" class="home_search_submit" id="search_submit_btn">
+                    </form>
+                </label>
+                <div class="home_search_result_wrapper js-search_result_wrapper"></div>
+            </div>
+        </div>
     </div>
 {% endblock content %}
 

@@ -11,38 +11,6 @@
     overflow: hidden;
 }
 
-.firstpage_search_bar{
-    position: relative;
-
-    width: 30rem;
-
-    padding: 0.6rem 1rem;
-    border-radius: 2rem;
-    background-color: rgba(201, 201, 201, 0.5);
-    display: flex;
-    align-items: center;
-}
-
-.firstpage_search_icon{
-    margin-right: 0.7rem;
-    cursor: pointer;
-}
-
-.firstpage_search_text{
-    width: calc(100% - 1.7rem);
-    border: none;
-    background: none;
-}
-
-.firstpage_search_text:focus{
-    outline: none;
-}
-
-.firstpage_search_submit{
-    position: fixed;
-    left: -9999px;
-}
-
 /*----------------------------------- 로딩 -----------------------------*/
 @keyframes ldio-l0fd6b2u6ld {
     0% { transform: translate(-50%,-50%) rotate(0deg); }
