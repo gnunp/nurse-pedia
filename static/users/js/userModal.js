@@ -1,5 +1,5 @@
-import signInModal from "./component/signIn";
-import signUpModal from "./component/signUp";
+import signInModal from "./html_components/signIn";
+import signUpModal from "./html_components/signUp";
 /*
 전역 변수
 */
