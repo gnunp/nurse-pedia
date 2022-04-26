@@ -171,12 +171,6 @@
 
 {% block script %}
     <script>
-        {% if user.is_authenticated %}
-            const userIsAuthenticated = true;
-        {% else %}
-            const userIsAuthenticated = false;
-        {% endif %}
-
         {% if is_before_version %}
             const isBeforeVersion = true;
         {% else %}

@@ -1,5 +1,5 @@
-import signInModal from "./html_components/signIn";
-import signUpModal from "./html_components/signUp";
+import signInModal from "../../../users/js/html_components/signIn";
+import signUpModal from "../../../users/js/html_components/signUp";
 /*
 전역 변수
 */
@@ -59,7 +59,7 @@ const showModal = (modalHTML) => {
     userForm.addEventListener("submit", handleUserFormSubmit);
 }
 
-export const userValidation = async (form, fields, url) => {
+const userValidation = async (form, fields, url) => {
     // 기존의 모든 에러 제거
     for (const errorElement of validationErrorNodes) {
         errorElement.remove();
@@ -167,7 +167,7 @@ const handleClickSignUpBtn = (event) => {
 
 
 
-const userModalInit = async () => {
+export const userModal = async () => {
     const signInBtn = document.querySelector(".js-sign_in");  // Header - 로그인 버튼
     const signUpBtn = document.querySelector(".js-sign_up");  // Header - 회원가입 버튼
     
@@ -176,4 +176,3 @@ const userModalInit = async () => {
     signUpBtn.addEventListener("click", handleClickSignUpBtn);
 }
 
-userModalInit();

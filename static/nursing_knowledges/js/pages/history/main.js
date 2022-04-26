@@ -1,4 +1,5 @@
-import {getCookie, toastMessage} from "../../global/js/shortcuts";
+import {toastMessage} from "../../../../global/js/utils/toastMessage";
+import {getCookie} from "../../../../global/js/utils/getCookie";
 
 const historyInit = () => {
     const allVersionRollbackBtn = document.querySelectorAll('.js-version_rollback_btn');

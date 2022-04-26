@@ -1,4 +1,4 @@
-import {getCookie} from "../../global/js/shortcuts";
+import {getCookie} from "../../../global/js/utils/getCookie";
 
 export function handleHoverStarBtn(event){
     const starBtn = event.target;
@@ -49,7 +49,7 @@ function handleMouseleaveStarBtn(event){
     starBtn.removeEventListener("mouseleave", handleMouseleaveStarBtn);
 }
 
-export async function toggleKnowledgeStarAtDB(id, knowledgeCategory){
+async function toggleKnowledgeStarAtDB(id, knowledgeCategory){
     const response = await fetch('/knowledges/star/', {
           method: 'POST',
           headers: {

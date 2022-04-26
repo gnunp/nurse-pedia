@@ -1,11 +1,11 @@
-import Mindmap from './mindmap';
+import Mindmap from '../../utils/mindmap';
 
-class Mindmappage{
+class Main {
     constructor(){
         new Mindmap();
     }
 }
 
 window.onload = ()=>{
-    new Mindmappage();
+    new Main();
 } 

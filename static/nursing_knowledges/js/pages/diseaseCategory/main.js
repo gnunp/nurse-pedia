@@ -1,4 +1,4 @@
-import {animation} from '../../global/js/animation';
+import {animation} from '../../utils/animation';
 
 class DiseaseCategory{
     constructor(){

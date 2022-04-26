@@ -8,26 +8,18 @@ dotenv.config({ path: path.join(__dirname, '.js_env') })
 module.exports = {
     entry: {
         global: "./static/global/js/global.js",
-        animation: "./static/global/js/animation.js",
-        search: "./static/global/js/search.js",
-        home: "./static/nursing_knowledges/js/home.js",
 
-        diseasedetail : "./static/nursing_knowledges/js/disease_detail.js",
-        diseaseDetailEdit: "./static/nursing_knowledges/js/disease_detail_edit.js",
-        diagnosisdetail :"./static/nursing_knowledges/js/diagnosis_detail.js",
-        diagnosisDetailEdit :"./static/nursing_knowledges/js/diagnosis_detail_edit.js",
-        diagnosisdetail__relatedDiagnosisEvent :"./static/nursing_knowledges/js/diagnosis_detail__relatedDiagnosisEvent.js",
-        
-        userModal: "./static/users/js/userModal.js",
+        home: "./static/nursing_knowledges/js/pages/home/main.js",
+        diseaseDetail : "./static/nursing_knowledges/js/pages/diseaseDetail/main.js",
+        diseaseDetailEdit: "./static/nursing_knowledges/js/pages/diseaseDetailEdit/main.js",
+        diagnosisDetail :"./static/nursing_knowledges/js/pages/diagnosisDetail/main.js",
+        diagnosisDetailEdit :"./static/nursing_knowledges/js/pages/diagnosisDetailEdit/main.js",
+        diseaseCategory:"./static/nursing_knowledges/js/pages/diseaseCategory/main.js",
+        diagnosisCategory:"./static/nursing_knowledges/js/pages/diagnosisCategory/main.js",
+        mindmapPage:"./static/nursing_knowledges/js/pages/mindmapPage/main.js",
+        history:"./static/nursing_knowledges/js/pages/history/main.js",
 
-        diseasecategory:"./static/nursing_knowledges/js/disease_category",
-        diagnosiscategory:"./static/nursing_knowledges/js/diagnosis_category",
-
-        mypage:"./static/users/js/mypage.js",
-
-        mindmappage:"./static/nursing_knowledges/js/mindmappage.js",
-
-        history:"./static/nursing_knowledges/js/history.js",
+        mypage:"./static/users/js/pages/mypage/main.js",
     },
     plugins: [
        // new BundleAnalyzerPlugin()
@@ -37,12 +29,6 @@ module.exports = {
         filename: "[name].js",
         path: path.resolve(__dirname, 'static','assets', 'js'),
         clean: true,
-    },
-    // mindmap때문에 적음
-    devServer:{
-        contentBase: path.resolve("./static/assets/js"),
-        index: "./nursing_knowledges/secondpage.html",
-        port: 9000
     },
     watch: true, 
     module: {

@@ -1,5 +1,5 @@
 import { disassemble, isConsonant } from 'hangul-js';
-import {getCookie} from "../../global/js/shortcuts";
+import {getCookie} from "../../../global/js/utils/getCookie";
 
 const relatedDiagnosisEvent = () => {
     const allRelatedDiagnosisWrapper = document.querySelectorAll(".js-related_diagnosis");

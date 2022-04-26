@@ -1,7 +1,16 @@
 import "regenerator-runtime/runtime.js";
-import {toastMessage} from "./shortcuts";
+import {search} from "./utils/search";
+import {toastMessage} from "./utils/toastMessage";
 import {headerHeight} from "./variables";
+import {userModal} from "./utils/userModal";
 
+/*------------------비로그인이면 userModal기능 제공하는 함수 실행하기-------------------*/
+if(!userIsAuthenticated){
+    await userModal();
+}
+
+
+/*--------------------#root element를 header의 height만큼 띄우기--------------------*/
 if((location.pathname !== "/") && (location.pathname !== "/knowledges/mindmap/")){
     const rootElement = document.querySelector('#root');
     rootElement.style.top = `${headerHeight}px`;
@@ -14,7 +23,7 @@ const subnavs = document.querySelectorAll('.subnav');
 //nav바 마우스 오버와 리브에 따른 이벤트
 navitems.forEach(element => {
     element.addEventListener('mouseover', (e)=>{
-        const activeId =e.target.dataset.id; 
+        const activeId =e.target.dataset.id;
         if(activeId){
             subnavs[activeId-1].classList.toggle('disappear', false);
             subnavs[activeId-1].classList.toggle('activenav', true);
@@ -28,19 +37,16 @@ navitems.forEach(element => {
     });
 });
 
-/*-----------------------Header 검색창 나타냄 유무----------------------------*/ 
-const headerSearchBar = document.querySelector('.nav_searchbar');
-const currenthref = location.href;
-const isactiveSearchBar = (/knowledges/).test(currenthref) | (/users/).test(currenthref);
+/*-----------------------Header 검색창 나타냄 유무----------------------------*/
+const headerSearchBar = document.querySelector('.js-search_wrapper');
 
-if(isactiveSearchBar){
-    headerSearchBar.classList.toggle("disappear", false);
+if(location.pathname == "/"){
+    headerSearchBar.remove();
 }
-else{
-    headerSearchBar.classList.toggle("disappear", true);
-}
+await search(); // 검색창 기능을 제공 하는 함수 실행
 
-/*-----------------------Header 검색창 placeholder outfocus일때 나타내기----------------------------*/ 
+
+/*-----------------------Header 검색창 placeholder outfocus일때 나타내기----------------------------*/
 headerSearchBar.addEventListener("focusout",(e)=>{
     if(!e.target.value){
         e.target.placeholder ="간호 지식 검색";

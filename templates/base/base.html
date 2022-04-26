@@ -41,10 +41,13 @@
 	</head>
 	<body>
 		{% include 'base/components/header.html' %}
+
+
         <div id="root">
             {% block content %}
             {% endblock content %}
         </div>
+
 
         {% if messages %}
             <div class="django_messages js-django_messages">
@@ -54,28 +57,18 @@
             </div>
         {% endif %}
 
-		<!-- DJANGO TEMPLATE VARIABLES -->
-		<script>
-			const csrfToken = "{{ csrf_token }}";
-		</script>
-		<!-- SCRIPTS -->
-		<script src="{% static 'assets/js/global.js' %}"></script>
-        {% if request.path == "/" %}
-            <script>
-                // 헤더에 있는 검색창 제거
-                if(document.querySelector(".js-nav_searchbar")){
-                    document.querySelector(".js-nav_searchbar").remove();
-                }
-            </script>
-        {% endif %}
-    
-        <script src="{% static 'assets/js/search.js' %}"></script>
 
-		{% if user.is_authenticated %}
-		{% else %}
-			<script src="{% static 'assets/js/userModal.js' %}"></script>
-		{% endif %}
-			
+		<!-- SCRIPTS -->
+		<script>
+            {% if user.is_authenticated %}
+                const userIsAuthenticated = true;
+            {% else %}
+                const userIsAuthenticated = false;
+            {% endif %}
+		</script>
+
+		<script src="{% static 'assets/js/global.js' %}"></script>
+
 		{% block script %}{% endblock script %}
 	</body>
 </html>

@@ -1,6 +1,6 @@
-import Mindmap from "./mindmap.js";
-import {toastMessage} from "../../global/js/shortcuts";
-import {handleClickStarBtn, handleHoverStarBtn} from "./knowledge_detail";
+import Mindmap from "../../utils/mindmap.js";
+import {toastMessage} from "../../../../global/js/utils/toastMessage";
+import {handleClickStarBtn, handleHoverStarBtn} from "../../utils/knowledgeStarAction";
 
 class DiagnosisDetail{
     constructor(){
