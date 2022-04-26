@@ -26,7 +26,7 @@ textarea:focus{
 
     padding: 0.7rem 2rem;
 
-    background-color: var(--pink);
+    background-color: var(--main-pink-color);
     color: white;
     font-weight: bold;
     font-size: 0.9rem;

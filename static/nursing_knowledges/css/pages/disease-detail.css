@@ -1,3 +1,6 @@
+@import url("../base/_knowledge-detail.css");
+@import url("../components/_mindmap.css");
+
 .relative_diagnoses{
    display: flex;
    flex-direction: row;

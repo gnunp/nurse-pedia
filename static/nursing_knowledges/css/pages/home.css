@@ -80,7 +80,7 @@
 }
 
 .home_search_result_wrapper .search_result > i{
-    color: var(--pink);
+    color: var(--main-pink-color);
     margin-right: 0.5rem;
 }
 
