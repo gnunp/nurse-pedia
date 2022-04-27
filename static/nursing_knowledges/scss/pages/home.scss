@@ -9,97 +9,96 @@
 
     justify-content: center;
     align-items: center;
-}
-.home_main_text{
-    margin-bottom: 0.5rem;
 
-    font-family: 'Do Hyeon', sans-serif;
-    font-size: 3rem;
-    text-align: center;
+    .center_content_wrapper{
+        margin-bottom: 0.5rem;
 
-    white-space: nowrap;
-}
-.home_search_wrapper{
-    position:absolute;
-    top: calc(60%);
-    left: 50%;
-    transform: translate(-50%, 0);
+        font-family: 'Do Hyeon', sans-serif;
+        font-size: 3rem;
+        text-align: center;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+        white-space: nowrap;
+        .searchbar_wrapper{
+            position:absolute;
+            top: calc(60%);
+            left: 50%;
+            transform: translate(-50%, 0);
 
-    border-radius: 0.5rem;
-    background-color: rgba(201, 201, 201, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
 
-    font-size: 1rem;
-    font-family: 'Noto Sans KR', sans-serif !important;
-}
-.home_search_form{
-    position: relative;
-    width: 30rem;
-    padding: 0.6rem 1rem;
-    display: flex;
-    align-items: center;
+            border-radius: 0.5rem;
+            background-color: rgba(201, 201, 201, 0.5);
 
-    cursor: text;
-}
+            font-size: 1rem;
+            font-family: 'Noto Sans KR', sans-serif !important;
+            .home_search_form{
+                position: relative;
+                width: 30rem;
+                padding: 0.6rem 1rem;
+                display: flex;
+                align-items: center;
 
-.home_search_icon{
-    margin-right: 0.7rem;
-    cursor: pointer;
-}
+                cursor: text;
+                .home_search_icon{
+                    margin-right: 0.7rem;
+                    cursor: pointer;
+                }
+                .home_search_text{
+                    width: calc(100% - 1.7rem);
+                    border: none;
+                    background: none;
+                    &:focus{
+                        outline: none;
+                    }
+                }
+                .home_search_submit{
+                    position: fixed;
+                    left: -9999px;
+                }
+            }
+            .home_search_result_wrapper{
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                .search_result{
+                    display: flex;
+                    align-items: center;
+                    height: 2.5rem;
+                    padding-left: 1.3rem;
+                    cursor: pointer;
+                    i{
+                        color: var(--main-pink-color);
+                        margin-right: 0.5rem;
+                    }
+                    .name{
+                        font-weight: bold;
+                    }
+                }
+                .js-result_selected{
+                    background-color: rgb(196, 196, 196) !important;
+                    &:last-child {
+                        border-radius: 0 0 0.5rem 0.5rem;
+                    }
+                }
+                .js-display_none{
+                    display: none !important;
+                }
+                .js-diagnosis_icon_color{
+                    color: #ffcf28 !important;
+                }
+            }
+        }
+    }
 
-.home_search_text{
-    width: calc(100% - 1.7rem);
-    border: none;
-    background: none;
-}
 
-.home_search_text:focus{
-    outline: none;
-}
 
-.home_search_submit{
-    position: fixed;
-    left: -9999px;
-}
 
-.home_search_result_wrapper{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
 
-.home_search_result_wrapper .search_result{
-    display: flex;
-    align-items: center;
-    height: 2.5rem;
-    padding-left: 1.3rem;
-    cursor: pointer;
-}
 
-.home_search_result_wrapper .search_result > i{
-    color: var(--main-pink-color);
-    margin-right: 0.5rem;
-}
 
-.home_search_result_wrapper .search_result > .name{
-    font-weight: bold;
-}
 
-.home_search_result_wrapper .js-result_selected{
-    background-color: rgb(196, 196, 196) !important;
-}
 
-.home_search_result_wrapper .js-result_selected:last-child{
-    border-radius: 0 0 0.5rem 0.5rem;
-}
 
-.home_search_result_wrapper .js-display_none{
-    display: none !important;
-}
-
-.home_search_result_wrapper .js-diagnosis_icon_color{
-    color: #ffcf28 !important;
 }
