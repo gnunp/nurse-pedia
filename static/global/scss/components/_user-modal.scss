@@ -17,7 +17,8 @@
 .modal_wrapper{
     display: flex;
     flex-direction: column;
-    width: 25rem;
+    width: 95%;
+    max-width: 25rem;
     border-radius: 10px;
     background-color: white;
 }
@@ -47,7 +48,8 @@
 }
 
 .modal__content > *{
-    width: 16rem;
+    width: 100%;
+    max-width: 16rem;
 }
 
 .modal__content__form{
