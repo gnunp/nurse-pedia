@@ -17,3 +17,37 @@ html,body{
 .is{
     font-size: 100px;
 }
+
+.mobilewarning{
+    position: fixed;
+    top:0; left: 0;
+    z-index: 9999;
+
+    width: 100vw;
+    height: 100vh;
+    background-color: #FF8080;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+    text-align: center;
+    font-size: 2rem;
+
+    overflow: hidden;
+}
+.logo_mobile{
+    position: relative;
+    bottom: 3rem;
+    font-size: 2rem;
+}
+.logo_img_mobile{
+    color:white;
+}
+.logo_mobile h1{
+    color: white;
+    font-weight: 900;
+    margin-left: 0.5rem;
+}

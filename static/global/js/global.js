@@ -60,10 +60,14 @@ const personalbtn = document.querySelector('.personal_btn');
 const subwindow = document.querySelector('.personal_info');
 const closebtn = document.querySelector('.close_btn');
 
-personalbtn.addEventListener('click', ()=>{
-    subwindow.classList.toggle('unactive');
-});
+if(personalbtn){
+    personalbtn.addEventListener('click', ()=>{
+        subwindow.classList.toggle('unactive');
+    });
+}
 
-closebtn.addEventListener('click',()=>{
-    subwindow.classList.toggle('unactive');
-});
+if(closebtn){
+    closebtn.addEventListener('click',()=>{
+        subwindow.classList.toggle('unactive');
+    });
+}
