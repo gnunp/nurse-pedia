@@ -7,8 +7,10 @@ import {search} from "./utils/search";
 import {toastMessage} from "./utils/toastMessage";
 import {headerHeight} from "./variables";
 import {userModal} from "./utils/userModal";
+import {setMobileSideMenuEvent} from "./utils/setMobileSideMenuEvent";
 
 const globalInit = async () => {
+    setMobileSideMenuEvent();
     await userModalInit();
     setRootElementTop();
     setNavbarEvent();

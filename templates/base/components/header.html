@@ -40,6 +40,10 @@
                 <div><a href="{% url 'nursing_knowledges:history'%} ">편집 히스토리</a></div>
             </ul>
         </div>    
+        <!----------------- 모바일 메뉴 ------------------>
+        <div class="mobile_menu js-mobile_menu global_nav_item">
+            <i class="fas fa-bars"></i>
+        </div>
         <!----------------- 로그인 ------------------>
         <div class="sign global_nav_item">
             {% if user.is_authenticated %}
