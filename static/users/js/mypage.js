@@ -64,10 +64,9 @@ class Mypage{
 
         if(localStorage.length>0){
             const pagehistory = JSON.parse(localStorage.getItem('pageHistory'));
-
+            
             pagehistory.forEach(element => {
-                console.log(element);
-                historycontent.appendChild(this.createhistoryitem(element));
+                historycontent.prepend(this.createhistoryitem(element));
             });
         }
 

@@ -11,7 +11,6 @@ class Home{
 
         // 모바일 일 경우
         if(isMobile){
-           this.mobileSetting();
         }
         //모바일이 아닌경우
         else{

@@ -261,7 +261,7 @@ class Mindmap{
             ],
 
             layout: {
-                name: 'cose',
+                name: 'cose-bilkent',
 
                 fit: true,             
                 padding: 30,            
