@@ -1,3 +1,7 @@
+/* SCSS */
+import "../scss/global.scss";
+
+/* JS */
 import "regenerator-runtime/runtime.js";
 import {search} from "./utils/search";
 import {toastMessage} from "./utils/toastMessage";

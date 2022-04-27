@@ -5,30 +5,22 @@
 {% block title %} 질병 분류 {% endblock title %}
 
 
-{% block css %}
-    <link rel="stylesheet" href="{% static 'assets/all_css/nursing_knowledges/css/pages/disease-category.css' %}">
-{% endblock css %}
-
-
 
 {% block link %}
 {% endblock link %}
 
 
 
-{% block head_script %}
-{% endblock head_script %}
+{% block script %}
+<script>
+    const knowledgeData = {{knowledge_data|safe}};
+</script>
+<script defer src="{% static 'assets/js/diseasecategory.js' %}"></script>
+
+{% endblock script %}
 
 
 
 {% block content %}
     <div class="dis_cat_mainContent"></div>
 {% endblock content %}
-
-{% block script %}
-<script>
-    const knowledgeData = {{knowledge_data|safe}};
-</script>
-<script src="{% static 'assets/js/diseasecategory.js' %}"></script>
-
-{% endblock script %}

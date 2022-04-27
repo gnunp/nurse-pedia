@@ -5,19 +5,22 @@
 {% block title %} {{original_knowledge.name}} {% endblock title %}
 
 
-{% block css %}
-    <link rel="stylesheet" href="{% static 'assets/all_css/nursing_knowledges/css/pages/diagnosis-detail.css' %}">
-{% endblock css %}
-
-
-
 {% block link %}
 {% endblock link %}
 
 
 
-{% block head_script %}
-{% endblock head_script %}
+{% block script %}
+    <script>
+        {% if is_before_version %}
+            const isBeforeVersion = true;
+        {% else %}
+            const isBeforeVersion = false;
+        {% endif %}
+    </script>
+    <script defer src="{% static 'assets/js/diagnosisdetail.js' %}"></script>
+{% endblock script %}
+
 
 
 {% block content %}
@@ -166,16 +169,3 @@
         {% endif %}
     </div>
 {% endblock content %}
-
-
-
-{% block script %}
-    <script>
-        {% if is_before_version %}
-            const isBeforeVersion = true;
-        {% else %}
-            const isBeforeVersion = false;
-        {% endif %}
-    </script>
-    <script src="{% static 'assets/js/diagnosisdetail.js' %}"></script>
-{% endblock script %}

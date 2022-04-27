@@ -3,15 +3,18 @@
 
 {% block title %} {{original_knowledge.name}} {% endblock title %}
 
-{% block css %}
-    <link rel="stylesheet" href="{% static 'assets/all_css/nursing_knowledges/css/pages/disease-detail.css' %}">
-{% endblock css %}
+
 
 {% block link %}
 {% endblock link %}
 
-{% block head_script %}
-{% endblock head_script %}
+
+
+{% block script %}
+<script defer src="{% static 'assets/js/diseasedetail.js' %}"></script>
+{% endblock script %}
+
+
 
 {% block content %}
     <div class="knowledge_detail_wrapper">
@@ -137,9 +140,3 @@
         {% endif %}
     </div>
 {% endblock content %}
-
-
-
-{% block script %}
-<script src="{% static 'assets/js/diseasedetail.js' %}"></script>
-{% endblock script %}

@@ -1,4 +1,9 @@
+/* SCSS */
+import "../../../scss/pages/disease-category.scss";
+
+/* JS */
 import {animation} from '../../utils/animation';
+
 
 class DiseaseCategory{
     constructor(){

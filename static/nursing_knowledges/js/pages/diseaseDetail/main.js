@@ -1,7 +1,12 @@
+/* SCSS */
+import "../../../scss/pages/disease-detail.scss";
+
+/* JS */
 import Mindmap from "../../utils/mindmap.js";
 import shuffle from "lodash/shuffle";
 import {toastMessage} from "../../../../global/js/utils/toastMessage";
 import {handleHoverStarBtn, handleClickStarBtn} from "../../utils/knowledgeStarAction";
+
 
 class DiseaseDetail{
     constructor(){        

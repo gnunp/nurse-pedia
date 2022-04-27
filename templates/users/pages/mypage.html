@@ -5,10 +5,6 @@
 {% block title %} 마이페이지 {% endblock title %}
 
 
-{% block css %}
-    <link rel="stylesheet" href="{% static 'assets/all_css/users/css/pages/mypage.css' %}">
-{% endblock css %}
-
 
 
 {% block link %}
@@ -16,8 +12,10 @@
 
 
 
-{% block head_script %}
-{% endblock head_script %}
+{% block script %}
+<script defer src="{% static 'assets/js/mypage.js' %}"></script>
+{% endblock script %}
+
 
 
 {% block content %}
@@ -57,8 +55,3 @@
         </div>
     </div>
 {% endblock content %}
-
-{% block script %}
-<script src="{% static 'assets/js/mypage.js' %}"></script>
-{% endblock script %}
-

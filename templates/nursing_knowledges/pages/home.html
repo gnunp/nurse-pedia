@@ -5,10 +5,6 @@
 {% block title %} HOME {% endblock title %}
 
 
-{% block css %}
-    <link rel="stylesheet" href="{% static 'assets/all_css/nursing_knowledges/css/pages/home.css' %}">
-{% endblock css %}
-
 
 
 {% block link %}
@@ -16,8 +12,11 @@
 
 
 
-{% block head_script %}
-{% endblock head_script %}
+
+{% block script %}
+<script defer src="{% static 'assets/js/home.js' %}"></script>
+{% endblock script %}
+
 
 
 
@@ -43,9 +42,3 @@
         </div>
     </div>
 {% endblock content %}
-
-
-
-{% block script %}
-<script src="{% static 'assets/js/home.js' %}"></script>
-{% endblock script %}

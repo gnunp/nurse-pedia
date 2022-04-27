@@ -3,15 +3,18 @@
 
 {% block title %} {{diagnosis.name}} {% endblock title %}
 
-{% block css %}
-    <link rel="stylesheet" href="{% static 'assets/all_css/nursing_knowledges/css/pages/diagnosis-detail-edit.css' %}">
-{% endblock css %}
+
 
 {% block link %}
 {% endblock link %}
 
-{% block head_script %}
-{% endblock head_script %}
+
+
+{% block script %}
+<script defer src="{% static 'assets/js/diagnosisDetailEdit.js' %}"></script>
+{% endblock script %}
+
+
 
 {% block content %}
 <form id="edit_form"
@@ -69,9 +72,3 @@
 
 </form>
 {% endblock content %}
-
-
-
-{% block script %}
-<script src="{% static 'assets/js/diagnosisDetailEdit.js' %}"></script>
-{% endblock script %}

@@ -1,4 +1,9 @@
+/* SCSS */
+import "../../../scss/pages/diagnosis-category.scss";
+
+/* JS */
 import {animation} from '../../utils/animation';
+
 
 class DiagnosisCategory{
     constructor(){
