@@ -1236,5 +1236,6 @@ export class MakeFullData{
             */
   
             return result;
+    }
 }
 export default Mindmap;
