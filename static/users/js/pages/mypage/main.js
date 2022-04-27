@@ -1,3 +1,10 @@
+/* SCSS */
+import "../../../scss/pages/mypage.scss";
+
+/* JS */
+
+
+
 class Mypage{
     constructor(){
         this.setInit();

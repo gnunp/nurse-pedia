@@ -6,20 +6,7 @@
 
 .history_wrapper{
     position: relative;
-    max-width: 1000px;
-    min-height: calc(100vh - 80px);
-    margin: 0 auto;
-    padding: 5rem 6rem;
     padding-bottom: 3rem;
-    border-right: 1px solid #D6D6D6;
-    border-left: 1px solid #D6D6D6;
-}
-
-@media (max-width: 999px) {
-    .history_wrapper{
-        border: none;
-        padding: 5rem 9.609%;
-    }
 }
 
 .history__title{

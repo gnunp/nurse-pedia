@@ -10,3 +10,18 @@ body{
     position: relative;
 }
 
+.wrapper_base_style{
+    max-width: 1000px;
+    min-height: calc(100vh - 80px);
+    margin: 0 auto;
+    padding: 5rem 6rem;
+    border-right: 1px solid #D6D6D6;
+    border-left: 1px solid #D6D6D6;
+}
+@media(max-width: 999px){
+    .wrapper_base_style{
+        border: none;
+        padding: 5rem 9.609%;
+    }
+}
+
