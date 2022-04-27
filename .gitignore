@@ -94,3 +94,5 @@ logs/
 
 /node_modules
 static/assets/
+
+.sass-cache/

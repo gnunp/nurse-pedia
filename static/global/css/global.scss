@@ -1,6 +1,6 @@
-@import url("_reset.css");
-@import url("_custom-properties.css");
-@import url("components/__components.css");
+@import "_reset";
+@import "_custom-properties";
+@import "components/__components";
 
 body{
     font-family: 'Noto Sans KR', sans-serif;

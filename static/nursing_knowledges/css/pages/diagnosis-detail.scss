@@ -1,6 +1,6 @@
-@import url("../base/_knowledge-detail.css");
-@import url("../components/_related-diagnosis-card.css");
-@import url("../components/_mindmap.css");
+@import "../base/_knowledge-detail";
+@import "../components/_related-diagnosis-card";
+@import "../components/_mindmap";
 
 .knowledge_header__category{
     background-color: #faa56f;
