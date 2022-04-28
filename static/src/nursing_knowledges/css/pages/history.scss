@@ -1,0 +1,97 @@
+@charset "utf-8";
+
+.header{
+    border-bottom: solid 1px #D6D6D6;
+}
+
+.history_wrapper{
+    position: relative;
+    padding-bottom: 3rem;
+}
+
+.history__title{
+    font-size: 2.2rem;
+    font-weight: bold;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #D6D6D6;
+}
+
+.history__list{
+    margin-top: 2rem;
+    margin-left: 1rem;
+}
+
+.history__list__item{
+    word-break: break-all;
+    line-height: 1.4rem;
+    margin-bottom: 0.7rem;
+}
+
+.history__list__item::before{
+    content: "•";
+    margin-right: 0.5rem;
+}
+
+.history__list__item > .version_info{
+    color: #0275d8;
+}
+
+.history__list__item > .version_info:hover{
+    color: #0275d8;
+}
+
+.history__list__item > .knowledge_name{
+    font-weight: bold;
+    /*color: #FF6565;*/
+}
+
+.history__list__item > .change_word_count::before,.rollback_version_explanation::before{
+    content: "(";
+    color: black;
+}
+
+.history__list__item > .change_word_count::after,.rollback_version_explanation::after{
+    content: ")";
+    color: black;
+}
+
+.history__list__item > .rollback_version_explanation{
+    position: relative;
+    bottom: 1px;
+    font-size: 0.8rem;
+}
+
+.history__list__item > .report_user{
+    color: #ff3b3b;
+}
+
+.set_color_green{
+    color: green;
+}
+
+.set_color_red{
+    color: red;
+}
+
+.history__page_btn_wrapper{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 3rem
+}
+
+.history__page_btn_wrapper > a{
+    border: none;
+    border: solid 1px #8D8D8D;
+    border-radius: 5px;
+    background-color: white;
+    padding: 8px 25px;
+    margin: 0 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.history__page_btn_wrapper > a:hover{
+    background-color: #eeeeee;
+    cursor: pointer;
+}

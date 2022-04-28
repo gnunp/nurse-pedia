@@ -1,0 +1,93 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+
+{% block title %} 편집 히스토리 {% endblock title %}
+
+
+
+
+{% block css %}
+    <link href="{% static 'build/all_css/nursing_knowledges/css/pages/history.css' %}" rel="stylesheet">
+{% endblock css %}
+
+
+{% block link %}
+{% endblock link %}
+
+
+
+{% block head_script %}
+{% endblock head_script %}
+
+
+
+
+{% block content %}
+
+<div class="wrapper_base_style history_wrapper js-history_wrapper">
+    <h1 class="history__title">
+        {% if knowledge %}
+            <a href="{{ knowledge.get_absolute_url }}">{{ knowledge.name }}</a>
+        {% else %}
+            편집 히스토리
+        {% endif %}
+    </h1>
+
+    <ul class="history__list">
+        {% for history in page_obj %}
+            <li class="history__list__item js-history__list__item"
+                data-knowledge_type="{{ history.get_knowledge_type }}"
+                data-history_id="{{ history.pk }}"
+            >
+                <span class="date">{{history.created_at|date:'Y-m-d H:i:s'}}</span>
+                <span>-</span>
+                <a class="version_info" href="{{ history.get_absolute_knowledge_version_detail_url }}">[보기]</a>
+                <a class="version_info js-version_rollback_btn" href="{{ history.get_absolute_rollback_url }}">[되돌리기]</a>
+                <span>{{ history.version }}번째 버전</span>
+                {% if history.editor %}
+                    {% if not history.is_rollbacked %}
+                        {% if history.changed_word_count > 0 %}
+                            <span class="change_word_count set_color_green">+{{history.changed_word_count}}</span>
+                        {% elif history.changed_word_count < 0 %}
+                            <span class="change_word_count set_color_red">{{history.changed_word_count}}</span>
+                        {% else %}
+                            <span class="change_word_count">{{history.changed_word_count}}</span>
+                        {% endif %}
+                    {% else %}
+                        <span class="rollback_version_explanation">{{ history.rollback_version }}번째 버전으로 되돌려짐</span>
+                    {% endif %}
+                {% endif %}
+                {% if is_total_history_page %}
+                    <span>-</span>
+                    <a href="{{history.get_knowledge.get_absolute_url}}" class="knowledge_name">{{history.get_knowledge.name}}</a>
+                {% endif %}
+                {% if history.editor %}
+                    <span>-</span>
+                    <span class="editor">{{history.editor}}</span>
+                    <a class="report_user js-report_user_btn" href="#">[신고하기]</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="history__page_btn_wrapper">
+        
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">이전</a>
+        {% endif %}
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">다음</a>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock content %}
+
+
+
+
+{% block script %}
+    <script src="{% static 'build/js/history.js' %}"></script>
+{% endblock script %}

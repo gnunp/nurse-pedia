@@ -1,0 +1,260 @@
+.modal_background{
+    z-index: 99999;
+    position: fixed;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.65);
+}
+
+.kakao_add_more_info_wrapper{
+    background-color: #595959;
+}
+
+.modal_wrapper{
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    max-width: 25rem;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.modal__header{
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: solid 1px #D6D6D6;
+}
+
+.modal_header__title{
+    font-weight: bold;
+}
+
+.modal_header__close_btn{
+    cursor: pointer;
+}
+
+.modal__content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 3rem 0;
+}
+
+.modal__content > *{
+    width: 100%;
+    max-width: 16rem;
+}
+
+.modal__content__form{
+    display: flex;
+    flex-direction: column;
+}
+
+.input_wrapper{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.5rem;
+}
+
+.input_wrapper > .field_label{
+    margin-bottom: 0.5rem;
+}
+
+.input_wrapper > .error{
+    font-size: 0.7rem;
+    color: red;
+    margin-top: 0.3rem;
+    margin-left: 0.2rem;
+}
+
+.input_wrapper input{
+    border: solid 1px #D6D6D6;
+    border-radius: 15px;
+    padding: 0.8rem;
+    font-size: 0.8rem;
+}
+
+.input_wrapper input::placeholder{
+    color: #D6D6D6;
+}
+
+.input_wrapper input:focus{
+    outline: none;
+}
+
+.form__submit_btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    border: none;
+    border-radius: 15px;
+    background-color: var(--main-pink-color);
+    padding: 0.8rem;
+    margin-top: 1rem;
+    font-weight: bold;
+    color: white;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.modal__content__or_line{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 3rem;
+    font-size: 0.8rem;
+    color: #D6D6D6;
+}
+
+.modal__content__or_line > hr{
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    margin: 0;
+    border: solid 1px #D6D6D6;
+    background-color: #D6D6D6;
+}
+
+.modal__content__or_line > span{
+    z-index: 110;
+    background-color: white;
+    padding: 0 4px;
+    font-weight: bold;
+}
+
+.modal__content__kakao_login_btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2.5rem;
+    border: none;
+    border-radius: 15px;
+    background-color: #FEE500;
+    margin-bottom: 1.3rem;
+    font-weight: bold;
+    color: #1A1A1C;
+    font-size: 0.8rem;
+    cursor: pointer;
+    text-decoration-line: none;
+}
+
+.modal__content__kakao_login_btn:hover{
+    color: #1A1A1C
+}
+
+.modal__content__kakao_login_btn > span{
+    margin-left: 5px;
+}
+
+.modal__content__toggle{
+    display: flex;
+    justify-content: center;
+    font-size: 0.8rem;
+}
+
+.modal__content__toggle__btn{
+    text-decoration-line: underline;
+    color: black;
+    font-weight: bold;
+    margin-left: 6px;
+    cursor: pointer;
+}
+
+.kakao_signin_user_form_wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.modal_header__back_arrow{
+    color: black;
+}
+
+/*------------------------------------------로그인 시 개인정보 표시------------------------------*/
+.personal_info{
+    position: relative;
+}
+.personal_btn{
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background-color:pink;
+
+    font-size: 0.5rem;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    cursor: pointer;
+}
+.personal_btn_subwindow{
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background-color: pink;
+
+    font-size: 0.8rem;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+}
+.subwindow_username{
+    color:black;
+    font-size: 1rem;
+    margin: 1rem 0;
+}
+
+.unactive{
+    display: none;
+}
+.personal_subwindow{
+    position:absolute;
+    top:4rem; right:0;
+    
+    width:10rem; height:12rem;
+    padding:0.5rem;
+
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+
+    background-color: white;
+
+    overflow: hidden;
+}
+.personal_info_mypagebtn{
+    margin-bottom: 0.5rem;
+}
+.personal_info_mypagebtn:hover{
+    color: white;
+}
+.close_btn{
+    position: absolute;
+    right: 0.5rem; top: 0.3rem;
+
+    cursor: pointer;
+}

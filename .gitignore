@@ -86,10 +86,13 @@ __pycache__/
 local_settings.py
 
 .env
+.js_env
 db.sqlite3
 
 venv/
 logs/
 
 /node_modules
-static/assets/
+static/build/
+
+.sass-cache/

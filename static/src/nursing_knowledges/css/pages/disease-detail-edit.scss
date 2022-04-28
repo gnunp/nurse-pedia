@@ -1,0 +1,21 @@
+@import "../base/knowledge-detail";
+@import "../base/knowledge-detail-edit";
+
+.diagnoses_list{
+    padding-top: 1rem;
+    padding-left: 0.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.diagnosis_set{
+    margin-bottom: 0.5rem;
+}
+
+.diagnosis_set > input[type="checkbox"]:checked{
+    background-color: red;
+}
+
+#selected_diagnosis:focus{
+    outline: none;
+}

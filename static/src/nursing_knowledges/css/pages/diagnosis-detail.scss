@@ -1,0 +1,57 @@
+@import "../base/knowledge-detail";
+@import "../components/related-diagnosis-card";
+@import "../components/mindmap";
+
+.knowledge_header__category{
+    background-color: #faa56f;
+}
+
+.interventions{
+    padding-left: 1.5rem;
+}
+
+.interventions > li{
+    line-height: 1.6rem;
+    list-style-type: decimal;
+}
+
+.related_diagnosis_wrapper{
+    display: flex;
+    align-items: center;
+}
+
+.related_diagnosis_wrapper__edit_btn {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    margin-left: 0.65rem;
+    position: relative;
+    top: 2.5px;
+    color: white;
+    background-color: #C8C8C8;
+}
+
+.related_diagnosis_wrapper__edit_btn:hover{
+    color: white;
+}
+
+/* JS */
+.border_gray{
+    border-color: #A9A9A9 !important;
+}
+
+.border_pink{
+    border-color: #FF8080 !important;
+}
+
+.color_pink{
+    color: #FF8080;
+    font-weight: bold;
+}
+
+.display_none{
+    display: none;
+}
+
+.already_like{
+    background-color: #FFF0BA;
+}

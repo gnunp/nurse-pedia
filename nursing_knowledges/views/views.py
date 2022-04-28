@@ -28,7 +28,7 @@ def home(request):
     Home 화면 View
     """
     context = {}
-    return render(request, "nursing_knowledges/home.html", context)
+    return render(request, "nursing_knowledges/pages/home.html", context)
 
 
 def disease_detail(request, pk):
@@ -84,7 +84,7 @@ def disease_detail(request, pk):
         "original_knowledge": original_disease,
     }
 
-    return render(request, "nursing_knowledges/disease_detail.html", context)
+    return render(request, "nursing_knowledges/pages/disease_detail.html", context)
 
 
 def diagnosis_detail(request, pk):
@@ -141,7 +141,7 @@ def diagnosis_detail(request, pk):
         "original_knowledge": original_diagnosis,
     }
 
-    return render(request, "nursing_knowledges/diagnosis_detail.html", context)
+    return render(request, "nursing_knowledges/pages/diagnosis_detail.html", context)
 
 
 def search(request):
@@ -160,7 +160,7 @@ def search(request):
         diagnosis = DiagnosisSmallCategory.objects.get(name=keyword)
         return redirect(reverse("nursing_knowledges:diagnosis_detail", kwargs={'pk': diagnosis.pk}))
     except DiagnosisSmallCategory.DoesNotExist:
-        return render(request, "nursing_knowledges/search_result.html")
+        return render(request, "nursing_knowledges/pages/search_result.html")
 
 
 def disease_category(request):
@@ -183,7 +183,7 @@ def disease_category(request):
     }
 
     context = {"knowledge_data": json.dumps(result, indent=4, ensure_ascii=False)}
-    return render(request, "nursing_knowledges/disease_category.html", context)
+    return render(request, "nursing_knowledges/pages/disease_category.html", context)
 
 
 def diagnosis_category(request):
@@ -207,7 +207,7 @@ def diagnosis_category(request):
     }
 
     context = {"knowledge_data": json.dumps(result, indent=4, ensure_ascii=False)}
-    return render(request, "nursing_knowledges/diagnosis_category.html", context)
+    return render(request, "nursing_knowledges/pages/diagnosis_category.html", context)
 
 
 def disease_detail_edit(request, pk):
@@ -288,7 +288,7 @@ def disease_detail_edit(request, pk):
         "all_diagnosis": DiagnosisSmallCategory.objects.all().values_list("name", flat=True),
     }
 
-    return render(request, "nursing_knowledges/disease_detail_edit.html", context)
+    return render(request, "nursing_knowledges/pages/disease_detail_edit.html", context)
 
 
 def diagnosis_detail_edit(request, pk):
@@ -363,7 +363,7 @@ def diagnosis_detail_edit(request, pk):
         "related_diagnoses": related_diagnoses,
     }
 
-    return render(request, "nursing_knowledges/diagnosis_detail_edit.html", context)
+    return render(request, "nursing_knowledges/pages/diagnosis_detail_edit.html", context)
 
 
 def count_words(*words):
@@ -431,7 +431,7 @@ def history(request):
         'is_total_history_page': True,
     }
 
-    return render(request, "nursing_knowledges/history.html", context)
+    return render(request, "nursing_knowledges/pages/history.html", context)
 
 
 @api_view(["POST"])
@@ -458,7 +458,7 @@ def related_diagnosis_like(request, pk):
 def mindmap(request):
     context = {}
 
-    return render(request, "nursing_knowledges/mindmap_page.html", context)
+    return render(request, "nursing_knowledges/pages/mindmap_page.html", context)
 
 
 @api_view(["POST"])
@@ -502,7 +502,7 @@ def disease_edit_history(request, pk):
         'page_obj': page_obj,
     }
 
-    return render(request, "nursing_knowledges/history.html", context)
+    return render(request, "nursing_knowledges/pages/history.html", context)
 
 
 def diagnosis_edit_history(request, pk):
@@ -519,7 +519,7 @@ def diagnosis_edit_history(request, pk):
         'page_obj': page_obj,
     }
 
-    return render(request, "nursing_knowledges/history.html", context)
+    return render(request, "nursing_knowledges/pages/history.html", context)
 
 
 def disease_rollback(request, pk):

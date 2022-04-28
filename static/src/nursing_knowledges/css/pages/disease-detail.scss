@@ -1,0 +1,23 @@
+@import "../base/knowledge-detail";
+@import "../components/mindmap";
+
+.relative_diagnoses{
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+}
+
+.relative_diagnoses__item{
+    position: relative;
+    padding: 0.8rem 1.5rem;
+    margin-right: 0.5rem;
+    margin-bottom: 1rem;
+    border-radius: 60px;
+    color: #464646;
+    font-weight: 600;
+    transition: transform 0.2s ease-in-out 0s;
+}
+
+.relative_diagnoses__item:hover{
+    top: -5px;
+}

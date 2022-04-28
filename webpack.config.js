@@ -1,48 +1,43 @@
 const path = require("path");
+const dotenv = require("dotenv");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+
+dotenv.config({ path: path.join(__dirname, '.js_env') })
+
+
+const isDevMode = (process.env.IS_DEV_MODE === 'true');
+const BASE_DIRECTORY = {
+    nursing_knowledges: "./static/src/nursing_knowledges/js/pages",
+    users: "./static/src/users/js/pages",
+}
 module.exports = {
     entry: {
-        global: "./static/global/js/global.js",
-        animation: "./static/global/js/animation.js",
-        search: "./static/global/js/search.js",
-        home: "./static/nursing_knowledges/js/home.js",
+        global: "./static/src/global/js/global.js",
 
-        diseasedetail : "./static/nursing_knowledges/js/disease_detail.js",
-        diseaseDetailEdit: "./static/nursing_knowledges/js/disease_detail_edit.js",
-        diagnosisdetail :"./static/nursing_knowledges/js/diagnosis_detail.js",
-        diagnosisDetailEdit :"./static/nursing_knowledges/js/diagnosis_detail_edit.js",
-        diagnosisdetail__relatedDiagnosisEvent :"./static/nursing_knowledges/js/diagnosis_detail__relatedDiagnosisEvent.js",
-        
-        userModal: "./static/users/js/userModal.js",
-        kakaoSigninFormValidation: "./static/users/js/kakaoSigninFormValidation.js",
+        home: `${BASE_DIRECTORY.nursing_knowledges}/home/main.js`,
+        diseaseDetail : `${BASE_DIRECTORY.nursing_knowledges}/diseaseDetail/main.js`,
+        diseaseDetailEdit: `${BASE_DIRECTORY.nursing_knowledges}/diseaseDetailEdit/main.js`,
+        diagnosisDetail :`${BASE_DIRECTORY.nursing_knowledges}/diagnosisDetail/main.js`,
+        diagnosisDetailEdit :`${BASE_DIRECTORY.nursing_knowledges}/diagnosisDetailEdit/main.js`,
+        diseaseCategory:`${BASE_DIRECTORY.nursing_knowledges}/diseaseCategory/main.js`,
+        diagnosisCategory:`${BASE_DIRECTORY.nursing_knowledges}/diagnosisCategory/main.js`,
+        mindmapPage:`${BASE_DIRECTORY.nursing_knowledges}/mindmapPage/main.js`,
+        history:`${BASE_DIRECTORY.nursing_knowledges}/history/main.js`,
 
-        diseasecategory:"./static/nursing_knowledges/js/disease_category",
-        diagnosiscategory:"./static/nursing_knowledges/js/diagnosis_category",
-
-        mypage:"./static/users/js/mypage.js",
-
-        mindmappage:"./static/nursing_knowledges/js/mindmappage.js",
-
-        history:"./static/nursing_knowledges/js/history.js",
+        mypage:`${BASE_DIRECTORY.users}/mypage/main.js`
     },
     plugins: [
        // new BundleAnalyzerPlugin()
     ],
-    mode: "development",
+    mode: isDevMode ? "development" : "production",
     output: {
         filename: "[name].js",
-        path: path.resolve(__dirname, 'static','assets', 'js'),
+        path: path.resolve(__dirname, 'static','build', 'js'),
         clean: true,
     },
-    // mindmap때문에 적음
-    devServer:{
-        contentBase: path.resolve("./static/assets/js"),
-        index: "./nursing_knowledges/secondpage.html",
-        port: 9000
-    },
-    watch: true, 
+    watch: isDevMode ? true : false,
     module: {
         rules:[
             {
@@ -56,10 +51,11 @@ module.exports = {
                 },
             },
             {
-                test:/\.css$/,
+                test:/\.scss$/,
                 use:[
                     'style-loader',
-                    'css-loader'
+                    'css-loader',
+                    'sass-loader',
                 ]
             },
             {

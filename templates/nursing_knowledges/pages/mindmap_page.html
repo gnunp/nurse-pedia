@@ -1,0 +1,36 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+
+{% block title %} 마인드맵 {% endblock title %}
+
+
+
+
+{% block css %}
+    <link href="{% static 'build/all_css/nursing_knowledges/css/pages/mindmap-page.css' %}" rel="stylesheet">
+{% endblock css %}
+
+
+{% block link %}
+{% endblock link %}
+
+
+
+{% block head_script %}
+{% endblock head_script %}
+
+
+
+
+{% block content %}
+    {% include 'nursing_knowledges/components/mindmap.html' %}
+{% endblock content %}
+
+
+
+
+
+{% block script %}
+<script src="{% static 'build/js/mindmapPage.js' %}"></script>
+{% endblock script %}

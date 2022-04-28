@@ -1,0 +1,37 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+
+{% block title %} 질병 분류 {% endblock title %}
+
+
+
+{% block css %}
+    <link href="{% static 'build/all_css/nursing_knowledges/css/pages/disease-category.css' %}" rel="stylesheet">
+{% endblock css %}
+
+
+{% block link %}
+{% endblock link %}
+
+
+
+{% block head_script %}
+{% endblock head_script %}
+
+
+
+{% block content %}
+    <div class="wrapper_base_style dis_cat_mainContent"></div>
+{% endblock content %}
+
+
+
+
+{% block script %}
+<script>
+    const knowledgeData = {{knowledge_data|safe}};
+</script>
+<script src="{% static 'build/js/diseasecategory.js' %}"></script>
+
+{% endblock script %}
