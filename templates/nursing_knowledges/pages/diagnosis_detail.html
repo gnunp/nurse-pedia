@@ -23,21 +23,23 @@
 {% block content %}
     <div class="wrapper_base_style knowledge_detail_wrapper">
         <div class="knowledge_header">
-            <div class="knowledge_header__category">진단</div>
-            <h1 class="knowledge_header__name js-knowledge_name"
-                data-knowledge_category="diagnosis"
-                data-id="{{ original_knowledge.pk }}"
-            >{{original_knowledge.name}}</h1>
-            {% if user.is_authenticated %}
-                {% if is_star %}
-                    <i class="fa-star knowledge_header__star_btn js-knowledge_star_btn fas color_yellow js-clicked_star"></i>
-                {% else %}
-                    <i class="far fa-star knowledge_header__star_btn js-knowledge_star_btn"></i>
+            <div class="knowledge_header__left_content_wrapper">
+                <div class="knowledge_header__category">진단</div>
+                <h1 class="knowledge_header__name js-knowledge_name"
+                    data-knowledge_category="diagnosis"
+                    data-id="{{ original_knowledge.pk }}"
+                >{{original_knowledge.name}}</h1>
+                {% if user.is_authenticated %}
+                    {% if is_star %}
+                        <i class="fa-star knowledge_header__star_btn js-knowledge_star_btn fas color_yellow js-clicked_star"></i>
+                    {% else %}
+                        <i class="far fa-star knowledge_header__star_btn js-knowledge_star_btn"></i>
+                    {% endif %}
                 {% endif %}
-            {% endif %}
-            {% if is_before_version %}
-                <span class="knowledge_header__before_knowledge_version">({{ diagnosis.version }}번째 버전)</span>
-            {% endif %}
+                {% if is_before_version %}
+                    <span class="knowledge_header__before_knowledge_version">({{ diagnosis.version }}번째 버전)</span>
+                {% endif %}
+            </div>
             <div class="knowledge_header__btn_wrapper">
                 <a href="{% url 'nursing_knowledges:diagnosis_edit_history' original_knowledge.pk %}"
                    class="edit_btn_style knowledge_header__edit_history_btn"

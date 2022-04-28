@@ -24,6 +24,10 @@
     padding: 1rem;
 }
 
+.related_diagnosis__summary:focus{
+    outline: none;
+}
+
 .related_diagnosis__summary::-webkit-details-marker{
     display: none;
 }

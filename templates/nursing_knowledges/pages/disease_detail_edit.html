@@ -25,8 +25,10 @@
 <form class="wrapper_base_style knowledge_detail_wrapper" id="edit_form" class="knowledge_detail_wrapper" method="post" action="{% url 'nursing_knowledges:disease_detail_edit' disease.pk %}">
     {% csrf_token %}
     <div class="knowledge_header">
-        <div class="knowledge_header__category">질병</div>
-        <h1 class="knowledge_header__name js-knowledge_name">{{disease.name}}</h1>
+        <div class="knowledge_header__left_content_wrapper">
+            <div class="knowledge_header__category">질병</div>
+            <h1 class="knowledge_header__name js-knowledge_name">{{disease.name}}</h1>
+        </div>
     </div>
 
     <div class="knowledge_info">
