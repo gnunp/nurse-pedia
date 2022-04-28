@@ -13,14 +13,14 @@
 
 
 
-{% block script %}
-<script defer src="{% static 'build/js/mindmapPage.js' %}"></script>
-{% endblock script %}
-
-
-
-
 {% block content %}
     {% include 'nursing_knowledges/components/mindmap.html' %}
 {% endblock content %}
 
+
+
+
+
+{% block script %}
+<script src="{% static 'build/js/mindmapPage.js' %}"></script>
+{% endblock script %}

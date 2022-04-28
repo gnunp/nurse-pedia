@@ -13,12 +13,6 @@
 
 
 
-{% block script %}
-    <script defer src="{% static 'build/js/history.js' %}"></script>
-{% endblock script %}
-
-
-
 {% block content %}
 
 <div class="wrapper_base_style history_wrapper js-history_wrapper">
@@ -80,3 +74,10 @@
 </div>
 
 {% endblock content %}
+
+
+
+
+{% block script %}
+    <script src="{% static 'build/js/history.js' %}"></script>
+{% endblock script %}

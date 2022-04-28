@@ -10,11 +10,6 @@
 
 
 
-{% block script %}
-<script defer src="{% static 'build/js/diseaseDetailEdit.js' %}"></script>
-{% endblock script %}
-
-
 
 {% block content %}
 <form class="wrapper_base_style knowledge_detail_wrapper" id="edit_form" class="knowledge_detail_wrapper" method="post" action="{% url 'nursing_knowledges:disease_detail_edit' disease.pk %}">
@@ -89,3 +84,9 @@
 
 </form>
 {% endblock content %}
+
+
+
+{% block script %}
+<script src="{% static 'build/js/diseaseDetailEdit.js' %}"></script>
+{% endblock script %}

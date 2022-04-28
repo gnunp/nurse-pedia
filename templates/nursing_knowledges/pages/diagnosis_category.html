@@ -10,18 +10,19 @@
 
 
 
-{% block script %}
-<script>
-    const knowledgeData = {{knowledge_data|safe}};
-</script>
-<script defer src="{% static 'build/js/diagnosiscategory.js' %}"></script>
-
-{% endblock script %}
-
-
-
 {% block content %}
 
 <div class="wrapper_base_style dia_cat_mainContent"></div>
 
 {% endblock content %}
+
+
+
+
+{% block script %}
+<script>
+    const knowledgeData = {{knowledge_data|safe}};
+</script>
+<script src="{% static 'build/js/diagnosiscategory.js' %}"></script>
+
+{% endblock script %}

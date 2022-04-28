@@ -12,11 +12,6 @@
 
 
 
-{% block script %}
-<script defer src="{% static 'build/js/mypage.js' %}"></script>
-{% endblock script %}
-
-
 
 {% block content %}
     <div class="mypage_wrap">
@@ -55,3 +50,10 @@
         </div>
     </div>
 {% endblock content %}
+
+
+
+
+{% block script %}
+<script src="{% static 'build/js/mypage.js' %}"></script>
+{% endblock script %}

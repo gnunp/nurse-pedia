@@ -13,12 +13,6 @@
 
 
 
-{% block script %}
-<script defer src="{% static 'build/js/home.js' %}"></script>
-{% endblock script %}
-
-
-
 
 {% block content %}
     <div class="home_wrapper">
@@ -42,3 +36,10 @@
         </div>
     </div>
 {% endblock content %}
+
+
+
+
+{% block script %}
+<script src="{% static 'build/js/home.js' %}"></script>
+{% endblock script %}

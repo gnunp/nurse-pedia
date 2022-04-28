@@ -10,19 +10,6 @@
 
 
 
-{% block script %}
-    <script>
-        {% if is_before_version %}
-            const isBeforeVersion = true;
-        {% else %}
-            const isBeforeVersion = false;
-        {% endif %}
-    </script>
-    <script defer src="{% static 'build/js/diagnosisdetail.js' %}"></script>
-{% endblock script %}
-
-
-
 {% block content %}
     <div class="wrapper_base_style knowledge_detail_wrapper">
         <div class="knowledge_header">
@@ -169,3 +156,17 @@
         {% endif %}
     </div>
 {% endblock content %}
+
+
+
+
+{% block script %}
+    <script>
+        {% if is_before_version %}
+            const isBeforeVersion = true;
+        {% else %}
+            const isBeforeVersion = false;
+        {% endif %}
+    </script>
+    <script src="{% static 'build/js/diagnosisdetail.js' %}"></script>
+{% endblock script %}

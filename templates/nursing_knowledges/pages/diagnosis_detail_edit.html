@@ -10,11 +10,6 @@
 
 
 
-{% block script %}
-<script defer src="{% static 'build/js/diagnosisDetailEdit.js' %}"></script>
-{% endblock script %}
-
-
 
 {% block content %}
 <form id="edit_form"
@@ -72,3 +67,10 @@
 
 </form>
 {% endblock content %}
+
+
+
+
+{% block script %}
+<script src="{% static 'build/js/diagnosisDetailEdit.js' %}"></script>
+{% endblock script %}

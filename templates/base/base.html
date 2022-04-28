@@ -33,17 +33,7 @@
 	
 		<!-- LINK -->
 		{% block link %}{% endblock link %}
-	
-		<!-- SCRIPTS -->
-		<script>
-            {% if user.is_authenticated %}
-                const userIsAuthenticated = true;
-            {% else %}
-                const userIsAuthenticated = false;
-            {% endif %}
-		</script>
-		<script defer src="{% static 'build/js/global.js' %}"></script>
-		{% block script %}{% endblock script %}
+
 	</head>
 	<body>
 		{% include 'base/components/header.html' %}
@@ -62,5 +52,18 @@
                 {% endfor %}
             </div>
         {% endif %}
+
+
+
+        <!-- SCRIPTS -->
+		<script>
+            {% if user.is_authenticated %}
+                const userIsAuthenticated = true;
+            {% else %}
+                const userIsAuthenticated = false;
+            {% endif %}
+		</script>
+		<script src="{% static 'build/js/global.js' %}"></script>
+		{% block script %}{% endblock script %}
 	</body>
 </html>

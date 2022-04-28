@@ -10,11 +10,6 @@
 
 
 
-{% block script %}
-<script defer src="{% static 'build/js/diseasedetail.js' %}"></script>
-{% endblock script %}
-
-
 
 {% block content %}
     <div class="wrapper_base_style knowledge_detail_wrapper">
@@ -140,3 +135,10 @@
         {% endif %}
     </div>
 {% endblock content %}
+
+
+
+
+{% block script %}
+<script src="{% static 'build/js/diseasedetail.js' %}"></script>
+{% endblock script %}
