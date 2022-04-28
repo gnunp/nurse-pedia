@@ -1,6 +1,6 @@
 from .base import *
 
-ALLOWED_HOSTS = ['34.204.36.26', 'localhost', '.nurpi.co.kr']
+ALLOWED_HOSTS = ['52.79.111.6', 'localhost', '.nurpi.co.kr']
 STATIC_ROOT = BASE_DIR / 'static/'
 STATICFILES_DIRS = []
 DEBUG = False
