@@ -1,10 +1,3 @@
-/* SCSS */
-import "../../../scss/pages/home.scss";
-
-/* JS */
-
-
-
 // class Home{
 //     constructor(){
 //         //디바이스가 모바일 인지 아닌지 판단

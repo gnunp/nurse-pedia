@@ -1,7 +1,3 @@
-/* SCSS */
-import "../../../scss/pages/history.scss";
-
-/* JS */
 import {toastMessage} from "../../../../global/js/utils/toastMessage";
 import {getCookie} from "../../../../global/js/utils/getCookie";
 

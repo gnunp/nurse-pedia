@@ -1,10 +1,3 @@
-/* SCSS */
-import "../../../scss/pages/diagnosis-detail-edit.scss";
-
-/* JS */
-
-
-
 const diagnosisDetailEdit = () => {
     applyTextareaBlur();
 

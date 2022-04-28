@@ -1,7 +1,3 @@
-/* SCSS */
-import "../../../scss/pages/diagnosis-detail.scss";
-
-/* JS */
 import Mindmap from "../../utils/mindmap.js";
 import {toastMessage} from "../../../../global/js/utils/toastMessage";
 import {handleClickStarBtn, handleHoverStarBtn} from "../../utils/knowledgeStarAction";

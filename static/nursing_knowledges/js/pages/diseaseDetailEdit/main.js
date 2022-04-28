@@ -1,9 +1,3 @@
-/* SCSS */
-import "../../../scss/pages/disease-detail-edit.scss";
-
-/* JS */
-
-
 const diseaseDetailEdit = () => {
     const addDiagnosisBtn = document.querySelector(".js-add_diagnosis_btn");
     const selectedDiagnosis = document.querySelector("#selected_diagnosis");
