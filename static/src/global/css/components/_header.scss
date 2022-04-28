@@ -1,9 +1,12 @@
+@import "../variables";
+
+
 .header{
     position: fixed;
     top: 0; left: 0; z-index: 9999;
 
     width: 100%;
-    min-height: 80px;
+    height: $header-height;
     padding-left: 1.3rem;
     padding-right: 0.3rem;
 
@@ -273,6 +276,7 @@
         .mobile_menu{
             display: none;
             cursor: pointer;
+            color: #FF6565;
         }
         .disappear{
             display: none;

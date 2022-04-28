@@ -8,7 +8,6 @@ import {setMobileSideMenuEvent} from "./utils/setMobileSideMenuEvent";
 const globalInit = async () => {
     setMobileSideMenuEvent();
     await userModalInit();
-    setRootElementTop();
     setNavbarEvent();
     await setSearchBar();
     addSearchBarPlaceholder();
@@ -18,13 +17,6 @@ const globalInit = async () => {
     async function userModalInit() {
         if(!userIsAuthenticated){
             await userModal();
-        }
-    }
-
-    function setRootElementTop() {
-        if((location.pathname !== "/") && (location.pathname !== "/knowledges/mindmap/")){
-            const rootElement = document.querySelector('#root');
-            rootElement.style.top = `${headerHeight}px`;
         }
     }
 
