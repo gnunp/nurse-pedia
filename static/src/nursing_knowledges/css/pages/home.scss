@@ -91,13 +91,13 @@
                         border-radius: 0 0 0.5rem 0.5rem;
                     }
                 }
-                .js-display_none{
-                    display: none !important;
-                }
-                .js-diagnosis_icon_color{
-                    color: #ffcf28 !important;
-                }
             }
+        }
+        .js-display_none{
+            display: none !important;
+        }
+        .js-diagnosis_icon_color{
+            color: #ffcf28 !important;
         }
         @media (max-width: 530px){
             .site_description{
