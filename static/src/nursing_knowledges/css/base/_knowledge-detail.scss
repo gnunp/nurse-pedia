@@ -15,17 +15,26 @@
     position: relative;
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
     padding-bottom: 0.8rem;
     border-bottom: 1px solid #D6D6D6;
 }
 
+.knowledge_header__left_content_wrapper{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+}
+
 .knowledge_header__category{
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0.5rem 1rem;
+    width: 58px;
+    height: 30px;
     border-radius: 10px;
     font-size: 0.9rem;
     font-weight: 500;
@@ -37,20 +46,20 @@
     position: relative;
     bottom: 2px;
     margin-left: 0.8rem;
-    font-size: 2.2rem;
+    margin-right: 0.3em;
+    font-size: 2.2em;
     font-weight: bold;
 }
 
 .knowledge_header__star_btn{
-    margin-left: 0.3em;
     font-size: 1.7rem;
     color: #D6D6D6;
     cursor: pointer;
+    margin-right: 0.5rem;
 }
 
 .knowledge_header__before_knowledge_version{
-    font-size: 1.5rem;
-    margin-left: 0.5rem;
+    font-size: 1.5em;
 }
 
 .edit_btn_style{
@@ -65,15 +74,12 @@
 }
 
 .knowledge_header__btn_wrapper{
-    position: absolute;
-    top: 0;
-    right: 0;
     display: flex;
     flex-direction: row;
 }
 
 .knowledge_header__btn_wrapper > *{
-    margin-right: 5px;
+    margin-left: 5px;
 }
 
 .knowledge_header__edit_history_btn{
@@ -144,6 +150,28 @@
 .after_content_none:after{
     content: none;
 }
+
+@media(max-width: 900px){
+    .knowledge_header__category{
+        position: absolute;
+        top: -50px;
+    }
+    .knowledge_header__name{
+        margin-left: 0;
+    }
+    .knowledge_header__btn_wrapper{
+        position: absolute;
+        top: -50px;
+        right: 0;
+    }
+}
+
+@media(max-width: 700px){
+    .knowledge_header__left_content_wrapper{
+        font-size: 14px;
+    }
+}
+
 
 /*
 JS 관련

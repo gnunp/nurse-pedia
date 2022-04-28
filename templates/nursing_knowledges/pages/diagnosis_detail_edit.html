@@ -29,8 +29,10 @@
 >
     {% csrf_token %}
     <div class="knowledge_header">
-        <div class="knowledge_header__category">진단</div>
-        <h1 class="knowledge_header__name js-knowledge_name">{{diagnosis.name}}</h1>
+        <div class="knowledge_header__left_content_wrapper">
+            <div class="knowledge_header__category">진단</div>
+            <h1 class="knowledge_header__name js-knowledge_name">{{diagnosis.name}}</h1>
+        </div>
     </div>
 
     <div class="knowledge_info">
