@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "sass:watch": "sass --watch static/src:static/build/all_css",
-    "sass:build": "sass --style=compressed static/src:static/build/all_css",
+    "sass:build": "sass --style=compressed --no-source-map static/src:static/build/all_css",
     "webpack": "webpack",
     "dev": "npm-run-all -p webpack sass:watch",
     "build": "npm-run-all -p webpack sass:build",

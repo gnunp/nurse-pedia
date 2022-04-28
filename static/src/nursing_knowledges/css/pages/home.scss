@@ -17,21 +17,18 @@
     align-items: center;
 
     .center_content_wrapper{
+        position: relative;
         margin-bottom: 0.5rem;
-
-
-        white-space: nowrap;
         .site_description{
+            margin-bottom: 2rem;
             font-family: 'Do Hyeon', sans-serif;
             font-size: 3rem;
             text-align: center;
         }
         .searchbar_wrapper{
-            position:absolute;
-            top: calc(60%);
-            left: 50%;
-            transform: translate(-50%, 0);
-
+            position: absolute;
+            right: 50%;
+            transform: translate(50%, 0);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -94,20 +91,20 @@
                         border-radius: 0 0 0.5rem 0.5rem;
                     }
                 }
-                .js-display_none{
-                    display: none !important;
-                }
-                .js-diagnosis_icon_color{
-                    color: #ffcf28 !important;
-                }
             }
+        }
+        .js-display_none{
+            display: none !important;
+        }
+        .js-diagnosis_icon_color{
+            color: #ffcf28 !important;
         }
         @media (max-width: 530px){
             .site_description{
                 font-size: 2.5rem;
             }
             .searchbar_wrapper{
-                width: 90%;
+                width: 90vw;
             }
         }
         @media (max-width: 370px){

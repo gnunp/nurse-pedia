@@ -1,5 +1,5 @@
 import "regenerator-runtime/runtime.js";
-import {search} from "./utils/search";
+import {setSearchEvent} from "./utils/setSearchEvent";
 import {toastMessage} from "./utils/toastMessage";
 import {headerHeight} from "./variables";
 import {userModal} from "./utils/userModal";
@@ -9,7 +9,7 @@ const globalInit = async () => {
     setMobileSideMenuEvent();
     await userModalInit();
     setNavbarEvent();
-    await setSearchBar();
+    await setSearchEvent();
     addSearchBarPlaceholder();
     setPersonalInfo();
     showDjangoToastMessage();
@@ -40,15 +40,6 @@ const globalInit = async () => {
                 });
             });
         });
-    }
-
-    async function setSearchBar() {
-        const headerSearchBar = document.querySelector('.js-search_wrapper');
-
-        if(location.pathname == "/"){
-            headerSearchBar.remove();
-        }
-        await search(); // 검색창 기능을 제공 하는 함수 실행
     }
 
     function addSearchBarPlaceholder() {

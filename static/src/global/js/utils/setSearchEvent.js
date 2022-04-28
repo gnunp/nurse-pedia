@@ -1,4 +1,4 @@
-export const search = async () => {
+export const setSearchEvent = async () => {
     const keyword = document.querySelector(".js-search_keyword");
     const resultWrapper = document.querySelector(".js-search_result_wrapper");
     const searchForm = document.querySelector(".js-search_form");
