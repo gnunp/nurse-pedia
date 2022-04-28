@@ -5,8 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
-    "start": "webpack"
+    "sass:watch": "sass --watch static/src:static/build/all_css",
+    "sass:build": "sass --style=compressed static/src:static/build/all_css",
+    "build": "webpack && npm run sass:build",
+    "webpack": "webpack",
+    "dev": "npm-run-all -p webpack sass:watch",
+    "start": "npm run dev"
   },
   "repository": {
     "type": "git",
@@ -26,6 +30,7 @@
     "cytoscape-cise": "^1.0.0",
     "dotenv": "^10.0.0",
     "html-webpack-plugin": "^5.5.0",
+    "npm-run-all": "^4.1.5",
     "sass": "^1.51.0",
     "sass-loader": "^12.6.0",
     "style-loader": "^3.3.1",

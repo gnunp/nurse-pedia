@@ -93,6 +93,6 @@ venv/
 logs/
 
 /node_modules
-static/assets/
+static/build/
 
 .sass-cache/
