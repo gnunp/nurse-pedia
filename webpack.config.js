@@ -3,34 +3,41 @@ const dotenv = require("dotenv");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+
 dotenv.config({ path: path.join(__dirname, '.js_env') })
 
+
+const isDevMode = (process.env.IS_DEV_MODE === 'true');
+const BASE_DIRECTORY = {
+    nursing_knowledges: "./static/src/nursing_knowledges/js/pages",
+    users: "./static/src/users/js/pages",
+}
 module.exports = {
     entry: {
-        global: "./static/global/js/global.js",
+        global: "./static/src/global/js/global.js",
 
-        home: "./static/nursing_knowledges/js/pages/home/main.js",
-        diseaseDetail : "./static/nursing_knowledges/js/pages/diseaseDetail/main.js",
-        diseaseDetailEdit: "./static/nursing_knowledges/js/pages/diseaseDetailEdit/main.js",
-        diagnosisDetail :"./static/nursing_knowledges/js/pages/diagnosisDetail/main.js",
-        diagnosisDetailEdit :"./static/nursing_knowledges/js/pages/diagnosisDetailEdit/main.js",
-        diseaseCategory:"./static/nursing_knowledges/js/pages/diseaseCategory/main.js",
-        diagnosisCategory:"./static/nursing_knowledges/js/pages/diagnosisCategory/main.js",
-        mindmapPage:"./static/nursing_knowledges/js/pages/mindmapPage/main.js",
-        history:"./static/nursing_knowledges/js/pages/history/main.js",
+        home: `${BASE_DIRECTORY.nursing_knowledges}/home/main.js`,
+        diseaseDetail : `${BASE_DIRECTORY.nursing_knowledges}/diseaseDetail/main.js`,
+        diseaseDetailEdit: `${BASE_DIRECTORY.nursing_knowledges}/diseaseDetailEdit/main.js`,
+        diagnosisDetail :`${BASE_DIRECTORY.nursing_knowledges}/diagnosisDetail/main.js`,
+        diagnosisDetailEdit :`${BASE_DIRECTORY.nursing_knowledges}/diagnosisDetailEdit/main.js`,
+        diseaseCategory:`${BASE_DIRECTORY.nursing_knowledges}/diseaseCategory/main.js`,
+        diagnosisCategory:`${BASE_DIRECTORY.nursing_knowledges}/diagnosisCategory/main.js`,
+        mindmapPage:`${BASE_DIRECTORY.nursing_knowledges}/mindmapPage/main.js`,
+        history:`${BASE_DIRECTORY.nursing_knowledges}/history/main.js`,
 
-        mypage:"./static/users/js/pages/mypage/main.js",
+        mypage:`${BASE_DIRECTORY.users}/mypage/main.js`
     },
     plugins: [
        // new BundleAnalyzerPlugin()
     ],
-    mode: process.env.DEVELOPMENT_MODE === "local" ? "development" : "production",
+    mode: isDevMode ? "development" : "production",
     output: {
         filename: "[name].js",
-        path: path.resolve(__dirname, 'static','assets', 'js'),
+        path: path.resolve(__dirname, 'static','build', 'js'),
         clean: true,
     },
-    watch: true, 
+    watch: isDevMode ? true : false,
     module: {
         rules:[
             {
