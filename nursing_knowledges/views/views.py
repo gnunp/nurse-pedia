@@ -276,7 +276,7 @@ def disease_detail_edit(request, pk):
                     # ----------------------------------------------------------------------------
                 except DiagnosisSmallCategory.DoesNotExist:
                     pass
-
+            messages.info(request, '수정되었습니다.')
             return redirect(valided_disease)
     else:
         form = DiseaseSmallForm(instance=disease)
@@ -352,6 +352,7 @@ def diagnosis_detail_edit(request, pk):
         diagnosis_small_category_edit_history.changed_word_count = after_word_count - before_word_count
         diagnosis_small_category_edit_history.save()
 
+        messages.info(request, '수정되었습니다.')
         return redirect(diagnosis)
 
     else:
