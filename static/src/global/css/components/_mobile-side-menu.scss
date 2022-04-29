@@ -35,6 +35,9 @@
         border-bottom: solid 1px #ff8a8a;
         font-size: 1.1rem;
         color: #fff8f8;
+        &:hover{
+          background-color: #ff8a8a;
+        }
       }
     }
   }
