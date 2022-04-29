@@ -172,7 +172,7 @@ def log_out(request):
 def mypage(request):
     # 로그인 한 사람만 갈 수 있도록
     if request.user.is_anonymous:
-        raise Http404()
+        return redirect(reverse("home"))
 
     if request.method == 'GET':
         profile_update_form = UpdateProfileForm(instance=request.user)
