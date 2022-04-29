@@ -1,7 +1,6 @@
 import "regenerator-runtime/runtime.js";
 import {setSearchEvent} from "./utils/setSearchEvent";
 import {toastMessage} from "./utils/toastMessage";
-import {headerHeight} from "./variables";
 import {userModal} from "./utils/userModal";
 import {setMobileSideMenuEvent} from "./utils/setMobileSideMenuEvent";
 

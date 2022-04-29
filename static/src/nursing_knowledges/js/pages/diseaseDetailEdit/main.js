@@ -1,15 +1,20 @@
+import {setAllTextareaBlur} from "../../utils/setAllTextareaBlur";
+import {isMobileDevice} from "../../../../global/js/variables";
+
 const diseaseDetailEdit = () => {
     const addDiagnosisBtn = document.querySelector(".js-add_diagnosis_btn");
     const selectedDiagnosis = document.querySelector("#selected_diagnosis");
     const checkboxList = document.querySelector(".js-diagnoses_list");
-    const textareas = document.querySelectorAll("textarea");
+    const allTextarea = document.querySelectorAll("textarea");
     const form = document.querySelector("#edit_form");
 
     addDiagnosisBtn.addEventListener("click", handleClickAddDiagnosisBtn);
 
-    const isMobileDevice = /Mobi/i.test(window.navigator.userAgent)
     if(!isMobileDevice){
-        window.addEventListener("scroll", applyTextareaBlur);
+        window.addEventListener("scroll", handleScrollWindow);
+        function handleScrollWindow() {
+            setAllTextareaBlur(allTextarea);
+        }
     }
 
 
@@ -27,12 +32,6 @@ const diseaseDetailEdit = () => {
                 </div>
                 `
             );
-        }
-    }
-
-    function applyTextareaBlur() {
-        for (const textarea of textareas) {
-            textarea.blur();
         }
     }
 }
