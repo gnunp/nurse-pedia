@@ -6,6 +6,7 @@ import {userModal} from "./utils/userModal";
 import {setMobileSideMenuEvent} from "./utils/setMobileSideMenuEvent";
 
 const globalInit = async () => {
+    setViewHeightProperty();
     setMobileSideMenuEvent();
     await userModalInit();
     setNavbarEvent();
@@ -13,6 +14,11 @@ const globalInit = async () => {
     addSearchBarPlaceholder();
     setPersonalInfo();
     showDjangoToastMessage();
+
+    function setViewHeightProperty() {
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty("--vh", `${vh}px`);
+    }
 
     async function userModalInit() {
         if(!userIsAuthenticated){

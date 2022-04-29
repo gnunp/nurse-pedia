@@ -24,17 +24,23 @@
 }
 
 .modal__header{
+    position: relative;
     display: flex;
-    justify-content: space-between;
-    padding: 1rem;
+    align-items: center;
+    height: 50px;
+    padding: 0 0.5rem;
     border-bottom: solid 1px #D6D6D6;
 }
 
 .modal_header__title{
     font-weight: bold;
+    margin: 0 auto;
 }
 
 .modal_header__close_btn{
+    position: absolute;
+    right: 0.5rem;
+    padding: 0.5rem;
     cursor: pointer;
 }
 

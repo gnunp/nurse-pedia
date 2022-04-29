@@ -1,5 +1,4 @@
 const diagnosisDetailEdit = () => {
-    applyTextareaBlur();
 
     const addDiagnosisBtn = document.querySelector(".js-add_diagnosis_btn");
     addDiagnosisBtn.addEventListener("click", handleClickAddDiagnosisBtn);
@@ -15,14 +14,16 @@ const diagnosisDetailEdit = () => {
         });
     }
 
-    function applyTextareaBlur(){
-        const textareas = document.querySelectorAll("textarea");
+    const isMobileDevice = /Mobi/i.test(window.navigator.userAgent)
+    if(!isMobileDevice){
+        window.addEventListener("scroll", applyTextareaBlur);
+    }
 
-        window.addEventListener("scroll", () => {
-            for (const textarea of textareas) {
-                textarea.blur();
-            }
-        });
+
+    function applyTextareaBlur() {
+        for (const textarea of textareas) {
+            textarea.blur();
+        }
     }
 
     function handleClickAddDiagnosisBtn(event){

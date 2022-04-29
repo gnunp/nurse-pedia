@@ -5,7 +5,15 @@ const diseaseDetailEdit = () => {
     const textareas = document.querySelectorAll("textarea");
     const form = document.querySelector("#edit_form");
 
-    const handleClickAddDiagnosisBtn = (event) => {
+    addDiagnosisBtn.addEventListener("click", handleClickAddDiagnosisBtn);
+
+    const isMobileDevice = /Mobi/i.test(window.navigator.userAgent)
+    if(!isMobileDevice){
+        window.addEventListener("scroll", applyTextareaBlur);
+    }
+
+
+    function handleClickAddDiagnosisBtn(event) {
         event.preventDefault();
 
         if(selectedDiagnosis.value.length){
@@ -22,15 +30,11 @@ const diseaseDetailEdit = () => {
         }
     }
 
-    addDiagnosisBtn.addEventListener("click", handleClickAddDiagnosisBtn);
-
-    const allTextareaBlur = () => {
+    function applyTextareaBlur() {
         for (const textarea of textareas) {
             textarea.blur();
         }
     }
-
-    window.addEventListener("scroll", allTextareaBlur);
 }
 
 diseaseDetailEdit();
