@@ -1,10 +1,21 @@
+import {setAllTextareaBlur} from "../../utils/setAllTextareaBlur";
+import {isMobileDevice} from "../../../../global/js/variables";
+
 const diagnosisDetailEdit = () => {
 
     const addDiagnosisBtn = document.querySelector(".js-add_diagnosis_btn");
+    const relatedDiagnoses = document.querySelectorAll(".js-related_diagnosis");
+    const allTextarea = document.querySelectorAll("textarea")
+
     addDiagnosisBtn.addEventListener("click", handleClickAddDiagnosisBtn);
 
-    // 관련 진단 삭제 버튼 클릭 관련 코드
-    const relatedDiagnoses = document.querySelectorAll(".js-related_diagnosis");
+    if(!isMobileDevice){
+        window.addEventListener("scroll", handleScrollWindow);
+        function handleScrollWindow() {
+            setAllTextareaBlur(allTextarea);
+        }
+    }
+
     for (const relatedDiagnosis of relatedDiagnoses) {
         const deleteBtn = relatedDiagnosis.querySelector(".js-related_diagnosis_delete_btn");
         deleteBtn.addEventListener("click", (event) => {
@@ -12,18 +23,6 @@ const diagnosisDetailEdit = () => {
                relatedDiagnosis.remove();
            }
         });
-    }
-
-    const isMobileDevice = /Mobi/i.test(window.navigator.userAgent)
-    if(!isMobileDevice){
-        window.addEventListener("scroll", applyTextareaBlur);
-    }
-
-
-    function applyTextareaBlur() {
-        for (const textarea of textareas) {
-            textarea.blur();
-        }
     }
 
     function handleClickAddDiagnosisBtn(event){
