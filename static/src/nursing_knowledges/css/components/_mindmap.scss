@@ -1,5 +1,5 @@
 .cy_wrap{
-    width: 90%; height: 70vh;
+    width: 90%; height: calc(var(--vh, 1vh)*70);
     margin: 10rem auto;
     border: 1px solid black;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2), -5px -5px 5px rgba(0, 0, 0, 0.2);
