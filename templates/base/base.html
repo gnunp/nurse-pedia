@@ -5,8 +5,23 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-		<title>널스피디아 - {% block title %}{% endblock title %}</title>
-		
+
+        <meta name="title" content="널스피디아" />
+		<meta property="og:title" content="널스피디아" />
+		<meta property="og:image" content="{% static 'src/global/image/og_img.png' %}" />
+		<meta
+			property="og:description"
+			content="함께 만들어가는 간호 지식 공유 사이트"
+		/>
+		<meta
+			name="description"
+			content="함께 만들어가는 간호 지식 공유 사이트"
+		/>
+		<meta name="apple-mobile-web-app-title" content="널스피디아" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+
+        <title>널스피디아 - {% block title %}{% endblock title %}</title>
+
 		<!-- FAVICON -->
         <link rel="apple-touch-icon" sizes="180x180" href="{% static 'src/global/image/favicon_package/apple-touch-icon.png' %}">
         <link rel="icon" type="image/png" sizes="32x32" href="{% static 'src/global/image/favicon_package/favicon-32x32.png' %}">
@@ -15,6 +30,7 @@
         <link rel="mask-icon" href="{% static 'src/global/image/favicon_package/safari-pinned-tab.svg' %}" color="#5bbad5">
         <meta name="msapplication-TileColor" content="#da532c">
         <meta name="theme-color" content="#ffffff">
+
 
 		<!-- FONT AWESOME LINK -->
 		<script src="https://kit.fontawesome.com/4d984466b8.js" crossorigin="anonymous"></script>
