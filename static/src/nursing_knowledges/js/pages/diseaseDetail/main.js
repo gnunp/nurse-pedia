@@ -93,7 +93,7 @@ class DiseaseDetail{
 
     handleClickEditBtn__toBlockEdit(event){
         event.preventDefault();
-        toastMessage("로그인이 필요합니다");
+        toastMessage("로그인이 필요합니다.");
     }
 }
 
