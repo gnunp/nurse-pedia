@@ -2,7 +2,6 @@ const signInModal = `
     <div class="modal_wrapper">
         <!-- 모달 HEADER -->
         <div class="modal__header">
-            <div class=""></div>
             <span class="modal_header__title">로그인</span>
             <i class="fas fa-times modal_header__close_btn js-modal_close_btn"></i>
         </div>
