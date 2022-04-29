@@ -59,7 +59,6 @@
         display: flex;
         flex-direction: column;
         flex: 1 1 auto;
-        margin: 0 0.5rem;
         .nav_search_form{
             z-index: 10000;
             width: 100%;
@@ -298,7 +297,7 @@
             }
             .global_nav_item{
                 padding: 0;
-                margin-left: 1.4rem;
+                margin-left: 1rem;
                 min-width: inherit;
             }
             .mobile_menu{
