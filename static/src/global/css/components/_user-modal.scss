@@ -26,7 +26,8 @@
 .modal__header{
     display: flex;
     justify-content: space-between;
-    padding: 1rem;
+    align-items: center;
+    height: 50px;
     border-bottom: solid 1px #D6D6D6;
 }
 
@@ -35,6 +36,8 @@
 }
 
 .modal_header__close_btn{
+    padding: 0.5rem;
+    margin-right: 0.5rem;
     cursor: pointer;
 }
 
