@@ -75,7 +75,10 @@ class Mypage{
         newitem.classList.add('historyitem');
 
         newitem.innerHTML=`
-            <a href='${address}'>${date} - <span style="color:#FF6565;font-weight:900;">${name}</span></a>
+            <a href='${address}'>
+                <span class="name">${name}</span>
+                <span class="date"> (${date})</span>
+            </a>
         `
         return newitem;
     }
@@ -125,7 +128,7 @@ class Mypage{
                         currentinfo = document.querySelector('.history_info');
                         currentinfo.classList.remove('disappear');
                         break;
-                    case "개발자에게 쪽지 보내기":
+                    case "문의하기":
                         currentinfo.classList.add('disappear');
                         currentinfo = document.querySelector('.develop_info');
                         currentinfo.classList.remove('disappear');

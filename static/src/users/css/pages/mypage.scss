@@ -1,17 +1,17 @@
+@import "../../../global/css/variables";
+
 .mypage_wrap{
     position: relative;
-
-    padding:2rem;
+    min-height: calc(var(--vh, 1vh)*100 - $header-height);
     box-sizing: border-box;
-
     display: flex;
 }
 .mypage_nav{
     position: relative;
 
     border-right: 2px solid #FF8080;
-    margin-right: 1rem;
-    min-width: 165px;
+    width: 165px;
+
 
     overflow: hidden;
 }
@@ -27,14 +27,24 @@
     cursor: pointer;
 }
 .mypage_content{
-    width: 70vw;
-    min-height: calc(var(--vh, 1vh)*70);;
+    width: calc(100% - 165px);
+    padding: 1rem;
 }
 .mypage_content>h1{
     margin-bottom: 2.2rem;
 
     font-size: 2rem;
     font-weight: 700;
+}
+@media (max-width: 520px){
+    .mypage_content>h1{
+        font-size: 1.5rem;
+    }
+}
+@media (max-width: 450px){
+    .mypage_content>h1{
+        font-size: 1.3rem;
+    }
 }
 .update_info{
     max-width: 300px;
@@ -90,15 +100,25 @@
 }
 
 /*----------------내가 열어본 페이지 스타일-------------*/
-.historyitem{
-    margin: 1rem;
-
-    cursor: pointer;
+.history_info{
+    margin-left: 1rem;
 }
-
+.historyitem{
+    margin-bottom: 1rem;
+    line-height: 1.3rem;
+    cursor: pointer;
+    .name{
+        color:#FF6565;
+        font-weight:700;
+    }
+    .date{
+        font-size: 0.8rem;
+        color: #8d8d8d;
+    }
+}
 /*---------------------개발자에게 쪽지 보내기-----------------*/
 .email-me{
-    min-width: 720px;
+    max-width: 720px;
     padding: 1.5rem;
     
     border: 0.3rem solid #FF8080;
@@ -121,6 +141,20 @@
     gap: 1rem;
     justify-content: center;
     align-items: center;
+}
+
+@media(max-width: 920px){
+    .messageheader{
+        grid-template-columns: none;
+        grid-template-rows: none;
+        justify-content: normal;
+        > *{
+            width: 100%;
+        }
+    }
+    .email-me{
+        padding: 1rem;
+    }
 }
 
 #userName{

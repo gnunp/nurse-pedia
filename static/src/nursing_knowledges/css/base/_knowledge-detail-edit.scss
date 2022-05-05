@@ -32,12 +32,15 @@ textarea:focus{
     font-size: 0.9rem;
 }
 
+#selected_diagnosis{
+    margin-right: 0.5rem;
+    margin-bottom: 1rem;
+}
+
 .add_diagnosis_btn{
     border: none;
     border-radius: 5px;
-
     padding: 0.7rem 0.5rem;
-    margin-left: 0.5rem;
     background-color: #ffa150;
     color: white;
     font-weight: bold;
