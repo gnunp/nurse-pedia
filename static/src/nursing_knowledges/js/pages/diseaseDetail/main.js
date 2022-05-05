@@ -2,6 +2,7 @@ import Mindmap from "../../utils/mindmap.js";
 import shuffle from "lodash/shuffle";
 import {toastMessage} from "../../../../global/js/utils/toastMessage";
 import {handleHoverStarBtn, handleClickStarBtn} from "../../utils/knowledgeStarAction";
+import {dateFormat} from "../../utils/dateFormat";
 
 
 class DiseaseDetail{
@@ -9,7 +10,7 @@ class DiseaseDetail{
         //mypage 내가 열어본 페이지에 저장하는 코드
         const address = location.href.match(/knowledges.*/).join();
         const name = document.querySelector('.knowledge_header__name').textContent;
-        const date = this.dateFormat(new Date());
+        const date = dateFormat(new Date());
 
         const item = {address : address, name : name, date: date};
 
@@ -65,21 +66,6 @@ class DiseaseDetail{
         // 마인드맵 그리는 코드
         this.findNode =document.querySelector('.js-knowledge_name').textContent;
         new Mindmap(true, this.findNode);
-    }
-    dateFormat(date) {
-        let month = date.getMonth() + 1;
-        let day = date.getDate();
-        let hour = date.getHours();
-        let minute = date.getMinutes();
-        let second = date.getSeconds();
-
-        month = month >= 10 ? month : '0' + month;
-        day = day >= 10 ? day : '0' + day;
-        hour = hour >= 10 ? hour : '0' + hour;
-        minute = minute >= 10 ? minute : '0' + minute;
-        second = second >= 10 ? second : '0' + second;
-
-        return date.getFullYear() + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
     }
 
     colorSet(){

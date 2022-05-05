@@ -40,7 +40,7 @@
                 data-knowledge_type="{{ history.get_knowledge_type }}"
                 data-history_id="{{ history.pk }}"
             >
-                <span class="date">{{history.created_at|date:'Y-m-d H:i:s'}}</span>
+                <span class="date">{{history.created_at|date:'Y/m/d H:i:s'}}</span>
                 <span>-</span>
                 <a class="version_info" href="{{ history.get_absolute_knowledge_version_detail_url }}">[보기]</a>
                 <a class="version_info js-version_rollback_btn" href="{{ history.get_absolute_rollback_url }}">[되돌리기]</a>
