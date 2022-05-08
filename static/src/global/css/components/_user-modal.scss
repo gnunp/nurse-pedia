@@ -109,6 +109,9 @@
     color: white;
     font-size: 0.8rem;
     cursor: pointer;
+    &:hover{
+        background-color: #ff3d3d;
+    }
 }
 
 .modal__content__or_line{

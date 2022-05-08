@@ -12,6 +12,7 @@
     border-right: 2px solid #FF8080;
     width: 165px;
 
+    padding-top: 2rem;
 
     overflow: hidden;
 }
@@ -28,7 +29,15 @@
 }
 .mypage_content{
     width: calc(100% - 165px);
-    padding: 1rem;
+    padding: 2rem;
+}
+@media (max-width: 520px){
+    .mypage_nav{
+        padding-top: 1rem;
+    }
+    .mypage_content{
+        padding: 1rem;
+    }
 }
 .mypage_content>h1{
     margin-bottom: 2.2rem;
@@ -70,6 +79,9 @@
 }
 .starcontent{
     width:100%;
+}
+.star_info{
+    max-width: 300px;
 }
 .staritem{
     width:100%;
@@ -180,17 +192,7 @@
 }
 
 .btn-send{
-    width: 40%;
-    height: 2rem;
-
-    padding: 0.3rem 1rem;
-    border-radius: 3rem;
-    background-color: #FF8080;
-    color: white;
-    border: none;
-}
-.btn-send:hover{
-    background-color: #D97096;
+    max-width: 200px;
 }
 
 #userMessage{
