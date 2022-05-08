@@ -29,11 +29,25 @@ class Mindmap{
             this.makeDetailpage(this.targetNode);
         }
         else{
-            this.makedata = new MakeData();
-            this.makepage();
+            this.makeFullpage();
         }
     }
+    //풀 데이터 세팅
+    async makeFullpage(){
+        this.makedata = new MakeFullData();
+        this.data = [];
 
+        [this.database] = await Promise.all([
+            this.makedata.getData()
+        ]);
+     
+        await this.database.forEach(element => {
+            this.data.push(JSON.parse(element));
+        });
+
+        this.mindmap();
+    }
+    /*
     //데이터 세팅
     async makepage(){
         this.data = [];
@@ -82,7 +96,7 @@ class Mindmap{
   
         this.mindmap();
     }
-
+    */
     //디테일 데이터 세팅
     async makeDetailpage(label){
         const address = window.location.href;
@@ -101,7 +115,6 @@ class Mindmap{
             this.data.push(JSON.parse(element));
         });
 
-    
         this.mindmap();
     }
 
@@ -602,7 +615,7 @@ class Mindmap{
     }
 }
 
-//데이터 가져오기
+/*
 export class MakeData{ 
     async getLargeDisease(){
         let id, url, label, item;
@@ -796,7 +809,7 @@ export class MakeData{
         return resultArr;
     }
 }
-
+*/
 //디테일 페이지 데이터 가져오기
 export class MakeDetailData{ 
     constructor(targetkind, targetid, name){
@@ -806,16 +819,213 @@ export class MakeDetailData{
     }
 
     async getData(){
-            const subaddress =  this.targetkind == 'disease'? `disease_small_category_id=${this.targetid}` : `diagnosis_small_category_id=${this.targetid}`;
-            const address = '/api/knowledges/detail-mindmap-data/?' + subaddress;
-            let result =[];
+        const subaddress =  this.targetkind == 'disease'? `disease_small_category_id=${this.targetid}` : `diagnosis_small_category_id=${this.targetid}`;
+        const address = '/api/knowledges/detail-mindmap-data/?' + subaddress;
+        let result =[];
+
+        const database = await fetch(address);
+        const jsonData = await database.json();
     
-            const database = await fetch(address);
-            const jsonData = await database.json();
-            console.log(jsonData);
+        let source, target;
+
+        //대분류 추가
+        let id, url, label, item;
+
+        id = "largedisease" + (jsonData.disease_large_category.id).toString();
+        url ='#';
+        label = jsonData.disease_large_category.name;
+
+        item = JSON.stringify({
+            "data":{
+                "id":  id,
+                "url": url,
+                "label": label,
+                "type":"largedisease",
+            }
+        });
+        result.push(item);
+
+        //대분류-소분류 관계 추가
+        if(jsonData.disease_large_category.disease_small_categories){
+            let largetarget = "largedisease" +(jsonData.disease_large_category.id).toString();
+        
+            jsonData.disease_large_category.disease_small_categories.forEach(ele =>{
+                let largesource = "smalldisease"+(ele.id);
+                let largeconnectid = largesource +"-> "+ largetarget;
     
+                let largeconnectitem = JSON.stringify({
+                    "data":{
+                        "id": largeconnectid,
+                        "source": largesource,
+                        "target": largetarget
+                    }
+                });
+    
+                result.push(largeconnectitem);
+    
+                //소분류 추가
+                let largetosmallid = "smalldisease"+(ele.id).toString();
+                let largetosmallurl = "/knowledges/disease/"+(ele.id).toString();
+                let largetosmalllabel = ele.name;
+        
+                let largetosmallitem = JSON.stringify({
+                    "data":{
+                        "id":  largetosmallid,
+                        "url": largetosmallurl,
+                        "label": largetosmalllabel,
+                        "type":"smalldisease",
+                    }
+                });
+    
+                result.push(largetosmallitem);
+    
+                //소분류-진단 관계 추가
+                let smalltodiatarget = largetosmallid;
+    
+                ele.diagnoses.forEach(el=>{
+                    let smalltodiasource = "diagnosis" +(el.id).toString(); 
+                    let smalltodiaid = smalltodiasource + "->" + smalltodiatarget;
+                    let smalltodiaitem = JSON.stringify({
+                        "data":{
+                            "id": smalltodiaid,
+                            "source": smalltodiasource,
+                            "target": smalltodiatarget
+                        }
+                    });
+    
+                    result.push(smalltodiaitem);
+    
+                    //진단 추가
+                    let dia_id = "diagnosis"+(el.id).toString();
+                    let dia_url = '/knowledges/diagnosis/'+(el.id).toString();
+                    let dia_label = el.name;
+        
+                    let dia_item = JSON.stringify({
+                        "data":{
+                            "id": dia_id,
+                            "url": dia_url,
+                            "label": dia_label,
+                            "type":"diagnosis",
+                        }
+                    });
+                    result.push(dia_item);
+                })
+            })
+        }
+        
+        //대분류-중분류 관계 추가
+        target = "largedisease" +(jsonData.disease_large_category.id).toString();
+
+        jsonData.disease_medium_categories.forEach(element => {
+            source = "middledisease"+(element.id).toString();
+            id = source + "->" + target;
+
+            item = JSON.stringify({
+                "data":{
+                    "id": id,
+                    "source": source,
+                    "target": target
+                }
+            });
+
+            result.push(item);
+
+            //중분류 추가
+            let midid = "middledisease"+(element.id).toString();
+            let midurl ="#";
+            let midlabel = element.name;
+
+            let miditem = JSON.stringify({
+                "data":{
+                    "id":  midid,
+                    "url": midurl,
+                    "label": midlabel,
+                    "type":"middledisease",
+                }
+            });
+
+            result.push(miditem);
+
+            //중분류-소분류 관계 추가
+            let midtarget = midid;
+            element.disease_small_categories.forEach(ele =>{
+                let midsource = "smalldisease" + (ele.id).toString();
+                let connectid = midsource + "->" + midtarget;
+
+                let connectitem = JSON.stringify({
+                    "data":{
+                        "id": connectid,
+                        "source": midsource,
+                        "target": midtarget
+                    }
+                });
+                result.push(connectitem);
+
+                //소분류 추가
+                let smallid = "smalldisease"+(ele.id).toString();
+                let smallurl = "/knowledges/disease/"+(ele.id).toString();
+                let smalllabel = ele.name;
+    
+                let smallitem = JSON.stringify({
+                    "data":{
+                        "id":  smallid,
+                        "url": smallurl,
+                        "label": smalllabel,
+                        "type":"smalldisease",
+                    }
+                });
+
+                result.push(smallitem);
+
+                //소분류-진단 관계 추가
+                let dtarget = "smalldisease"+(ele.id).toString();
+                ele.diagnoses.forEach(el =>{
+                    let dsource = "diagnosis" +(el.id).toString(); 
+                    let did = dsource + "->" + dtarget;
+                    let ditem = JSON.stringify({
+                        "data":{
+                            "id": did,
+                            "source": dsource,
+                            "target": dtarget
+                        }
+                    });
+
+                    result.push(ditem);
+
+                    //진단 추가
+                    let diaid = "diagnosis"+(el.id).toString();
+                    let diaurl = '/knowledges/diagnosis/'+(el.id).toString();
+                    let dialabel = el.name;
+        
+                    let diaitem = JSON.stringify({
+                        "data":{
+                            "id": diaid,
+                            "url": diaurl,
+                            "label": dialabel,
+                            "type":"diagnosis",
+                        }
+                    });
+                    result.push(diaitem);
+                });
+            });
+        });
+
+        return result;
+    }
+}
+//풀 데이터 가져오기
+export class MakeFullData{
+    async getData(){
+        let result =[];
+
+        const database = await fetch('/api/knowledges/mindmap-data/all/');
+        const jsondatabse = await database.json();
+        console.log(jsondatabse);
+
+        jsondatabse.forEach(element => {
+            const jsonData = element;
             let source, target;
-    
+
             //대분류 추가
             let id, url, label, item;
     
@@ -832,7 +1042,7 @@ export class MakeDetailData{
                 }
             });
             result.push(item);
-    
+            
             //대분류-소분류 관계 추가
             if(jsonData.disease_large_category.disease_small_categories){
                 let largetarget = "largedisease" +(jsonData.disease_large_category.id).toString();
@@ -997,26 +1207,8 @@ export class MakeDetailData{
                     });
                 });
             });
-   
-            /*
-            let ex_dia_id = "diagnosis"+(this.targetid).toString();
-            let ex_dia_url = '/knowledges/diagnosis/'+(this.targetid).toString();
-            let ex_dia_label = this.targetname;
-
-            let ex_dia_item = JSON.stringify({
-                "data":{
-                    "id": ex_dia_id,
-                    "url": ex_dia_url,
-                    "label": ex_dia_label,
-                    "type":"diagnosis",
-                }
-            });
-            result.push(ex_dia_item);
-            */
-  
-            return result;
-      
+        });
+        return result;
     }
 }
-
 export default Mindmap;

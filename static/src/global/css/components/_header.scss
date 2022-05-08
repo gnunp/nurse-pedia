@@ -207,24 +207,6 @@
         .sign{
             display: flex;
             flex-direction: row;
-            a{
-                --height: 2rem;
-                --width: calc(var(--height) * 2);
-
-                height: var(--height);
-                width: var(--width);
-
-                border-radius: var(--width);
-
-                font-size: 0.8rem;
-
-                display: flex;
-                justify-content: center;
-                align-items: center;
-
-                cursor: pointer;
-                z-index: 10;  /* cursor: pointer가 안먹혀서 추가 */
-            }
             .sign_btn{
                 --height: 2rem;
                 --width: calc(var(--height) * 2);

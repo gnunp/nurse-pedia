@@ -5,13 +5,14 @@ import {userModal} from "./utils/userModal";
 import {setMobileSideMenuEvent} from "./utils/setMobileSideMenuEvent";
 
 const globalInit = async () => {
-    setViewHeightProperty();
+    setViewHeightProperty();  // 가장 먼저 실행되는게 UX상 좋을것 같음
     setMobileSideMenuEvent();
     await userModalInit();
     setNavbarEvent();
     await setSearchEvent();
     addSearchBarPlaceholder();
-    setPersonalInfo();
+    setPersonalInfoLogoColor();
+    setPersonalInfoEvent();
     showDjangoToastMessage();
 
     function setViewHeightProperty() {
@@ -56,20 +57,47 @@ const globalInit = async () => {
             }
         })
     }
-    function setPersonalInfo() {
-        if(userIsAuthenticated){
-            const personalbtn = document.querySelector('.personal_btn');
-            const subwindow = document.querySelector('.personal_info');
-            const closebtn = document.querySelector('.close_btn');
 
-            personalbtn.addEventListener('click', ()=>{
-                subwindow.classList.toggle('unactive');
-            });
+    function setPersonalInfoLogoColor() {
+        if(!userIsAuthenticated){ return; }
 
-            closebtn.addEventListener('click',()=>{
-                subwindow.classList.toggle('unactive');
-            });
-        }
+        const colores =['#FFC0CB','#574145', '#BEA5A9','#99DDCF','#63A699'];
+        const randnum = Math.floor(Math.random()*colores.length);
+        const currentcolor = colores[randnum];
+
+        const personalbtns = [document.querySelector('.personal_btn_subwindow'), document.querySelector('.personal_btn')];
+
+        personalbtns.forEach(element => {
+            element.style.color = currentcolor;
+        });
+        const mypage_btn = document.querySelector('.mypage_btn');
+        mypage_btn.addEventListener('mouseenter',(e)=>{
+            mypage_btn.style.backgroundColor=currentcolor;
+            mypage_btn.style.color = 'white';
+        });
+        mypage_btn.addEventListener('mouseleave',()=>{
+            mypage_btn.style.backgroundColor='white';
+            mypage_btn.style.color = 'black';
+        });
+        mypage_btn.addEventListener('click', ()=>{
+            window.location.href='/users/mypage';
+        })
+    }
+
+    function setPersonalInfoEvent() {
+        if(!userIsAuthenticated){ return; }
+
+        const personalbtn = document.querySelector('.personal_btn');
+        const subwindow = document.querySelector('.personal_info');
+        const closebtn = document.querySelector('.close_btn');
+
+        personalbtn.addEventListener('click', ()=>{
+            subwindow.classList.toggle('unactive');
+        });
+
+        closebtn.addEventListener('click',()=>{
+            subwindow.classList.toggle('unactive');
+        });
     }
 
     function showDjangoToastMessage() {

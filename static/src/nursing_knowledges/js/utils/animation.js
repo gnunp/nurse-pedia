@@ -37,9 +37,6 @@ class Animation{
         const parents = this.parentsNodeArray(node);
 
         parents.forEach(element => {
-            console.log(`element.style.maxHeight : ${element.style.maxHeight}`);
-            console.log(`node.clientHeight : ${node.clientHeight}`);
-            
             const num = Number(/\d+/.exec(element.style.maxHeight));
             const newMaxHeight = num + node.clientHeight;
 
@@ -69,10 +66,8 @@ class Animation{
         parents_ele.style.minHeight = 0;
     }
     slideUpMiddle(node){
-        console.log(`node ; ${node.classList}`);
         const parents = this.parentsNodeArray(node);
         const gapHeight = node.parentNode.clientHeight - node.parentNode.dataset.initmaxheight
-        console.log(`gapHeight : ${gapHeight}`);
 
         parents.forEach(element => {
             const newMaxHeight = element.clientHeight - gapHeight;

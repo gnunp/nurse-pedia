@@ -1,0 +1,80 @@
+.personal_btn{
+    width: 2rem;
+    height: 2rem;
+
+    font-size: 2.3rem;
+    color: pink;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+}
+
+.personal_info{
+    position: relative;
+    .personal_btn_subwindow{
+
+        font-size: 4rem;
+        color: pink;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        cursor: pointer;
+
+    }
+    .subwindow_username{
+        color:black;
+        font-size: 1rem;
+        margin: 1rem 0;
+    }
+    .personal_subwindow{
+        position:absolute;
+        top:4rem; right:0;
+
+        width:10rem; height:14rem;
+        padding:1rem 0;
+
+        border: 1px solid #ccc;
+        border-radius: 1rem;
+
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+
+        background-color: white;
+
+        overflow: hidden;
+    }
+    .mypage_btn{
+        width: 100%;
+        color: black;
+        padding: 0.5rem;
+        margin-bottom: 0.7rem;
+
+        border-top: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+
+        text-align: center;
+    }
+    .mypage_btn>a{
+        font-size: 1rem;
+    }
+
+    .mypage_btn:hover > a{
+        color: white;
+    }
+    .close_btn{
+        position: absolute;
+        right: 0.5rem; top: 0.3rem;
+
+        cursor: pointer;
+    }
+}
+.unactive{
+    display: none;
+}
