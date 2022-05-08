@@ -1,3 +1,6 @@
+{% load static %}
+
+
 <div class="header">
 <!-- ---------logo 부분--------- -->
     <div class="logo">
@@ -52,9 +55,10 @@
 
                 <div class="personal_info unactive">
                     <div class="personal_subwindow">
-                        <div class="close_btn">X</div>
-                    
-                        <i class="bi bi-person-circle personal_btn_subwindow"></i>  
+                        <img src="{% static 'src/global/image/personal_info/close.png' %}"
+                             class="close_btn"
+                        >
+                        <i class="bi bi-person-circle personal_btn_subwindow"></i>
                         <div class="subwindow_username">{{ user.username }}</div>
                         <div class="mypage_btn">마이페이지</div>
                         <a href="{% url 'users:logout' %}" class="log_out js-log_out sign_btn">로그아웃</a>

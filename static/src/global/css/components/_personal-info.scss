@@ -70,7 +70,13 @@
     }
     .close_btn{
         position: absolute;
-        right: 0.5rem; top: 0.3rem;
+        right: 5px;
+        top: 5px;
+
+        width: 23px;
+        height: 23px;
+
+        padding: 5px;
 
         cursor: pointer;
     }
