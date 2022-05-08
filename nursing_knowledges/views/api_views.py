@@ -103,6 +103,8 @@ class DetailMindmapDataView(APIView):
     """
     def get(self, request):
         disease_large_category = self.find_disease_large_top_node(request)
+        if not disease_large_category:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
         return Response(get_knowledge_data__by_large_disease(disease_large_category))
 
@@ -116,7 +118,7 @@ class DetailMindmapDataView(APIView):
         elif request.GET.get('diagnosis_small_category_id'):
             diagnosis_to_disease = DiagnosisToDisease.objects.filter(diagnosis=request.GET.get('diagnosis_small_category_id'))
             if not diagnosis_to_disease:
-                return Response(status=status.HTTP_404_NOT_FOUND)
+                return None
             diagnosis_to_disease = diagnosis_to_disease[0]
             if diagnosis_to_disease.disease_medium_category:
                 disease_large_category = diagnosis_to_disease.disease_medium_category.disease_large_category
@@ -129,7 +131,7 @@ class DetailMindmapDataView(APIView):
         if disease_large_category:
             return disease_large_category
         else:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            return None
 
 
 def get_knowledge_data__by_large_disease(disease_large_category):
