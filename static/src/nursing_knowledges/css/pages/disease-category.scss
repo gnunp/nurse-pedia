@@ -1,5 +1,9 @@
+@import "../../../global/css/variables";
+
+
 .dis_cat_mainContent{
     position: relative;
+    min-height: $vh-101-exclude-header;
 }
 .isspread{
     height: fit-content;

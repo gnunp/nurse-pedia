@@ -2,7 +2,7 @@
 
 .mypage_wrap{
     position: relative;
-    min-height: calc(var(--vh, 1vh)*100 - $header-height);
+    min-height: $vh-100-exclude-header;
     box-sizing: border-box;
     display: flex;
 }
