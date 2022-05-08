@@ -192,17 +192,7 @@
 }
 
 .btn-send{
-    width: 40%;
-    height: 2rem;
-
-    padding: 0.3rem 1rem;
-    border-radius: 3rem;
-    background-color: #FF8080;
-    color: white;
-    border: none;
-}
-.btn-send:hover{
-    background-color: #D97096;
+    max-width: 200px;
 }
 
 #userMessage{
