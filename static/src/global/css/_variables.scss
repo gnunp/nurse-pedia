@@ -1,3 +1,4 @@
 $header-height: 80px;
+$vh-100: calc(var(--vh, 1vh)*100);
 $vh-100-exclude-header: calc(var(--vh, 1vh)*100 - $header-height);
 $vh-101-exclude-header: calc(var(--vh, 1vh)*100 - $header-height + 10px);

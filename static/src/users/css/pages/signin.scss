@@ -1,0 +1,16 @@
+@import "../../../global/css/variables";
+@import "../components/user-modal";
+
+
+#root{
+  padding-top: 0;
+}
+
+.signin_wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: $vh-100;
+  background-color: #000000a1;
+}

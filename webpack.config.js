@@ -26,7 +26,9 @@ module.exports = {
         mindmapPage:`${BASE_DIRECTORY.nursing_knowledges}/mindmapPage/main.js`,
         history:`${BASE_DIRECTORY.nursing_knowledges}/history/main.js`,
 
-        mypage:`${BASE_DIRECTORY.users}/mypage/main.js`
+        mypage:`${BASE_DIRECTORY.users}/mypage/main.js`,
+        signin:`${BASE_DIRECTORY.users}/signin/main.js`,
+        signup:`${BASE_DIRECTORY.users}/signup/main.js`,
     },
     plugins: [
        // new BundleAnalyzerPlugin()
