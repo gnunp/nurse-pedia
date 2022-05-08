@@ -53,6 +53,30 @@ headerSearchBar.addEventListener("focusout",(e)=>{
     if(!e.target.value){
         e.target.placeholder ="간호 지식 검색";
     }
+});
+
+/*--------------------------Personal_inofo logo color setting ------------------------------ */
+
+const colores =['#FFC0CB','#574145', '#BEA5A9','#99DDCF','#63A699'];
+const randnum = Math.floor(Math.random()*colores.length);
+const currentcolor = colores[randnum];
+
+const personalbtns = [document.querySelector('.personal_btn_subwindow'), document.querySelector('.personal_btn')];
+    
+personalbtns.forEach(element => {
+    element.style.color = currentcolor;
+});
+const mypage_btn = document.querySelector('.mypage_btn'); 
+mypage_btn.addEventListener('mouseenter',(e)=>{
+    mypage_btn.style.backgroundColor=currentcolor;
+    mypage_btn.style.color = 'white';
+});
+mypage_btn.addEventListener('mouseleave',()=>{
+    mypage_btn.style.backgroundColor='white';
+    mypage_btn.style.color = 'black';
+});
+mypage_btn.addEventListener('click', ()=>{
+    window.location.href='/users/mypage';
 })
 
 /*------------personal_info 창 열고 닫기----------------------- */

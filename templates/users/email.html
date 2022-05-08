@@ -1,20 +1,20 @@
 <section class="email-me">
-    <form class="gform" action="https://script.google.com/macros/s/AKfycbzcNqiLoAwIf5KMDb_zjZtzIN6XFe413sIRjcgD7Q/exec" method="POST" data-email="qhflrnfl4324@gmail.com">
+    <form class="gform" action="https://script.google.com/macros/s/AKfycbwq7DdPDBx68L6nRwMY1ZJH0S0MSkDK2JJbqvEP-w/exec" method="POST" data-email="qhflrnfl4324@gmail.com">
         <fieldset class="fieldset">
             <div class="messageheader">
-                    <label for="userName" id="userNameTitle">보내는 이</label>
-                    <input type="text" id="userName" name="name" placeholder="유저 이름" required>
-            
-                    <label for="userEmail">보내는이 이메일</label>
-                    <input type="email" id="userEmail" name="email" placeholder="유저 이메일" required>
+                <input type="text" id="userName" name="name" value={{user.username}} style="display: none;">
+        
+                <label for="userEmail">보내는이 이메일</label>
+                <input type="email" id="userEmail" name="email" placeholder="유저 이메일" required>
             </div>
-            <div class="submit_box">
-                <button type="submit" class="btn-send">보내기</button>
-            </div>
+      
             <div class="box-input">
                 <textarea name="message" id="userMessage" required></textarea>
             </div>
-  
+            
+            <div class="submit_box">
+                <button type="submit" class="btn-send">보내기</button>
+            </div>
         </fieldset>
 
         <div style="display:none" class="thankyou_message">

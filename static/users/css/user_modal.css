@@ -1,3 +1,4 @@
+
 .modal_background{
     z-index: 99999;
     position: fixed;
@@ -178,34 +179,26 @@
 .personal_btn{
     width: 2rem;
     height: 2rem;
-    border-radius: 50%;
-    background-color:pink;
 
-    font-size: 0.5rem;
-    color: white;
+    font-size: 2.3rem;
+    color: pink;
 
     display: flex;
-    align-items: center;
     justify-content: center;
-
-    overflow: hidden;
+    align-items: center;
 
     cursor: pointer;
 }
 .personal_btn_subwindow{
-    width: 4rem;
-    height: 4rem;
-    border-radius: 50%;
-    background-color: pink;
 
-    font-size: 0.8rem;
-    color: white;
+    font-size: 4rem;
+    color: pink;
 
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
 
-    overflow: hidden;
+    cursor: pointer;
 
 }
 .subwindow_username{
@@ -221,8 +214,8 @@
     position:absolute;
     top:4rem; right:0;
     
-    width:10rem; height:12rem;
-    padding:0.5rem;
+    width:10rem; height:14rem;
+    padding:1rem 0;
 
     border: 1px solid #ccc;
     border-radius: 1rem;
@@ -236,10 +229,22 @@
 
     overflow: hidden;
 }
-.personal_info_mypagebtn{
-    margin-bottom: 0.5rem;
+.mypage_btn{
+    width: 100%;
+    color: black;
+    padding: 0.5rem;
+    margin-bottom: 0.7rem;
+
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+
+    text-align: center;
 }
-.personal_info_mypagebtn:hover{
+.mypage_btn>a{
+    font-size: 1rem;
+}
+
+.mypage_btn:hover > a{
     color: white;
 }
 .close_btn{

@@ -53,8 +53,11 @@ class Mypage{
         newitem.classList.add('staritem');
 
         newitem.innerHTML =`
-            <a href='${url}'><h1>${name}</h1></a>
+            <h1>${name}</h1>
         `
+        newitem.addEventListener('click',()=>{
+            window.location.href=`${url}`;
+        });
         return newitem;
     }
 
@@ -64,9 +67,10 @@ class Mypage{
 
         if(localStorage.length>0){
             const pagehistory = JSON.parse(localStorage.getItem('pageHistory'));
+            const latestlist = Array.from(pagehistory).reverse();
             
-            pagehistory.forEach(element => {
-                historycontent.prepend(this.createhistoryitem(element));
+            latestlist.forEach(element => {
+                historycontent.appendChild(this.createhistoryitem(element));
             });
         }
 
