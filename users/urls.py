@@ -5,7 +5,6 @@ app_name = 'users'
 
 urlpatterns = [
     path('signin', views.signin, name="signin"),
-    path('signin-action', views.signin_action, name="signin_action"),
     path("signin/kakao", views.kakao_signin, name="kakao_signin"),
     path("signin/kakao/callback/", views.kakao_callback, name="kakao_callback"),
     path("signin/kakao/add-more-info", views.kakao_add_more_info, name="kakao_add_more_info"),

@@ -1,0 +1,82 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+
+{% block title %} 로그인 {% endblock title %}
+
+
+{% block css %}
+    <link href="{% static 'build/all_css/users/css/pages/signin.css' %}" rel="stylesheet">
+{% endblock css %}
+
+
+{% block link %}
+{% endblock link %}
+
+
+
+{% block head_script %}
+{% endblock head_script %}
+
+
+
+
+{% block content %}
+
+<div class="signin_wrapper">
+    <div class="modal_wrapper">
+        <!-- 모달 HEADER -->
+        <div class="modal__header">
+            <span class="modal_header__title">로그인</span>
+        </div>
+
+        <!-- 모달 CONTENT -->
+        <div class="modal__content">
+            <form method="post" class="modal__content__form js-user_form">
+                {% csrf_token %}
+
+                {% if form.none_field_errors %}
+                    {% for error in none_field_errors  %}
+                        <span class="field_error">{{error}}</span>
+                    {% endfor %}
+                {% endif %}
+
+                {% for field in form  %}
+                    <div class="input_wrapper">
+                        {{field}}
+                        {% if field.errors %}
+                            {% for error in field.errors  %}
+                                <span class="error">{{error}}</span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="form__submit_btn js-submit_btn">
+                    <span>로그인</span>
+                </button>
+            </form>
+            <div class="modal__content__or_line">
+                <hr>
+                <span>또는</span>
+            </div>
+            <a href="/users/signin/kakao" class="modal__content__kakao_login_btn">
+                <i class="fas fa-comment"></i>
+                <span>카카오계정 로그인</span>
+            </a>
+            <div class="modal__content__toggle">
+                <span>계정이 없으신가요?</span>
+                <a class="modal__content__toggle__btn" href="{% url 'users:signup' %}">회원 가입</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+
+
+
+{% block script %}
+<script src="{% static 'build/js/signin.js' %}"></script>
+
+{% endblock script %}

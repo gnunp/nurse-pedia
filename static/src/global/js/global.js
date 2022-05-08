@@ -1,13 +1,11 @@
 import "regenerator-runtime/runtime.js";
 import {setSearchEvent} from "./utils/setSearchEvent";
 import {toastMessage} from "./utils/toastMessage";
-import {userModal} from "./utils/userModal";
 import {setMobileSideMenuEvent} from "./utils/setMobileSideMenuEvent";
 
 const globalInit = async () => {
     setViewHeightProperty();  // 가장 먼저 실행되는게 UX상 좋을것 같음
     setMobileSideMenuEvent();
-    await userModalInit();
     setNavbarEvent();
     await setSearchEvent();
     addSearchBarPlaceholder();
@@ -22,12 +20,6 @@ const globalInit = async () => {
             const vh = window.innerHeight * 0.01;
             document.documentElement.style.setProperty("--vh", `${vh}px`);
         });
-    }
-
-    async function userModalInit() {
-        if(!userIsAuthenticated){
-            await userModal();
-        }
     }
 
     function setNavbarEvent() {

@@ -10,31 +10,26 @@ import requests
 import random
 
 
-def signin_action(request):
+def signin(request):
+    if request.user.is_authenticated:
+        return redirect(reverse("home"))
+
     if request.method == 'POST':
         form = SigninForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('current_password')
+
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
                 return redirect(reverse("home"))
+    else:
+        form = SigninForm()
 
+    context = {"form": form}
 
-def signin(request):
-    if request.method == 'POST':
-        form = SigninForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('current_password')
-
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                return HttpResponse(status=200)
-        else:
-            context = {"form": form}
-            return JsonResponse(form.errors, status=400)
+    return render(request, "users/pages/signin.html", context)
 
 
 def kakao_signin(request):
@@ -144,6 +139,9 @@ def kakao_add_more_info(request):
 
 
 def signup(request):
+    if request.user.is_authenticated:
+        return redirect(reverse("home"))
+
     if request.method == 'POST':
         form = SignupForm(request.POST)
         if form.is_valid():
@@ -157,11 +155,14 @@ def signup(request):
 
             user = authenticate(request, username=username, password=password)
             if user is not None:
-                return HttpResponse(status=200)
+                login(request, user)
+                return redirect(reverse("home"))
+    else:
+        form = SignupForm()
 
-        else:
-            context = {"form": form}
-            return JsonResponse(form.errors, status=400)
+    context = {"form": form}
+
+    return render(request, "users/pages/signup.html", context)
 
 
 def log_out(request):
